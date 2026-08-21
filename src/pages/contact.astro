@@ -1,0 +1,186 @@
+---
+import "../styles/global.css";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+
+        <meta
+            name="description"
+            content="Get in touch with Microcosmos Atelier about creating a living aquatic ecosystem for your space."
+        />
+
+        <title>Contact — Microcosmos Atelier</title>
+    </head>
+
+    <body>
+        <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+        <header class="page-header">
+            <nav class="nav">
+                <a href="/" class="logo">Microcosmos Atelier</a>
+
+                <div class="navigation">
+                    <a href="/our-work">Our Work</a>
+                    <a href="/about">About</a>
+                    <a href="/contact">Contact</a>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <!-- =====================================================
+           CONTACT
+           ===================================================== -->
+
+            <section class="contact-page">
+                <div class="contact-page-header">
+                    <p class="eyebrow">Get in touch</p>
+
+                    <h1>
+                        Let's create<br />
+                        something living.
+                    </h1>
+
+                    <p class="contact-page-lead">
+                        You don't need to know exactly what you want. Tell me
+                        about your space, an idea you've been thinking about, or
+                        simply what fascinates you about living ecosystems.
+                    </p>
+                </div>
+
+                <div class="contact-page-content">
+                    <!-- =================================================
+               CONTACT INFO
+               ================================================= -->
+
+                    <div class="contact-page-info">
+                        <p class="eyebrow">Start a conversation</p>
+
+                        <h2>Have an idea?</h2>
+
+                        <p>
+                            Every Microcosmos starts with a conversation. We can
+                            talk about the space, the possibilities, the kind of
+                            ecosystem you have in mind and how involved you'd
+                            like to be.
+                        </p>
+
+                        <a
+                            href="mailto:Kasper.Masschaele@gmail.com"
+                            class="contact-page-email"
+                        >
+                            Kasper.Masschaele@gmail.com
+                        </a>
+                    </div>
+
+                    <!-- =================================================
+               CONTACT FORM
+               ================================================= -->
+
+                    <form
+                        class="contact-form"
+                        action="https://formsubmit.co/Kasper.Masschaele@gmail.com"
+                        method="POST"
+                    >
+                        <input
+                            type="hidden"
+                            name="_subject"
+                            value="New Microcosmos Atelier enquiry"
+                        />
+
+                        <input type="hidden" name="_captcha" value="false" />
+
+                        <input
+                            type="hidden"
+                            name="_next"
+                            value="https://microcosmos-atelier.com/contact"
+                        />
+
+                        <div class="contact-form-group">
+                            <label for="name"> Name </label>
+
+                            <input
+                                id="name"
+                                name="name"
+                                type="text"
+                                autocomplete="name"
+                                required
+                            />
+                        </div>
+
+                        <div class="contact-form-group">
+                            <label for="email"> Email </label>
+
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                autocomplete="email"
+                                required
+                            />
+                        </div>
+
+                        <div class="contact-form-group">
+                            <label for="project">
+                                What are you thinking about?
+                            </label>
+
+                            <select id="project" name="project">
+                                <option value=""> Select an option </option>
+
+                                <option value="new-microcosmos">
+                                    A new Microcosmos
+                                </option>
+
+                                <option value="existing-aquarium">
+                                    Transforming an existing aquarium
+                                </option>
+
+                                <option value="maintenance">
+                                    Ongoing care / stewardship
+                                </option>
+
+                                <option value="tailored">
+                                    A tailored project
+                                </option>
+
+                                <option value="just-exploring">
+                                    I'm just exploring the possibilities
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="contact-form-group">
+                            <label for="message"> Tell me a little more </label>
+
+                            <textarea
+                                id="message"
+                                name="message"
+                                placeholder="Tell me about your space, your idea or what you'd like to create..."
+                                required></textarea>
+                        </div>
+
+                        <button type="submit" class="button dark-button">
+                            Send enquiry
+                        </button>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+        <footer>
+            <p>
+                © {new Date().getFullYear()} Microcosmos Atelier
+            </p>
+        </footer>
+    </body>
+</html>

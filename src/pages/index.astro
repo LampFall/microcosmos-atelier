@@ -1,11 +1,550 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import "../styles/global.css";
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <meta
+      name="description"
+      content="Microcosmos Atelier creates living aquatic ecosystems, thoughtfully designed around your space."
+    />
+
+    <title>Microcosmos Atelier — Living Aquatic Ecosystems</title>
+  </head>
+
+  <body>
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header class="site-header">
+      <nav class="nav">
+        <a href="/" class="logo">Microcosmos Atelier</a>
+
+        <div class="navigation">
+          <a href="/our-work">Our Work</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- =====================================================
+           HERO
+           ===================================================== -->
+
+      <section class="hero">
+        <img
+          src="/images/hero/A002-3.jpeg"
+          alt="A living aquatic ecosystem by Microcosmos Atelier"
+          class="hero-image"
+        />
+
+        <div class="hero-overlay">
+          <p class="eyebrow">Living aquatic ecosystems</p>
+
+          <h1>
+            A little piece<br />
+            of nature, made yours.
+          </h1>
+
+          <p class="hero-text">
+            I create living aquatic ecosystems designed around your space, your
+            taste and the way you want to experience nature at home.
+          </p>
+
+          <a href="#what-is-a-microcosmos" class="button">
+            Discover Microcosmos
+          </a>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           WHAT IS A MICROCOSMOS
+           ===================================================== -->
+
+      <section id="what-is-a-microcosmos" class="intro">
+        <p class="eyebrow">What is a Microcosmos?</p>
+
+        <h2>
+          Not just an aquarium.<br />
+          A little world of your own.
+        </h2>
+
+        <div class="intro-columns">
+          <div>
+            <p>
+              A Microcosmos is a living ecosystem, thoughtfully designed and
+              built to become part of your space.
+            </p>
+          </div>
+
+          <div>
+            <p>
+              It brings together water, plants, wood, substrate, microorganisms,
+              invertebrates and fish — not simply as decoration, but as parts of
+              an interconnected system.
+            </p>
+
+            <p>
+              You don't just look at it. You live alongside it. It grows,
+              changes and evolves over time, becoming something that is uniquely
+              yours.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           THE IDEA
+           ===================================================== -->
+
+      <section class="section philosophy">
+        <div class="section-heading">
+          <p class="eyebrow">The idea</p>
+
+          <h2>
+            Creating something<br />
+            that can find its own balance.
+          </h2>
+        </div>
+
+        <div class="philosophy-content">
+          <div class="philosophy-story">
+            <p class="lead">
+              Nature doesn't need to be perfected. It needs time, balance and
+              the right conditions to unfold.
+            </p>
+
+            <p>That is the idea behind a Microcosmos.</p>
+
+            <p>
+              Rather than designing an aquarium as a finished composition, I
+              create the conditions for a small living system to develop. Every
+              part is connected through countless interactions that are often
+              invisible, but constantly shaping the whole.
+            </p>
+
+            <p>
+              The aim is not to control every detail. It is to find a natural
+              balance between growth and restraint, abundance and scarcity,
+              structure and change.
+            </p>
+
+            <p>And that takes patience.</p>
+
+            <p>
+              A newly built Microcosmos is only the beginning. Plants adapt,
+              microorganisms establish themselves, animals explore their
+              surroundings and relationships gradually emerge. What looks
+              beautiful on day one can become something completely different —
+              and often more beautiful — a year later.
+            </p>
+
+            <p>It is this process that makes each Microcosmos unique.</p>
+
+            <p class="philosophy-highlight">
+              Built with knowledge. Shaped by nature. Nurtured with patience and
+              care.
+            </p>
+          </div>
+
+          <div class="ecosystem-layers">
+            <div>
+              <span>01</span>
+              <strong>Water</strong>
+              <p>The medium connecting everything.</p>
+            </div>
+
+            <div>
+              <span>02</span>
+              <strong>Plants</strong>
+              <p>Growth, structure and transformation.</p>
+            </div>
+
+            <div>
+              <span>03</span>
+              <strong>Substrate</strong>
+              <p>A foundation for roots and microbial life.</p>
+            </div>
+
+            <div>
+              <span>04</span>
+              <strong>Microorganisms</strong>
+              <p>The invisible engine of the ecosystem.</p>
+            </div>
+
+            <div>
+              <span>05</span>
+              <strong>Invertebrates</strong>
+              <p>Grazers, recyclers and inhabitants.</p>
+            </div>
+
+            <div>
+              <span>06</span>
+              <strong>Fish</strong>
+              <p>Movement, behaviour and another layer of life.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           INSPIRATION
+           ===================================================== -->
+
+      <section class="section inspiration">
+        <div class="section-heading">
+          <p class="eyebrow">Inspiration</p>
+
+          <h2>
+            Where would you<br />
+            like to go?
+          </h2>
+
+          <p class="section-intro">
+            A Microcosmos can take many forms. These images are visual
+            interpretations created to explore different directions — they are
+            inspiration, not photographs of existing projects.
+          </p>
+        </div>
+
+        <div class="microcosmos-grid">
+          <article class="microcosmos-card">
+            <img
+              src="/images/microcosmos/jungle-style.jpg"
+              alt="Jungle-inspired Microcosmos"
+            />
+
+            <div class="card-content">
+              <p class="eyebrow">Inspiration 01</p>
+
+              <h3>Forest</h3>
+
+              <p>
+                Lush vegetation, layered greenery and the feeling of being
+                immersed in a tropical forest.
+              </p>
+            </div>
+          </article>
+
+          <article class="microcosmos-card">
+            <img
+              src="/images/microcosmos/amazon.jpg"
+              alt="Amazon-inspired Microcosmos"
+            />
+
+            <div class="card-content">
+              <p class="eyebrow">Inspiration 02</p>
+
+              <h3>Littoral</h3>
+
+              <p>
+                The meeting of land and water — roots, vegetation, open water
+                and natural transitions.
+              </p>
+            </div>
+          </article>
+
+          <article class="microcosmos-card">
+            <img
+              src="/images/microcosmos/blackwater.jpg"
+              alt="Blackwater-inspired Microcosmos"
+            />
+
+            <div class="card-content">
+              <p class="eyebrow">Inspiration 03</p>
+
+              <h3>Blackwater</h3>
+
+              <p>
+                Darker waters, natural tannins, wood and the quiet, mysterious
+                atmosphere of tropical rivers.
+              </p>
+            </div>
+          </article>
+
+          <article class="microcosmos-card">
+            <img
+              src="/images/microcosmos/custom.jpg"
+              alt="Custom Microcosmos"
+            />
+
+            <div class="card-content">
+              <p class="eyebrow">Inspiration 04</p>
+
+              <h3>Your Own</h3>
+
+              <p>
+                Start with a place, a memory, an ecosystem — or simply a
+                feeling.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           HOW IT WORKS
+           ===================================================== -->
+
+      <section class="section process">
+        <div class="section-heading">
+          <p class="eyebrow">From idea to ecosystem</p>
+
+          <h2>
+            Designed around<br />
+            your world.
+          </h2>
+        </div>
+
+        <div class="process-list">
+          <article>
+            <span> 01 </span>
+
+            <div>
+              <h3>We start with your space</h3>
+
+              <p>
+                Where will it live? How much space is available? What is the
+                light like? What do you want to feel when you look at it?
+              </p>
+            </div>
+          </article>
+
+          <article>
+            <span> 02 </span>
+
+            <div>
+              <h3>We design the ecosystem</h3>
+
+              <p>
+                The layout, materials, plants and inhabitants are selected
+                together, with both appearance and ecology in mind.
+              </p>
+            </div>
+          </article>
+
+          <article>
+            <span> 03 </span>
+
+            <div>
+              <h3>I build it</h3>
+
+              <p>
+                From substrate and structure to planting and introduction of
+                life, everything is assembled as one coherent system.
+              </p>
+            </div>
+          </article>
+
+          <article>
+            <span> 04 </span>
+
+            <div>
+              <h3>Then it starts living</h3>
+
+              <p>
+                The ecosystem settles, grows and changes. Depending on the
+                approach you choose, I can continue to follow and care for it
+                with you.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           HOW WE CAN WORK TOGETHER
+           ===================================================== -->
+
+      <section class="section formulas">
+        <div class="section-heading">
+          <p class="eyebrow">How we can work together</p>
+
+          <h2>
+            Choose how much<br />
+            you want to be involved.
+          </h2>
+
+          <p class="section-intro">
+            Every Microcosmos is different. Some people want the complete
+            experience and then take it from there. Others want their ecosystem
+            looked after over time.
+          </p>
+        </div>
+
+        <div class="formula-list">
+          <article>
+            <span> 01 </span>
+
+            <div>
+              <h3>Design</h3>
+
+              <p>
+                We start with your space, your wishes and the kind of experience
+                you want to create. Together we develop the concept, structure
+                and character of your Microcosmos.
+              </p>
+            </div>
+          </article>
+
+          <article>
+            <span> 02 </span>
+
+            <div>
+              <h3>Curation</h3>
+
+              <p>
+                Plants, animals, materials and structure are carefully selected
+                to create a coherent living system — one that is beautiful,
+                functional and designed to develop over time.
+              </p>
+            </div>
+          </article>
+
+          <article>
+            <span> 03 </span>
+
+            <div>
+              <h3>Stewardship</h3>
+
+              <p>
+                Once established, your Microcosmos continues to grow and change.
+                We can stay involved to help the ecosystem develop and keep it
+                healthy over time.
+              </p>
+            </div>
+          </article>
+
+          <article>
+            <span> 04 </span>
+
+            <div>
+              <h3>Tailored</h3>
+
+              <p>
+                A completely bespoke approach for unusual spaces, ambitious
+                installations or a very specific idea.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <a href="/contact" class="text-link"> Start a conversation → </a>
+      </section>
+
+      <!-- =====================================================
+           OUR WORK
+           ===================================================== -->
+
+      <section class="section work-preview">
+        <div class="section-heading">
+          <p class="eyebrow">Our work</p>
+
+          <h2>
+            Real ecosystems.<br />
+            Actually built.
+          </h2>
+
+          <p class="section-intro">
+            A few examples of living systems I've designed and built over the
+            years.
+          </p>
+        </div>
+
+        <div class="work-grid">
+          <img
+            src="/images/our-work/A002-01.jpeg"
+            alt="Fallen Forest Microcosmos"
+          />
+
+          <img
+            src="/images/our-work/A003-01.jpeg"
+            alt="Orinoco-inspired Littoral Zone Microcosmos"
+          />
+
+          <img
+            src="/images/our-work/A004-01.jpeg"
+            alt="Borneo Understory Microcosmos"
+          />
+
+          <img
+            src="/images/our-work/A001-01.jpeg"
+            alt="Shallow riverbed Microcosmos"
+          />
+        </div>
+
+        <a href="/our-work" class="text-link"> Explore the projects → </a>
+      </section>
+
+      <!-- =====================================================
+           ABOUT
+           ===================================================== -->
+
+      <section class="about">
+        <div class="about-content">
+          <p class="eyebrow">About</p>
+
+          <h2>
+            More than 35 years of exploring<br />
+            underwater worlds.
+          </h2>
+
+          <p>
+            What started as a childhood hobby slowly became a fascination with
+            ecology — and with the incredible interactions between plants,
+            animals, microorganisms, water and soil.
+          </p>
+
+          <p>
+            Microcosmos Atelier grew from that fascination: a way of combining
+            my interest in natural systems with my love for designing and
+            building things.
+          </p>
+
+          <p class="about-highlight">
+            Beautiful nature. Thoughtfully brought home.
+          </p>
+
+          <a href="/about"> More about me → </a>
+        </div>
+
+        <div class="about-image">
+          <img src="/images/about/about.jpeg" alt="Kasper Masschaele" />
+        </div>
+      </section>
+
+      <!-- =====================================================
+           FINAL CTA
+           ===================================================== -->
+
+      <section id="contact" class="cta">
+        <p class="eyebrow">Your space. Your ecosystem.</p>
+
+        <h2>Let's create something living.</h2>
+
+        <p>
+          You don't need to know exactly what you want. Bring me a space, an
+          idea or simply a fascination with nature, and we'll start from there.
+        </p>
+
+        <a href="/contact" class="button dark-button"> Start a conversation </a>
+      </section>
+    </main>
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer>
+      <p>
+        © {new Date().getFullYear()} Microcosmos Atelier
+      </p>
+    </footer>
+  </body>
+</html>
