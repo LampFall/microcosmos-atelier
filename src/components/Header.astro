@@ -1,0 +1,34 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+interface Props {
+  variant?: "page" | "site";
+}
+
+const { variant = "page" } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Pad zonder taalprefix, bv. "/en/about" -> "/about", "/about" -> "/about"
+const path = Astro.url.pathname.replace(/^\/en/, "") || "/";
+---
+
+<header class={variant === "site" ? "site-header" : "page-header"}>
+  <nav class="nav">
+    <a href={getRelativeLocaleUrl(lang, "/")} class="logo">Microcosmos Atelier</a>
+
+    <div class="navigation">
+      <a href={getRelativeLocaleUrl(lang, "/our-work")}>{t("nav.ourWork")}</a>
+      <a href={getRelativeLocaleUrl(lang, "/about")}>{t("nav.about")}</a>
+      <a href={getRelativeLocaleUrl(lang, "/contact")}>{t("nav.contact")}</a>
+
+      <div class="language-switcher">
+        <a href={getRelativeLocaleUrl("nl", path)} class={lang === "nl" ? "active" : ""}>NL</a>
+        <span>·</span>
+        <a href={getRelativeLocaleUrl("en", path)} class={lang === "en" ? "active" : ""}>EN</a>
+      </div>
+    </div>
+  </nav>
+</header>

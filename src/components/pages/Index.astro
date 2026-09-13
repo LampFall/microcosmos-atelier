@@ -1,0 +1,216 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout title={t("home.meta.title")} description={t("home.meta.description")}>
+  <Header variant="site" />
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <img src="/images/hero/A002-3.jpeg" alt={t("home.hero.imageAlt")} class="hero-image" />
+
+      <div class="hero-overlay">
+        <p class="eyebrow">{t("home.hero.eyebrow")}</p>
+        <h1 set:html={t("home.hero.title")} />
+        <p class="hero-text">{t("home.hero.text")}</p>
+      </div>
+    </section>
+
+    <!-- WHAT IS A MICROCOSMOS -->
+    <section id={t("home.intro.anchor")} class="intro">
+      <p class="eyebrow">{t("home.intro.eyebrow")}</p>
+      <h2 set:html={t("home.intro.title")} />
+
+      <div class="intro-columns">
+        <div>
+          <p>{t("home.intro.col1")}</p>
+        </div>
+
+        <div>
+          <p>{t("home.intro.col2.p1")}</p>
+          <p>{t("home.intro.col2.p2")}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE IDEA -->
+    <section class="section philosophy">
+      <div class="section-heading">
+        <p class="eyebrow">{t("home.philosophy.eyebrow")}</p>
+        <h2 set:html={t("home.philosophy.title")} />
+      </div>
+
+      <div class="philosophy-content">
+        <div class="philosophy-story">
+          <p class="lead">{t("home.philosophy.lead")}</p>
+          <p>{t("home.philosophy.p1")}</p>
+          <p>{t("home.philosophy.p2")}</p>
+          <p>{t("home.philosophy.p3")}</p>
+          <p>{t("home.philosophy.p4")}</p>
+          <p>{t("home.philosophy.p5")}</p>
+          <p>{t("home.philosophy.p6")}</p>
+          <p class="philosophy-highlight">{t("home.philosophy.highlight")}</p>
+        </div>
+
+        <div class="ecosystem-layers">
+          {[1, 2, 3, 4, 5, 6].map((n) => (
+            <div>
+              <span>0{n}</span>
+              <strong>{t(`home.layer${n}.title` as any)}</strong>
+              <p>{t(`home.layer${n}.text` as any)}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- INSPIRATION -->
+    <section class="section inspiration">
+      <div class="section-heading">
+        <p class="eyebrow">{t("home.inspiration.eyebrow")}</p>
+        <h2 set:html={t("home.inspiration.title")} />
+        <p class="section-intro">{t("home.inspiration.text")}</p>
+      </div>
+
+      <div class="microcosmos-grid">
+        <article class="microcosmos-card">
+          <img src="/images/microcosmos/jungle-style.jpg" alt={t("home.inspiration1.imageAlt")} />
+          <div class="card-content">
+            <p class="eyebrow">{t("home.inspiration1.eyebrow")}</p>
+            <h3>{t("home.inspiration1.title")}</h3>
+            <p>{t("home.inspiration1.text")}</p>
+          </div>
+        </article>
+
+        <article class="microcosmos-card">
+          <img src="/images/microcosmos/amazon.jpg" alt={t("home.inspiration2.imageAlt")} />
+          <div class="card-content">
+            <p class="eyebrow">{t("home.inspiration2.eyebrow")}</p>
+            <h3>{t("home.inspiration2.title")}</h3>
+            <p>{t("home.inspiration2.text")}</p>
+          </div>
+        </article>
+
+        <article class="microcosmos-card">
+          <img src="/images/microcosmos/blackwater.jpg" alt={t("home.inspiration3.imageAlt")} />
+          <div class="card-content">
+            <p class="eyebrow">{t("home.inspiration3.eyebrow")}</p>
+            <h3>{t("home.inspiration3.title")}</h3>
+            <p>{t("home.inspiration3.text")}</p>
+          </div>
+        </article>
+
+        <article class="microcosmos-card">
+          <img src="/images/microcosmos/custom.jpg" alt={t("home.inspiration4.imageAlt")} />
+          <div class="card-content">
+            <p class="eyebrow">{t("home.inspiration4.eyebrow")}</p>
+            <h3>{t("home.inspiration4.title")}</h3>
+            <p>{t("home.inspiration4.text")}</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section process">
+      <div class="section-heading">
+        <p class="eyebrow">{t("home.process.eyebrow")}</p>
+        <h2 set:html={t("home.process.title")} />
+      </div>
+
+      <div class="process-list">
+        {[1, 2, 3, 4].map((n) => (
+          <article>
+            <span> 0{n} </span>
+            <div>
+              <h3>{t(`home.process${n}.title` as any)}</h3>
+              <p>{t(`home.process${n}.text` as any)}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- HOW WE CAN WORK TOGETHER -->
+    <section class="section formulas">
+      <div class="section-heading">
+        <p class="eyebrow">{t("home.formulas.eyebrow")}</p>
+        <h2 set:html={t("home.formulas.title")} />
+        <p class="section-intro">{t("home.formulas.text")}</p>
+      </div>
+
+      <div class="formula-list">
+        {[1, 2, 3, 4].map((n) => (
+          <article>
+            <span> 0{n} </span>
+            <div>
+              <h3>{t(`home.formula${n}.title` as any)}</h3>
+              <p>{t(`home.formula${n}.text` as any)}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <a href={getRelativeLocaleUrl(lang, "/contact")} class="text-link">
+        {t("home.formulas.cta")}
+      </a>
+    </section>
+
+    <!-- OUR WORK -->
+    <section class="section work-preview">
+      <div class="section-heading">
+        <p class="eyebrow">{t("home.work.eyebrow")}</p>
+        <h2 set:html={t("home.work.title")} />
+        <p class="section-intro">{t("home.work.text")}</p>
+      </div>
+
+      <div class="work-grid">
+        <img src="/images/our-work/A002-01.jpeg" alt={t("home.work.image1.alt")} />
+        <img src="/images/our-work/A003-06.jpeg" alt={t("home.work.image2.alt")} />
+        <img src="/images/our-work/A004-01.jpeg" alt={t("home.work.image3.alt")} />
+        <img src="/images/our-work/A001-01.jpeg" alt={t("home.work.image4.alt")} />
+      </div>
+
+      <a href={getRelativeLocaleUrl(lang, "/our-work")} class="text-link">
+        {t("home.work.cta")}
+      </a>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about">
+      <div class="about-content">
+        <p class="eyebrow">{t("home.about.eyebrow")}</p>
+        <h2 set:html={t("home.about.title")} />
+        <p>{t("home.about.p1")}</p>
+        <p>{t("home.about.p2")}</p>
+        <p class="about-highlight">{t("home.about.highlight")}</p>
+        <a href={getRelativeLocaleUrl(lang, "/about")}>{t("home.about.link")}</a>
+      </div>
+
+      <div class="about-image">
+        <img src="/images/about/about.jpeg" alt="Kasper Masschaele" />
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section id="contact" class="cta">
+      <p class="eyebrow">{t("home.cta.eyebrow")}</p>
+      <h2>{t("home.cta.title")}</h2>
+      <p>{t("home.cta.text")}</p>
+
+      <a href={getRelativeLocaleUrl(lang, "/contact")} class="button dark-button">
+        {t("home.cta.button")}
+      </a>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

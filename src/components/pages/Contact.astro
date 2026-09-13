@@ -1,0 +1,93 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Formsubmit.co moet na verzenden teruggestuurd worden naar de contactpagina
+// in de taal waarin het formulier werd ingevuld (niet altijd naar NL).
+const nextUrl = `https://microcosmos-atelier.com${getRelativeLocaleUrl(lang, "/contact")}`;
+---
+
+<Layout title={t("contact.meta.title")} description={t("contact.meta.description")}>
+  <Header />
+
+  <main>
+    <section class="contact-page">
+      <div class="contact-page-header">
+        <p class="eyebrow">{t("contact.hero.eyebrow")}</p>
+
+        <h1 set:html={t("contact.hero.title")} />
+
+        <p class="contact-page-lead">{t("contact.hero.lead")}</p>
+      </div>
+
+      <div class="contact-page-content">
+        <div class="contact-page-info">
+          <p class="eyebrow">{t("contact.info.eyebrow")}</p>
+
+          <h2>{t("contact.info.title")}</h2>
+
+          <p>{t("contact.info.text")}</p>
+
+          <a href="mailto:Kasper.Masschaele@gmail.com" class="contact-page-email">
+            Kasper.Masschaele@gmail.com
+          </a>
+        </div>
+
+        <form
+          class="contact-form"
+          action="https://formsubmit.co/Kasper.Masschaele@gmail.com"
+          method="POST"
+        >
+          <input type="hidden" name="_subject" value={t("contact.form.subject")} />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_next" value={nextUrl} />
+
+          <div class="contact-form-group">
+            <label for="name">{t("contact.form.name.label")}</label>
+            <input id="name" name="name" type="text" autocomplete="name" required />
+          </div>
+
+          <div class="contact-form-group">
+            <label for="email">{t("contact.form.email.label")}</label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
+          </div>
+
+          <div class="contact-form-group">
+            <label for="project">{t("contact.form.project.label")}</label>
+
+            <select id="project" name="project">
+              <option value="">{t("contact.form.project.placeholder")}</option>
+              <option value="new-microcosmos">{t("contact.form.project.new")}</option>
+              <option value="existing-aquarium">{t("contact.form.project.existing")}</option>
+              <option value="maintenance">{t("contact.form.project.maintenance")}</option>
+              <option value="tailored">{t("contact.form.project.tailored")}</option>
+              <option value="just-exploring">{t("contact.form.project.exploring")}</option>
+            </select>
+          </div>
+
+          <div class="contact-form-group">
+            <label for="message">{t("contact.form.message.label")}</label>
+            <textarea
+              id="message"
+              name="message"
+              placeholder={t("contact.form.message.placeholder")}
+              required
+            ></textarea>
+          </div>
+
+          <button type="submit" class="button dark-button">
+            {t("contact.form.submit")}
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

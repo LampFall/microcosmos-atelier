@@ -1,0 +1,229 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Volgorde van de specificatierijen verschilt lichtjes per project
+// (zoals in de originele pagina's), dus die geven we hier expliciet op.
+const project1Specs = [
+  [t("work.spec.started"), t("work.project1.spec.started")],
+  [t("work.spec.dimensions"), t("work.project1.spec.dimensions")],
+  [t("work.spec.volume"), t("work.project1.spec.volume")],
+  [t("work.spec.filtration"), t("work.project1.spec.filtration")],
+  [t("work.spec.lighting"), t("work.project1.spec.lighting")],
+  [t("work.spec.substrate"), t("work.project1.spec.substrate")],
+  [t("work.spec.co2"), t("work.project1.spec.co2")],
+  [t("work.spec.fish"), t("work.project1.spec.fish")],
+  [t("work.spec.otherInhabitants"), t("work.project1.spec.otherInhabitants")],
+  [t("work.spec.plants"), t("work.project1.spec.plants")],
+];
+
+const project2Specs = [
+  [t("work.spec.started"), t("work.project2.spec.started")],
+  [t("work.spec.dimensions"), t("work.project2.spec.dimensions")],
+  [t("work.spec.volume"), t("work.project2.spec.volume")],
+  [t("work.spec.filtration"), t("work.project2.spec.filtration")],
+  [t("work.spec.substrate"), t("work.project2.spec.substrate")],
+  [t("work.spec.lighting"), t("work.project2.spec.lighting")],
+  [t("work.spec.co2"), t("work.project2.spec.co2")],
+  [t("work.spec.fish"), t("work.project2.spec.fish")],
+  [t("work.spec.otherInhabitants"), t("work.project2.spec.otherInhabitants")],
+  [t("work.spec.plants"), t("work.project2.spec.plants")],
+];
+
+const project3Specs = [
+  [t("work.spec.started"), t("work.project3.spec.started")],
+  [t("work.spec.dimensions"), t("work.project3.spec.dimensions")],
+  [t("work.spec.volume"), t("work.project3.spec.volume")],
+  [t("work.spec.filtration"), t("work.project3.spec.filtration")],
+  [t("work.spec.lighting"), t("work.project3.spec.lighting")],
+  [t("work.spec.substrate"), t("work.project3.spec.substrate")],
+  [t("work.spec.co2"), t("work.project3.spec.co2")],
+  [t("work.spec.fish"), t("work.project3.spec.fish")],
+  [t("work.spec.otherInhabitants"), t("work.project3.spec.otherInhabitants")],
+  [t("work.spec.plants"), t("work.project3.spec.plants")],
+];
+---
+
+<Layout title={t("work.meta.title")} description={t("work.meta.description")}>
+  <Header />
+
+  <main>
+    <!-- =====================================================
+         INTRO
+         ===================================================== -->
+
+    <section class="page-intro work-page-intro">
+      <p class="eyebrow">{t("work.hero.eyebrow")}</p>
+      <h1 set:html={t("work.hero.title")} />
+      <p class="page-intro-text">{t("work.hero.text")}</p>
+    </section>
+
+    <!-- =====================================================
+         FALLEN FOREST
+         ===================================================== -->
+
+    <article class="case-study">
+      <div class="case-study-hero case-study-hero-contain">
+        <img src="/images/our-work/A002-05.jpeg" alt={t("work.project1.image.alt")} />
+      </div>
+
+      <div class="case-study-header">
+        <div>
+          <p class="eyebrow">{t("work.project1.eyebrow")}</p>
+          <h2 set:html={t("work.project1.title")} />
+        </div>
+
+        <p class="case-study-intro">{t("work.project1.intro")}</p>
+      </div>
+
+      <div class="case-study-body">
+        <div class="case-study-story">
+          <p>{t("work.project1.story.p1")}</p>
+          <p>{t("work.project1.story.p2")}</p>
+          <p>{t("work.project1.story.p3")}</p>
+          <p>{t("work.project1.story.p4")}</p>
+          <p>{t("work.project1.story.p5")}</p>
+        </div>
+
+        <aside class="ecosystem-details">
+          <p class="eyebrow">{t("work.project1.ecosystemEyebrow")}</p>
+
+          <div class="ecosystem-principle">
+            <p>{t("work.project1.principle.p1")}</p>
+            <p>{t("work.project1.principle.p2")}</p>
+            <p>{t("work.project1.principle.p3")}</p>
+          </div>
+
+          <div class="details-grid">
+            {project1Specs.map(([label, value]) => (
+              <div>
+                <span>{label}</span>
+                <strong>{value}</strong>
+              </div>
+            ))}
+          </div>
+        </aside>
+      </div>
+
+      <div class="case-study-gallery">
+        <img src="/images/our-work/A002-02.jpeg" alt={t("work.project1.gallery.alt")} />
+        <img src="/images/our-work/A002-01.jpeg" alt={t("work.project1.gallery.alt")} />
+      </div>
+    </article>
+
+    <!-- =====================================================
+         ORINOCO / LITTORAL
+         ===================================================== -->
+
+    <article class="case-study">
+      <div class="case-study-hero">
+        <img src="/images/our-work/A003-06.jpeg" alt={t("work.project2.image.alt")} />
+      </div>
+
+      <div class="case-study-header">
+        <div>
+          <p class="eyebrow">{t("work.project2.eyebrow")}</p>
+          <h2 set:html={t("work.project2.title")} />
+        </div>
+
+        <p class="case-study-intro">{t("work.project2.intro")}</p>
+      </div>
+
+      <div class="case-study-body">
+        <div class="case-study-story">
+          <p>{t("work.project2.story.p1")}</p>
+          <p set:html={t("work.project2.story.p2")} />
+          <p set:html={t("work.project2.story.p3")} />
+          <p>{t("work.project2.story.p4")}</p>
+        </div>
+
+        <aside class="ecosystem-details">
+          <p class="eyebrow">{t("work.project2.ecosystemEyebrow")}</p>
+
+          <div class="details-grid">
+            {project2Specs.map(([label, value]) => (
+              <div>
+                <span>{label}</span>
+                <strong>{value}</strong>
+              </div>
+            ))}
+          </div>
+        </aside>
+      </div>
+
+      <div class="case-study-gallery">
+        <img src="/images/our-work/A003-01.jpeg" alt={t("work.project2.gallery.alt")} />
+        <img src="/images/our-work/A003-03.jpeg" alt={t("work.project2.gallery.alt")} />
+        <img src="/images/our-work/A003-04.jpeg" alt={t("work.project2.gallery.alt")} />
+      </div>
+    </article>
+
+    <!-- =====================================================
+         BORNEO UNDERSTORY
+         ===================================================== -->
+
+    <article class="case-study">
+      <div class="case-study-hero">
+        <img src="/images/our-work/A004-01.jpeg" alt={t("work.project3.image.alt")} />
+      </div>
+
+      <div class="case-study-header">
+        <div>
+          <p class="eyebrow">{t("work.project3.eyebrow")}</p>
+          <h2 set:html={t("work.project3.title")} />
+        </div>
+
+        <p class="case-study-intro">{t("work.project3.intro")}</p>
+      </div>
+
+      <div class="case-study-body">
+        <div class="case-study-story">
+          <p>{t("work.project3.story.p1")}</p>
+          <p>{t("work.project3.story.p2")}</p>
+          <p>{t("work.project3.story.p3")}</p>
+          <p>{t("work.project3.story.p4")}</p>
+        </div>
+
+        <aside class="ecosystem-details">
+          <p class="eyebrow">{t("work.project3.ecosystemEyebrow")}</p>
+
+          <div class="details-grid">
+            {project3Specs.map(([label, value]) => (
+              <div>
+                <span>{label}</span>
+                <strong>{value}</strong>
+              </div>
+            ))}
+          </div>
+        </aside>
+      </div>
+
+      <div class="case-study-gallery">
+        <img src="/images/our-work/A004-02.jpeg" alt={t("work.project3.gallery.alt")} />
+        <img src="/images/our-work/A004-03.jpeg" alt={t("work.project3.gallery.alt")} />
+      </div>
+    </article>
+
+    <!-- =====================================================
+         CLOSING
+         ===================================================== -->
+
+    <section class="work-closing">
+      <p class="eyebrow">{t("work.closing.eyebrow")}</p>
+      <h2 set:html={t("work.closing.title")} />
+      <p>{t("work.closing.text")}</p>
+
+      <a href={getRelativeLocaleUrl(lang, "/contact")} class="button dark-button">
+        {t("work.closing.button")}
+      </a>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

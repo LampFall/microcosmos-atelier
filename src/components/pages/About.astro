@@ -1,0 +1,66 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout title={t("about.meta.title")} description={t("about.meta.description")}>
+  <Header />
+
+  <main>
+    <section class="about-page">
+      <div class="about-page-hero">
+        <div class="about-page-intro">
+          <p class="eyebrow">{t("about.hero.eyebrow")}</p>
+
+          <h1 set:html={t("about.hero.title")} />
+
+          <p class="about-page-lead">{t("about.hero.lead")}</p>
+        </div>
+
+        <div class="about-page-image">
+          <img src="/images/about/about-02.jpeg" alt="Kasper Masschaele" />
+        </div>
+      </div>
+
+      <div class="about-page-story">
+        <p class="eyebrow">{t("about.story.eyebrow")}</p>
+
+        <h2 set:html={t("about.story.title")} />
+
+        <p>{t("about.story.p1")}</p>
+        <p>{t("about.story.p2")}</p>
+        <p>{t("about.story.p3")}</p>
+
+        <div class="about-page-highlight">
+          <p>{t("about.story.highlight1")}</p>
+        </div>
+
+        <p>{t("about.story.p4")}</p>
+        <p>{t("about.story.p5")}</p>
+        <p>{t("about.story.p6")}</p>
+
+        <div class="about-page-highlight">
+          <p>{t("about.story.highlight2")}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <p class="eyebrow">{t("about.cta.eyebrow")}</p>
+      <h2>{t("about.cta.title")}</h2>
+      <p>{t("about.cta.text")}</p>
+
+      <a href={getRelativeLocaleUrl(lang, "/contact")} class="button dark-button">
+        {t("about.cta.button")}
+      </a>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
