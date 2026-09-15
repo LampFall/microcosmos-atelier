@@ -1,0 +1,208 @@
+/* =========================================================
+   JOURNAAL
+   Bouwt volledig voort op de bestaande tokens uit global.css
+   (--muted, --border, --accent, --text). Geen nieuwe kleuren
+   of lettertypes.
+   ========================================================= */
+
+.journal {
+    padding-top: 0;
+}
+
+/* Filters ------------------------------------------------ */
+
+.journal-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin-bottom: 55px;
+}
+
+.journal-filter {
+    border: 1px solid var(--border);
+    border-radius: 0;
+
+    padding: 9px 16px;
+
+    background: transparent;
+    color: var(--muted);
+
+    font-family: inherit;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.journal-filter:hover {
+    color: var(--text);
+}
+
+.journal-filter.is-active {
+    border-color: var(--accent);
+    color: var(--text);
+}
+
+/* Ledger (lijst van observaties) ------------------------- */
+
+.journal-ledger {
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+
+    border-top: 1px solid var(--border);
+}
+
+.journal-entry {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 40px;
+
+    padding: 38px 0;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.journal-date {
+    color: var(--muted);
+
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.journal-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 14px;
+
+    margin: 0 0 14px;
+}
+
+.journal-tank {
+    color: var(--muted);
+
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.journal-status {
+    color: var(--accent);
+
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.journal-title {
+    margin: 0 0 10px;
+
+    font-size: 1.5rem;
+}
+
+.journal-title a {
+    transition: opacity 0.2s ease;
+}
+
+.journal-title a:hover {
+    opacity: 0.55;
+}
+
+.journal-summary {
+    max-width: 620px;
+
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 1rem;
+    line-height: 1.65;
+}
+
+.journal-empty {
+    color: var(--muted);
+}
+
+/* Detailpagina ------------------------------------------- */
+
+.journal-post {
+    max-width: 760px;
+
+    padding-top: 220px;
+}
+
+.journal-back {
+    margin-bottom: 55px;
+}
+
+.journal-post-meta {
+    margin-bottom: 22px;
+}
+
+.journal-post-title {
+    max-width: 640px;
+
+    margin-bottom: 45px;
+
+    font-size: clamp(2.5rem, 5vw, 4rem);
+}
+
+.journal-cover {
+    width: 100%;
+    height: auto;
+
+    margin-bottom: 50px;
+
+    background: var(--surface);
+}
+
+.journal-content {
+    max-width: 680px;
+}
+
+.journal-content p {
+    margin-bottom: 28px;
+
+    color: var(--muted);
+
+    font-size: 1.05rem;
+    line-height: 1.75;
+}
+
+.journal-content p:last-child {
+    margin-bottom: 0;
+}
+
+.journal-content h2 {
+    margin: 45px 0 22px;
+
+    font-size: 1.8rem;
+}
+
+.journal-content a {
+    color: var(--text);
+
+    border-bottom: 1px solid var(--border);
+}
+
+/* Mobiel ------------------------------------------------- */
+
+@media (max-width: 800px) {
+    .journal-entry {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .journal-post {
+        padding-top: 170px;
+    }
+}

@@ -23,6 +23,7 @@ const path = Astro.url.pathname.replace(/^\/en/, "") || "/";
       <a href={getRelativeLocaleUrl(lang, "/our-work")}>{t("nav.ourWork")}</a>
       <a href={getRelativeLocaleUrl(lang, "/about")}>{t("nav.about")}</a>
       <a href={getRelativeLocaleUrl(lang, "/contact")}>{t("nav.contact")}</a>
+      <a href={getRelativeLocaleUrl(lang, "/journal")}>{t("nav.journal")}</a>
 
       <div class="language-switcher">
         <a href={getRelativeLocaleUrl("nl", path)} class={lang === "nl" ? "active" : ""}>NL</a>

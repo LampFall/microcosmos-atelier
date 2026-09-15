@@ -1,0 +1,108 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { getCollection } from "astro:content";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import "../../styles/journal.css";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const entries = (await getCollection("journal"))
+	.filter((e) => e.data.lang === lang)
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const tanks = [...new Set(entries.map((e) => e.data.tank))];
+
+const dateFmt = new Intl.DateTimeFormat(lang === "en" ? "en-GB" : "nl-BE", {
+	day: "numeric",
+	month: "long",
+	year: "numeric",
+});
+
+const slugOf = (id: string) => id.replace(/^(nl|en)\//, "");
+---
+
+<Layout title={t("journal.meta.title")} description={t("journal.meta.description")}>
+	<Header />
+
+	<main>
+		<section class="page-intro">
+			<p class="eyebrow">{t("journal.hero.eyebrow")}</p>
+			<h1 set:html={t("journal.hero.title")} />
+			<p class="page-intro-text">{t("journal.hero.text")}</p>
+		</section>
+
+		<section class="section journal">
+			{
+				tanks.length > 1 && (
+					<div class="journal-filters" role="group">
+						<button type="button" class="journal-filter is-active" data-tank="">
+							{t("journal.filter.all")}
+						</button>
+						{tanks.map((tank) => (
+							<button type="button" class="journal-filter" data-tank={tank}>
+								{tank}
+							</button>
+						))}
+					</div>
+				)
+			}
+
+			{
+				entries.length === 0 ? (
+					<p class="journal-empty">{t("journal.empty")}</p>
+				) : (
+					<ol class="journal-ledger">
+						{entries.map((entry) => (
+							<li class="journal-entry" data-tank={entry.data.tank}>
+								<span class="journal-date">
+									{dateFmt.format(entry.data.date)}
+								</span>
+								<div class="journal-body">
+									<p class="journal-meta">
+										<span class="journal-tank">
+											{entry.data.tank}
+											{entry.data.liters && ` · ${entry.data.liters} L`}
+										</span>
+										<span class="journal-status">
+											{t(`journal.status.${entry.data.status}` as any)}
+										</span>
+									</p>
+									<h3 class="journal-title">
+										<a href={getRelativeLocaleUrl(lang, `/journal/${slugOf(entry.id)}`)}>
+											{entry.data.title}
+										</a>
+									</h3>
+									{entry.data.summary && (
+										<p class="journal-summary">{entry.data.summary}</p>
+									)}
+								</div>
+							</li>
+						))}
+					</ol>
+				)
+			}
+		</section>
+	</main>
+
+	<Footer />
+</Layout>
+
+<script>
+	const buttons = document.querySelectorAll<HTMLButtonElement>(".journal-filter");
+	const items = document.querySelectorAll<HTMLLIElement>(".journal-entry");
+
+	buttons.forEach((button) => {
+		button.addEventListener("click", () => {
+			buttons.forEach((b) => b.classList.remove("is-active"));
+			button.classList.add("is-active");
+			const tank = button.dataset.tank;
+			items.forEach((item) => {
+				item.style.display = !tank || item.dataset.tank === tank ? "" : "none";
+			});
+		});
+	});
+</script>

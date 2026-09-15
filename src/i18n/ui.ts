@@ -323,6 +323,23 @@ export const ui = {
     'home.cta.text':
       'Je hoeft nog niet precies te weten wat je wilt. Breng me een ruimte, een idee of gewoon een fascinatie voor de natuur, en we beginnen van daaruit.',
     'home.cta.button': 'Start een gesprek',
+    'nav.journal': 'Journaal',
+
+    'journal.meta.title': 'Journaal — Microcosmos Atelier',
+    'journal.meta.description':
+      'Volg de evolutie van elke Microcosmos, van opstart tot rijp ecosysteem.',
+    'journal.hero.eyebrow': 'Journaal',
+    'journal.hero.title': 'Levende systemen,<br />in de tijd gevolgd.',
+    'journal.hero.text':
+      'Een Microcosmos is nooit af. Hier houd ik bij hoe elke bak zich ontwikkelt — een nieuwe aanplant, een omslag in het water, een systeem dat langzaam zijn evenwicht vindt.',
+    'journal.filter.all': 'Alle bakken',
+    'journal.status.opstart': 'Opstart',
+    'journal.status.groeit': 'Groeit',
+    'journal.status.rijpt': 'Rijpt',
+    'journal.status.stabiel': 'Stabiel',
+    'journal.back': 'Terug naar het journaal',
+    'journal.empty': 'Nog geen observaties.',
+
   },
   en: {
     'nav.ourWork': 'Our Work',
@@ -637,5 +654,21 @@ export const ui = {
     'home.cta.text':
       "You don't need to know exactly what you want. Bring me a space, an idea or simply a fascination with nature, and we'll start from there.",
     'home.cta.button': 'Start a conversation',
+    'nav.journal': 'Journal',
+
+    'journal.meta.title': 'Journal — Microcosmos Atelier',
+    'journal.meta.description':
+      'Follow the evolution of each Microcosmos, from setup to mature ecosystem.',
+    'journal.hero.eyebrow': 'Journal',
+    'journal.hero.title': 'Living systems,<br />followed over time.',
+    'journal.hero.text':
+      'A Microcosmos is never finished. This is where I record how each aquarium develops — a new planting, a shift in the water, a system slowly finding its balance.',
+    'journal.filter.all': 'All aquariums',
+    'journal.status.opstart': 'Setup',
+    'journal.status.groeit': 'Growing',
+    'journal.status.rijpt': 'Maturing',
+    'journal.status.stabiel': 'Established',
+    'journal.back': 'Back to the journal',
+    'journal.empty': 'No observations yet.',
   },
 } as const;
