@@ -38,23 +38,26 @@ Read these before making non-trivial changes:
 ├── SPEC.md                 # what the site should do
 ├── PLAN.md                 # backlog, status, decisions
 ├── ARCHITECTURE.md         # how the code is structured
-├── astro.config.mjs        # i18n config, sitemap integration
+├── astro.config.mjs        # i18n, sitemap, photo preparation, redirects
 ├── public/
 │   ├── favicon.ico / .svg
 │   ├── google...html       # Search Console verification -- don't delete
 │   └── images/             # unoptimized static images (our-work, hero, about)
 └── src/
-    ├── assets/              # local images that go through Astro's image()
-    │   └── journal_pics/    # real journal photos live here, per entry slug
+    ├── assets/              # site-wide SVGs
     ├── components/
     │   ├── Header.astro / Footer.astro
     │   └── pages/           # the actual page implementations (see ARCHITECTURE.md #2)
     ├── content/
-    │   └── journal/nl/ + journal/en/   # one .md file per entry per language
-    ├── content.config.ts    # journal collection schema
+    │   └── journal/<aquarium>/          # aquarium.yml + one folder per entry
+    │       └── <entry>/                 # nl.md, en.md and the entry's photos
+    ├── content.config.ts    # journal + aquariums collection schemas
     ├── i18n/
     │   ├── ui.ts             # all translated strings, nl + en
     │   └── utils.ts          # getLangFromUrl / useTranslations
+    ├── integrations/
+    │   └── prepare-photos.ts # turns dropped photos into 2400px JPEGs without GPS
+    ├── lib/                  # journal.ts, photo-files.ts: the journal folder rules
     ├── layouts/
     │   └── Layout.astro
     ├── pages/                # thin route files, NL (default) + /en
@@ -80,14 +83,38 @@ All commands run from the project root:
 
 ## Working with content
 
-- **Journal entries** live in `src/content/journal/{nl,en}/<slug>.md`. Every
-  entry needs a matching file in both languages with the same filename and
-  the same `tank` value. See `SPEC.md` section 3.3 for the frontmatter schema
-  (status enum, optional `cover`, optional `photos` gallery of 1-3 images).
-  Use the `/translate-journal <path>` slash command after writing one
-  language's version to generate the other.
-- **Journal photos** go in `src/assets/journal_pics/<entry-slug>/`, referenced
-  from frontmatter with a relative path -- see `ARCHITECTURE.md` section 5.
+The journal is one folder per aquarium, with one folder per entry inside it
+(full rules in `SPEC.md` section 3.3):
+
+```text
+src/content/journal/
+  fallen-forest/
+    aquarium.yml          # name: "Fallen Forest", liters: 1000
+    2023-05-hardscape/
+      nl.md
+      en.md
+      cover.jpg           # optional banner
+      any-name.jpg        # up to 3 gallery photos
+```
+
+- **New entry:** create a folder `YYYY-MM-short-title` in the aquarium's
+  folder and write `nl.md` (frontmatter: `title`, `date`, `status`,
+  `summary`). Run `/translate-journal <aquarium>/<entry>` to generate
+  `en.md`. The folder names become the URL, so settle on them before
+  publishing.
+- **New aquarium:** create a folder with an `aquarium.yml` (`name`,
+  optionally `liters`), then add entries to it.
+- **Photos:** copy up to 3 photos from Google Drive into the entry folder
+  (hold Option while dragging from Drive for Desktop, so it copies instead of
+  moves). Any name; JPEG, PNG, WebP and iPhone HEIC all work. The dev server
+  or build turns each into a `.jpg` of at most 2400px with GPS and other
+  metadata removed, replacing the dropped file; the original stays in Drive.
+  The first photo in natural order (`2.jpg` before `10.jpg`, capitals before
+  lowercase) is shown large, and a file named
+  `cover` is the banner. Files in a subfolder (e.g. `extra/`) are ignored.
+- **Alt text:** run `/describe-photos <aquarium>/<entry>` to write the photo
+  descriptions in both languages (`photoAlt` and `coverAlt` in the
+  frontmatter).
 - **Page copy** (headings, labels, alt text) lives in `src/i18n/ui.ts`. Add
   new strings under the same key in both the `nl` and `en` blocks -- never
   hard-code copy inside a component.

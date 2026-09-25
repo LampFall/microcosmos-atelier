@@ -8,24 +8,15 @@ get re-litigated.
 
 ## Status snapshot (2026-09-25)
 
-- Core site (home, our work, about, contact, journal) is built and live in
-  both NL and EN.
-- Journal content collection supports a `photos` gallery of 1–3 images per
-  entry (first one large, next two small) — schema, rendering and CSS are
-  done (`src/content.config.ts`, `components/pages/JournalEntry.astro`,
-  `styles/journal.css`).
-- All 8 journal entry files (4 entries × NL/EN) currently have **placeholder**
-  photos (`src/assets/background.svg` / `astro.svg`) wired in just to verify
-  the layout — these need to be swapped for real photos before publishing.
-- `src/assets/journal_pics/` exists and is empty, intended to hold real
-  journal photos organized per entry (see `ARCHITECTURE.md` §5 for the
-  expected folder/reference convention).
-- A `/translate-journal` slash command exists
-  (`.claude/commands/translate-journal.md`) to keep NL/EN journal entries in
-  sync — write one language, run the command, get the other.
-- Documentation (`SPEC.md`, `PLAN.md`, `ARCHITECTURE.md`, this refreshed
-  `README.md`) was just created to support working more structurally with
-  Claude Code across sessions.
+- Core site (home, our work, about, contact, journal) is built in NL and EN.
+- The journal uses one folder per aquarium and one folder per entry, with
+  automatic photo preparation and responsive WebP images (execution plan
+  below: phases 1–7 implemented, phases 8–9 open). No real photos have been
+  added yet.
+- Content commands: `/translate-journal` and `/describe-photos`. Workflow:
+  `/spec`, `/plan-phases`, `/implement-phase`, `/review-phase`
+  (see `AGENTS.md`).
+- Nothing is pushed to GitHub yet; `main` is ahead of `origin/main`.
 
 ## Execution plan: journal restructuring & image performance
 
@@ -33,7 +24,7 @@ Status: APPROVED (2026-09-25). Phases 1–5 implemented, reviewed and fixed:
 the review's 1 critical and 4 important findings in photo preparation are
 fixed, and the re-review's one follow-up (safe case-only rename) too. All
 tested with real files, including the dev-server live update. Stale docs
-(review finding 6) are Phase 7. Phase 6 implemented and reviewed.
+(review finding 6) are Phase 7. Phase 6 implemented and reviewed. Phase 7 implemented and reviewed.
 
 It implements
 `SPEC.md` §3.3. Read that section for the *why* behind each step; this plan
@@ -175,22 +166,24 @@ In `JournalEntry.astro`:
 
 These all still describe the old `nl/`/`en/` + `journal_pics/` layout:
 
-- [ ] `ARCHITECTURE.md` §5 and §6.
-- [ ] `README.md` ("Working with content"): the drop-in workflow,
+- [x] `ARCHITECTURE.md` §5 and §6.
+- [x] `README.md` ("Working with content"): the drop-in workflow,
       `/describe-photos`, and how to add a new entry or aquarium.
-- [ ] `.claude/commands/translate-journal.md`: the counterpart is the other
+- [x] `.claude/commands/translate-journal.md`: the counterpart is the other
       `nl.md`/`en.md` in the same folder; `tank`/`lang`/`liters` no longer
       exist; `photoAlt` keys are copied and only the values translated.
-- [ ] `.claude/agents/content-writer.md`: a new entry is a new
+- [x] `.claude/agents/content-writer.md`: a new entry is a new
       `YYYY-MM-title` folder in the aquarium's folder; a new aquarium needs
       an `aquarium.yml`; no `tank` field anymore.
 - [x] ~~`i18n-agent.md`~~: agent removed on 2026-09-25; its checks now
       live in `.claude/agents/verifier.md` (layout and NL/EN parity).
 - [x] ~~`astro-agent.md`~~: agent removed on 2026-09-25.
-- [ ] `AGENTS.md`: mention `/describe-photos` next to `/translate-journal`.
-- [ ] This file: rewrite the "Agents (built)" section, which still lists the
+- [x] `AGENTS.md`: mention `/describe-photos` next to `/translate-journal`.
+- [x] This file: rewrite the "Agents (built)" section, which still lists the
       removed agents and says "drop photos into
       `assets/journal_pics/<slug>/`".
+- [x] Also updated (not listed originally, same stale layout):
+      `ARCHITECTURE.md` §2 and §8, and this file's "Status snapshot".
 
 ### Phase 8 — Verification
 
@@ -282,19 +275,21 @@ These are structural additions worth making as the project (and the number
 of Claude Code sessions working on it) grows. None of these exist yet except
 where noted — treat this as a menu, not a mandate.
 
-- **`.claude/commands/`** *(exists — has `translate-journal.md`)*. Good
-  candidates to add next:
-  - `new-journal-entry.md` — scaffolds a new NL+EN journal entry pair for a
-    given tank/date/title, with correct frontmatter and a placeholder body,
-    so entries stay structurally consistent without hand-copying an old one.
+- **`.claude/commands/`** *(exists: `/spec`, `/plan-phases`,
+  `/implement-phase`, `/review-phase`, `/translate-journal`,
+  `/describe-photos`)*. Candidates to add next:
+  - `new-journal-entry.md` — creates `src/content/journal/<aquarium>/YYYY-MM-title/`
+    with an `nl.md` that has the right frontmatter (`title`, `date`,
+    `status`, `summary`) and a placeholder body, so entries stay consistent
+    without copying an old one.
   - `new-case-study.md` — same idea for a new "Our Work" project section in
     `OurWork.astro` + its `ui.ts` keys, since that content is currently
     hand-assembled across two files.
-  - `check-i18n-parity.md` — greps `ui.ts` for keys present in one language
-    block but missing in the other, and checks every `journal/nl/*.md` has a
-    matching `journal/en/*.md` filename (and vice versa). Cheap to write,
-    catches an easy-to-miss class of bug.
-- **`.claude/agents/`** *(exists — see "Agents (built)" below for all five)*.
+  - NL/EN parity checks (every entry folder has both `nl.md` and `en.md`,
+    `ui.ts` keys match) are already part of the `verifier` agent, so no
+    separate command is needed.
+- **`.claude/agents/`** *(exists: `architect`, `planner`, `reviewer`,
+  `verifier`, `content-writer`; see "Agents (built)" below)*.
 - **`docs/decisions/` (or keep using this `PLAN.md` decision log)** — if the
   decision log here grows unwieldy, split into one short Markdown file per
   decision (`docs/decisions/0001-no-google-drive-hotlinking.md`). Not needed
@@ -308,47 +303,22 @@ where noted — treat this as a menu, not a mandate.
 The main Claude session orchestrates; see `AGENTS.md` ("Engineering
 workflow" and "Agents"). The workflow agents are `architect`, `planner`,
 `reviewer` and `verifier`, driven by `/spec`, `/plan-phases`,
-`/implement-phase` and `/review-phase`. The domain helpers below are
-optional. The main session calls one when its specialised knowledge or a
-separate context helps, and otherwise does the work itself.
+`/implement-phase` and `/review-phase`. One optional domain helper,
+`content-writer`, drafts copy in the site's three writing styles: reflective
+first person for Home/About, descriptive third person for Our Work, diary
+style for the journal. The main session calls it when a separate context
+helps and otherwise writes copy itself.
 
-(The former `orchestrator` agent was removed on 2026-09-25: routing every
-change through subagents clashed with keeping trivial work in the main
-session.)
+(Removed on 2026-09-25: `orchestrator`, `astro-agent`, `frontend-agent`,
+`i18n-agent`, `translator-agent`. See the decision log.)
 
-1. **`content-writer`** — drafts new journal entries or case-study copy in
-   the site's established voice, distinguishing the three registers actually
-   in use (reflective first-person for Home/About, descriptive third-person
-   for Our Work case studies, diary-style first-person for journal entries).
-   Scoped to writing Markdown/frontmatter and `ui.ts` string additions in one
-   language at a time — not translation, not layout or schema changes.
-2. **`translator-agent`** — the agent form of `/translate-journal`, extended
-   to also bring `src/i18n/ui.ts` copy to parity across languages. Preserves
-   non-translatable frontmatter (`tank`, `date`, `status`, image paths) and
-   matches register per key namespace.
-3. **`astro-agent`** — owns routing (`src/pages/**`), the `pages/` vs
-   `components/pages/` split, the journal content-collection schema
-   (`content.config.ts`), and data-fetching logic (`getStaticPaths`,
-   `getCollection`). Does not touch CSS or write copy.
-4. **`frontend-agent`** — owns visual layout and styling: `src/styles/*.css`
-   and the markup structure inside `components/pages/*.astro` (not their
-   data-fetching). Handles galleries, responsive breakpoints, spacing. Does
-   not touch schema/routing or write copy.
-5. **`i18n-agent`** — read-only QA agent. Audits `ui.ts` key parity, journal
-   NL/EN file parity, `tank`/`status` consistency across an entry's language
-   pair, missing alt text, and broken image paths. Reports a punch list; never
-   edits files itself.
-
-Note `astro-agent` and `frontend-agent` both touch files under
-`components/pages/`; the split is by *kind of change* (data/structure vs.
-markup/visual), not by file, so route a task to whichever matches what's
-actually changing.
-
-A simple pattern for adding a new journal entry end-to-end: write the Dutch entry yourself (or have **`content-writer`**
-draft it) → run **`translator-agent`** (or `/translate-journal`) → drop
-photos into `assets/journal_pics/<slug>/` and wire up `photos:` frontmatter
-yourself or via **`frontend-agent`** → run **`i18n-agent`** before
-considering it done. Each step is small and independently verifiable, which
-matters more here than parallelizing them — this site's content volume
-doesn't yet justify
-running agents concurrently.
+Adding a journal entry end to end (for a new aquarium, first create its
+folder with an `aquarium.yml`):
+1. Create `src/content/journal/<aquarium>/YYYY-MM-title/` and write `nl.md`
+   (yourself, or have `content-writer` draft it).
+2. `/translate-journal <aquarium>/<entry>` writes `en.md`.
+3. Copy up to 3 photos from Google Drive into the entry folder; the dev
+   server or build prepares them.
+4. `/describe-photos <aquarium>/<entry>` writes the alt text in both
+   languages.
+5. Check the page in the dev server, then commit.

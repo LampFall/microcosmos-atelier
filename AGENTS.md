@@ -103,8 +103,10 @@ Workflow agents (`.claude/agents/`), all read-only:
   acceptance criteria, reports PASS/FAIL.
 
 One optional domain helper: `content-writer`, which drafts new copy in the
-site's three writing styles. Translation uses the `/translate-journal`
-command. Code, CSS and routing work is done by the main session itself.
+site's three writing styles. Content commands: `/translate-journal
+<aquarium>/<entry>` writes the other language's `nl.md`/`en.md`, and
+`/describe-photos <aquarium>/<entry>` writes the photos' alt text in both
+languages. Code, CSS and routing work is done by the main session itself.
 
 ### Safeguards
 

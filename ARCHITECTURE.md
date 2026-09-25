@@ -38,10 +38,12 @@ entirely from the `ui.ts` dictionary (see §4), not from having two copies of
 the component.
 
 The journal is the one place this pattern is combined with dynamic routing:
-`src/pages/journal/[...slug].astro` and `src/pages/en/journal/[...slug].astro`
-each call `getStaticPaths()` filtered to their own language and pass the
-matched `CollectionEntry<"journal">` into the shared
-`components/pages/JournalEntry.astro`.
+`src/pages/journal/[aquarium]/[entry].astro` and
+`src/pages/en/journal/[aquarium]/[entry].astro` each call `getStaticPaths()`
+with `getJournalEntries(lang)` from `src/lib/journal.ts` and pass the matched
+entry into the shared `components/pages/JournalEntry.astro`. The 8 URLs from
+before the aquarium/entry layout redirect to the new ones via `redirects` in
+`astro.config.mjs`.
 
 **When adding a new page**, follow this same split: create the shared
 component in `components/pages/`, then one thin route file per locale that
@@ -97,32 +99,42 @@ Conventions to preserve:
 
 ## 5. Content collections (`src/content.config.ts`)
 
-Only one Astro content collection exists: `journal`. It's loaded with the
-`glob` loader over `src/content/journal/**/*.md`, so both `nl/` and `en/`
-subfolders feed the same collection; entries are distinguished by their
-`lang` frontmatter field (which must match the folder they're actually in)
-and matched across languages by having the *same filename*.
+The journal is one folder per aquarium, with one folder per entry inside it
+(`SPEC.md` §3.3.2):
 
-Schema highlights (see the file for the authoritative version):
-- `tank` — free-text string, must be identical across an entry's NL/EN pair
-  and across all entries for the same physical aquarium, since it's used as
-  the grouping/filter key on the journal index.
-- `status` — a closed enum (`opstart | groeit | rijpt | stabiel`), rendered
-  through `journal.status.*` translation keys, never shown raw.
-- `cover` / `coverAlt` — optional single hero image using Astro's `image()`
-  schema helper, which requires the path to resolve to a real local file
-  (relative to the Markdown file) so Astro can optimize it at build time.
-- `photos` — optional array of 1–3 `{ src, alt }` objects, same `image()`
-  constraint as `cover`. Rendered as a gallery below the post body, with the
-  **first photo shown large** and the remaining one or two shown smaller
-  next to it (`.journal-gallery` CSS in `src/styles/journal.css`, using
-  CSS Grid with `img:first-child` spanning both rows).
+```
+src/content/journal/<aquarium>/aquarium.yml
+src/content/journal/<aquarium>/<entry>/nl.md, en.md, cover.jpg, <photo>.jpg …
+```
 
-Photo files for the journal are expected under
-`src/assets/journal_pics/<entry-slug>/`, referenced from frontmatter with a
-relative path such as `../../../assets/journal_pics/<entry-slug>/01.jpg` —
-the same relative path works from both `content/journal/nl/` and
-`content/journal/en/` because they sit at the same folder depth.
+Two collections read it:
+- `aquariums` — every `aquarium.yml` (`name`, `liters?`), keyed by the
+  aquarium folder name. The name is the filter key on the journal index, so
+  it is written once here instead of in every entry.
+- `journal` — every `nl.md`/`en.md`, with id `<aquarium>/<entry>/<lang>`.
+  Frontmatter: `title`, `date`, `status`, `summary?`, `photoAlt?` (file name
+  → alt text), `coverAlt?`. The language, the aquarium and the photos are not
+  in the frontmatter: they come from the file name, the parent folder and
+  the image files in the folder.
+
+`status` is a closed enum (`opstart | groeit | rijpt | stabiel`), rendered
+through the `journal.status.*` translation keys, never shown raw.
+
+Three modules own the folder convention; nothing else should parse an entry
+id or look for journal photos itself:
+- `src/lib/journal.ts` — parses entry ids, `getJournalEntries(lang)` (entries
+  with their aquarium's name and liters, newest first), and
+  `getEntryPhotos(aquarium, entry)`, which finds the photos with
+  `import.meta.glob` over `*.jpg` directly in the entry folder.
+- `src/lib/photo-files.ts` — the shared rules for which files a page shows:
+  only non-hidden `.jpg` files, natural sort order, a file named `cover` (any
+  case) as the cover, and the first 3 others as the gallery. It has no Astro
+  imports, so the photo preparation integration and `/describe-photos` use
+  it too.
+- `src/integrations/prepare-photos.ts` — see §6.
+
+The gallery shows the **first photo large** and the other one or two smaller
+next to it (`.journal-gallery` in `src/styles/journal.css`).
 
 The "Our Work" case studies are **not** a content collection — they're
 hand-written directly in `components/pages/OurWork.astro` with plain `<img>`
@@ -132,11 +144,24 @@ Astro (see `PLAN.md` for whether to unify this).
 
 ## 6. Images: two different systems in play
 
-1. **Content-collection images** (journal `cover`/`photos`): declared with
-   the `image()` Zod helper, imported as local module paths, rendered with
-   `<Image>` from `astro:assets`. Astro optimizes these (resizing, format,
-   `width`/`height`, lazy-loading) at build time. These files must live
-   under `src/` (currently `src/assets/journal_pics/`).
+1. **Journal photos** (cover and gallery): local files in the entry folder,
+   found with `import.meta.glob` and rendered with `<Image>` from
+   `astro:assets`. They pass through two steps:
+   - **Preparation** (`src/integrations/prepare-photos.ts`, registered in
+     `astro.config.mjs`). When `astro dev` or `astro build` starts, and
+     while the dev server watches the folder, every photo dropped directly
+     into an entry folder (JPEG, PNG, WebP or HEIC, any extension case) is
+     turned into `<name>.jpg` (or `<name>-2.jpg` if that name is taken): HEIC converted with macOS `sips`, rotated,
+     long edge at most 2400px, JPEG quality 85, **all metadata (GPS)
+     removed**. The prepared file replaces the dropped one; the original
+     stays in Google Drive. Temp files are written next to the photo (HEIC
+     intermediates in the system temp folder), cleaned up after an
+     interruption, and ignored by git. The watcher handles one file at a
+     time, after it has finished copying.
+   - **Optimization** by Astro at build time: `JournalEntry.astro` sets
+     `widths`, `sizes` and `format="webp"` per image, so visitors download
+     WebP files sized to the layout. The cover loads eagerly with
+     `fetchpriority="high"`; the gallery loads lazily.
 2. **Public/static images** (Our Work galleries, hero images, about photos):
    plain files under `public/images/...`, referenced by absolute URL string
    (`/images/our-work/A002-01.jpeg`) in plain `<img>` tags. No optimization,
@@ -171,8 +196,10 @@ applies rather than mixing them within the same feature.
 - `.claude/settings.json` blocks force pushes, hard resets, branch
   deletion and reading `.env` files, and asks before commit, push and
   rebase.
-- `.claude/commands/translate-journal.md` is a custom slash command:
-  `/translate-journal <path>` reads one language's journal entry and writes
-  the matching counterpart in the other language, preserving all
-  non-translatable fields (`tank`, `liters`, `date`, `status`, image paths).
-  See `PLAN.md` for further tooling suggestions.
+- Content commands: `/translate-journal <aquarium>/<entry>` writes the
+  other language's `nl.md`/`en.md` from the one that exists, keeping `date`,
+  `status` and the `photoAlt` keys unchanged. `/describe-photos
+  <aquarium>/<entry>` writes the alt text for the photos in both languages.
+  The optional `content-writer` agent drafts new copy in the site's styles.
+- A local git pre-commit hook runs `npx astro check` (see `AGENTS.md`,
+  "Safeguards").
