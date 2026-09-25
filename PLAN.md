@@ -33,7 +33,7 @@ Status: APPROVED (2026-09-25). Phases 1–5 implemented, reviewed and fixed:
 the review's 1 critical and 4 important findings in photo preparation are
 fixed, and the re-review's one follow-up (safe case-only rename) too. All
 tested with real files, including the dev-server live update. Stale docs
-(review finding 6) are Phase 7. Next: commit, then Phase 6.
+(review finding 6) are Phase 7. Phase 6 implemented and reviewed.
 
 It implements
 `SPEC.md` §3.3. Read that section for the *why* behind each step; this plan
@@ -162,14 +162,14 @@ In `JournalEntry.astro`:
 
 ### Phase 6 — `/describe-photos` slash command
 
-- [ ] `.claude/commands/describe-photos.md`, argument `<aquarium>/<entry>`:
-  - [ ] Looks at each photo in the entry folder and writes `photoAlt`
+- [x] `.claude/commands/describe-photos.md`, argument `<aquarium>/<entry>`:
+  - [x] Looks at each photo in the entry folder and writes `photoAlt`
         (keyed by file name) into `nl.md` in Dutch and `en.md` in English,
         in the factual tone of the journal.
-  - [ ] Keeps alt text that is already there, unless asked to rewrite it.
+  - [x] Keeps alt text that is already there, unless asked to rewrite it.
         Removes keys for photos that no longer exist.
-  - [ ] Also writes `coverAlt` when there is a `cover.*`.
-  - [ ] Reports what it wrote, so the owner can check it.
+  - [x] Also writes `coverAlt` when there is a `cover.*`.
+  - [x] Reports what it wrote, so the owner can check it.
 
 ### Phase 7 — Update docs and agent instructions
 
