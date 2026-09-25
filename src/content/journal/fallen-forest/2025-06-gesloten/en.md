@@ -1,8 +1,5 @@
 ---
 title: "Two years on: the forest has closed in"
-lang: "en"
-tank: "Fallen Forest"
-liters: 1000
 date: 2025-06-08
 status: "stabiel"
 summary: "The planting is dense, the populations balanced. Intervention is rarely needed now."

@@ -339,6 +339,7 @@ export const ui = {
     'journal.status.stabiel': 'Stabiel',
     'journal.back': 'Terug naar het journaal',
     'journal.empty': 'Nog geen observaties.',
+    'journal.photoAltFallback': '{title} — foto {n}',
 
   },
   en: {
@@ -670,5 +671,6 @@ export const ui = {
     'journal.status.stabiel': 'Established',
     'journal.back': 'Back to the journal',
     'journal.empty': 'No observations yet.',
+    'journal.photoAltFallback': '{title} — photo {n}',
   },
 } as const;

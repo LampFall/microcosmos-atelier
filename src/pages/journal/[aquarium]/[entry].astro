@@ -1,0 +1,27 @@
+---
+import { getCollection } from "astro:content";
+import JournalEntry from "../../../components/pages/JournalEntry.astro";
+import { getJournalEntries, parseJournalId } from "../../../lib/journal";
+
+export async function getStaticPaths() {
+	const listEntries = await getJournalEntries("nl");
+	const collectionEntries = await getCollection(
+		"journal",
+		(e) => parseJournalId(e.id).lang === "nl",
+	);
+	const byId = new Map(collectionEntries.map((e) => [e.id, e]));
+
+	return listEntries.map((listEntry) => ({
+		params: { aquarium: listEntry.aquarium, entry: listEntry.entrySlug },
+		props: {
+			entry: byId.get(listEntry.id)!,
+			aquariumName: listEntry.aquariumName,
+			aquariumLiters: listEntry.aquariumLiters,
+		},
+	}));
+}
+
+const { entry, aquariumName, aquariumLiters } = Astro.props;
+---
+
+<JournalEntry entry={entry} aquariumName={aquariumName} aquariumLiters={aquariumLiters} />

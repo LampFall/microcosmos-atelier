@@ -2,7 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
-import { getCollection } from "astro:content";
+import { getJournalEntries } from "../../lib/journal";
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import "../../styles/journal.css";
@@ -10,19 +10,15 @@ import "../../styles/journal.css";
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const entries = (await getCollection("journal"))
-	.filter((e) => e.data.lang === lang)
-	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const entries = await getJournalEntries(lang);
 
-const tanks = [...new Set(entries.map((e) => e.data.tank))];
+const aquariumNames = [...new Set(entries.map((e) => e.aquariumName))];
 
 const dateFmt = new Intl.DateTimeFormat(lang === "en" ? "en-GB" : "nl-BE", {
 	day: "numeric",
 	month: "long",
 	year: "numeric",
 });
-
-const slugOf = (id: string) => id.replace(/^(nl|en)\//, "");
 ---
 
 <Layout title={t("journal.meta.title")} description={t("journal.meta.description")}>
@@ -37,14 +33,14 @@ const slugOf = (id: string) => id.replace(/^(nl|en)\//, "");
 
 		<section class="section journal">
 			{
-				tanks.length > 1 && (
+				aquariumNames.length > 1 && (
 					<div class="journal-filters" role="group">
 						<button type="button" class="journal-filter is-active" data-tank="">
 							{t("journal.filter.all")}
 						</button>
-						{tanks.map((tank) => (
-							<button type="button" class="journal-filter" data-tank={tank}>
-								{tank}
+						{aquariumNames.map((name) => (
+							<button type="button" class="journal-filter" data-tank={name}>
+								{name}
 							</button>
 						))}
 					</div>
@@ -57,22 +53,27 @@ const slugOf = (id: string) => id.replace(/^(nl|en)\//, "");
 				) : (
 					<ol class="journal-ledger">
 						{entries.map((entry) => (
-							<li class="journal-entry" data-tank={entry.data.tank}>
+							<li class="journal-entry" data-tank={entry.aquariumName}>
 								<span class="journal-date">
 									{dateFmt.format(entry.data.date)}
 								</span>
 								<div class="journal-body">
 									<p class="journal-meta">
 										<span class="journal-tank">
-											{entry.data.tank}
-											{entry.data.liters && ` · ${entry.data.liters} L`}
+											{entry.aquariumName}
+											{entry.aquariumLiters && ` · ${entry.aquariumLiters} L`}
 										</span>
 										<span class="journal-status">
 											{t(`journal.status.${entry.data.status}` as any)}
 										</span>
 									</p>
 									<h3 class="journal-title">
-										<a href={getRelativeLocaleUrl(lang, `/journal/${slugOf(entry.id)}`)}>
+										<a
+											href={getRelativeLocaleUrl(
+												lang,
+												`/journal/${entry.aquarium}/${entry.entrySlug}`,
+											)}
+										>
 											{entry.data.title}
 										</a>
 									</h3>

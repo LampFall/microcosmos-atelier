@@ -1,8 +1,5 @@
 ---
 title: "Setting up the Borneo nano"
-lang: "en"
-tank: "Borneo Understory"
-liters: 60
 date: 2026-08-15
 status: "opstart"
 summary: "A network of branches and roots over a sandy bed. Cryptocoryne just planted."

@@ -1,8 +1,5 @@
 ---
 title: "Twee jaar later: het bos heeft zich gesloten"
-lang: "nl"
-tank: "Fallen Forest"
-liters: 1000
 date: 2025-06-08
 status: "stabiel"
 summary: "De begroeiing is dicht, de populaties zijn in evenwicht. Ingrijpen hoeft nauwelijks nog."

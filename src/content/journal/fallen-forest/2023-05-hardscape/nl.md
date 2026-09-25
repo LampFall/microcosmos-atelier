@@ -1,8 +1,5 @@
 ---
 title: "De eerste hardscape ligt"
-lang: "nl"
-tank: "Fallen Forest"
-liters: 1000
 date: 2023-05-12
 status: "opstart"
 summary: "Twee meter drijfhout en de eerste lagen substraat. Nog geen water, wel al de structuur van een omgevallen boom."

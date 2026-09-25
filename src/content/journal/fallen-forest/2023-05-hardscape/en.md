@@ -1,8 +1,5 @@
 ---
 title: "The first hardscape is in"
-lang: "en"
-tank: "Fallen Forest"
-liters: 1000
 date: 2023-05-12
 status: "opstart"
 summary: "Two metres of driftwood and the first layers of substrate. No water yet, but already the structure of a fallen tree."

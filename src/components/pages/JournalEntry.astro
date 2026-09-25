@@ -7,22 +7,40 @@ import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 import { getRelativeLocaleUrl } from "astro:i18n";
+import { getEntryPhotos, parseJournalId } from "../../lib/journal";
 import "../../styles/journal.css";
 
 interface Props {
 	entry: CollectionEntry<"journal">;
+	aquariumName: string;
+	aquariumLiters?: number;
 }
 
-const { entry } = Astro.props;
+const { entry, aquariumName, aquariumLiters } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const { Content } = await render(entry);
+
+const { aquarium, entry: entrySlug } = parseJournalId(entry.id);
+const { cover, gallery } = getEntryPhotos(aquarium, entrySlug);
 
 const dateFmt = new Intl.DateTimeFormat(lang === "en" ? "en-GB" : "nl-BE", {
 	day: "numeric",
 	month: "long",
 	year: "numeric",
 });
+
+// Fallback alt text ("<title> — photo <n>") when a photo has no explicit
+// alt text of its own; `n` counts the cover (if any) as photo 1 and the
+// gallery photos after it, so every photo on the page gets a distinct
+// fallback number.
+let photoIndex = 0;
+const altFallback = () => {
+	photoIndex += 1;
+	return t("journal.photoAltFallback")
+		.replace("{title}", entry.data.title)
+		.replace("{n}", String(photoIndex));
+};
 ---
 
 <Layout
@@ -40,8 +58,8 @@ const dateFmt = new Intl.DateTimeFormat(lang === "en" ? "en-GB" : "nl-BE", {
 			<p class="journal-meta journal-post-meta">
 				<span class="journal-date">{dateFmt.format(entry.data.date)}</span>
 				<span class="journal-tank">
-					{entry.data.tank}
-					{entry.data.liters && ` · ${entry.data.liters} L`}
+					{aquariumName}
+					{aquariumLiters && ` · ${aquariumLiters} L`}
 				</span>
 				<span class="journal-status">
 					{t(`journal.status.${entry.data.status}` as any)}
@@ -51,11 +69,22 @@ const dateFmt = new Intl.DateTimeFormat(lang === "en" ? "en-GB" : "nl-BE", {
 			<h1 class="journal-post-title">{entry.data.title}</h1>
 
 			{
-				entry.data.cover && (
+				// Cover sits above the fold (first large visual on the page), so it
+				// loads eagerly with a high fetch priority instead of the lazy
+				// default. `.journal-cover` has no max-width of its own; it inherits
+				// `.journal-post`'s 760px, so that's the width the responsive
+				// `sizes`/`widths` are built around (SPEC.md §3.3.5).
+				cover && (
 					<Image
 						class="journal-cover"
-						src={entry.data.cover}
-						alt={entry.data.coverAlt ?? ""}
+						src={cover.image}
+						alt={entry.data.coverAlt ?? altFallback()}
+						loading="eager"
+						fetchpriority="high"
+						format="webp"
+						width={760}
+						widths={[400, 640, 760, 1080, 1520]}
+						sizes="(min-width: 760px) 760px, 100vw"
 					/>
 				)
 			}
@@ -63,6 +92,44 @@ const dateFmt = new Intl.DateTimeFormat(lang === "en" ? "en-GB" : "nl-BE", {
 			<div class="journal-content">
 				<Content />
 			</div>
+
+			{
+				// `.journal-gallery` is a 680px-wide, 2fr/1fr grid (journal.css): the
+				// first photo fills the large ~440px-wide slot, the next one or two
+				// fill the ~220px-wide small slots, stacking to full width below the
+				// 800px breakpoint. Each slot gets its own `widths`/`sizes` so the
+				// large and small photos aren't served the same file (SPEC.md
+				// §3.3.5: ~900px ceiling for the large photo, ~350px for the small
+				// ones, to cover high-DPI screens). Loading stays the `<Image>`
+				// default (`loading="lazy" decoding="async"`) since the gallery sits
+				// below the fold.
+				gallery.length > 0 && (
+					<div class="journal-gallery">
+						{gallery.map((photo, index) => {
+							const alt = entry.data.photoAlt?.[photo.fileName] ?? altFallback();
+							return index === 0 ? (
+								<Image
+									src={photo.image}
+									alt={alt}
+									format="webp"
+									width={440}
+									widths={[220, 350, 440, 680, 900]}
+									sizes="(max-width: 800px) 100vw, 440px"
+								/>
+							) : (
+								<Image
+									src={photo.image}
+									alt={alt}
+									format="webp"
+									width={220}
+									widths={[175, 220, 350]}
+									sizes="(max-width: 800px) 100vw, 220px"
+								/>
+							);
+						})}
+					</div>
+				)
+			}
 		</article>
 	</main>
 

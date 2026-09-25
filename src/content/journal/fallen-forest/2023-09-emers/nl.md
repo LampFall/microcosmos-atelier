@@ -1,8 +1,5 @@
 ---
 title: "Planten groeien boven de waterlijn uit"
-lang: "nl"
-tank: "Fallen Forest"
-liters: 1000
 date: 2023-09-30
 status: "groeit"
 summary: "Monstera en Pothos wortelen nu rechtstreeks in het water en beginnen omhoog te klimmen."

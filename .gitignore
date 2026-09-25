@@ -19,6 +19,12 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+._*
+
+# temp files from journal photo preparation (src/integrations/prepare-photos.ts)
+src/content/journal/**/.*.tmp-*
+src/content/journal/**/.*.heic-conv-*
+src/content/journal/**/.*.orig-*
 
 # jetbrains setting folder
 .idea/

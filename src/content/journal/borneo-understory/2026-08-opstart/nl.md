@@ -1,8 +1,5 @@
 ---
 title: "Opstart van de Borneo-nano"
-lang: "nl"
-tank: "Borneo Understory"
-liters: 60
 date: 2026-08-15
 status: "opstart"
 summary: "Een netwerk van takken en wortels boven een zandbodem. Cryptocoryne net geplant."

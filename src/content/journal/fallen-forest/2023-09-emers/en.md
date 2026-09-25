@@ -1,8 +1,5 @@
 ---
 title: "Plants growing out above the waterline"
-lang: "en"
-tank: "Fallen Forest"
-liters: 1000
 date: 2023-09-30
 status: "groeit"
 summary: "Monstera and Pothos now root directly in the water and are starting to climb."
