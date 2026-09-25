@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(npx astro check)",
+      "Bash(npx astro check *)",
+      "Bash(npx astro build)",
+      "Bash(npx astro build *)",
+      "Bash(npm run build)",
+      "Bash(astro dev status)",
+      "Bash(astro dev logs *)",
+      "Bash(git status *)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git diff)",
+      "Bash(git log *)",
+      "Bash(git show *)"
+    ],
+    "ask": [
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git push)",
+      "Bash(git rebase *)"
+    ],
+    "deny": [
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
+      "Bash(git push * --force *)",
+      "Bash(git push * --force)",
+      "Bash(git push * -f)",
+      "Bash(git push * --force-with-lease *)",
+      "Bash(git push * --delete *)",
+      "Bash(git reset --hard *)",
+      "Bash(git reset --hard)",
+      "Bash(git clean -f*)",
+      "Bash(git clean * -f*)",
+      "Bash(git branch -d *)",
+      "Bash(git branch -D *)",
+      "Bash(git branch --delete *)",
+      "Read(./.env)",
+      "Read(./.env.*)"
+    ]
+  }
+}
