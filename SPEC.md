@@ -709,6 +709,183 @@ warning (requirement 8).
    `A002-05` instead of `A002-01`.
 5. Folder names: `fallen-forest`, `orinoco`, `borneo-understory`.
 
+### 3.8 Easier navigation on long pages
+
+Status: APPROVED (2026-09-26)
+
+#### Objectives
+
+1. Navigation is always one small gesture away, on every page, without
+   permanently covering content.
+2. A visitor on a long page can get back to the top in one tap.
+3. On Our Work, a visitor can jump straight to any of the three case
+   studies.
+4. The navigation works well on phones.
+
+#### Non-goals
+
+- No section menu or scroll-position dots on the home page (it's read top to
+  bottom as one story).
+- No reading progress bar.
+- No new pages, links or wording in the menu itself: the same four pages
+  and NL/EN as today.
+- No new colours, fonts or dependencies; no UI framework.
+
+#### Current state
+
+- `src/components/Header.astro` renders the logo, four page links and the
+  NL · EN switcher. Its CSS (`.site-header` / `.page-header` in
+  `global.css`) is `position: absolute` at the top, so it scrolls away with
+  the page. The home page uses the white `site` variant over the hero photo
+  (`.hero` is at least 100vh tall); all other pages use the dark `page`
+  variant on the page background. Pages leave room for it with their own top
+  padding (e.g. `.page-intro`: 220px, 170px on phones).
+- Below 800px the header gets a smaller font and gap; below 550px the links
+  wrap into a narrow column. There is no menu button.
+- The home page has 9 sections; Our Work has three long case studies with
+  no ids to link to. Existing anchors: the home intro (id from `ui.ts`) and
+  `#contact`.
+- `html { scroll-behavior: smooth; }` is set globally, without a
+  reduced-motion exception. The only JavaScript on the site is the journal
+  filter. Every page uses `Layout.astro` and `Header.astro`.
+
+#### User workflow (visitor)
+
+1. Scrolling down, the header slides out of view. Scrolling up a little, it
+   slides back. Once it no longer sits over a photo, it has the page's
+   background colour, so it stays readable. At the very top of each page it
+   looks exactly as today.
+2. After scrolling about one and a half screens, a small "back to top"
+   button appears at the bottom right. Tapping it scrolls smoothly to the
+   top.
+3. On Our Work, under the intro, a short line with the three case-study
+   names jumps to each one; the heading lands just below the header.
+4. On a phone or tablet (≤ 800px), the header shows the logo and a "Menu"
+   button. It opens a panel below the header with the four pages and NL/EN;
+   Esc, the button, a tap outside, or following a link closes it.
+
+#### Functional requirements
+
+1. **One header height.** A custom property `--header-height` (desktop and
+   ≤ 800px values) is used by the header itself and by
+   `html { scroll-padding-top }`, so anchors land below the header.
+2. **Header comes back on scroll up (all pages).** The header is
+   `position: fixed` (like today it is out of the page flow, so no layout
+   changes). It hides after scrolling down more than `--header-height` and
+   reappears on any upward scroll of more than a few pixels (to avoid
+   flicker). Within the first `--header-height` of the page it is always
+   visible, transparent, as today.
+3. **Solid background once off the photo.** A visible header gets the
+   `--background` colour, dark text and a thin `--border` line as soon as it
+   no longer overlaps a photo: on the home page when the hero has scrolled
+   out from under it, on all other pages once scrolled past
+   `--header-height`. Over the home hero it stays transparent with white
+   text.
+4. **Keyboard focus.** The header doesn't hide while something in it has
+   keyboard focus or the mobile menu is open.
+5. **Back to top (all pages).** A link to `#top` (the top of the page) with
+   the accessible name "Naar boven" / "Back to top", rendered once from
+   `Layout.astro`. A few lines of script show it after scrolling more than
+   1.5 × the viewport height; otherwise it's hidden and not focusable.
+   Because it's a normal link, it follows `scroll-behavior`, including the
+   reduced-motion rule.
+6. **Our Work jump links.** Under the Our Work intro, a small `<nav>`
+   (labelled "Projecten op deze pagina" / "Projects on this page") with three
+   links to the case studies (text: see decision 3). Each case study
+   `<article>` gets a stable id in both languages: `fallen-forest`,
+   `orinoco`, `borneo-understory` (the folder names in `WORK_FOLDERS`).
+7. **Mobile menu (≤ 800px, see decision 4).** A disclosure pattern, not a
+   modal: a "Menu" button (`aria-expanded`, `aria-controls`) toggles a panel
+   below the header with the four page links and NL/EN. Esc closes it and
+   returns focus to the button; so do a tap outside, the button, or a link.
+   No focus trap and no scroll lock. Above 800px nothing changes compared to
+   today, apart from requirements 1–4.
+8. **Without JavaScript.** The page links only move into the panel when
+   the script has run (it adds a class to `<html>`). Without JavaScript the
+   header shows the links as today (it stays at the top of the page, like
+   now), the back-to-top link stays hidden, and the jump links work.
+9. **Reduced motion.** With `prefers-reduced-motion: reduce`, the header and
+   panel appear and disappear without sliding, and `scroll-behavior` is
+   `auto`, so back-to-top and the jump links are instant.
+10. **Both languages.** New texts are keys in both blocks of
+    `src/i18n/ui.ts`: `nav.menu` ("Menu"), `nav.backToTop` ("Naar boven" /
+    "Back to top"), `work.jump.label` ("Projecten op deze pagina" /
+    "Projects on this page").
+
+#### Data / content model
+
+No content changes. The three new `ui.ts` keys above, an `id="top"` target
+at the top of `Layout.astro`, and three ids on the Our Work articles.
+
+#### Architecture
+
+- `src/components/Header.astro`: the menu button and panel markup, and one
+  small `<script>` (Astro bundles it once per page) for the scroll
+  behaviour (a passive scroll listener throttled with
+  `requestAnimationFrame`, toggling classes on the header; the hero check on
+  the home page) and the menu (toggle, Esc, tap outside, close on link).
+- `src/components/BackToTop.astro`: the `#top` link and its few lines of
+  script, rendered once in `src/layouts/Layout.astro` (which also gets the
+  `id="top"` target).
+- `src/styles/global.css`: `--header-height`, the fixed header and its
+  states (hidden / visible / solid), the mobile panel, the back-to-top
+  link, `scroll-padding-top`, and a `prefers-reduced-motion` block.
+- `src/components/pages/OurWork.astro`: the article ids and the jump-link
+  `<nav>`, styled like the existing small uppercase labels.
+- `src/i18n/ui.ts`: the three new keys.
+- Plain JavaScript and CSS; no dependencies. The journal filter script is
+  unaffected.
+
+#### Security implications
+
+None: no new data, services or external requests.
+
+#### Error handling
+
+- No JavaScript: see requirement 8.
+- Very short pages: the back-to-top link never appears.
+- Resizing across 800px with the menu open: the panel closes, so the desktop
+  header is never left in a mobile state.
+
+#### Acceptance criteria
+
+1. In the built HTML of every page, the header contains the four page links,
+   NL/EN and (hidden above 800px) the Menu button with `aria-expanded` and
+   `aria-controls`; `global.css` defines `--header-height` and uses it for
+   `scroll-padding-top`.
+2. In the browser (manual, desktop): at scroll position 0 the header is
+   transparent (white text on the home page); after scrolling down more than
+   `--header-height` it is hidden; after a small scroll up it is visible
+   with the `--background` colour and dark text. On the home page it stays
+   transparent while the hero is still under it.
+3. The back-to-top link has the accessible name in the page's language, is
+   hidden at the top and visible after 1.5 screens, and brings the page to
+   scroll position 0 (manual).
+4. `/our-work` and `/en/our-work` contain a `<nav>` with the translated
+   label and links to `#fallen-forest`, `#orinoco` and
+   `#borneo-understory`; those ids exist; after following one, the target
+   article's top is at least `--header-height` below the top of the window
+   (manual).
+5. At ≤ 800px (manual, including keyboard only): the header shows the logo
+   and "Menu"; the panel opens and closes with the button, Esc (focus back
+   on the button), a tap outside and a link; `aria-expanded` follows.
+6. With reduced motion on, nothing slides and scrolling is instant (manual).
+7. With JavaScript disabled, all page links are visible and clickable at
+   every width (manual).
+8. All new texts exist in both languages in `ui.ts`; `npx astro check`
+   reports 0 errors and `npm run build` succeeds.
+
+#### Decisions (approved 2026-09-26)
+
+1. Mobile menu: a panel that drops down below the header, full width; a
+   simple disclosure, no focus trap or scroll lock.
+2. Back to top: a small round button with an arrow (↑), `--text` on
+   `--background` with a `--border` edge.
+3. Jump links: the existing eyebrows (`work.projectN.eyebrow`, e.g.
+   "01 — Fallen Forest"); no new wording.
+4. The Menu button applies from 800px down (the existing breakpoint),
+   tablets included.
+
 ## 4. Non-functional requirements
 
 - **Static output.** The site builds to static HTML (`astro build`) and is

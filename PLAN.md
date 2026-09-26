@@ -532,6 +532,151 @@ Risks: none identified.
 4. Phase 3 runs `/describe-photos` for the three folders; the owner reviews
    the `alt.yml` texts before the commit.
 
+## Execution plan: easier navigation on long pages
+
+Status: APPROVED (2026-09-26)
+Implements: SPEC.md §3.8
+
+Order: the mobile menu comes first, so that when the header becomes fixed
+(Phase 2) the phone header is already compact. Every phase keeps the site
+working with and without JavaScript.
+
+### Phase 1: Menu button and drop-down panel at ≤ 800px
+Goal: on phones and tablets the header shows the logo and a "Menu" button
+that opens a panel with the four pages and NL/EN; without JavaScript the
+links stay as today.
+Files: modify `src/components/Header.astro`, `src/styles/global.css`,
+`src/i18n/ui.ts`
+Steps:
+- [ ] `ui.ts`: `nav.menu` ("Menu") in both languages.
+- [ ] `Header.astro`: a Menu button (`aria-expanded="false"`,
+      `aria-controls` → the links container) and a `<script>` that adds a
+      class to `<html>` (JS available) and handles toggle, Esc (focus back
+      to the button), tap outside, close on link, and close when the window
+      grows past 800px.
+- [ ] `global.css`: the button is hidden by default and above 800px. At
+      ≤ 800px and only with the JS class: the button shows, and the links
+      become a full-width panel below the header, hidden until open. Without
+      the JS class the current 800px / 550px rules still apply. The panel
+      uses `--background`, `--text` and `--border`.
+Validation: `npx astro check`, `npm run build`; in the built HTML the button
+has `aria-expanded` and `aria-controls` on every page; dev server at ≤ 800px
+and above; keyboard only; JavaScript disabled.
+Acceptance criteria:
+- [ ] SPEC §3.8 AC 1 (the header part: links, NL/EN and the Menu button with
+      `aria-expanded` / `aria-controls` on every page) and AC 5.
+- [ ] AC 7 (JavaScript disabled: links visible and clickable at every width).
+- [ ] `nav.menu` exists in both languages; `npx astro check` 0 errors,
+      `npm run build` succeeds.
+Commit boundary: `navigatie: menuknop met uitklappaneel op telefoon en tablet`
+Risks: the home header is white over the hero photo; the open panel must stay
+readable there (it has its own background).
+
+### Phase 2: Header that hides on scroll down and returns on scroll up
+Goal: on every page the fixed header hides while scrolling down and returns
+on scroll up, solid once off the photo; anchors land below it.
+Files: modify `src/components/Header.astro`, `src/styles/global.css`
+Steps:
+- [ ] `global.css`: `--header-height` (desktop and ≤ 800px values);
+      `.site-header` / `.page-header` become `position: fixed`; states
+      hidden (transform off-screen), visible, solid (`--background`, dark
+      text, `--border` line); a short transform transition;
+      `html { scroll-padding-top: var(--header-height) }`; a
+      `prefers-reduced-motion` block with no transitions and
+      `scroll-behavior: auto`.
+- [ ] `Header.astro` script: a passive scroll listener throttled with
+      `requestAnimationFrame`; always visible and transparent within the first
+      `--header-height`; hide after scrolling down past it, show on an upward
+      scroll of a few pixels; solid once off the photo (home: when the hero
+      has scrolled out from under the header; other pages: past
+      `--header-height`); never hide while the header has keyboard focus or
+      the panel is open.
+Validation: `npx astro check`, `npm run build`; dev server on the home page
+and one other page, desktop and ≤ 800px; the home `#contact` link lands below
+the header; reduced motion on (macOS setting); JavaScript disabled.
+Acceptance criteria:
+- [ ] SPEC §3.8 AC 1 (the CSS part: `--header-height` defined and used for
+      `scroll-padding-top`), AC 2 and AC 6 (header part).
+- [ ] AC 7 still holds (without JavaScript the header stays at the top of
+      the page and all links work).
+- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+Commit boundary: `navigatie: header verdwijnt bij naar beneden scrollen en komt terug bij omhoog scrollen`
+Risks: the page layouts rely on the header being out of the flow; fixed keeps
+it that way (checked in the spec review). Watch the home hero: white text
+must switch only when the hero is out from under the header.
+
+### Phase 3: Back-to-top button
+Goal: every page gets a small round ↑ button that appears after 1.5 screens
+and brings the visitor back to the top.
+Files: create `src/components/BackToTop.astro` / modify
+`src/layouts/Layout.astro`, `src/styles/global.css`, `src/i18n/ui.ts`
+Steps:
+- [ ] `ui.ts`: `nav.backToTop` ("Naar boven" / "Back to top").
+- [ ] `Layout.astro`: an `id="top"` target at the top of `<body>`, and
+      `<BackToTop />` once.
+- [ ] `BackToTop.astro`: an `<a href="#top">` with the translated accessible
+      name and a ↑; a few lines of script that show it after
+      1.5 × the viewport height (hidden and not focusable otherwise).
+- [ ] `global.css`: fixed bottom right, round, `--text` on `--background`
+      with a `--border` edge; hidden by default (so it stays hidden without
+      JavaScript).
+Validation: `npx astro check`, `npm run build`; the built HTML of every page
+has exactly one `href="#top"` link with the right language; dev server on a
+long page and a short one; reduced motion.
+Acceptance criteria:
+- [ ] SPEC §3.8 AC 3, and AC 6 for back to top.
+- [ ] `nav.backToTop` exists in both languages; `npx astro check` 0 errors,
+      `npm run build` succeeds.
+Commit boundary: `navigatie: knop terug naar boven op elke pagina`
+Risks: the button must not cover the footer text or the journal filter on
+small screens; check on a phone width.
+
+### Phase 4: Jump links on Our Work
+Goal: under the Our Work intro, three links jump to the case studies.
+Files: modify `src/components/pages/OurWork.astro`, `src/styles/global.css`,
+`src/i18n/ui.ts`
+Steps:
+- [ ] `ui.ts`: `work.jump.label` ("Projecten op deze pagina" / "Projects on
+      this page").
+- [ ] `OurWork.astro`: ids `fallen-forest`, `orinoco`, `borneo-understory` on
+      the three `<article>`s (taken from `WORK_FOLDERS`), and a
+      `<nav aria-label={t("work.jump.label")}>` under the intro with links
+      using `work.projectN.eyebrow`.
+- [ ] `global.css`: styled like the existing small uppercase labels.
+Validation: `npx astro check`, `npm run build`; the built `/our-work` and
+`/en/our-work` contain the nav, the three links and the three ids; dev server:
+each link lands with the heading just below the header.
+Acceptance criteria:
+- [ ] SPEC §3.8 AC 4.
+- [ ] `work.jump.label` exists in both languages; `npx astro check` 0 errors,
+      `npm run build` succeeds.
+Commit boundary: `our work: snelkoppelingen naar de drie projecten`
+Risks: none identified.
+
+### Phase 5: Docs
+Goal: the docs describe the new navigation.
+Files: modify `ARCHITECTURE.md` (§3 header and the scripts, §7 styling),
+`README.md` if needed, `PLAN.md`
+Steps:
+- [ ] `ARCHITECTURE.md`: the header is fixed with a small script (scroll
+      states, mobile menu, the JS class on `<html>`), `--header-height` and
+      `scroll-padding-top`, `BackToTop.astro` in `Layout.astro`, the Our Work
+      ids, and that the site now has three small scripts (journal filter,
+      header, back to top).
+- [ ] `PLAN.md`: this plan's status line.
+Validation: read the docs against the code; `npx astro check`.
+Acceptance criteria:
+- [ ] No doc says the header scrolls away or that the journal filter is the
+      only script.
+Commit boundary: `docs: nieuwe navigatie beschreven`
+Risks: none identified.
+
+### Out of scope / follow-ups
+- A section menu on the home page, and a reading progress bar (not chosen).
+
+### Blocking questions
+None.
+
 ## Backlog
 
 ### Content
@@ -604,6 +749,13 @@ Risks: none identified.
   home page follows each hero. Why: adding or replacing a photo needs no
   code, and Our Work gets the same preparation, privacy and speed as the
   journal. Closes the backlog item about Our Work images.
+- **Easier navigation on long pages — chosen (2026-09-26).** `SPEC.md` §3.8:
+  a fixed header that hides on scroll down and returns on scroll up (solid
+  once off the photo), a back-to-top button, jump links to the three case
+  studies on Our Work, and a Menu button with a drop-down panel at ≤ 800px.
+  Not chosen: a home page section menu and a reading progress bar. Why: the
+  long pages had no navigation once scrolled, and the phone header was
+  cramped; the choices stay calm and need no dependencies.
 - **Pre-commit hook running `astro check` — chosen (2026-09-25).** Lives in
   `.git/hooks/pre-commit`, so it is local to this Mac and not in the
   repository. Why: simplest automatic guard for a one-person repo; no extra
