@@ -24,7 +24,7 @@ Status: APPROVED (2026-09-25). Phases 1–5 implemented, reviewed and fixed:
 the review's 1 critical and 4 important findings in photo preparation are
 fixed, and the re-review's one follow-up (safe case-only rename) too. All
 tested with real files, including the dev-server live update. Stale docs
-(review finding 6) are Phase 7. Phase 6 implemented and reviewed. Phase 7 implemented and reviewed.
+(review finding 6) are Phase 7. Phase 6 implemented and reviewed. Phase 7 implemented and reviewed. Phase 8 done except the photo-replace test and a real iPhone HEIC.
 
 It implements
 `SPEC.md` §3.3. Read that section for the *why* behind each step; this plan
@@ -187,20 +187,24 @@ These all still describe the old `nl/`/`en/` + `journal_pics/` layout:
 
 ### Phase 8 — Verification
 
-- [ ] `npx astro check` and `npx astro build` pass.
-- [ ] All entries render at their new URLs in both languages; the 8 old
+- [x] `npx astro check` and `npx astro build` pass.
+- [x] All entries render at their new URLs in both languages; the 8 old
       URLs redirect; the aquarium filter and the language switcher work.
 - [ ] Drop test with the dev server running, on one entry:
-  - [ ] Drop an iPhone HEIC and a large JPEG with GPS location. Both appear
+  - [x] Drop an iPhone HEIC and a large JPEG with GPS location. Both appear
         on the page without a restart and are now `.jpg`, at most 2400px;
-        `mdls` or `exiftool` shows no location.
-  - [ ] Drop a 4th photo → a warning appears and 3 are shown. A photo in
-        `extra/` is ignored.
-  - [ ] Replace a photo → the page shows the new one.
-- [ ] In the built HTML: a `srcset` on the photos, `loading="eager"
+        `mdls` or `exiftool` shows no location. *(Real photos: three 4000×3000
+        phone JPEGs in `fallen-forest/2026-09-sand` were prepared live to
+        2400×1800 without metadata. HEIC: tested live with a synthetic file
+        on 2026-09-25; no real iPhone HEIC tested yet.)*
+  - [x] Drop a 4th photo → a warning appears and 3 are shown. A photo in
+        `extra/` is ignored. *(Tested with synthetic files at build time.)*
+  - [ ] Replace a photo → the page shows the new one. *(Not tested yet.)*
+- [x] In the built HTML: a `srcset` on the photos, `loading="eager"
       fetchpriority="high"` on the cover, `loading="lazy"` on the gallery,
       and the files in `dist/_astro/` are much smaller than the web
-      masters.
+      masters. *(Real entry: 0.46–0.70 MB web masters → 4–86 kB WebP. Cover
+      attributes checked with a synthetic cover; the real entry has none.)*
 - [ ] Optional, the owner decides: install Google Drive for Desktop so
       photos can be copied straight from Finder. Not installed on this Mac
       as of 2026-09-25.
@@ -209,6 +213,72 @@ These all still describe the old `nl/`/`en/` + `journal_pics/` layout:
 
 - [ ] `git status` shows no leftover empty folders or stray files.
 - [ ] Update the Backlog section below.
+
+## Execution plan: journal index preview
+
+Status: APPROVED (2026-09-26)
+Implements: SPEC.md §3.6
+
+### Phase 1: Aquarium label and preview photo in the journal list
+Goal: each list entry shows the aquarium name clearly and a 4:3 preview of
+its first photo; entries without photos show text only.
+Files: modify `src/components/pages/Journal.astro`,
+`src/styles/journal.css`.
+Steps:
+- [ ] `Journal.astro`: per entry, call `getEntryPhotos(entry.aquarium,
+      entry.entrySlug)` (existing, `src/lib/journal.ts`) and take
+      `gallery[0] ?? cover` as the preview.
+- [ ] Restructure the row: preview (if any) in its own column, then the text
+      column with the aquarium label (name + liters), a meta line with date
+      and status, the title link and the summary. Keep `data-tank` on the
+      `<li>` so the filter script keeps working unchanged.
+- [ ] Render the preview with `<Image>`: `format="webp"`,
+      `widths={[240, 480, 800]}`,
+      `sizes="(max-width: 800px) 100vw, 240px"`, `alt=""`, default lazy
+      loading. Wrap it in a link to the entry with `tabindex="-1"` and
+      `aria-hidden="true"`, so the title stays the only tab stop.
+- [ ] `journal.css`:
+  - [ ] row grid with a ~240px preview column; rows without a preview use
+        a single full-width column;
+  - [ ] preview `aspect-ratio: 4 / 3; object-fit: cover;` with the
+        existing `--surface` background;
+  - [ ] the aquarium label in the text colour, larger than the date/status
+        line; liters in the muted small style;
+  - [ ] ≤ 800px: preview full width above the text;
+  - [ ] remove the now-unused left date column style.
+Validation: `npx astro check`; `npm run build`; inspect `dist/journal/index.html`
+and `dist/en/journal/index.html`; view `/journal` in the dev server on
+desktop width and ≤ 800px.
+Acceptance criteria:
+- [ ] SPEC.md §3.6 criteria 1–4 and 7 met (checked in `dist/`).
+- [ ] The preview of `fallen-forest/2026-09-sand` is the same file as the
+      large photo on its entry page (compare the source file names in the
+      generated `srcset`).
+- [ ] Manual: mobile layout (criterion 5) and the aquarium filter
+      (criterion 6).
+Commit boundary: `journaallijst: duidelijk aquariumlabel en voorbeeldfoto per entry`
+Risks: the filter script depends on `.journal-entry` and `data-tank`; keep
+both. Older entries have no photos yet, so the list looks mixed until they
+do (accepted in the spec).
+
+### Phase 2: Docs
+Goal: the docs describe the new list layout.
+Files: modify `ARCHITECTURE.md` (§5, the journal paragraph), `README.md`
+("Photos" bullet: the first photo is also the preview in the list).
+Steps:
+- [ ] Update both files in a sentence or two each.
+Validation: read-through against the code; `npx astro check`.
+Acceptance criteria:
+- [ ] No doc says the list has only text or a date column.
+Commit boundary: `docs: voorbeeldfoto in de journaallijst beschreven`
+Risks: none identified.
+
+### Out of scope / follow-ups
+- Grouping the list per aquarium (a non-goal in the spec).
+- Photos for the older entries (content, not code).
+
+### Blocking questions
+None.
 
 ## Backlog
 
@@ -264,6 +334,12 @@ These all still describe the old `nl/`/`en/` + `journal_pics/` layout:
   with the main session, the verifier and `/translate-journal`, and routing
   everything through subagents made small changes slower and harder to
   follow.
+- **Journal index preview — chosen (2026-09-26).** `SPEC.md` §3.6: the
+  list shows the aquarium name as a clear label and the entry's first
+  gallery photo (natural order, else the cover) as a 4:3 preview of about
+  240px; entries without photos show text only. Why: visitors see which
+  aquarium an entry is about and get a sneak preview, with nothing extra
+  for the owner to maintain.
 - **Pre-commit hook running `astro check` — chosen (2026-09-25).** Lives in
   `.git/hooks/pre-commit`, so it is local to this Mac and not in the
   repository. Why: simplest automatic guard for a one-person repo; no extra

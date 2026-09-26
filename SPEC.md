@@ -383,6 +383,139 @@ There are three levels of each photo, each with one job:
   out of scope for this document; treat any change to how submissions are
   processed as a separate decision to confirm with the site owner.
 
+### 3.6 Journal index: clearer aquarium and a photo preview
+
+Status: APPROVED (2026-09-26)
+
+#### Objectives
+
+1. On the journal index (`/journal`, `/en/journal`), a visitor sees at a
+   glance which aquarium each entry is about.
+2. Each entry in the list shows a preview photo, so a visitor gets a sneak
+   preview of the entry before opening it. The preview is the photo that is
+   shown large on the entry's own page, chosen automatically.
+
+#### Non-goals
+
+- No change to the entry page itself (cover, gallery, text).
+- No new frontmatter field to choose the preview photo; the file order
+  decides.
+- No grouping of the list per aquarium: it stays one timeline, newest first.
+  The existing aquarium filter buttons remain the way to see one aquarium.
+- No change to Our Work, the home page, or the photo preparation.
+
+#### Current state
+
+- `src/components/pages/Journal.astro` renders each entry as a two-column
+  row (`.journal-entry` in `src/styles/journal.css`): the date on the left
+  (190px), and on the right a meta line, the title (link) and the summary.
+- The aquarium name and liters sit in that meta line in `.journal-tank`:
+  0.72rem, uppercase, in the muted colour, the same style as the date and
+  the status. That is why the aquarium doesn't stand out.
+- The list shows no photos. On mobile (≤ 800px) the row becomes one column.
+
+#### User workflow
+
+- **Visitor:** opens the journal and sees per entry: a photo on the left;
+  on the right, the aquarium name clearly, then the date and status, the
+  title and the summary. Clicking the photo or the title opens the entry.
+- **Owner:** nothing new to do. The preview is the first gallery photo, the
+  same one that is shown large on the entry page. To pick another one, the
+  owner renames the files (e.g. puts `1-` in front), as today.
+
+#### Functional requirements
+
+1. **Aquarium label.** Each list entry shows the aquarium name (from
+   `aquarium.yml`) as a separate, clearly visible label above the title: in
+   the normal text colour instead of the muted colour, and noticeably larger
+   than the date and status. The liters stay next to it, in the smaller
+   muted style.
+2. **Date and status** move into one small meta line below the aquarium
+   label (the left date column disappears, see requirement 4).
+3. **Preview photo.** Each entry with at least one gallery photo shows that
+   entry's first gallery photo, determined by `splitEntryPhotos` in
+   `src/lib/photo-files.ts`: natural file-name order (`2.jpg` before
+   `10.jpg`, capitals before lowercase), ignoring `cover.*`. That is exactly
+   the photo shown large on the entry page. An entry with no gallery photos
+   but a `cover.*` uses the cover as its preview.
+4. **Layout.** On desktop, the photo takes the left column (where the date is
+   now); the text column is on the right. All previews have the same size
+   and a fixed 4:3 frame, about 240px wide; a photo with another shape is cropped to fill it,
+   centred (`object-fit: cover`). On mobile (≤ 800px) the photo is shown
+   full width above the text.
+5. **Entries without photos** (no gallery photo and no cover): no preview
+   and no empty frame; the text column takes the full width of the row.
+6. **Link.** The photo links to the entry, like the title. For keyboard and
+   screen reader users the entry is still one link (the title); the photo
+   link is not a separate tab stop.
+7. **Alt text.** Because the photo repeats the linked title, it gets an
+   empty `alt` (decorative, see §4 Accessibility).
+8. **Performance.** The previews use Astro's `<Image>` like the entry page:
+   WebP, a `srcset` sized to the preview column (about 240px wide, so up to
+   about 480px for high-DPI screens), explicit width and height, and
+   `loading="lazy"`.
+9. **Filter.** The aquarium filter keeps working unchanged (`data-tank` on
+   each list entry).
+10. **Both languages** get the same layout; the new text (if any) goes into
+    both blocks of `src/i18n/ui.ts`.
+
+#### Data / content model
+
+No change. The preview photo comes from the files already in the entry
+folder, via the existing `getEntryPhotos(aquarium, entry)` in
+`src/lib/journal.ts`. The aquarium name and liters come from `aquarium.yml`
+as today.
+
+#### Architecture
+
+- `src/components/pages/Journal.astro`: call `getEntryPhotos` per entry and
+  render the preview with `<Image>`; restructure the row markup (label,
+  meta line, title, summary).
+- `src/styles/journal.css`: new styles for the row, the preview and the
+  aquarium label, including the mobile breakpoint. The entry page styles
+  don't change.
+- Reuses the existing photo rules (`splitEntryPhotos`) and the
+  `pages/` vs `components/pages/` split; no new modules or dependencies.
+
+#### Security implications
+
+None new. The previews are the already-prepared web masters (no metadata,
+see §3.3.7), served as the same optimized WebP files as on the entry page.
+
+#### Error handling
+
+- **No gallery photos:** the cover is the preview if there is one;
+  otherwise the row shows only text (requirement 5).
+- **A photo that fails to optimize:** the build fails at the image step, as
+  it already would for the entry page (§3.3.8).
+- **An entry with more than 3 photos:** the preview is still the first
+  gallery photo; the existing build warning is unchanged.
+
+#### Acceptance criteria
+
+1. On `/journal` and `/en/journal`, each entry shows the aquarium name above
+   the title, in the normal text colour and larger than the date/status line.
+2. For an entry with photos (e.g. `fallen-forest/2026-09-sand`), the list
+   shows exactly one preview, and it is the same file as the large photo on
+   the entry page.
+3. The preview has a 4:3 frame, WebP sources with a `srcset`, explicit
+   width/height, `loading="lazy"` and an empty `alt`; it links to the entry
+   and is not a separate tab stop.
+4. An entry without photos shows no empty photo frame.
+5. On a screen ≤ 800px wide the preview appears full width above the text
+   (manual check in the browser).
+6. The aquarium filter still shows and hides the right entries (manual
+   check).
+7. `npx astro check` reports 0 errors and `npm run build` succeeds.
+
+#### Decisions (approved 2026-09-26)
+
+1. Entries without photos: the text uses the full row width, no placeholder.
+2. An entry with only a `cover.*`: the cover is the preview.
+3. Preview size: a column of about 240px wide, 4:3.
+4. Order: natural order (`splitEntryPhotos`), not strictly alphabetical, so
+   the preview is always the photo shown large on the entry page.
+
 ## 4. Non-functional requirements
 
 - **Static output.** The site builds to static HTML (`astro build`) and is
