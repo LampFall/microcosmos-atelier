@@ -686,7 +686,7 @@ Update the status here as items move along.
 | # | Item | Status | Next step |
 | --- | --- | --- | --- |
 | 0 | How the site goes live (hosting, deploy) | done (2026-09-26): Netlify, push to `main` deploys, see `ARCHITECTURE.md` §1 | — |
-| 1 | Contact form: reliable and private | waiting | `/spec` |
+| 1 | Contact form: reliable and private | spec approved (§3.10, 2026-09-26) | `/plan-phases` |
 | 2 | Home and about page images: fast | waiting | `/spec` |
 | 3 | SEO basics for a bilingual site | waiting (needs 0) | `/spec` |
 | 4 | Review and audit of the untouched code | waiting (after 1–3) | `reviewer` + Lighthouse |
@@ -775,6 +775,13 @@ Update the status here as items move along.
   `.git/hooks/pre-commit`, so it is local to this Mac and not in the
   repository. Why: simplest automatic guard for a one-person repo; no extra
   dependency (such as husky) and no change to the git config.
+- **Contact form: Netlify Forms instead of FormSubmit — chosen
+  (2026-09-26).** The site is already on Netlify, so the receiving address
+  moves out of the page into the dashboard, spam filtering is built in, and
+  no extra third party handles visitors' details. Replaces the FormSubmit
+  alias from §3.9. The owner accepts that submissions are stored in the
+  Netlify account (deleted after about a year) and that the free tier's
+  form limit isn't shown. See `SPEC.md` §3.10.
 
 ## Suggested files/folders for working more efficiently with Claude Code
 

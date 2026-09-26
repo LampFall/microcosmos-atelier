@@ -913,11 +913,11 @@ real, and which URL is canonical.
   (`_captcha=false`) and there is no honeypot field. Whether enquiries
   actually arrive has never been checked in this project.
 - **Scope:** an enquiry sent from the live site arrives, in both languages;
-  the email address no longer appears in the HTML (FormSubmit alias); basic
-  spam protection (honeypot, and/or CAPTCHA); a clear confirmation page
-  after sending, in the visitor's language.
-- **Not in scope:** a custom mail backend or a different form service,
-  unless FormSubmit turns out not to work.
+  the email address no longer appears in the form; basic spam protection;
+  a clear confirmation page after sending, in the visitor's language.
+  Detailed spec: §3.10, which moves the form from FormSubmit to Netlify
+  Forms (owner decision, 2026-09-26).
+- **Not in scope:** a custom mail backend.
 
 #### 2. Home and about page images: fast
 
@@ -968,6 +968,230 @@ photo is prepared correctly; replacing a journal photo updates the page
 0 → 1 → 2 → 3 → 4, with 5 whenever convenient. Items 1–3 are independent in
 code, so the order can change on the owner's request, except that 3 needs
 0.
+
+### 3.10 Contact form: reliable and private
+
+Status: APPROVED (2026-09-26)
+
+Item 1 of the improvement queue (§3.9). Replaces §3.5's "submission
+handling is out of scope".
+
+#### Current state
+
+- One form on the site: `Contact.astro`, used by `/contact` and
+  `/en/contact`. It posts to `https://formsubmit.co/Kasper.Masschaele@gmail.com`,
+  a free third-party relay, so the owner's Gmail address is in the page
+  source three times: the form action, and the `href` and text of a visible
+  `mailto:` link above the form.
+- `_captcha=false` turns FormSubmit's spam check off; there is no honeypot.
+- After sending, `_next` sends the visitor back to the same, empty contact
+  page, without any confirmation that the message was sent.
+- Fields: name, email, project type (optional select), message; the
+  `_subject` is translated.
+- The site is hosted on Netlify (`ARCHITECTURE.md` §1), where form
+  detection is already switched on. Netlify's Node version isn't pinned.
+- Enquiries do arrive today: the owner has received a few through FormSubmit.
+
+#### Objectives
+
+1. Every enquiry sent from the live site reaches the owner's inbox, in
+   both languages, and the owner can answer it with a normal reply.
+2. The visitor gets a clear confirmation, in their language, that the
+   message was sent.
+3. The form no longer exposes the owner's email address to bots, and
+   catches the most common automated spam without bothering real visitors.
+4. Visitors know what their details are used for.
+
+#### Non-goals
+
+- A mail server, serverless function or database of our own.
+- A CAPTCHA or other puzzle for visitors.
+- A dedicated address on the site's own domain (e.g.
+  `hallo@microcosmos-atelier.com`). Worth considering later; noted for the
+  backlog.
+- New form fields, a new form design, or copy changes beyond the new
+  confirmation and privacy texts.
+- Deleting data FormSubmit may hold from earlier submissions.
+
+#### User workflow
+
+Visitor:
+
+1. Opens `/contact` (or `/en/contact`), fills in the form and presses
+   "Verstuur aanvraag" / "Send enquiry".
+2. Lands on a confirmation page in the same language, which thanks them,
+   says a reply usually follows by email, and links back to the site.
+
+Owner:
+
+1. Receives an email per enquiry in the chosen inbox, with the visitor's
+   name, email, project type, message and the language they used.
+2. Replies from the mail client; the reply goes to the visitor.
+3. Can also see all submissions (and any caught as spam) in the Netlify
+   dashboard under Forms.
+
+#### Functional requirements
+
+1. The contact form is handled by Netlify Forms (see Unresolved decisions,
+   D1) instead of FormSubmit. Nothing on the site posts to `formsubmit.co`
+   any more.
+2. The form's HTML contains no email address. The address that receives
+   the notifications is set in the Netlify dashboard, not in the code.
+3. The form has a honeypot field: hidden from people (visually and for
+   screen readers, and skipped by the keyboard), and a submission that
+   fills it in is dropped as spam. Netlify's own spam filtering stays on.
+4. A submission records which language the visitor used (NL or EN), so
+   the owner can reply in that language.
+5. The notification email's subject is the existing translated
+   `contact.form.subject` text (both languages contain "Microcosmos
+   Atelier").
+6. Replying to the notification email goes to the visitor's address (the
+   email field keeps `name="email"`).
+7. After a successful submission the visitor lands on a confirmation page:
+   `/contact/thanks` for Dutch, `/en/contact/thanks` for English (D3).
+   Its copy is in `ui.ts` in both languages and it uses the normal layout
+   (header, footer, back-to-top).
+8. The confirmation pages are not indexed by search engines (`noindex`)
+   and are not in the sitemap.
+9. The existing fields, labels, `required` rules and look stay as they are.
+   The form keeps working without JavaScript (a plain form post).
+10. The contact page has one short sentence near the send button about how
+   the details are used (D4), in both languages.
+11. The visible `mailto:` link above the form follows D2.
+12. The Node version Netlify builds with is fixed in the repository, so a
+    change of Netlify's default can't break a build. (Proposed to the owner
+    during §3.9 item 0; small, and the same deploy is tested here anyway.)
+13. `SPEC.md` §3.5 and `ARCHITECTURE.md` describe the new form handling
+    and where the owner finds submissions and notification settings.
+
+#### Data / content model
+
+- New `ui.ts` keys in `nl` and `en` for the confirmation page (meta title,
+  heading, text, link back) and the privacy sentence. `contact.form.subject`
+  is kept and becomes the notification's subject.
+- Two new thin route files for the confirmation page, following the
+  `pages/` → `components/pages/` pattern.
+- Submissions (name, email, project type, message, language) are stored
+  by Netlify under the site's Forms tab until the owner deletes them.
+- No content collections change.
+
+#### Architecture
+
+- Changes: `Contact.astro` (form attributes and hidden fields, honeypot,
+  privacy sentence, D2), `ui.ts`, a new confirmation page component with its
+  two routes (`src/pages/contact/thanks.astro` and
+  `src/pages/en/contact/thanks.astro`), `Layout.astro` (an optional
+  `noindex` prop that outputs `<meta name="robots" content="noindex">`; it
+  can't do this today), the sitemap config in `astro.config.mjs` (a
+  `filter` that leaves out the confirmation pages), a Node version file,
+  and the docs.
+- Form markup (the one form, rendered on both language pages):
+  - one form name for both languages, `contact` (D6), with the same fields
+    on both pages, `data-netlify="true"` and a hidden `form-name` field;
+  - Netlify's honeypot: `netlify-honeypot="bot-field"` plus a `bot-field`
+    input inside a wrapper hidden with `display: none` or the `hidden`
+    attribute (hidden from sight, screen readers and Tab in one go);
+  - a hidden `language` field (`nl` / `en`) and a hidden `subject` field
+    with the translated `contact.form.subject`;
+  - `action` = the confirmation page in the current language, via
+    `getRelativeLocaleUrl` (`/contact/thanks/`, `/en/contact/thanks/`);
+  - the FormSubmit fields `_subject`, `_captcha`, `_next`, the `nextUrl`
+    constant and its comment are removed.
+- To verify during implementation: that two pages sharing one form name
+  register as one form in Netlify; that Netlify uses the `subject` field as
+  the email subject and `email` as Reply-To; that Netlify reads the Node
+  version file. The delivery test (acceptance 5) confirms all of them.
+- §3.9 item 3 (SEO) will rework the same `<head>`; it must keep the
+  confirmation pages out of hreflang/canonical handling.
+- Netlify Forms works on static HTML: Netlify finds the form in the built
+  `dist/` pages at deploy time. That fits §4 "static output"; no adapter or
+  server code is added.
+- Owner steps in the Netlify dashboard (not code): add an email
+  notification for the form to the chosen inbox; after the first deploy,
+  check that the form shows up under Forms.
+
+#### Security implications
+
+- **Data ownership and privacy:** visitors' personal details (name, email,
+  message) move from FormSubmit to Netlify, which already hosts the site.
+  They are stored in the Netlify account until deleted. This is a change
+  of processor and needs the owner's approval. The privacy sentence (FR 9)
+  tells visitors what the data is for.
+- **Address exposure:** the form no longer reveals the address; whether
+  the page still does depends on D2.
+- **Spam:** honeypot plus Netlify's filter. Enquiries flagged as spam
+  don't send an email, so a real enquiry could end up only in the
+  dashboard's spam list (see Error handling).
+- **Cost:** Netlify limits form submissions per plan. The owner checks the
+  limit of their plan in the dashboard (Usage / Billing); for a small
+  studio's enquiries this is expected to be far below it.
+- No secrets are added to the repository.
+
+#### Error handling
+
+- Missing required fields or an invalid email: the browser's own
+  validation stops the submission, as now.
+- A submission Netlify can't process (e.g. the form wasn't detected in a
+  deploy): Netlify shows its own error page. The delivery test (acceptance)
+  catches this after each change to the form.
+- A real enquiry flagged as spam: visible in Netlify under Forms → spam
+  submissions, where the owner can mark it as not spam. `ARCHITECTURE.md`
+  tells the owner to check it now and then.
+- Local development: `astro dev` has no Netlify, so submitting locally
+  doesn't deliver anything. Only the live site (or a Netlify deploy
+  preview) can be tested for delivery.
+
+#### Acceptance criteria
+
+1. `npx astro check` has 0 errors and `npm run build` succeeds.
+2. In `dist/contact/index.html` and `dist/en/contact/index.html`, the
+   `<form>` has `name="contact"`, `data-netlify="true"`,
+   `netlify-honeypot="bot-field"` with a hidden `bot-field` input, a
+   `form-name` field, `language` = `nl` / `en`, the translated `subject`,
+   and `action="/contact/thanks/"` / `action="/en/contact/thanks/"`; there
+   is no email address inside the `<form>`.
+3. `grep -ri formsubmit dist/ src/` finds nothing.
+4. `dist/contact/thanks/index.html` and `dist/en/contact/thanks/index.html`
+   exist and have `<meta name="robots" content="noindex">`;
+   `grep -l contact/thanks dist/sitemap*.xml` finds nothing. No other page
+   has a robots meta.
+5. Manual (owner, after deploy): one test enquiry from `/contact` and one
+   from `/en/contact` each land on the confirmation page in the right
+   language, and arrive as an email in the chosen inbox with the
+   translated subject and the right language; a reply to that email is
+   addressed to the test sender.
+6. Manual: the form's look is unchanged on phone and desktop; the
+   honeypot field isn't visible and isn't reached with Tab; with
+   JavaScript switched off the form still submits.
+7. The privacy sentence key exists in both `nl` and `en` in `ui.ts`, and
+   its text appears in both built contact pages.
+8. The Node version file exists and the Netlify deploy log shows that
+   version.
+9. `SPEC.md` §3.5 points to this section, and `ARCHITECTURE.md` says where
+   the owner finds submissions, spam and notification settings.
+
+#### Decisions (owner, 2026-09-26)
+
+- **D1. Form service:** Netlify Forms. This changes §3.9 item 1, which
+  said "FormSubmit alias" with another form service as a non-goal; §3.9 is
+  updated on approval.
+- **D2. Visible email address:** the `mailto:` link above the form stays
+  as it is. An address on the site's own domain is a backlog idea.
+- **D3. Confirmation page:** `/contact/thanks` and `/en/contact/thanks`.
+- **D4. Privacy sentence:** "Je gegevens gebruik ik alleen om je aanvraag
+  te beantwoorden." / "I only use your details to reply to your enquiry."
+- **D5. Receiving inbox:** Kasper.Masschaele@gmail.com, set in the Netlify
+  dashboard.
+- **D6. Form name:** one form, `contact`, with a `language` field.
+- **D7. Retention:** the owner deletes submissions older than about a year
+  in the Netlify dashboard (a habit, not code).
+- **Data processor:** the owner agrees that submissions are stored by
+  Netlify instead of passing through FormSubmit.
+
+- **D8. Netlify plan limit:** the owner is on Netlify's free tier and the
+  dashboard shows no form limit. Accepted: a small studio's enquiries are
+  expected to stay far below any limit; Netlify's usage page is the place
+  to look if submissions ever stop arriving.
 
 ## 4. Non-functional requirements
 
