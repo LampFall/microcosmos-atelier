@@ -433,19 +433,19 @@ Files: modify `src/content.config.ts`, `src/lib/work.ts`,
 `src/components/pages/OurWork.astro`, `.claude/commands/describe-photos.md` /
 create `src/content/work/{fallen-forest,orinoco,borneo-understory}/alt.yml`
 Steps:
-- [ ] `content.config.ts`: `workAlt` collection (glob `*/alt.yml`, base
+- [x] `content.config.ts`: `workAlt` collection (glob `*/alt.yml`, base
       `./src/content/work`, id = folder name like `aquariums`); schema
       `record(string, { nl: string, en: string })`.
-- [ ] `work.ts`: `getWorkAltTexts(folder)` → the record, or `{}`.
-- [ ] `OurWork.astro`: alt = `altTexts[fileName]?.[lang]`, else the `ui.ts`
+- [x] `work.ts`: `getWorkAltTexts(folder)` → the record, or `{}`.
+- [x] `OurWork.astro`: alt = `altTexts[fileName]?.[lang]`, else the `ui.ts`
       fallback.
-- [ ] `describe-photos.md`: a `work/<aquarium>` mode — folder
+- [x] `describe-photos.md`: a `work/<aquarium>` mode — folder
       `src/content/work/<aquarium>/`, photos via `splitWorkPhotos` (hero and
       all gallery photos), context from the project's `work.projectN.*` texts,
       the descriptive third-person style of Our Work, writes `alt.yml` with the
       same keep / carry-over / remove rules. Journal mode unchanged.
-- [ ] Run it for the three folders; the owner reviews the texts before the
-      commit.
+- [x] Run it for the three folders; the owner reviews the texts before the
+      commit. *(Texts written and approved by the owner, 2026-09-26.)*
 Validation:
 - `npx astro check`, `npm run build`; grep the Our Work `alt="…"` values in
   `dist/our-work/index.html` (NL) and `dist/en/our-work/index.html` (EN).
@@ -453,12 +453,12 @@ Validation:
 - Temporarily break an entry (missing `en`): `astro check`/build fails naming
   the file; revert.
 Acceptance criteria:
-- [ ] Each folder's `alt.yml` has non-empty `nl` and `en` for every shown
+- [x] Each folder's `alt.yml` has non-empty `nl` and `en` for every shown
       photo and no keys for missing files (AC 6).
-- [ ] In `dist/`, each Our Work alt equals the `alt.yml` text in that page's
+- [x] In `dist/`, each Our Work alt equals the `alt.yml` text in that page's
       language; a photo without a key shows the `ui.ts` fallback (AC 5).
-- [ ] A malformed `alt.yml` makes `astro check` or the build fail.
-- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+- [x] A malformed `alt.yml` makes `astro check` or the build fail.
+- [x] `npx astro check` 0 errors, `npm run build` succeeds.
 Commit boundary: `our work: alt-tekst per foto via alt.yml en /describe-photos work/<aquarium>`
 Risks: low; re-read the journal steps of `/describe-photos` after editing so
 journal mode doesn't change.

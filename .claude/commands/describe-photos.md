@@ -1,21 +1,28 @@
 ---
-description: Write alt text for a journal entry's photos, in Dutch in nl.md and English in en.md.
-argument-hint: <aquarium>/<entry> [rewrite]
+description: Write alt text for a journal entry's photos (in nl.md and en.md) or an Our Work folder's photos (in alt.yml), in Dutch and English.
+argument-hint: <aquarium>/<entry> | work/<aquarium> [rewrite]
 ---
 
 Entry: $ARGUMENTS
 
 Writes the alt text (the description screen readers and search engines use)
-for the photos in one journal entry folder, per `SPEC.md` §3.3.3–3.3.4. You
-only edit the frontmatter of `nl.md` and `en.md`; never edit photos, body text
-or any other field yourself.
+for the photos in one folder, in Dutch and English. Two modes:
+
+- **Journal** (`<aquarium>/<entry>`, `SPEC.md` §3.3.3–3.3.4): you only edit
+  the frontmatter of `nl.md` and `en.md`; never photos, body text or any
+  other field.
+- **Our Work** (`work/<aquarium>`, `SPEC.md` §3.7): you only write that
+  folder's `alt.yml`; never photos or any other file.
+
+The steps below are for journal mode; where Our Work differs, it says so.
 
 1. **Find the folder.** The argument is `<aquarium>/<entry>`, e.g.
    `fallen-forest/2023-05-hardscape`, meaning
-   `src/content/journal/<aquarium>/<entry>/`. If no argument is given, or the
-   folder doesn't exist, list the entry folders that contain photos and ask
-   which one. The word `rewrite` after the entry means: replace existing alt
-   text too.
+   `src/content/journal/<aquarium>/<entry>/`. An argument starting with
+   `work/`, e.g. `work/orinoco`, means Our Work mode and the folder
+   `src/content/work/<aquarium>/`. If no argument is given, or the folder
+   doesn't exist, list the folders that contain photos and ask which one.
+   The word `rewrite` after the folder means: replace existing alt text too.
 2. **Make sure the photos are prepared.** Photo files that aren't `.jpg` yet
    (`.JPG`, `.jpeg`, `.png`, `.webp`, `.heic`, `.heif`, any case) must be
    prepared first:
@@ -36,9 +43,22 @@ or any other field yourself.
    The output gives `cover` (if any), `gallery` (up to 3, in page order) and
    `extras` (not shown). Describe the cover and the gallery; don't describe
    the extras.
+
+   **Our Work:** use `splitWorkPhotos` and the work folder instead:
+
+   ```
+   node --input-type=module -e "import fs from 'node:fs'; import { splitWorkPhotos } from './src/lib/photo-files.ts'; const d = 'src/content/work/<aquarium>'; console.log(JSON.stringify(splitWorkPhotos(fs.readdirSync(d, { withFileTypes: true }).filter((e) => e.isFile()).map((e) => e.name)), null, 2));"
+   ```
+
+   It gives the `hero` and the `gallery` (no limit). Describe all of them.
 4. **Read both files:** `nl.md` and `en.md`, including the body text. It tells
    you what the photos are likely to show and which species or materials
    the owner names.
+
+   **Our Work:** find the project for this folder in `WORK_FOLDERS`
+   (`src/lib/work.ts`, e.g. `project2` → `orinoco`) and read that project's
+   `work.projectN.*` texts in `src/i18n/ui.ts`, in both languages, plus the
+   existing `alt.yml` if there is one.
 5. **Look at each photo to describe** (open it with the Read tool) and write
    one alt text per language:
    - What's visible and relevant to the entry: the layout, wood and stone,
@@ -52,6 +72,8 @@ or any other field yourself.
    - Write the Dutch and the English text each as natural language in its
      own right. They describe the same photo, but don't translate word for
      word.
+   - **Our Work:** the descriptive, third-person style of the case studies
+     (see `.claude/agents/content-writer.md`), not the journal's diary tone.
 6. **Update the frontmatter of both files:**
    - **Carry over renamed keys first.** Preparation renames photos that
      didn't end in exactly `.jpg` (e.g. `IMG_1234.HEIC` → `IMG_1234.jpg`, or
@@ -76,7 +98,22 @@ or any other field yourself.
    - Put both keys and values in double quotes, e.g.
      `"drijfhout-boven.jpg": "Drijfhout van bovenaf gezien"`. Inside a value,
      write a double quote as `\"` and a backslash as `\\`, or avoid them.
-7. **Check:** run `npx astro check` (the frontmatter must still validate).
+
+   **Our Work:** write `src/content/work/<aquarium>/alt.yml` instead, with the
+   same keep and carry-over rules, keys in page order (hero first), double
+   quotes, and one Dutch and one English text per photo. Keys refer only to
+   photos directly in the folder: there are no extras here, and a photo moved
+   into `extra/` counts as gone, so its key is removed.
+
+   ```yaml
+   "01-A002-05.jpg":
+     nl: "Het hele Fallen Forest-aquarium van voren"
+     en: "The whole Fallen Forest aquarium from the front"
+   ```
+
+   Delete `alt.yml` when it would be empty.
+7. **Check:** run `npx astro check` (the frontmatter or `alt.yml` must still
+   validate).
 8. **Report:** a small table per language with file name → alt text, marking
    each text as new, kept, kept (renamed from …) or removed. Also list the
    extras (not described), and anything you weren't sure about (e.g. a plant

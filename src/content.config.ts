@@ -61,4 +61,21 @@ const journal = defineCollection({
 	}),
 });
 
-export const collections = { journal, aquariums };
+// `workAlt` reads the optional `alt.yml` in each Our Work folder
+// (src/content/work/<aquarium>/alt.yml, SPEC.md §3.7): a Dutch and an
+// English alt text per photo file name. Keyed by the folder name, like
+// `aquariums`, so `getEntry("workAlt", "fallen-forest")` is a direct lookup.
+// The folder otherwise holds only photos; there is no other collection here.
+const workAlt = defineCollection({
+	loader: glob({
+		pattern: "*/alt.yml",
+		base: "./src/content/work",
+		generateId: ({ entry }) => entry.split("/")[0],
+	}),
+	schema: z.record(
+		z.string(),
+		z.object({ nl: z.string().trim().min(1), en: z.string().trim().min(1) }),
+	),
+});
+
+export const collections = { journal, aquariums, workAlt };
