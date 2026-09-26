@@ -6,7 +6,11 @@ import preparePhotos from './src/integrations/prepare-photos';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://microcosmos-atelier.com',
-  integrations: [sitemap(), preparePhotos()],
+  integrations: [
+    // The contact thank-you pages are noindex, so they stay out of the sitemap.
+    sitemap({ filter: (page) => !page.includes('/contact/thanks') }),
+    preparePhotos(),
+  ],
   i18n: {
     defaultLocale: 'nl',
     locales: ['nl', 'en'],

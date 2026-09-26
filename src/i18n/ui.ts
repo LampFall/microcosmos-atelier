@@ -72,6 +72,14 @@ export const ui = {
       'Vertel me over je ruimte, je idee of wat je graag zou willen creëren...',
     'contact.form.submit': 'Verstuur aanvraag',
 
+    'contact.thanks.meta.title': 'Bedankt — Microcosmos Atelier',
+    'contact.thanks.meta.description': 'Je aanvraag is verstuurd.',
+    'contact.thanks.eyebrow': 'Aanvraag verstuurd',
+    'contact.thanks.title': 'Bedankt voor je bericht.',
+    'contact.thanks.text':
+      'Ik lees elke aanvraag zelf en stuur je zo snel mogelijk een antwoord per e-mail.',
+    'contact.thanks.back': 'Terug naar de homepage',
+
     'work.spec.started': 'Gestart',
     'work.spec.dimensions': 'Afmetingen',
     'work.spec.volume': 'Volume',
@@ -408,6 +416,14 @@ export const ui = {
     'contact.form.message.placeholder':
       "Tell me about your space, your idea or what you'd like to create...",
     'contact.form.submit': 'Send enquiry',
+
+    'contact.thanks.meta.title': 'Thank you — Microcosmos Atelier',
+    'contact.thanks.meta.description': 'Your enquiry has been sent.',
+    'contact.thanks.eyebrow': 'Enquiry sent',
+    'contact.thanks.title': 'Thank you for your message.',
+    'contact.thanks.text':
+      'I read every enquiry myself and will reply by email as soon as I can.',
+    'contact.thanks.back': 'Back to the home page',
 
     'work.spec.started': 'Established',
     'work.spec.dimensions': 'Dimensions',

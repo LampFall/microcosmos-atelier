@@ -700,7 +700,7 @@ Validation: `npx astro check`, `npm run build`; after the push, the owner
 (or Claude, with the log pasted) checks the Netlify deploy log for the Node
 version.
 Acceptance criteria:
-- [ ] SPEC §3.10 AC 8: `.nvmrc` exists and the deploy log shows Node 24.
+- [x] SPEC §3.10 AC 8: `.nvmrc` exists and the deploy log shows Node 24. *(Netlify log 2026-09-26: "Attempting Node.js version '24' from .nvmrc … Now using node v24.21.0".)*
 - [x] `npx astro check` 0 errors, `npm run build` succeeds.
 Commit boundary: `build: Node-versie vastgezet voor Netlify`
 Risks: if Netlify doesn't offer Node 24 the deploy fails and the old
@@ -714,26 +714,27 @@ Files: create `src/components/pages/ContactThanks.astro`,
 modify `src/layouts/Layout.astro`, `src/i18n/ui.ts`, `astro.config.mjs`,
 possibly `src/styles/global.css`
 Steps:
-- [ ] `Layout.astro`: an optional `noindex` prop (default off) that adds
+- [x] `Layout.astro`: an optional `noindex` prop (default off) that adds
       `<meta name="robots" content="noindex" />`.
-- [ ] `ui.ts`: `contact.thanks.*` keys in both languages (meta title and
+- [x] `ui.ts`: `contact.thanks.*` keys in both languages (meta title and
       description, eyebrow, heading, text saying a reply follows by email,
       link back to the home page). Wording drafted in the style of the
       existing contact copy; the owner checks it at review.
-- [ ] `ContactThanks.astro` in the style of the contact page header
+- [x] `ContactThanks.astro` in the style of the contact page header
       (reuse the `.contact-page` classes; only add CSS if needed), with
       `Header`, `Footer` and `noindex`. Two thin route files.
-- [ ] `astro.config.mjs`: `sitemap({ filter })` that leaves out URLs
+- [x] `astro.config.mjs`: `sitemap({ filter })` that leaves out URLs
       containing `/contact/thanks`.
 Validation: `npx astro check`, `npm run build`; check `dist/`; view both
 pages on the dev server (phone and desktop), and the NL/EN switch on them.
 Acceptance criteria:
-- [ ] SPEC §3.10 AC 4: both pages exist in `dist/`, have the robots meta;
+- [x] SPEC §3.10 AC 4: both pages exist in `dist/`, have the robots meta;
       `grep -l contact/thanks dist/sitemap*.xml` finds nothing; no other
-      page has a robots meta.
-- [ ] The NL/EN switch on each thanks page leads to the other language's
+      page has a robots meta. *(Apart from Astro's own redirect pages for the
+      old journal URLs, which already had one.)*
+- [x] The NL/EN switch on each thanks page leads to the other language's
       thanks page.
-- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+- [x] `npx astro check` 0 errors, `npm run build` succeeds.
 Commit boundary: `contact: bedankpagina na verzenden, niet in zoekmachines`
 Risks: the sitemap filter could drop other pages if written too broadly;
 compare the sitemap URL list before and after.

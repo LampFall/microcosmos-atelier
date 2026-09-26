@@ -1,0 +1,38 @@
+---
+// The page a visitor lands on after sending the contact form (SPEC.md §3.10).
+// Kept out of search engines and the sitemap.
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout
+  title={t("contact.thanks.meta.title")}
+  description={t("contact.thanks.meta.description")}
+  noindex
+>
+  <Header />
+
+  <main>
+    <section class="contact-page">
+      <div class="contact-page-header">
+        <p class="eyebrow">{t("contact.thanks.eyebrow")}</p>
+
+        <h1>{t("contact.thanks.title")}</h1>
+
+        <p class="contact-page-lead">{t("contact.thanks.text")}</p>
+
+        <a href={getRelativeLocaleUrl(lang, "/")} class="button dark-button contact-thanks-back">
+          {t("contact.thanks.back")}
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
