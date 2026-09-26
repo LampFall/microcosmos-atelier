@@ -99,10 +99,18 @@ async function listFiles(dir: string): Promise<string[]> {
 	return (await listEntries(dir)).filter((e) => e.isFile()).map((e) => e.name);
 }
 
+// Phone and WhatsApp JPEGs often carry harmless decoder warnings (e.g.
+// "Invalid SOS parameters for sequential JPEG") that sharp's default
+// (failOn: "warning") rejects. "error" accepts those but still rejects real
+// errors such as a truncated, half-copied file.
+function openImage(input: string) {
+	return sharp(input, { failOn: "error" });
+}
+
 /** True for a JPEG with the long edge ≤ 2400px and no EXIF/IPTC/XMP metadata. */
 async function isAlreadyPrepared(filePath: string): Promise<boolean> {
 	try {
-		const meta = await sharp(filePath).metadata();
+		const meta = await openImage(filePath).metadata();
 		if (meta.format !== "jpeg") return false;
 		if (Math.max(meta.width ?? 0, meta.height ?? 0) > MAX_LONG_EDGE) return false;
 		return !meta.exif && !meta.iptc && !meta.xmp;
@@ -164,14 +172,14 @@ async function prepareFile(entryDir: string, fileName: string, log: Log, rel: Re
 
 	let tempOut: string | null = null;
 	try {
-		const before = await sharp(sharpInput).metadata();
+		const before = await openImage(sharpInput).metadata();
 		const targetPath = isInPlace ? srcPath : await pickTargetPath(entryDir, srcStat, stemOf(fileName));
 		const targetStat = await statOrNull(targetPath);
 		const targetIsSource =
 			targetStat !== null && targetStat.dev === srcStat.dev && targetStat.ino === srcStat.ino;
 
 		tempOut = path.join(entryDir, `.${path.basename(targetPath)}.tmp-${randomSuffix()}`);
-		const info = await sharp(sharpInput)
+		const info = await openImage(sharpInput)
 			.rotate()
 			.resize({ width: MAX_LONG_EDGE, height: MAX_LONG_EDGE, fit: "inside", withoutEnlargement: true })
 			.jpeg({ quality: JPEG_QUALITY, mozjpeg: true })

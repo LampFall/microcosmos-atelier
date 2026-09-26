@@ -114,9 +114,10 @@ languages. Code, CSS and routing work is done by the main session itself.
   `git clean -f`, branch deletion and reading `.env` files, and asks before
   commit, push and rebase.
 - A git pre-commit hook (`.git/hooks/pre-commit`, local to this machine,
-  not in the repository) runs `npx astro check` and blocks the commit if it
-  reports errors. Never bypass it with `--no-verify` unless the owner says
-  so.
+  not in the repository) blocks the commit if a staged journal photo isn't
+  prepared yet or still has EXIF/XMP/IPTC metadata (possible GPS), or if
+  `npx astro check` reports errors. Never bypass it with `--no-verify`
+  unless the owner says so.
 
 ## Documentation
 

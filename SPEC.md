@@ -330,11 +330,15 @@ There are three levels of each photo, each with one job:
 
 #### 3.3.8 Error handling
 
-- **A photo can't be prepared** (corrupt file, unreadable HEIC): the dev
-  server or build logs an error naming the file and carries on; the file
-  is left exactly as it was. An unconverted HEIC doesn't appear on the page.
-  A broken JPEG or PNG makes the build fail at the image step, which is the
-  intended signal to remove or replace it.
+- **A photo can't be prepared** (a truly corrupt file, an unreadable HEIC):
+  the dev server or build logs an error naming the file and carries on; the
+  file is left exactly as it was, metadata included. Small decoder warnings
+  that phone and WhatsApp JPEGs often have are tolerated and don't count as
+  a failure. An unconverted HEIC doesn't appear on the page, but a file that
+  already ends in `.jpg` can still appear (Astro's own image step is more
+  lenient than the preparation), so the build does **not** fail on it. The
+  owner removes or replaces such a file. The pre-commit hook blocks
+  committing any journal photo that still has metadata.
 - **More than 3 gallery photos:** the first 3 in alphabetical order are
   shown, and the build logs a warning listing the others.
 - **No photos, or no cover:** the entry shows only its text. This is valid.

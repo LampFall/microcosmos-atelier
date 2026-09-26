@@ -157,7 +157,10 @@ Astro (see `PLAN.md` for whether to unify this).
      stays in Google Drive. Temp files are written next to the photo (HEIC
      intermediates in the system temp folder), cleaned up after an
      interruption, and ignored by git. The watcher handles one file at a
-     time, after it has finished copying.
+     time, after it has finished copying. The integration runs in the Astro
+     config process, so a change to `prepare-photos.ts` only takes effect
+     after restarting the dev server (`astro dev stop`, then
+     `astro dev --background`).
    - **Optimization** by Astro at build time: `JournalEntry.astro` sets
      `widths`, `sizes` and `format="webp"` per image, so visitors download
      WebP files sized to the layout. The cover loads eagerly with
