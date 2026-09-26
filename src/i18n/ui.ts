@@ -334,7 +334,7 @@ export const ui = {
       'Een Microcosmos is nooit af. Hier houd ik bij hoe elke bak zich ontwikkelt — een nieuwe aanplant, een omslag in het water, een systeem dat langzaam zijn evenwicht vindt.',
     'journal.filter.all': 'Alle bakken',
     'journal.status.opstart': 'Opstart',
-    'journal.status.groeit': 'Groeit',
+    'journal.status.groeit': 'Groei',
     'journal.status.rijpt': 'Rijpt',
     'journal.status.stabiel': 'Stabiel',
     'journal.back': 'Terug naar het journaal',
