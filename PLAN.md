@@ -254,8 +254,8 @@ Acceptance criteria:
 - [x] The preview of `fallen-forest/2026-09-sand` is the same file as the
       large photo on its entry page (compare the source file names in the
       generated `srcset`).
-- [ ] Manual: mobile layout (criterion 5) and the aquarium filter
-      (criterion 6).
+- [x] Manual: mobile layout (criterion 5) and the aquarium filter
+      (criterion 6). *(Approved by the owner, 2026-09-26.)*
 Commit boundary: `journaallijst: duidelijk aquariumlabel en voorbeeldfoto per entry`
 Risks: the filter script depends on `.journal-entry` and `data-tank`; keep
 both. Older entries have no photos yet, so the list looks mixed until they
