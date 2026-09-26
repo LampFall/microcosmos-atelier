@@ -340,6 +340,12 @@ None.
   240px; entries without photos show text only. Why: visitors see which
   aquarium an entry is about and get a sneak preview, with nothing extra
   for the owner to maintain.
+- **Our Work photos from one folder per aquarium — chosen (2026-09-26).**
+  `SPEC.md` §3.7: `src/content/work/<aquarium>/`, first photo = hero, no
+  gallery limit, per-photo alt text in `alt.yml` (via `/describe-photos`),
+  home page follows each hero. Why: adding or replacing a photo needs no
+  code, and Our Work gets the same preparation, privacy and speed as the
+  journal. Closes the backlog item about Our Work images.
 - **Pre-commit hook running `astro check` — chosen (2026-09-25).** Lives in
   `.git/hooks/pre-commit`, so it is local to this Mac and not in the
   repository. Why: simplest automatic guard for a one-person repo; no extra

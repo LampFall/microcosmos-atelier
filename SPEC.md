@@ -520,6 +520,198 @@ see §3.3.7), served as the same optimized WebP files as on the entry page.
 4. Order: natural order (`splitEntryPhotos`), not strictly alphabetical, so
    the preview is always the photo shown large on the entry page.
 
+### 3.7 Our Work: photos from one folder per aquarium
+
+Status: APPROVED (2026-09-26)
+
+#### Objectives
+
+1. The owner adds, replaces or removes an Our Work photo by putting it in
+   (or taking it out of) that aquarium's folder. No code or text file names
+   a photo.
+2. The same automatic preparation as the journal (2400px JPEG, all metadata
+   removed) and the same fast delivery (WebP `srcset`, lazy loading).
+
+#### Non-goals
+
+- The case-study text stays as it is: in `src/i18n/ui.ts` and hand-written
+  sections in `OurWork.astro`. Adding a whole new project still needs code
+  and text (a possible follow-up, not this spec).
+- No visible captions under the photos (alt text only).
+- The home page's hero, inspiration and about photos are not included.
+
+#### Current state
+
+- `src/components/pages/OurWork.astro` has three hand-written case studies:
+  Fallen Forest (files `A002-*`), Orinoco (`A003-*`) and Borneo Understory
+  (`A004-*`). Each has one hero photo (`.case-study-hero`; Fallen Forest
+  uses the `case-study-hero-contain` variant) and a gallery of 2–3 photos
+  (`.case-study-gallery`, a 1.2fr / 0.8fr grid).
+- The photos are named one by one as plain `<img src="/images/our-work/…">`
+  from `public/images/our-work/`: 16 files. 10 are used on this page:
+
+  | Case study | Hero | Gallery, in page order |
+  | --- | --- | --- |
+  | Fallen Forest | `A002-05` | `A002-02`, `A002-01` |
+  | Orinoco | `A003-06` | `A003-01`, `A003-03`, `A003-04` |
+  | Borneo Understory | `A004-01` | `A004-02`, `A004-03` |
+
+  `A001-01` is used only on the home page; `A002-03`, `A002-04`, `A002-06`,
+  `A003-02` and `A003-05` are unused spares. No optimization, no lazy
+  loading. With 3 gallery photos, Orinoco's third photo already wraps into
+  the wide column with an empty cell next to it.
+- The home page (`Index.astro`, "Our work" section) shows 4 of these files
+  directly: `A002-01` (a Fallen Forest gallery photo, **not** its hero),
+  `A003-06` (Orinoco's hero), `A004-01` (Borneo's hero) and `A001-01`.
+- Alt text: one text per project for the hero (`work.projectN.image.alt`)
+  and one shared text for all its gallery photos
+  (`work.projectN.gallery.alt`), in both languages.
+- None of the current files contain EXIF/GPS metadata.
+
+#### User workflow
+
+1. The owner copies a photo from Google Drive into the aquarium's folder,
+   e.g. `src/content/work/fallen-forest/`.
+2. The dev server or build prepares it, exactly like journal photos.
+3. The page shows the photos in natural file-name order: the **first is the
+   hero**, the others form the gallery. To change the hero, the owner
+   renames a file so it sorts first (e.g. puts `1-` in front).
+4. Spare photos go into an `extra/` subfolder, which is ignored.
+5. The owner runs `/describe-photos work/<aquarium>`. Claude looks at the
+   photos and writes an alt text per photo in Dutch and English into that
+   folder's `alt.yml`.
+
+#### Functional requirements
+
+1. **One folder per aquarium:** `src/content/work/<aquarium>/`, named like
+   the journal's aquarium folders so each aquarium has one name across the
+   site: `fallen-forest`, `orinoco`, `borneo-understory`.
+2. **Photo rules** (shared with the journal via `src/lib/photo-files.ts`):
+   only non-hidden `.jpg` files directly in the folder, natural order.
+   The first photo is the hero; all following photos are the gallery
+   (see decision 2 for a limit).
+3. **Preparation:** `prepare-photos.ts` also processes photos directly in
+   `src/content/work/<aquarium>/` (HEIC and any extension case → `.jpg`,
+   ≤ 2400px, no metadata). Subfolders are ignored.
+4. **Pre-commit hook:** also checks staged photos under `src/content/work/`.
+5. **Rendering:** hero and gallery use Astro's `<Image>` with WebP and a
+   `srcset` sized to their slots, set per `<Image>` with `widths`/`sizes`
+   (no site-wide `image.layout`, per the decision log). The hero of the
+   first case study loads eagerly with `fetchpriority="high"`, like the
+   journal cover; all other photos load lazily. §4 is updated to allow this.
+6. **Layout:** the hero keeps its current look (including Fallen Forest's
+   "contain" variant). The gallery grid works for any number of photos:
+   rows of two, the first photo of each row wider, like today.
+7. **Alt text per photo:** each work folder may hold an `alt.yml` with a
+   Dutch and an English text per file name. A photo without its own text
+   falls back to today's per-project texts in `ui.ts`
+   (`work.projectN.image.alt` for the hero, `work.projectN.gallery.alt` for
+   the gallery), so a new photo never has an empty alt.
+8. **An aquarium folder without photos:** that case study shows no hero and
+   no gallery. The page component (which knows the case-study → folder
+   mapping) logs a build warning naming the folder.
+9. **Home page:** see decision 4.
+
+#### Data / content model
+
+- New folders `src/content/work/<aquarium>/` holding the photos and an
+  optional `alt.yml`:
+
+  ```yaml
+  "01-A002-05.jpg":
+    nl: "Het hele Fallen Forest-aquarium van voren"
+    en: "The whole Fallen Forest aquarium from the front"
+  ```
+
+  `alt.yml` is read as a small content collection (`workAlt`, glob
+  `*/alt.yml`, base `src/content/work`, keyed by folder name) with a schema,
+  so `astro check` catches a malformed file. Keys are file names; a key
+  whose photo no longer exists is ignored by the page and cleaned up by
+  `/describe-photos`.
+- The mapping from each case study to its folder is one constant in
+  `OurWork.astro` (project 1 → `fallen-forest`, etc.).
+- Migration: the 10 used files move into the folders, renamed with a
+  number prefix so the current order stays (e.g. `01-A002-05.jpg` as the
+  hero, then `02-A002-02.jpg`, `03-A002-01.jpg`). The 5 spares go into
+  their folder's `extra/`. `public/images/our-work/` keeps only what the
+  home page still needs (decision 4).
+
+#### Architecture
+
+- `src/lib/photo-files.ts`: reuse `isShownPhotoFile` and `naturalCompare`;
+  add a small helper that splits a list into hero + gallery (no 3-photo
+  cap, no `cover` rule).
+- New `src/lib/work.ts` (or a function in an existing lib file): finds a
+  folder's photos with `import.meta.glob` over
+  `src/content/work/*/*.jpg`, like `getEntryPhotos`.
+- `src/integrations/prepare-photos.ts`: today it assumes the journal
+  everywhere (one hard-coded root, a fixed folder depth, a `*/*/*` watch
+  pattern, the 3-photo warning). Generalize it to one list of photo roots,
+  each with its folder depth and whether the 3-photo warning applies
+  (journal: yes, work: no), driving the full pass, the watcher and the path
+  check. No second copy of the pipeline. The journal behaviour doesn't
+  change.
+- `OurWork.astro`: replace the 10 hard-coded `<img>` tags with the helper
+  and `<Image>`; `global.css` only if the gallery grid needs a tweak for
+  more photos.
+- `src/content.config.ts`: the `workAlt` collection described above.
+- `.claude/commands/describe-photos.md`: also accepts `work/<aquarium>`.
+  In that mode it describes every shown photo in the folder (hero and
+  gallery, no 3-photo limit) and writes `alt.yml`, with the same rules for
+  keeping, carrying over and removing texts as for journal entries.
+- `.git/hooks/pre-commit` (local): add `src/content/work/` to the check.
+- `.gitignore`: add the temp/backup file patterns for `src/content/work/`.
+- `src/content/work/` holds no content collection; both loaders in
+  `content.config.ts` use `base: ./src/content/journal`, so there is no
+  clash.
+- Docs: `ARCHITECTURE.md` §6 (Our Work moves from the `public/` system to
+  the prepared-photo system), `SPEC.md` §3.3.6 and §4, and a decision-log
+  entry in `PLAN.md` closing the open backlog item about Our Work images.
+
+#### Security implications
+
+These are photos of clients' homes, so removing the metadata (GPS) matters
+even more than for the journal. The same preparation and the same
+pre-commit check apply.
+
+#### Error handling
+
+Same as the journal (§3.3.8): a photo that can't be prepared is logged and
+left as it was; the hook blocks committing it. An empty folder gives a
+warning (requirement 8).
+
+#### Acceptance criteria
+
+1. After the migration, each case study shows the same photos in the same
+   order as in the table under "Current state" (checked in `dist/` by the
+   start of the generated file names, e.g. `01-A002-05.`).
+2. No `/images/our-work/` path is left in `OurWork.astro`.
+3. A photo dropped into `src/content/work/<aquarium>/` appears in that
+   gallery without a code change; a photo in `extra/` doesn't.
+4. Renaming a photo so it sorts first makes it the hero.
+5. Hero and gallery images have a WebP `srcset`; only the first hero is
+   eager (with `fetchpriority="high"`), the rest lazy; all have non-empty
+   alt text, taken from `alt.yml` where present and from `ui.ts` otherwise,
+   in the page's language.
+6. `/describe-photos work/<aquarium>` writes an `alt.yml` with a Dutch and
+   an English text for every shown photo in that folder, and `astro check`
+   still passes.
+7. A HEIC or a JPEG with GPS dropped into a work folder ends up as a `.jpg`
+   without metadata; the hook blocks committing an unprepared work photo.
+8. `npx astro check` 0 errors, `npm run build` succeeds, both languages.
+
+#### Decisions (approved 2026-09-26)
+
+1. Location: `src/content/work/<aquarium>/`, separate from the journal.
+2. Gallery: no limit; every photo after the hero is shown.
+3. Alt text: per photo in an optional `alt.yml` per folder, written by
+   `/describe-photos work/<aquarium>`, falling back to the per-project texts
+   in `ui.ts`.
+4. Home page: its three project photos follow each folder's hero; `A001-01`
+   stays a fixed file. For Fallen Forest the home page then shows the hero
+   `A002-05` instead of `A002-01`.
+5. Folder names: `fallen-forest`, `orinoco`, `borneo-understory`.
+
 ## 4. Non-functional requirements
 
 - **Static output.** The site builds to static HTML (`astro build`) and is
@@ -533,7 +725,8 @@ see §3.3.7), served as the same optimized WebP files as on the entry page.
   actual display size and a modern format (WebP by default), must reserve
   its layout space via explicit `width`/`height` to avoid layout shift, and
   must be lazy-loaded unless it is the first above-the-fold image on the
-  page (a `cover`), in which case it loads eagerly. See 3.3.5 for the full
+  page (a journal `cover`, or the first Our Work hero once §3.7 is
+  implemented), in which case it loads eagerly. See 3.3.5 for the full
   journal-specific spec.
 - **SEO.** `@astrojs/sitemap` generates a sitemap from `astro.config.mjs`'s
   `site` URL. A Google Search Console verification file lives at
