@@ -677,6 +677,21 @@ Risks: none identified.
 ### Blocking questions
 None.
 
+## Improvement queue
+
+From `SPEC.md` §3.9 (high-level, approved 2026-09-26). One item at a time: each gets its
+own detailed spec (`/spec`) and plan (`/plan-phases`) when it is its turn.
+Update the status here as items move along.
+
+| # | Item | Status | Next step |
+| --- | --- | --- | --- |
+| 0 | How the site goes live (hosting, deploy) | done (2026-09-26): Netlify, push to `main` deploys, see `ARCHITECTURE.md` §1 | — |
+| 1 | Contact form: reliable and private | waiting | `/spec` |
+| 2 | Home and about page images: fast | waiting | `/spec` |
+| 3 | SEO basics for a bilingual site | waiting (needs 0) | `/spec` |
+| 4 | Review and audit of the untouched code | waiting (after 1–3) | `reviewer` + Lighthouse |
+| 5 | Owner browser checks still open | waiting — owner task | Owner, whenever convenient |
+
 ## Backlog
 
 ### Content

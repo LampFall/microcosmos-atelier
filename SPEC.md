@@ -887,6 +887,88 @@ None: no new data, services or external requests.
 4. The Menu button applies from 800px down (the existing breakpoint),
    tablets included.
 
+### 3.9 Website improvements (high-level roadmap)
+
+Status: APPROVED (2026-09-26)
+
+A high-level spec for five improvements found after the navigation work.
+Each item gets its own detailed spec (§3.10 onwards, via `/spec`) and plan
+when it is its turn; this section only fixes the scope and the order. The
+queue and each item's status are kept in `PLAN.md` ("Improvement queue").
+
+#### 0. Prerequisite: how the site goes live (question for the owner)
+
+There is no hosting or deploy configuration in the repository.
+`astro.config.mjs` names `site: https://microcosmos-atelier.com`. Before
+items 1 and 3 we need to know where the site is hosted and how a change
+goes live (e.g. a host that builds on every push to GitHub, or a manual
+upload of `dist/`). This decides how the contact form can be tested for
+real, and which URL is canonical.
+
+#### 1. Contact form: reliable and private
+
+- **Why:** for a business site this is the most important page. Today the
+  form posts to `formsubmit.co` with the owner's Gmail address in the page
+  source (easy for spam bots to harvest), FormSubmit's CAPTCHA is turned off
+  (`_captcha=false`) and there is no honeypot field. Whether enquiries
+  actually arrive has never been checked in this project.
+- **Scope:** an enquiry sent from the live site arrives, in both languages;
+  the email address no longer appears in the HTML (FormSubmit alias); basic
+  spam protection (honeypot, and/or CAPTCHA); a clear confirmation page
+  after sending, in the visitor's language.
+- **Not in scope:** a custom mail backend or a different form service,
+  unless FormSubmit turns out not to work.
+
+#### 2. Home and about page images: fast
+
+- **Why:** the hero photo, the four inspiration photos and the about photos
+  are still unoptimised files in `public/images/` (about 5 MB; the four
+  inspiration photos about 0.9 MB each), plus `A001-01.jpeg` in the home
+  "Our work" grid. The hero is the first thing a visitor sees.
+- **Scope:** these photos use the same prepared-photo system as the journal
+  and Our Work (web masters without metadata, WebP `srcset` sized to their
+  slot, lazy loading below the fold, the hero loading first with high
+  priority), with the same look.
+- **Open question for the detailed spec:** whether they get drop-in folders
+  like Our Work (easy to replace) or simply move to `src/assets/` as fixed
+  imports (simpler).
+
+#### 3. SEO basics for a bilingual site
+
+- **Why:** `Layout.astro` only sets a title and a description.
+- **Scope:** `hreflang` links between each NL and EN page (plus
+  `x-default`); a canonical URL per page; Open Graph and Twitter card tags
+  (title, description, a share image per page, falling back to a default)
+  so links shared on WhatsApp or LinkedIn show a photo; the sitemap listing
+  both language versions of each page; a `robots.txt` pointing at the
+  sitemap. The Google Search Console verification file stays.
+- **Depends on:** item 0 (the canonical domain).
+
+#### 4. Review and audit of the untouched code
+
+- **Why:** everything built since the journal work was reviewed phase by
+  phase, but the older parts never were: the home, about and contact pages,
+  and the older part of `global.css` (about 2000 lines).
+- **Scope:** an independent `reviewer` pass over those files, plus a
+  Lighthouse check (performance, accessibility, best practices, SEO) of the
+  main pages on phone and desktop. The output is a findings list; fixes
+  become their own small specs, not part of this item.
+- **Order:** after items 1–3, so the audit sees the improved site.
+
+#### 5. Owner checks still open (not a spec)
+
+Browser checks that were accepted at commit and are still worth doing once,
+ideally on an iPhone: the menu closes on a tap outside; the back-to-top
+button doesn't cover the contact form's submit button; a real iPhone HEIC
+photo is prepared correctly; replacing a journal photo updates the page
+(`PLAN.md`, journal plan Phase 8). Tracked in the queue as an owner task.
+
+#### Order
+
+0 → 1 → 2 → 3 → 4, with 5 whenever convenient. Items 1–3 are independent in
+code, so the order can change on the owner's request, except that 3 needs
+0.
+
 ## 4. Non-functional requirements
 
 - **Static output.** The site builds to static HTML (`astro build`) and is

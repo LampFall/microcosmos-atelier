@@ -18,6 +18,16 @@ code as it exists today. Read `SPEC.md` for *what* the site needs to do, and
   without JavaScript; the scripts only enhance it.
 - TypeScript is used for config/schema (`content.config.ts`, `i18n/*.ts`) via
   `@astrojs/check` for type-checking `.astro` files too.
+- **Hosting: Netlify**, linked to the GitHub repo `LampFall/microcosmos-atelier`.
+  Every push to `main` builds and publishes the site. The build settings
+  (`npm run build` → `dist`) live in the Netlify dashboard, not in a
+  `netlify.toml`. The live address is `https://microcosmos-atelier.com` (the
+  primary domain, HTTPS on); `microcosmos-atelier.netlify.app` points to the
+  same site. Netlify Forms' form detection is on. The Node version isn't
+  pinned in Netlify, so Netlify's default is used (the site needs Node
+  ≥ 22.12, `package.json` `engines`). The build runs on Linux, so it can't
+  convert HEIC photos (`sips` is macOS-only). That's fine, because only
+  prepared `.jpg` photos are committed (pre-commit hook).
 
 ## 2. Two-tier page structure: `pages/` vs `components/pages/`
 
