@@ -266,10 +266,10 @@ Goal: the docs describe the new list layout.
 Files: modify `ARCHITECTURE.md` (§5, the journal paragraph), `README.md`
 ("Photos" bullet: the first photo is also the preview in the list).
 Steps:
-- [ ] Update both files in a sentence or two each.
+- [x] Update both files in a sentence or two each.
 Validation: read-through against the code; `npx astro check`.
 Acceptance criteria:
-- [ ] No doc says the list has only text or a date column.
+- [x] No doc says the list has only text or a date column.
 Commit boundary: `docs: voorbeeldfoto in de journaallijst beschreven`
 Risks: none identified.
 

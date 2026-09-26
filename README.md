@@ -110,8 +110,9 @@ src/content/journal/
   or build turns each into a `.jpg` of at most 2400px with GPS and other
   metadata removed, replacing the dropped file; the original stays in Drive.
   The first photo in natural order (`2.jpg` before `10.jpg`, capitals before
-  lowercase) is shown large, and a file named
-  `cover` is the banner. Files in a subfolder (e.g. `extra/`) are ignored.
+  lowercase) is shown large, and is also the preview photo next to the entry
+  in the journal list. A file named `cover` is the banner. Files in a
+  subfolder (e.g. `extra/`) are ignored.
 - **Alt text:** run `/describe-photos <aquarium>/<entry>` to write the photo
   descriptions in both languages (`photoAlt` and `coverAlt` in the
   frontmatter).

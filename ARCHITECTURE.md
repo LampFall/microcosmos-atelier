@@ -136,6 +136,13 @@ id or look for journal photos itself:
 The gallery shows the **first photo large** and the other one or two smaller
 next to it (`.journal-gallery` in `src/styles/journal.css`).
 
+The journal index (`components/pages/Journal.astro`, `SPEC.md` §3.6) shows
+each entry's aquarium name as a label above the title, and that same first
+gallery photo (or the cover, if the entry has no gallery) as a 4:3 preview
+of about 240px, cropped at build time. It calls `getEntryPhotos` per entry,
+so the preview is always the photo shown large on the entry page. Entries
+without photos show text only.
+
 The "Our Work" case studies are **not** a content collection — they're
 hand-written directly in `components/pages/OurWork.astro` with plain `<img>`
 tags pointing at `public/images/our-work/`. This is an inconsistency worth
