@@ -16,10 +16,23 @@ const path = Astro.url.pathname.replace(/^\/en/, "") || "/";
 ---
 
 <header class={variant === "site" ? "site-header" : "page-header"}>
+  {/* Runs before the header is drawn, so the phone menu never flashes open.
+      Without JavaScript this class is missing and the links show as always. */}
+  <script is:inline>document.documentElement.classList.add("has-js");</script>
+
   <nav class="nav">
     <a href={getRelativeLocaleUrl(lang, "/")} class="logo">Microcosmos Atelier</a>
 
-    <div class="navigation">
+    <button
+      type="button"
+      class="menu-toggle"
+      aria-expanded="false"
+      aria-controls="site-navigation"
+    >
+      {t("nav.menu")}
+    </button>
+
+    <div class="navigation" id="site-navigation">
       <a href={getRelativeLocaleUrl(lang, "/our-work")}>{t("nav.ourWork")}</a>
       <a href={getRelativeLocaleUrl(lang, "/about")}>{t("nav.about")}</a>
       <a href={getRelativeLocaleUrl(lang, "/contact")}>{t("nav.contact")}</a>
@@ -33,3 +46,42 @@ const path = Astro.url.pathname.replace(/^\/en/, "") || "/";
     </div>
   </nav>
 </header>
+
+<script>
+  // Menu button at ≤ 800px (SPEC.md §3.8, a disclosure, not a modal).
+  const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
+  const panel = document.getElementById("site-navigation");
+
+  if (toggle && panel) {
+    const isOpen = () => toggle.getAttribute("aria-expanded") === "true";
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute("aria-expanded", String(open));
+      panel.classList.toggle("is-open", open);
+    };
+
+    toggle.addEventListener("click", () => setOpen(!isOpen()));
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && isOpen()) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    // A tap outside the panel or a chosen link closes it. `pointerdown`, not
+    // `click`: iOS Safari doesn't send clicks on plain text or images up to
+    // `document`, so a tap outside would otherwise be missed.
+    document.addEventListener("pointerdown", (event) => {
+      const target = event.target as Node;
+      if (isOpen() && !panel.contains(target) && !toggle.contains(target)) setOpen(false);
+    });
+    panel.addEventListener("click", (event) => {
+      if ((event.target as Element).closest("a")) setOpen(false);
+    });
+
+    // Growing past 800px never leaves the desktop header in a mobile state.
+    window.matchMedia("(max-width: 800px)").addEventListener("change", (event) => {
+      if (!event.matches) setOpen(false);
+    });
+  }
+</script>

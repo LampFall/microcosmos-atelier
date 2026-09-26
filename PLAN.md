@@ -548,13 +548,13 @@ links stay as today.
 Files: modify `src/components/Header.astro`, `src/styles/global.css`,
 `src/i18n/ui.ts`
 Steps:
-- [ ] `ui.ts`: `nav.menu` ("Menu") in both languages.
-- [ ] `Header.astro`: a Menu button (`aria-expanded="false"`,
+- [x] `ui.ts`: `nav.menu` ("Menu") in both languages.
+- [x] `Header.astro`: a Menu button (`aria-expanded="false"`,
       `aria-controls` → the links container) and a `<script>` that adds a
       class to `<html>` (JS available) and handles toggle, Esc (focus back
       to the button), tap outside, close on link, and close when the window
       grows past 800px.
-- [ ] `global.css`: the button is hidden by default and above 800px. At
+- [x] `global.css`: the button is hidden by default and above 800px. At
       ≤ 800px and only with the JS class: the button shows, and the links
       become a full-width panel below the header, hidden until open. Without
       the JS class the current 800px / 550px rules still apply. The panel
@@ -563,10 +563,10 @@ Validation: `npx astro check`, `npm run build`; in the built HTML the button
 has `aria-expanded` and `aria-controls` on every page; dev server at ≤ 800px
 and above; keyboard only; JavaScript disabled.
 Acceptance criteria:
-- [ ] SPEC §3.8 AC 1 (the header part: links, NL/EN and the Menu button with
-      `aria-expanded` / `aria-controls` on every page) and AC 5.
-- [ ] AC 7 (JavaScript disabled: links visible and clickable at every width).
-- [ ] `nav.menu` exists in both languages; `npx astro check` 0 errors,
+- [x] SPEC §3.8 AC 1 (the header part: links, NL/EN and the Menu button with
+      `aria-expanded` / `aria-controls` on every page) and AC 5. *(Markup checked in the build; browser behaviour accepted by the owner at commit, 2026-09-26.)*
+- [x] AC 7 (JavaScript disabled: links visible and clickable at every width). *(Accepted by the owner at commit, 2026-09-26.)*
+- [x] `nav.menu` exists in both languages; `npx astro check` 0 errors,
       `npm run build` succeeds.
 Commit boundary: `navigatie: menuknop met uitklappaneel op telefoon en tablet`
 Risks: the home header is white over the hero photo; the open panel must stay

@@ -165,6 +165,11 @@ h3 {
     opacity: 0.6;
 }
 
+/* Menu button: only shown at ≤ 800px when JavaScript runs (SPEC.md §3.8). */
+.menu-toggle {
+    display: none;
+}
+
 
 /* =========================================================
    HERO
@@ -1294,6 +1299,61 @@ footer {
         font-size: 0.72rem;
     }
 
+    /* With JavaScript the links move into a panel below the header, opened
+       by the Menu button. Without it the rules above still apply. */
+    .has-js .nav {
+        position: relative;
+    }
+
+    .has-js .menu-toggle {
+        display: inline-block;
+
+        padding: 8px 14px;
+
+        border: 1px solid currentColor;
+        border-radius: 0;
+
+        background: transparent;
+        color: inherit;
+
+        font-family: inherit;
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+
+        cursor: pointer;
+    }
+
+    .has-js .navigation {
+        display: none;
+
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: flex-start;
+        gap: 18px;
+
+        max-width: none;
+
+        padding: 24px var(--page-padding) 28px;
+
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+
+        background: var(--background);
+        color: var(--text);
+
+        font-size: 0.9rem;
+    }
+
+    .has-js .navigation.is-open {
+        display: flex;
+    }
+
     .hero {
         min-height: 90vh;
     }
@@ -1521,6 +1581,11 @@ footer {
 
     .nav {
         align-items: flex-start;
+    }
+
+    /* With the Menu button the header is one row again: centre it. */
+    .has-js .nav {
+        align-items: center;
     }
 
     .navigation {

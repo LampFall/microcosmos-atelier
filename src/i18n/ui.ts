@@ -324,6 +324,7 @@ export const ui = {
       'Je hoeft nog niet precies te weten wat je wilt. Breng me een ruimte, een idee of gewoon een fascinatie voor de natuur, en we beginnen van daaruit.',
     'home.cta.button': 'Start een gesprek',
     'nav.journal': 'Journaal',
+    'nav.menu': 'Menu',
 
     'journal.meta.title': 'Journaal — Microcosmos Atelier',
     'journal.meta.description':
@@ -656,6 +657,7 @@ export const ui = {
       "You don't need to know exactly what you want. Bring me a space, an idea or simply a fascination with nature, and we'll start from there.",
     'home.cta.button': 'Start a conversation',
     'nav.journal': 'Journal',
+    'nav.menu': 'Menu',
 
     'journal.meta.title': 'Journal — Microcosmos Atelier',
     'journal.meta.description':
