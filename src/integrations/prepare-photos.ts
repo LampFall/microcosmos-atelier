@@ -1,8 +1,9 @@
-// Prepares journal photos in place, per SPEC.md §3.3.4 and §3.3.5.
+// Prepares photos in place, per SPEC.md §3.3.4–3.3.5 and §3.7.
 //
 // The owner drops a copy of a photo (JPEG, PNG, WebP or iPhone HEIC/HEIF, any
-// size, any file name, any extension case) directly inside an entry folder
-// (`src/content/journal/<aquarium>/<entry>/<file>`). This integration turns
+// size, any file name, any extension case) directly inside a journal entry
+// folder (`src/content/journal/<aquarium>/<entry>/`) or an Our Work folder
+// (`src/content/work/<aquarium>/`); see PHOTO_ROOTS. This integration turns
 // it into a "web master": converted to JPEG, rotated per EXIF orientation,
 // downscaled so the long edge is at most 2400px (never upscaled), re-encoded
 // as JPEG quality 85 (mozjpeg), and stripped of all metadata
@@ -11,7 +12,7 @@
 // show (see src/lib/photo-files.ts).
 //
 // Runs once, fully, at the start of `astro dev` and `astro build`. While
-// `astro dev` runs, it also watches the journal folder; watched files are
+// `astro dev` runs, it also watches those folders; watched files are
 // handled one at a time, after they have finished copying.
 import { execFile } from "node:child_process";
 import { randomBytes } from "node:crypto";
@@ -258,26 +259,53 @@ async function recoverInterruptedRun(entryDir: string): Promise<void> {
 	}
 }
 
-async function prepareAll(journalRoot: string, log: Log, rel: RelLabel): Promise<void> {
-	for (const aquarium of await listDirs(journalRoot)) {
-		const aquariumDir = path.join(journalRoot, aquarium);
-		for (const entry of await listDirs(aquariumDir)) {
-			const entryDir = path.join(aquariumDir, entry);
-			await recoverInterruptedRun(entryDir);
-			const photos = (await listFiles(entryDir)).filter(isCandidatePhoto).sort();
+/**
+ * Folders whose photos get prepared. `depth` is the number of folder levels
+ * between the root and a photo folder; only files directly inside a photo
+ * folder are prepared, never files in its subfolders (e.g. `extra/`).
+ * `warnExtras` applies the journal's "more than 3 gallery photos" warning.
+ */
+const PHOTO_ROOTS = [
+	{ dir: "src/content/journal/", depth: 2, warnExtras: true }, // <aquarium>/<entry>/
+	{ dir: "src/content/work/", depth: 1, warnExtras: false }, // <aquarium>/
+] as const;
+
+type PhotoRoot = { abs: string; depth: number; warnExtras: boolean };
+
+/** All photo folders of a root, `depth` levels down. A missing root has none. */
+async function photoFolders(root: PhotoRoot): Promise<string[]> {
+	let dirs = [root.abs];
+	for (let level = 0; level < root.depth; level++) {
+		const next: string[] = [];
+		for (const dir of dirs) {
+			for (const name of await listDirs(dir)) next.push(path.join(dir, name));
+		}
+		dirs = next;
+	}
+	return dirs;
+}
+
+async function prepareAll(roots: PhotoRoot[], log: Log, rel: RelLabel): Promise<void> {
+	for (const root of roots) {
+		for (const folder of await photoFolders(root)) {
+			await recoverInterruptedRun(folder);
+			const photos = (await listFiles(folder)).filter(isCandidatePhoto).sort();
 			for (const fileName of photos) {
-				await prepareFile(entryDir, fileName, log, rel);
+				await prepareFile(folder, fileName, log, rel);
 			}
-			await warnAboutExtraPhotos(entryDir, log, rel);
+			if (root.warnExtras) await warnAboutExtraPhotos(folder, log, rel);
 		}
 	}
 }
 
-/** True if `filePath` is exactly `<journalRoot>/<aquarium>/<entry>/<file>`. */
-function isDirectEntryFile(journalRoot: string, filePath: string): boolean {
-	const relPath = path.relative(journalRoot, filePath);
-	if (relPath.startsWith("..") || path.isAbsolute(relPath)) return false;
-	return relPath.split(path.sep).length === 3;
+/** The root `filePath` belongs to, if it sits directly inside one of its photo folders. */
+function rootOfPhoto(roots: PhotoRoot[], filePath: string): PhotoRoot | null {
+	for (const root of roots) {
+		const relPath = path.relative(root.abs, filePath);
+		if (relPath.startsWith("..") || path.isAbsolute(relPath)) continue;
+		if (relPath.split(path.sep).length === root.depth + 1) return root;
+	}
+	return null;
 }
 
 /** Resolves once the file's size stops changing (copy finished), or false if it disappears or never settles. */
@@ -295,20 +323,28 @@ async function waitUntilStable(filePath: string): Promise<boolean> {
 }
 
 export default function preparePhotos(): AstroIntegration {
-	let journalRoot = "";
-	const rel: RelLabel = (absPath) => path.relative(journalRoot, absPath);
+	let contentRoot = "";
+	let roots: PhotoRoot[] = [];
+	const rel: RelLabel = (absPath) => path.relative(contentRoot, absPath);
 
 	return {
-		name: "prepare-journal-photos",
+		name: "prepare-photos",
 		hooks: {
 			"astro:config:setup": async ({ config, command, logger }) => {
-				journalRoot = fileURLToPath(new URL("src/content/journal/", config.root));
+				contentRoot = fileURLToPath(new URL("src/content/", config.root));
+				roots = PHOTO_ROOTS.map((r) => ({
+					abs: fileURLToPath(new URL(r.dir, config.root)),
+					depth: r.depth,
+					warnExtras: r.warnExtras,
+				}));
 				if (command !== "dev" && command !== "build") return;
-				await prepareAll(journalRoot, logger, rel);
+				await prepareAll(roots, logger, rel);
 			},
 			"astro:server:setup": ({ server, logger }) => {
-				if (!journalRoot) return;
-				server.watcher.add(path.join(journalRoot, "*", "*", "*"));
+				if (roots.length === 0) return;
+				for (const root of roots) {
+					server.watcher.add(path.join(root.abs, ...Array(root.depth + 1).fill("*")));
+				}
 
 				// One queue for all watched files: jobs never overlap, so two photos
 				// can't pick the same target name, and one copy's burst of events
@@ -316,20 +352,22 @@ export default function preparePhotos(): AstroIntegration {
 				let queue: Promise<void> = Promise.resolve();
 				const timers = new Map<string, NodeJS.Timeout>();
 
-				const run = async (filePath: string) => {
+				const run = async (filePath: string, root: PhotoRoot) => {
 					if (!(await waitUntilStable(filePath))) return;
-					const entryDir = path.dirname(filePath);
-					const changed = await prepareFile(entryDir, path.basename(filePath), logger, rel);
+					const folder = path.dirname(filePath);
+					const changed = await prepareFile(folder, path.basename(filePath), logger, rel);
 					if (!changed) return;
-					await warnAboutExtraPhotos(entryDir, logger, rel);
-					// A new file matching the eager import.meta.glob in src/lib/journal.ts
-					// needs the module graph re-evaluated and the browser reloaded.
+					if (root.warnExtras) await warnAboutExtraPhotos(folder, logger, rel);
+					// A new file matching an eager import.meta.glob (src/lib/journal.ts,
+					// src/lib/work.ts) needs the module graph re-evaluated and the
+					// browser reloaded.
 					server.moduleGraph.invalidateAll();
 					server.ws.send({ type: "full-reload", path: "*" });
 				};
 
 				const onFileEvent = (filePath: string) => {
-					if (!isDirectEntryFile(journalRoot, filePath)) return;
+					const root = rootOfPhoto(roots, filePath);
+					if (!root) return;
 					if (!isCandidatePhoto(path.basename(filePath))) return;
 					clearTimeout(timers.get(filePath));
 					timers.set(
@@ -337,7 +375,7 @@ export default function preparePhotos(): AstroIntegration {
 						setTimeout(() => {
 							timers.delete(filePath);
 							queue = queue
-								.then(() => run(filePath))
+								.then(() => run(filePath, root))
 								.catch((err) => logger.error(`Failed to prepare ${rel(filePath)}: ${(err as Error).message}`));
 						}, WATCH_DEBOUNCE_MS),
 					);

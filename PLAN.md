@@ -310,22 +310,22 @@ unprepared work photos.
 Files: modify `src/integrations/prepare-photos.ts`, `.gitignore` / modify
 (local, not committed) `.git/hooks/pre-commit`
 Steps:
-- [ ] `prepare-photos.ts`: replace the single journal root with one list of
+- [x] `prepare-photos.ts`: replace the single journal root with one list of
       roots, e.g. `[{ dir: "src/content/journal/", depth: 2, warnExtras: true },
       { dir: "src/content/work/", depth: 1, warnExtras: false }]` (`depth` =
       folder levels between the root and a photo folder).
-- [ ] `prepareAll`: walk `depth` levels per root; per photo folder run
+- [x] `prepareAll`: walk `depth` levels per root; per photo folder run
       `recoverInterruptedRun`, `prepareFile` per candidate, and
       `warnAboutExtraPhotos` only when `warnExtras` is set.
-- [ ] The path check returns the matching root (or null), requiring
+- [x] The path check returns the matching root (or null), requiring
       `depth + 1` segments; the watcher uses it to decide on the warning.
-- [ ] `server.watcher.add`: one pattern per root.
-- [ ] Log labels relative to `src/content/` (`journal/…`, `work/…`); rename
+- [x] `server.watcher.add`: one pattern per root.
+- [x] Log labels relative to `src/content/` (`journal/…`, `work/…`); rename
       the integration to `prepare-photos`; update the header comment. The
       rest of the pipeline (sharp settings, temp files, backup/restore,
       queue) stays exactly as it is.
-- [ ] `.gitignore`: the three temp/backup patterns for `src/content/work/**`.
-- [ ] `.git/hooks/pre-commit`: also check `src/content/work/`; wording
+- [x] `.gitignore`: the three temp/backup patterns for `src/content/work/**`.
+- [x] `.git/hooks/pre-commit`: also check `src/content/work/`; wording
       "photos" instead of "journal photos". Outside the repo, so not part of
       the commit (mention in the report).
 Validation:
@@ -343,13 +343,13 @@ Validation:
   delete the test folders.
 - `npx astro check`.
 Acceptance criteria:
-- [ ] `diff -r` of `dist/` before/after shows no differences.
-- [ ] A HEIC or PNG in `src/content/work/<x>/` ends up as `<name>.jpg`,
+- [x] `diff -r` of `dist/` before/after shows no differences.
+- [x] A HEIC or PNG in `src/content/work/<x>/` ends up as `<name>.jpg`,
       ≤ 2400px, no EXIF/XMP/IPTC; a second build prints no `prepared` line.
-- [ ] `extra/` untouched; a work folder with > 3 photos gives no warning; a
+- [x] `extra/` untouched; a work folder with > 3 photos gives no warning; a
       journal entry with 4 photos still warns.
-- [ ] The hook blocks a staged unprepared photo under `src/content/work/`.
-- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+- [x] The hook blocks a staged unprepared photo under `src/content/work/`.
+- [x] `npx astro check` 0 errors, `npm run build` succeeds.
 Commit boundary: `foto's: voorbereiding ook voor Our Work-mappen in src/content/work`
 Risks: regression in journal preparation (mitigated by the `dist/` diff and
 the throwaway journal test); the watcher must not start matching journal
@@ -542,6 +542,13 @@ Risks: none identified.
       `ARCHITECTURE.md` §6) — no decision made yet.
 
 ### Tooling / workflow
+- [ ] Photo preparation: prevent the dev server and a build from preparing
+      the same new photo at the same time (seen on 2026-09-26 while testing:
+      a still-running dev server and a build both handled one file; the
+      result was correct, but it's a race). The risk predates the Our Work
+      change and exists between any two processes (dev + build, or two dev
+      servers). Option: one shared lock file per content root. Until then, don't
+      run `npm run build` while the dev server is preparing new photos.
 - [ ] Try out `/translate-journal` on a real (non-placeholder) entry to
       validate the translation quality and frontmatter fidelity.
 - [x] ~~Consider adding a `photo-alt-text` helper.~~ Covered by
