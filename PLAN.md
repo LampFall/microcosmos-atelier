@@ -225,33 +225,33 @@ its first photo; entries without photos show text only.
 Files: modify `src/components/pages/Journal.astro`,
 `src/styles/journal.css`.
 Steps:
-- [ ] `Journal.astro`: per entry, call `getEntryPhotos(entry.aquarium,
+- [x] `Journal.astro`: per entry, call `getEntryPhotos(entry.aquarium,
       entry.entrySlug)` (existing, `src/lib/journal.ts`) and take
       `gallery[0] ?? cover` as the preview.
-- [ ] Restructure the row: preview (if any) in its own column, then the text
+- [x] Restructure the row: preview (if any) in its own column, then the text
       column with the aquarium label (name + liters), a meta line with date
       and status, the title link and the summary. Keep `data-tank` on the
       `<li>` so the filter script keeps working unchanged.
-- [ ] Render the preview with `<Image>`: `format="webp"`,
+- [x] Render the preview with `<Image>`: `format="webp"`,
       `widths={[240, 480, 800]}`,
       `sizes="(max-width: 800px) 100vw, 240px"`, `alt=""`, default lazy
       loading. Wrap it in a link to the entry with `tabindex="-1"` and
       `aria-hidden="true"`, so the title stays the only tab stop.
-- [ ] `journal.css`:
-  - [ ] row grid with a ~240px preview column; rows without a preview use
+- [x] `journal.css`:
+  - [x] row grid with a ~240px preview column; rows without a preview use
         a single full-width column;
-  - [ ] preview `aspect-ratio: 4 / 3; object-fit: cover;` with the
+  - [x] preview `aspect-ratio: 4 / 3; object-fit: cover;` with the
         existing `--surface` background;
-  - [ ] the aquarium label in the text colour, larger than the date/status
+  - [x] the aquarium label in the text colour, larger than the date/status
         line; liters in the muted small style;
-  - [ ] ≤ 800px: preview full width above the text;
-  - [ ] remove the now-unused left date column style.
+  - [x] ≤ 800px: preview full width above the text;
+  - [x] remove the now-unused left date column style.
 Validation: `npx astro check`; `npm run build`; inspect `dist/journal/index.html`
 and `dist/en/journal/index.html`; view `/journal` in the dev server on
 desktop width and ≤ 800px.
 Acceptance criteria:
-- [ ] SPEC.md §3.6 criteria 1–4 and 7 met (checked in `dist/`).
-- [ ] The preview of `fallen-forest/2026-09-sand` is the same file as the
+- [x] SPEC.md §3.6 criteria 1–4 and 7 met (checked in `dist/`).
+- [x] The preview of `fallen-forest/2026-09-sand` is the same file as the
       large photo on its entry page (compare the source file names in the
       generated `srcset`).
 - [ ] Manual: mobile layout (criterion 5) and the aquarium filter

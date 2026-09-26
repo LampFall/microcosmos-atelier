@@ -2,7 +2,8 @@
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
-import { getJournalEntries } from "../../lib/journal";
+import { Image } from "astro:assets";
+import { getEntryPhotos, getJournalEntries } from "../../lib/journal";
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import "../../styles/journal.css";
@@ -10,7 +11,16 @@ import "../../styles/journal.css";
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const entries = await getJournalEntries(lang);
+// The preview is the photo shown large on the entry page (the first gallery
+// photo), or the cover if an entry has only a cover (SPEC.md §3.6).
+const entries = (await getJournalEntries(lang)).map((entry) => {
+	const { cover, gallery } = getEntryPhotos(entry.aquarium, entry.entrySlug);
+	return {
+		...entry,
+		url: getRelativeLocaleUrl(lang, `/journal/${entry.aquarium}/${entry.entrySlug}`),
+		preview: gallery[0] ?? cover,
+	};
+});
 
 const aquariumNames = [...new Set(entries.map((e) => e.aquariumName))];
 
@@ -53,29 +63,38 @@ const dateFmt = new Intl.DateTimeFormat(lang === "en" ? "en-GB" : "nl-BE", {
 				) : (
 					<ol class="journal-ledger">
 						{entries.map((entry) => (
-							<li class="journal-entry" data-tank={entry.aquariumName}>
-								<span class="journal-date">
-									{dateFmt.format(entry.data.date)}
-								</span>
+							<li
+								class:list={["journal-entry", { "has-preview": entry.preview }]}
+								data-tank={entry.aquariumName}
+							>
+								{entry.preview && (
+									<a class="journal-preview" href={entry.url} tabindex="-1" aria-hidden="true">
+										<Image
+											src={entry.preview.image}
+											alt=""
+											format="webp"
+											width={480}
+											height={360}
+											widths={[240, 480, 800, 1200]}
+											sizes="(max-width: 800px) 100vw, 240px"
+										/>
+									</a>
+								)}
 								<div class="journal-body">
+									<p class="journal-aquarium">
+										{entry.aquariumName}
+										{entry.aquariumLiters && (
+											<span class="journal-liters">{entry.aquariumLiters} L</span>
+										)}
+									</p>
 									<p class="journal-meta">
-										<span class="journal-tank">
-											{entry.aquariumName}
-											{entry.aquariumLiters && ` · ${entry.aquariumLiters} L`}
-										</span>
+										<span class="journal-date">{dateFmt.format(entry.data.date)}</span>
 										<span class="journal-status">
 											{t(`journal.status.${entry.data.status}` as any)}
 										</span>
 									</p>
 									<h3 class="journal-title">
-										<a
-											href={getRelativeLocaleUrl(
-												lang,
-												`/journal/${entry.aquarium}/${entry.entrySlug}`,
-											)}
-										>
-											{entry.data.title}
-										</a>
+										<a href={entry.url}>{entry.data.title}</a>
 									</h3>
 									{entry.data.summary && (
 										<p class="journal-summary">{entry.data.summary}</p>

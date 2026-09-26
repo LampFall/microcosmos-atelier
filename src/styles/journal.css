@@ -62,12 +62,58 @@
 
 .journal-entry {
     display: grid;
-    grid-template-columns: 190px 1fr;
+    grid-template-columns: 1fr;
     gap: 40px;
 
     padding: 38px 0;
 
     border-bottom: 1px solid var(--border);
+}
+
+/* Entries with a photo get a 240px preview column (SPEC.md §3.6);
+   entries without one use the full width. */
+.journal-entry.has-preview {
+    grid-template-columns: 240px 1fr;
+}
+
+.journal-preview {
+    display: block;
+
+    transition: opacity 0.2s ease;
+}
+
+.journal-preview:hover {
+    opacity: 0.85;
+}
+
+.journal-preview img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+
+    object-fit: cover;
+
+    background: var(--surface);
+}
+
+.journal-aquarium {
+    margin: 0 0 8px;
+
+    color: var(--text);
+
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.journal-liters {
+    margin-left: 10px;
+
+    color: var(--muted);
+
+    font-size: 0.72rem;
 }
 
 .journal-date {
@@ -239,9 +285,10 @@
 /* Mobiel ------------------------------------------------- */
 
 @media (max-width: 800px) {
-    .journal-entry {
+    .journal-entry,
+    .journal-entry.has-preview {
         grid-template-columns: 1fr;
-        gap: 12px;
+        gap: 18px;
     }
 
     .journal-post {
