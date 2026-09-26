@@ -611,21 +611,21 @@ and brings the visitor back to the top.
 Files: create `src/components/BackToTop.astro` / modify
 `src/layouts/Layout.astro`, `src/styles/global.css`, `src/i18n/ui.ts`
 Steps:
-- [ ] `ui.ts`: `nav.backToTop` ("Naar boven" / "Back to top").
-- [ ] `Layout.astro`: an `id="top"` target at the top of `<body>`, and
+- [x] `ui.ts`: `nav.backToTop` ("Naar boven" / "Back to top").
+- [x] `Layout.astro`: an `id="top"` target at the top of `<body>`, and
       `<BackToTop />` once.
-- [ ] `BackToTop.astro`: an `<a href="#top">` with the translated accessible
+- [x] `BackToTop.astro`: an `<a href="#top">` with the translated accessible
       name and a ↑; a few lines of script that show it after
       1.5 × the viewport height (hidden and not focusable otherwise).
-- [ ] `global.css`: fixed bottom right, round, `--text` on `--background`
+- [x] `global.css`: fixed bottom right, round, `--text` on `--background`
       with a `--border` edge; hidden by default (so it stays hidden without
       JavaScript).
 Validation: `npx astro check`, `npm run build`; the built HTML of every page
 has exactly one `href="#top"` link with the right language; dev server on a
 long page and a short one; reduced motion.
 Acceptance criteria:
-- [ ] SPEC §3.8 AC 3, and AC 6 for back to top.
-- [ ] `nav.backToTop` exists in both languages; `npx astro check` 0 errors,
+- [x] SPEC §3.8 AC 3, and AC 6 for back to top. *(Markup checked in the build; browser behaviour accepted by the owner at commit, 2026-09-26.)*
+- [x] `nav.backToTop` exists in both languages; `npx astro check` 0 errors,
       `npm run build` succeeds.
 Commit boundary: `navigatie: knop terug naar boven op elke pagina`
 Risks: the button must not cover the footer text or the journal filter on

@@ -325,6 +325,7 @@ export const ui = {
     'home.cta.button': 'Start een gesprek',
     'nav.journal': 'Journaal',
     'nav.menu': 'Menu',
+    'nav.backToTop': 'Naar boven',
 
     'journal.meta.title': 'Journaal — Microcosmos Atelier',
     'journal.meta.description':
@@ -658,6 +659,7 @@ export const ui = {
     'home.cta.button': 'Start a conversation',
     'nav.journal': 'Journal',
     'nav.menu': 'Menu',
+    'nav.backToTop': 'Back to top',
 
     'journal.meta.title': 'Journal — Microcosmos Atelier',
     'journal.meta.description':

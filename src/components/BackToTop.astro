@@ -1,0 +1,35 @@
+---
+// A small round ↑ link back to the top of the page (SPEC.md §3.8). A normal
+// link to #top, so it follows `scroll-behavior` (smooth, or instant with
+// reduced motion). Hidden until the visitor has scrolled 1.5 screens.
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<a href="#top" class="back-to-top" aria-label={t("nav.backToTop")} title={t("nav.backToTop")}>
+  <span aria-hidden="true">↑</span>
+</a>
+
+<script>
+  const link = document.querySelector<HTMLAnchorElement>(".back-to-top");
+
+  if (link) {
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      link.classList.toggle("is-visible", window.scrollY > window.innerHeight * 1.5);
+    };
+    const schedule = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    update();
+  }
+</script>

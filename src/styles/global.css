@@ -216,6 +216,68 @@ h3 {
     }
 }
 
+/* Back to top: a small round link, bottom right, shown by its script after
+   1.5 screens (SPEC.md §3.8). `visibility: hidden` keeps it out of the tab
+   order and away from screen readers while hidden, and without JavaScript. */
+.back-to-top {
+    position: fixed;
+    right: var(--page-padding);
+    bottom: var(--page-padding);
+    z-index: 9;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+
+    border: 1px solid var(--border);
+    border-radius: 50%;
+
+    background: var(--background);
+    color: var(--text);
+
+    font-size: 1.1rem;
+
+    visibility: hidden;
+    opacity: 0;
+
+    /* Fading out: visibility switches off after the 0.2s fade; clicks are
+       blocked from the start (pointer-events below). */
+    transition:
+        opacity 0.2s ease,
+        visibility 0s linear 0.2s,
+        border-color 0.2s ease;
+}
+
+.back-to-top:not(.is-visible) {
+    pointer-events: none;
+}
+
+.back-to-top.is-visible {
+    visibility: visible;
+    opacity: 1;
+
+    transition:
+        opacity 0.2s ease,
+        visibility 0s,
+        border-color 0.2s ease;
+}
+
+/* Only devices with a real hover, so the border doesn't stick after a tap. */
+@media (hover: hover) {
+    .back-to-top:hover {
+        border-color: var(--text);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .back-to-top {
+        transition: none;
+    }
+}
+
 /* Menu button: only shown at ≤ 800px when JavaScript runs (SPEC.md §3.8). */
 .menu-toggle {
     display: none;
