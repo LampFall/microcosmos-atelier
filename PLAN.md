@@ -677,6 +677,147 @@ Risks: none identified.
 ### Blocking questions
 None.
 
+## Execution plan: contact form via Netlify Forms
+
+Status: APPROVED (2026-09-26)
+Implements: SPEC.md §3.10
+
+Order: the thank-you page goes live first, so the form can point to it the
+moment it switches to Netlify. Every push to `main` goes live, so each
+phase leaves the live site working. The switch itself (Phase 3) is one
+commit; the owner sets up the email notification right after that deploy
+(Phase 4), because Netlify only lists the form once a deploy contains it.
+Enquiries sent in between aren't lost: they are stored under Forms in the
+Netlify dashboard.
+
+### Phase 1: Pin the Node version
+Goal: Netlify builds with the same Node version as the owner's Mac.
+Files: create `.nvmrc`
+Steps:
+- [x] `.nvmrc` with `24` (the local version is v24.19.0; `package.json`
+      requires ≥ 22.12).
+Validation: `npx astro check`, `npm run build`; after the push, the owner
+(or Claude, with the log pasted) checks the Netlify deploy log for the Node
+version.
+Acceptance criteria:
+- [ ] SPEC §3.10 AC 8: `.nvmrc` exists and the deploy log shows Node 24.
+- [x] `npx astro check` 0 errors, `npm run build` succeeds.
+Commit boundary: `build: Node-versie vastgezet voor Netlify`
+Risks: if Netlify doesn't offer Node 24 the deploy fails and the old
+version stays live; the fix is `22`.
+
+### Phase 2: Confirmation page, not indexed and not in the sitemap
+Goal: `/contact/thanks` and `/en/contact/thanks` exist, with `noindex`,
+left out of the sitemap; nothing links to them yet.
+Files: create `src/components/pages/ContactThanks.astro`,
+`src/pages/contact/thanks.astro`, `src/pages/en/contact/thanks.astro`;
+modify `src/layouts/Layout.astro`, `src/i18n/ui.ts`, `astro.config.mjs`,
+possibly `src/styles/global.css`
+Steps:
+- [ ] `Layout.astro`: an optional `noindex` prop (default off) that adds
+      `<meta name="robots" content="noindex" />`.
+- [ ] `ui.ts`: `contact.thanks.*` keys in both languages (meta title and
+      description, eyebrow, heading, text saying a reply follows by email,
+      link back to the home page). Wording drafted in the style of the
+      existing contact copy; the owner checks it at review.
+- [ ] `ContactThanks.astro` in the style of the contact page header
+      (reuse the `.contact-page` classes; only add CSS if needed), with
+      `Header`, `Footer` and `noindex`. Two thin route files.
+- [ ] `astro.config.mjs`: `sitemap({ filter })` that leaves out URLs
+      containing `/contact/thanks`.
+Validation: `npx astro check`, `npm run build`; check `dist/`; view both
+pages on the dev server (phone and desktop), and the NL/EN switch on them.
+Acceptance criteria:
+- [ ] SPEC §3.10 AC 4: both pages exist in `dist/`, have the robots meta;
+      `grep -l contact/thanks dist/sitemap*.xml` finds nothing; no other
+      page has a robots meta.
+- [ ] The NL/EN switch on each thanks page leads to the other language's
+      thanks page.
+- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+Commit boundary: `contact: bedankpagina na verzenden, niet in zoekmachines`
+Risks: the sitemap filter could drop other pages if written too broadly;
+compare the sitemap URL list before and after.
+
+### Phase 3: The form switches to Netlify Forms
+Goal: the form posts to Netlify, without an email address, with a
+honeypot, language and subject fields, and a privacy sentence.
+Files: modify `src/components/pages/Contact.astro`, `src/i18n/ui.ts`
+Steps:
+- [ ] `<form name="contact" method="POST" data-netlify="true"
+      netlify-honeypot="bot-field" action={getRelativeLocaleUrl(lang,
+      "/contact/thanks")}>`.
+- [ ] Hidden fields: `form-name` = `contact`, `language` = `nl` / `en`,
+      `subject` = `t("contact.form.subject")`.
+- [ ] Honeypot: a wrapper with the `hidden` attribute containing a labelled
+      `bot-field` input (no CSS needed).
+- [ ] Remove `_subject`, `_captcha`, `_next`, the `nextUrl` constant and
+      its comment. The `mailto:` link stays (D2).
+- [ ] `ui.ts`: `contact.form.privacy` with the D4 wording in both
+      languages; show it as a small line near the send button, using
+      existing text styles where possible.
+Validation: `npx astro check`, `npm run build`; check `dist/` for AC 2–3
+and 7; look at the form on the dev server (phone and desktop, Tab order,
+JavaScript off). The dev server can't deliver the form; the live test is
+Phase 4.
+Acceptance criteria:
+- [ ] SPEC §3.10 AC 2, AC 3 and AC 7.
+- [ ] AC 6 (look unchanged, honeypot not visible or reachable with Tab,
+      works without JavaScript), checked on the dev server.
+- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+Commit boundary: `contact: formulier via Netlify Forms, zonder e-mailadres, met honeypot`
+Risks: from this push on, the live form depends on Netlify detecting it.
+If detection fails, visitors get a Netlify error page; the fallback is to
+revert this one commit (after the owner's OK). The FormSubmit route is gone
+from then on.
+
+### Phase 4: Netlify setup and live delivery test (owner + Claude)
+Goal: enquiries from the live site arrive by email, in both languages.
+Files: none (Netlify dashboard); `PLAN.md` ticks only.
+Steps:
+- [ ] After Phase 3 is pushed and the deploy is green: the owner checks
+      that Netlify → Forms lists the form `contact` with its fields.
+- [ ] The owner adds an email notification for `contact` to
+      Kasper.Masschaele@gmail.com (Forms → Form notifications).
+- [ ] The owner sends one test from `/contact` and one from `/en/contact`
+      (with a different email address as sender if possible).
+Validation: the owner reports what arrived; Claude compares it with AC 5.
+Acceptance criteria:
+- [ ] SPEC §3.10 AC 5: each test lands on the right thanks page, arrives
+      with the translated subject and the right language, and a reply goes
+      to the test sender. If the subject or Reply-To isn't as expected, stop
+      and report; a fix is a follow-up change, not a redesign here.
+Commit boundary: none (no files), unless ticks in `PLAN.md` are committed
+with Phase 5.
+Risks: a test marked as spam doesn't send an email: check Forms → spam
+submissions before concluding it failed.
+
+### Phase 5: Docs
+Goal: the docs describe the new form handling.
+Files: modify `SPEC.md` (§3.5), `ARCHITECTURE.md` (§1 hosting and the
+contact page), `README.md` if it mentions the form, `PLAN.md` (queue item 1
+done; backlog: an address on the site's own domain)
+Steps:
+- [ ] `SPEC.md` §3.5 points to §3.10.
+- [ ] `ARCHITECTURE.md`: Netlify Forms, where submissions, spam and the
+      notification setting live in the dashboard, the yearly clean-up, the
+      thanks pages, the `noindex` prop, `.nvmrc`.
+- [ ] `PLAN.md`: queue item 1 done; a backlog line for a domain address.
+Validation: `npx astro check`; reread the changed sections.
+Acceptance criteria:
+- [ ] SPEC §3.10 AC 9.
+Commit boundary: `docs: contactformulier via Netlify Forms beschreven`
+Risks: none identified.
+
+### Out of scope / follow-ups
+- An email address on the site's own domain (backlog).
+- hreflang and canonical for the thanks pages: §3.9 item 3 (SEO) must
+  leave them out.
+- `z` from `astro:content` is deprecated (seen in `astro check`): for
+  §3.9 item 4.
+
+### Blocking questions
+None.
+
 ## Improvement queue
 
 From `SPEC.md` §3.9 (high-level, approved 2026-09-26). One item at a time: each gets its
@@ -686,7 +827,7 @@ Update the status here as items move along.
 | # | Item | Status | Next step |
 | --- | --- | --- | --- |
 | 0 | How the site goes live (hosting, deploy) | done (2026-09-26): Netlify, push to `main` deploys, see `ARCHITECTURE.md` §1 | — |
-| 1 | Contact form: reliable and private | spec approved (§3.10, 2026-09-26) | `/plan-phases` |
+| 1 | Contact form: reliable and private | plan approved (2026-09-26), phases 1–5 to do | `/implement-phase 1` |
 | 2 | Home and about page images: fast | waiting | `/spec` |
 | 3 | SEO basics for a bilingual site | waiting (needs 0) | `/spec` |
 | 4 | Review and audit of the untouched code | waiting (after 1–3) | `reviewer` + Lighthouse |
