@@ -282,7 +282,7 @@ None.
 
 ## Execution plan: Our Work photos from one folder per aquarium
 
-Status: APPROVED (2026-09-26)
+Status: APPROVED (2026-09-26). Phases 1–5 implemented.
 Implements: SPEC.md §3.7
 
 Notes from reading the code, which the phases below depend on:
@@ -495,24 +495,24 @@ Goal: the docs describe Our Work photos as prepared photos from one folder
 per aquarium.
 Files: modify `ARCHITECTURE.md`, `SPEC.md`, `README.md`, `AGENTS.md`, `PLAN.md`
 Steps:
-- [ ] `ARCHITECTURE.md` §5 (Our Work paragraph, `work.ts`,
+- [x] `ARCHITECTURE.md` §5 (Our Work paragraph, `work.ts`,
       `splitWorkPhotos`, `workAlt`), §6 (Our Work moves to the prepared
       system; preparation has two roots), §8 (`/describe-photos work/…`).
-- [ ] `SPEC.md`: §3.3.6 and §3.4 point to §3.7; §4 drops "once §3.7 is
+- [x] `SPEC.md`: §3.3.6 and §3.4 point to §3.7; §4 drops "once §3.7 is
       implemented"; §3.7's sentence about "no content collection" reworded
       (blocking question 3).
-- [ ] `README.md`: project tree and the "Our Work case studies" bullet.
-- [ ] `AGENTS.md`: the hook checks journal and Our Work photos; the content
+- [x] `README.md`: project tree and the "Our Work case studies" bullet.
+- [x] `AGENTS.md`: the hook checks journal and Our Work photos; the content
       commands line mentions `work/<aquarium>`.
-- [ ] `PLAN.md`: close the backlog item about Our Work images (pointing to
+- [x] `PLAN.md`: close the backlog item about Our Work images (pointing to
       the decision-log entry); set this plan's status line.
 Validation: read the docs against the code; `npx astro check`;
 `grep -rn "public/images/our-work" *.md` only finds current-state text in
 SPEC §3.7.
 Acceptance criteria:
-- [ ] No doc says Our Work images are unoptimized `<img>` tags from `public/`,
+- [x] No doc says Our Work images are unoptimized `<img>` tags from `public/`,
       except §3.7's "Current state".
-- [ ] The backlog item is ticked, with a reference to the decision.
+- [x] The backlog item is ticked, with a reference to the decision.
 Commit boundary: `docs: Our Work-foto's uit een map per aquarium beschreven`
 Risks: none identified.
 
@@ -538,11 +538,10 @@ Risks: none identified.
 - [ ] Add real photos from Google Drive to the journal entries by copying
       them into each entry folder (`SPEC.md` §3.3.4), then run
       `/describe-photos`. Do this once the execution plan above has landed.
-- [ ] Decide whether "Our Work" galleries should move from
-      `public/images/our-work/` (unoptimized `<img>`) onto the same
-      content-collection `image()` pattern as journal photos, for consistent
-      build-time optimization. Currently inconsistent (see
-      `ARCHITECTURE.md` §6) — no decision made yet.
+- [x] ~~Decide whether "Our Work" galleries should move from
+      `public/images/our-work/` onto the prepared-photo system.~~ Decided and
+      done: see the decision log ("Our Work photos from one folder per
+      aquarium") and `SPEC.md` §3.7.
 
 ### Tooling / workflow
 - [ ] Photo preparation: prevent the dev server and a build from preparing

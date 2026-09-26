@@ -42,22 +42,24 @@ Read these before making non-trivial changes:
 ├── public/
 │   ├── favicon.ico / .svg
 │   ├── google...html       # Search Console verification -- don't delete
-│   └── images/             # unoptimized static images (our-work, hero, about)
+│   └── images/             # unoptimized static images: home hero, inspiration,
+│                           # about, and our-work/A001-01.jpeg (4th home "Our work" tile)
 └── src/
     ├── assets/              # site-wide SVGs
     ├── components/
     │   ├── Header.astro / Footer.astro
     │   └── pages/           # the actual page implementations (see ARCHITECTURE.md #2)
     ├── content/
-    │   └── journal/<aquarium>/          # aquarium.yml + one folder per entry
-    │       └── <entry>/                 # nl.md, en.md and the entry's photos
-    ├── content.config.ts    # journal + aquariums collection schemas
+    │   ├── journal/<aquarium>/          # aquarium.yml + one folder per entry
+    │   │   └── <entry>/                 # nl.md, en.md and the entry's photos
+    │   └── work/<aquarium>/             # Our Work photos (+ alt.yml, extra/)
+    ├── content.config.ts    # journal, aquariums and workAlt collection schemas
     ├── i18n/
     │   ├── ui.ts             # all translated strings, nl + en
     │   └── utils.ts          # getLangFromUrl / useTranslations
     ├── integrations/
     │   └── prepare-photos.ts # turns dropped photos into 2400px JPEGs without GPS
-    ├── lib/                  # journal.ts, photo-files.ts: the journal folder rules
+    ├── lib/                  # journal.ts, work.ts, photo-files.ts: the folder rules
     ├── layouts/
     │   └── Layout.astro
     ├── pages/                # thin route files, NL (default) + /en
@@ -119,9 +121,15 @@ src/content/journal/
 - **Page copy** (headings, labels, alt text) lives in `src/i18n/ui.ts`. Add
   new strings under the same key in both the `nl` and `en` blocks -- never
   hard-code copy inside a component.
-- **Our Work case studies** are hand-edited directly in
-  `src/components/pages/OurWork.astro`, with images dropped into
-  `public/images/our-work/`.
+- **Our Work photos** live in one folder per aquarium:
+  `src/content/work/fallen-forest/`, `orinoco/`, `borneo-understory/`. Copy
+  photos in exactly like journal photos (they're prepared the same way). The
+  first photo in natural order is the large hero, the rest is the gallery,
+  with no limit; spares go in `extra/`. The home page's "Our work" grid
+  follows each folder's hero. Alt texts are in each folder's `alt.yml`; run
+  `/describe-photos work/<aquarium>` to write them. The case-study text
+  itself is hand-edited in `src/components/pages/OurWork.astro` and
+  `src/i18n/ui.ts`.
 
 ## Learn more
 

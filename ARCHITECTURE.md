@@ -128,9 +128,10 @@ id or look for journal photos itself:
   `import.meta.glob` over `*.jpg` directly in the entry folder.
 - `src/lib/photo-files.ts` — the shared rules for which files a page shows:
   only non-hidden `.jpg` files, natural sort order, a file named `cover` (any
-  case) as the cover, and the first 3 others as the gallery. It has no Astro
-  imports, so the photo preparation integration and `/describe-photos` use
-  it too.
+  case) as the cover, and the first 3 others as the gallery; for Our Work
+  (`splitWorkPhotos`), the first photo as the hero and all others as the
+  gallery. It has no Astro imports, so the photo preparation integration and
+  `/describe-photos` use it too.
 - `src/integrations/prepare-photos.ts` — see §6.
 
 The gallery shows the **first photo large** and the other one or two smaller
@@ -143,24 +144,37 @@ of about 240px, cropped at build time. It calls `getEntryPhotos` per entry,
 so the preview is always the photo shown large on the entry page. Entries
 without photos show text only.
 
-The "Our Work" case studies are **not** a content collection — they're
-hand-written directly in `components/pages/OurWork.astro` with plain `<img>`
-tags pointing at `public/images/our-work/`. This is an inconsistency worth
-noting: unlike journal photos, these images are not build-time optimized by
-Astro (see `PLAN.md` for whether to unify this).
+The "Our Work" case studies (`SPEC.md` §3.7) keep their text in `ui.ts` and
+hand-written sections in `components/pages/OurWork.astro`, but their photos
+come from one folder per aquarium: `src/content/work/<aquarium>/`.
+- `src/lib/work.ts` owns that convention: `WORK_FOLDERS` (which folder
+  belongs to which case study, used by Our Work and the home page),
+  `getWorkPhotos(folder)` (`import.meta.glob` over `*.jpg` directly in the
+  folder; the first photo in natural order is the hero, the rest the
+  gallery; `extra/` is never shown) and `getWorkAltTexts(folder)`.
+- The `workAlt` collection reads each folder's optional `alt.yml`: a Dutch
+  and an English alt text per file name. A photo without one falls back to
+  the per-project texts in `ui.ts`. If no folder has an `alt.yml` at all,
+  the build logs a harmless "No files found matching */alt.yml" warning.
+- The home page's "Our work" grid shows the three folders' heroes, plus one
+  fixed photo from `public/images/our-work/` (`A001-01.jpeg`).
 
 ## 6. Images: two different systems in play
 
-1. **Journal photos** (cover and gallery): local files in the entry folder,
-   found with `import.meta.glob` and rendered with `<Image>` from
-   `astro:assets`. They pass through two steps:
+1. **Prepared photos** (journal cover and gallery, Our Work heroes and
+   galleries): local files in an entry folder or a work folder, found with
+   `import.meta.glob` and rendered with `<Image>` from `astro:assets`. They
+   pass through two steps:
    - **Preparation** (`src/integrations/prepare-photos.ts`, registered in
-     `astro.config.mjs`). When `astro dev` or `astro build` starts, and
-     while the dev server watches the folder, every photo dropped directly
-     into an entry folder (JPEG, PNG, WebP or HEIC, any extension case) is
-     turned into `<name>.jpg` (or `<name>-2.jpg` if that name is taken): HEIC converted with macOS `sips`, rotated,
-     long edge at most 2400px, JPEG quality 85, **all metadata (GPS)
-     removed**. The prepared file replaces the dropped one; the original
+     `astro.config.mjs`). It works from one list of photo roots
+     (`PHOTO_ROOTS`): the journal (`<aquarium>/<entry>/`, with the "more
+     than 3 photos" warning) and Our Work (`<aquarium>/`, no limit). When
+     `astro dev` or `astro build` starts, and while the dev server watches
+     those folders, every photo dropped directly into a photo folder (JPEG,
+     PNG, WebP or HEIC, any extension case) is turned into `<name>.jpg` (or
+     `<name>-2.jpg` if that name is taken): HEIC converted with macOS
+     `sips`, rotated, long edge at most 2400px, JPEG quality 85, **all
+     metadata (GPS) removed**. The prepared file replaces the dropped one; the original
      stays in Google Drive. Temp files are written next to the photo (HEIC
      intermediates in the system temp folder), cleaned up after an
      interruption, and ignored by git. The watcher handles one file at a
@@ -168,14 +182,16 @@ Astro (see `PLAN.md` for whether to unify this).
      config process, so a change to `prepare-photos.ts` only takes effect
      after restarting the dev server (`astro dev stop`, then
      `astro dev --background`).
-   - **Optimization** by Astro at build time: `JournalEntry.astro` sets
-     `widths`, `sizes` and `format="webp"` per image, so visitors download
-     WebP files sized to the layout. The cover loads eagerly with
-     `fetchpriority="high"`; the gallery loads lazily.
-2. **Public/static images** (Our Work galleries, hero images, about photos):
-   plain files under `public/images/...`, referenced by absolute URL string
-   (`/images/our-work/A002-01.jpeg`) in plain `<img>` tags. No optimization,
-   no `astro:assets` involvement. Simpler to add (just drop a file in
+   - **Optimization** by Astro at build time: `JournalEntry.astro`,
+     `Journal.astro`, `OurWork.astro` and `Index.astro` set `widths`, `sizes`
+     and `format="webp"` per image, so visitors download WebP files sized to
+     the layout. A journal cover and the first Our Work hero load eagerly
+     with `fetchpriority="high"`; everything else loads lazily.
+2. **Public/static images** (the home page hero and inspiration images, the
+   about photos, and the one fixed photo `A001-01.jpeg` in the home page's
+   "Our work" grid): plain files under `public/images/...`, referenced by
+   absolute URL string (`/images/hero/A002-3.jpeg`) in plain `<img>` tags.
+   No optimization, no `astro:assets` involvement. Simpler to add (just drop a file in
    `public/`), but no automatic responsive/format handling.
 
 When adding new image-bearing content, decide deliberately which system
@@ -209,7 +225,9 @@ applies rather than mixing them within the same feature.
 - Content commands: `/translate-journal <aquarium>/<entry>` writes the
   other language's `nl.md`/`en.md` from the one that exists, keeping `date`,
   `status` and the `photoAlt` keys unchanged. `/describe-photos
-  <aquarium>/<entry>` writes the alt text for the photos in both languages.
-  The optional `content-writer` agent drafts new copy in the site's styles.
-- A local git pre-commit hook runs `npx astro check` (see `AGENTS.md`,
-  "Safeguards").
+  <aquarium>/<entry>` writes the alt text for a journal entry's photos in
+  both languages; `/describe-photos work/<aquarium>` does the same for an Our
+  Work folder, in its `alt.yml`. The optional `content-writer` agent drafts
+  new copy in the site's styles.
+- A local git pre-commit hook blocks unprepared journal and Our Work photos
+  and runs `npx astro check` (see `AGENTS.md`, "Safeguards").

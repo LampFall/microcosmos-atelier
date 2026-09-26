@@ -302,14 +302,9 @@ There are three levels of each photo, each with one job:
 
 #### 3.3.6 Related but out of scope for this change
 
-- The "Our Work" galleries (`public/images/our-work/`) use plain,
-  unoptimized `<img>` tags today and are **not** covered by this spec change
-  — they're a separate content system (see `ARCHITECTURE.md` §6). They have
-  the same underlying performance gap (full-size images, no lazy attribute
-  on most of them) and would benefit from the same treatment, but migrating
-  them is a separate, larger decision (moving from `public/` files to
-  content-collection-managed images) that should be scoped and approved on
-  its own rather than folded silently into the journal work.
+- The "Our Work" photos were out of scope here. They have since moved to the
+  same prepared-photo system in their own spec, §3.7 (implemented
+  2026-09-26).
 
 #### 3.3.7 Security implications
 
@@ -374,9 +369,10 @@ There are three levels of each photo, each with one job:
 
 ### 3.4 Our Work case studies
 
-- Each case study is currently hand-authored directly in
-  `src/components/pages/OurWork.astro` (not a content collection) with a
-  gallery of 2–3 plain `<img>` tags served from `public/images/our-work/`.
+- Each case study's text is hand-authored in
+  `src/components/pages/OurWork.astro` and `ui.ts`. Its photos come from
+  `src/content/work/<aquarium>/` (hero + gallery, alt text per photo in
+  `alt.yml`); see §3.7.
 - Each case study lists structured specs (start date, dimensions, volume,
   filtration, lighting, substrate, CO₂, fish, other inhabitants, plants),
   translated per-language via `work.projectN.spec.*` keys in `ui.ts`.
@@ -522,7 +518,8 @@ see §3.3.7), served as the same optimized WebP files as on the entry page.
 
 ### 3.7 Our Work: photos from one folder per aquarium
 
-Status: APPROVED (2026-09-26)
+Status: APPROVED (2026-09-26), implemented 2026-09-26. "Current state" below
+describes the situation before this change.
 
 #### Objectives
 
@@ -661,9 +658,9 @@ Status: APPROVED (2026-09-26)
   keeping, carrying over and removing texts as for journal entries.
 - `.git/hooks/pre-commit` (local): add `src/content/work/` to the check.
 - `.gitignore`: add the temp/backup file patterns for `src/content/work/`.
-- `src/content/work/` holds no content collection; both loaders in
-  `content.config.ts` use `base: ./src/content/journal`, so there is no
-  clash.
+- `src/content/work/` holds only the small `workAlt` collection (the
+  `alt.yml` files); the journal loaders use `base: ./src/content/journal`,
+  so there is no clash.
 - Docs: `ARCHITECTURE.md` §6 (Our Work moves from the `public/` system to
   the prepared-photo system), `SPEC.md` §3.3.6 and §4, and a decision-log
   entry in `PLAN.md` closing the open backlog item about Our Work images.
@@ -725,9 +722,8 @@ warning (requirement 8).
   actual display size and a modern format (WebP by default), must reserve
   its layout space via explicit `width`/`height` to avoid layout shift, and
   must be lazy-loaded unless it is the first above-the-fold image on the
-  page (a journal `cover`, or the first Our Work hero once §3.7 is
-  implemented), in which case it loads eagerly. See 3.3.5 for the full
-  journal-specific spec.
+  page (a journal `cover`, or the first Our Work hero), in which case it
+  loads eagerly. See 3.3.5 for the full journal-specific spec.
 - **SEO.** `@astrojs/sitemap` generates a sitemap from `astro.config.mjs`'s
   `site` URL. A Google Search Console verification file lives at
   `public/google4f41fe6a9b546641.html` — do not delete it.
