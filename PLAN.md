@@ -361,9 +361,9 @@ Goal: Our Work shows the same 10 photos in the same order, now from
 `ui.ts` alt texts.
 Files: create `src/lib/work.ts`, `src/content/work/{fallen-forest,orinoco,borneo-understory}/…`
 / modify `src/lib/photo-files.ts`, `src/components/pages/OurWork.astro` /
-move 12 files out of `public/images/our-work/` (10 via `git mv`, 3 copies)
+move 15 files out of `public/images/our-work/` (12 via `git mv`, 3 copies)
 Steps:
-- [ ] Migration (every file gets a lowercase `.jpg`; "(copy)" = copy, because
+- [x] Migration (every file gets a lowercase `.jpg`; "(copy)" = copy, because
       the home page still uses it until Phase 4; the rest `git mv`):
 
       | Folder | Shown (hero first) | `extra/` |
@@ -374,17 +374,20 @@ Steps:
 
       `public/images/our-work/` then holds `A001-01.jpeg` plus the three
       home copies.
-- [ ] Run `npm run build` once so preparation re-encodes anything that needs
+      *(Done 2026-09-26. Afterwards the owner removed two spares that were
+      byte-identical to shown photos: `A002-03` (= `02-A002-02`) and
+      `A003-05` (= `04-A003-04`). Three spares remain in `extra/`.)*
+- [x] Run `npm run build` once so preparation re-encodes anything that needs
       it; commit the prepared versions.
-- [ ] `photo-files.ts`: add `splitWorkPhotos(fileNames)` → `{ hero?, gallery }`,
+- [x] `photo-files.ts`: add `splitWorkPhotos(fileNames)` → `{ hero?, gallery }`,
       reusing `isShownPhotoFile` and `naturalCompare`, no cap, no `cover` rule.
-- [ ] New `src/lib/work.ts`, modelled on `getEntryPhotos`: eager
+- [x] New `src/lib/work.ts`, modelled on `getEntryPhotos`: eager
       `import.meta.glob("../content/work/*/*.jpg")` and
       `getWorkPhotos(folder)` → `{ hero?, gallery }`. The only place that
       knows the work folder convention.
-- [ ] `work.ts` also exports the case-study → folder mapping (project1 →
+- [x] `work.ts` also exports the case-study → folder mapping (project1 →
       `fallen-forest`, project2 → `orinoco`, project3 → `borneo-understory`).
-- [ ] `OurWork.astro`: uses that mapping; per project `getWorkPhotos`; a build warning naming an
+- [x] `OurWork.astro`: uses that mapping; per project `getWorkPhotos`; a build warning naming an
       empty folder. Replace the 10 `<img>` tags with `<Image format="webp">`:
       hero keeps its wrapper and Fallen Forest's contain variant, gallery
       `widths`/`sizes` per column (confirm in the dev server); only the first
@@ -402,20 +405,20 @@ Validation:
 - Visual check on desktop and ≤ 800px: contain hero, hover zoom, gallery as
   before.
 Acceptance criteria:
-- [ ] In `dist/our-work/index.html` (and `/en/`) the images per case study
+- [x] In `dist/our-work/index.html` (and `/en/`) the images per case study
       start, in order, with `01-A002-05.`, `02-A002-02.`, `03-A002-01.` |
       `01-A003-06.`, `02-A003-01.`, `03-A003-03.`, `04-A003-04.` |
       `01-A004-01.`, `02-A004-02.`, `03-A004-03.` (SPEC §3.7 AC 1).
-- [ ] `grep "/images/our-work/" src/components/pages/OurWork.astro` finds
+- [x] `grep "/images/our-work/" src/components/pages/OurWork.astro` finds
       nothing (AC 2).
-- [ ] Every Our Work `<img>` has a `.webp` `srcset`, width/height and
+- [x] Every Our Work `<img>` has a `.webp` `srcset`, width/height and
       non-empty alt; exactly one is eager with `fetchpriority="high"` (the
       Fallen Forest hero), the rest lazy.
-- [ ] The drop, `extra/` and rename tests behave as described (AC 3, 4).
-- [ ] `git ls-files src/content/work` lists 10 shown files and 5 spares, all
+- [x] The drop, `extra/` and rename tests behave as described (AC 3, 4).
+- [x] `git ls-files src/content/work` lists 10 shown files and 5 spares, all
       `.jpg`; the hook passes.
-- [ ] The home page still shows all 4 work photos (unchanged).
-- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+- [x] The home page still shows all 4 work photos (unchanged).
+- [x] `npx astro check` 0 errors, `npm run build` succeeds.
 Commit boundary: `our work: foto's uit een map per aquarium, geoptimaliseerd via <Image>`
 Risks: git may record delete+add instead of a rename if preparation rewrites
 a file (acceptable); spares in `extra/` are committed as they are (no

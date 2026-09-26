@@ -4,9 +4,50 @@ import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 import { getRelativeLocaleUrl } from "astro:i18n";
+import { Image } from "astro:assets";
+import { WORK_FOLDERS, getWorkPhotos, type WorkPhotos } from "../../lib/work";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+// Photos come from src/content/work/<aquarium>/ (SPEC.md §3.7): the first
+// photo in natural order is the hero, the rest is the gallery.
+// `satisfies` makes `astro check` fail if WORK_FOLDERS gets a project that
+// this page doesn't render yet.
+type Project = keyof typeof WORK_FOLDERS;
+const work = {
+  project1: getWorkPhotos(WORK_FOLDERS.project1),
+  project2: getWorkPhotos(WORK_FOLDERS.project2),
+  project3: getWorkPhotos(WORK_FOLDERS.project3),
+} satisfies Record<Project, WorkPhotos>;
+const projects = Object.keys(work) as Project[];
+for (const project of projects) {
+  if (!work[project].hero) {
+    console.warn(`[our-work] src/content/work/${WORK_FOLDERS[project]}/ has no photos; the ${project} case study shows none.`);
+  }
+}
+
+// Only the first hero on the page loads eagerly; everything else is lazy.
+const firstHero = projects.find((p) => work[p].hero);
+const heroLoading = (project: Project) =>
+  project === firstHero ? ({ loading: "eager", fetchpriority: "high" } as const) : {};
+
+// Content width is 1200px (.case-study: 1280px minus 2 × 40px padding; 22px
+// padding at 800px and below). The gallery is a 1.2fr / 0.8fr grid with a
+// 20px gap, so its columns are 60% / 40% of (content width − 20px):
+// ~708px / ~472px on wide screens.
+const heroSizes = "(max-width: 800px) calc(100vw - 44px), (max-width: 1280px) calc(100vw - 80px), 1200px";
+const heroWidths = [640, 960, 1200, 1600, 2400];
+const galleryProps = (index: number) =>
+  index % 2 === 0
+    ? {
+        widths: [360, 480, 720, 1080, 1420],
+        sizes: "(max-width: 800px) calc(100vw - 44px), (max-width: 1280px) calc((100vw - 100px) * 0.6), 708px",
+      }
+    : {
+        widths: [240, 360, 480, 720, 950],
+        sizes: "(max-width: 800px) calc(100vw - 44px), (max-width: 1280px) calc((100vw - 100px) * 0.4), 472px",
+      };
 
 // Volgorde van de specificatierijen verschilt lichtjes per project
 // (zoals in de originele pagina's), dus die geven we hier expliciet op.
@@ -69,9 +110,18 @@ const project3Specs = [
          ===================================================== -->
 
     <article class="case-study">
-      <div class="case-study-hero case-study-hero-contain">
-        <img src="/images/our-work/A002-05.jpeg" alt={t("work.project1.image.alt")} />
-      </div>
+      {work.project1.hero && (
+        <div class="case-study-hero case-study-hero-contain">
+          <Image
+            src={work.project1.hero.image}
+            alt={t("work.project1.image.alt")}
+            format="webp"
+            widths={heroWidths}
+            sizes={heroSizes}
+            {...heroLoading("project1")}
+          />
+        </div>
+      )}
 
       <div class="case-study-header">
         <div>
@@ -111,10 +161,18 @@ const project3Specs = [
         </aside>
       </div>
 
-      <div class="case-study-gallery">
-        <img src="/images/our-work/A002-02.jpeg" alt={t("work.project1.gallery.alt")} />
-        <img src="/images/our-work/A002-01.jpeg" alt={t("work.project1.gallery.alt")} />
-      </div>
+      {work.project1.gallery.length > 0 && (
+        <div class="case-study-gallery">
+          {work.project1.gallery.map((photo, index) => (
+            <Image
+              src={photo.image}
+              alt={t("work.project1.gallery.alt")}
+              format="webp"
+              {...galleryProps(index)}
+            />
+          ))}
+        </div>
+      )}
     </article>
 
     <!-- =====================================================
@@ -122,9 +180,18 @@ const project3Specs = [
          ===================================================== -->
 
     <article class="case-study">
-      <div class="case-study-hero">
-        <img src="/images/our-work/A003-06.jpeg" alt={t("work.project2.image.alt")} />
-      </div>
+      {work.project2.hero && (
+        <div class="case-study-hero">
+          <Image
+            src={work.project2.hero.image}
+            alt={t("work.project2.image.alt")}
+            format="webp"
+            widths={heroWidths}
+            sizes={heroSizes}
+            {...heroLoading("project2")}
+          />
+        </div>
+      )}
 
       <div class="case-study-header">
         <div>
@@ -157,11 +224,18 @@ const project3Specs = [
         </aside>
       </div>
 
-      <div class="case-study-gallery">
-        <img src="/images/our-work/A003-01.jpeg" alt={t("work.project2.gallery.alt")} />
-        <img src="/images/our-work/A003-03.jpeg" alt={t("work.project2.gallery.alt")} />
-        <img src="/images/our-work/A003-04.jpeg" alt={t("work.project2.gallery.alt")} />
-      </div>
+      {work.project2.gallery.length > 0 && (
+        <div class="case-study-gallery">
+          {work.project2.gallery.map((photo, index) => (
+            <Image
+              src={photo.image}
+              alt={t("work.project2.gallery.alt")}
+              format="webp"
+              {...galleryProps(index)}
+            />
+          ))}
+        </div>
+      )}
     </article>
 
     <!-- =====================================================
@@ -169,9 +243,18 @@ const project3Specs = [
          ===================================================== -->
 
     <article class="case-study">
-      <div class="case-study-hero">
-        <img src="/images/our-work/A004-01.jpeg" alt={t("work.project3.image.alt")} />
-      </div>
+      {work.project3.hero && (
+        <div class="case-study-hero">
+          <Image
+            src={work.project3.hero.image}
+            alt={t("work.project3.image.alt")}
+            format="webp"
+            widths={heroWidths}
+            sizes={heroSizes}
+            {...heroLoading("project3")}
+          />
+        </div>
+      )}
 
       <div class="case-study-header">
         <div>
@@ -204,10 +287,18 @@ const project3Specs = [
         </aside>
       </div>
 
-      <div class="case-study-gallery">
-        <img src="/images/our-work/A004-02.jpeg" alt={t("work.project3.gallery.alt")} />
-        <img src="/images/our-work/A004-03.jpeg" alt={t("work.project3.gallery.alt")} />
-      </div>
+      {work.project3.gallery.length > 0 && (
+        <div class="case-study-gallery">
+          {work.project3.gallery.map((photo, index) => (
+            <Image
+              src={photo.image}
+              alt={t("work.project3.gallery.alt")}
+              format="webp"
+              {...galleryProps(index)}
+            />
+          ))}
+        </div>
+      )}
     </article>
 
     <!-- =====================================================

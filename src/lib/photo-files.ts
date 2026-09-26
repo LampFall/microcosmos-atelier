@@ -1,6 +1,6 @@
-// Rules for which prepared photo files an entry page shows, shared by the
-// page (src/lib/journal.ts) and the photo preparation integration
-// (src/integrations/prepare-photos.ts) so the two can never disagree.
+// Rules for which prepared photo files a page shows, shared by the journal
+// (src/lib/journal.ts), Our Work (src/lib/work.ts) and the photo preparation
+// integration (src/integrations/prepare-photos.ts) so they never disagree.
 // No Astro imports: the integration loads this from astro.config.mjs.
 
 /** Every prepared photo ends in exactly this (lowercase) extension. */
@@ -56,4 +56,16 @@ export function splitEntryPhotos(fileNames: string[]): {
 		gallery: others.slice(0, GALLERY_CAP),
 		extras: others.slice(GALLERY_CAP),
 	};
+}
+
+/**
+ * Splits an Our Work folder's shown photo files into the hero (the first in
+ * natural order) and the gallery (all the others, no limit).
+ */
+export function splitWorkPhotos(fileNames: string[]): {
+	hero?: string;
+	gallery: string[];
+} {
+	const [hero, ...gallery] = fileNames.filter(isShownPhotoFile).sort(naturalCompare);
+	return { hero, gallery };
 }
