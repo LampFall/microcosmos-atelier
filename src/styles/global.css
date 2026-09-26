@@ -1019,6 +1019,39 @@ h3 {
     padding-bottom: 90px;
 }
 
+/* Jump links to the case studies, styled like the small eyebrow labels. */
+.work-jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+
+    margin-top: 45px;
+}
+
+.work-jump a {
+    padding-bottom: 4px;
+
+    border-bottom: 1px solid var(--border);
+
+    color: var(--muted);
+
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+
+    transition:
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.work-jump a:hover,
+.work-jump a:focus-visible {
+    border-bottom-color: var(--text);
+
+    color: var(--text);
+}
+
 .work-project {
     max-width: var(--max-width);
 

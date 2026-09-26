@@ -91,6 +91,8 @@ export const ui = {
     'work.hero.text':
       'Elke Microcosmos is een samenwerking tussen een ruimte, een idee en een levend ecosysteem. Dit zijn enkele werelden die ik tot nu toe heb gecreëerd.',
 
+    'work.jump.label': 'Projecten op deze pagina',
+
     'work.project1.image.alt': 'Fallen Forest Microcosmos',
     'work.project1.eyebrow': '01 — Fallen Forest',
     'work.project1.title': 'Een bosbodem,<br />onder water gebracht.',
@@ -425,6 +427,8 @@ export const ui = {
     'work.hero.title': 'Real ecosystems.<br />Actually built.',
     'work.hero.text':
       "Each Microcosmos is a collaboration between a space, an idea and a living ecosystem. These are some of the worlds I've created so far.",
+
+    'work.jump.label': 'Projects on this page',
 
     'work.project1.image.alt': 'Fallen Forest Microcosmos',
     'work.project1.eyebrow': '01 — Fallen Forest',

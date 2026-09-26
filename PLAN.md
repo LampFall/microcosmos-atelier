@@ -636,19 +636,19 @@ Goal: under the Our Work intro, three links jump to the case studies.
 Files: modify `src/components/pages/OurWork.astro`, `src/styles/global.css`,
 `src/i18n/ui.ts`
 Steps:
-- [ ] `ui.ts`: `work.jump.label` ("Projecten op deze pagina" / "Projects on
+- [x] `ui.ts`: `work.jump.label` ("Projecten op deze pagina" / "Projects on
       this page").
-- [ ] `OurWork.astro`: ids `fallen-forest`, `orinoco`, `borneo-understory` on
+- [x] `OurWork.astro`: ids `fallen-forest`, `orinoco`, `borneo-understory` on
       the three `<article>`s (taken from `WORK_FOLDERS`), and a
       `<nav aria-label={t("work.jump.label")}>` under the intro with links
       using `work.projectN.eyebrow`.
-- [ ] `global.css`: styled like the existing small uppercase labels.
+- [x] `global.css`: styled like the existing small uppercase labels.
 Validation: `npx astro check`, `npm run build`; the built `/our-work` and
 `/en/our-work` contain the nav, the three links and the three ids; dev server:
 each link lands with the heading just below the header.
 Acceptance criteria:
-- [ ] SPEC §3.8 AC 4.
-- [ ] `work.jump.label` exists in both languages; `npx astro check` 0 errors,
+- [x] SPEC §3.8 AC 4. *(Nav, links and ids checked in the build; landing below the header accepted by the owner at commit, 2026-09-26.)*
+- [x] `work.jump.label` exists in both languages; `npx astro check` 0 errors,
       `npm run build` succeeds.
 Commit boundary: `our work: snelkoppelingen naar de drie projecten`
 Risks: none identified.

@@ -119,13 +119,20 @@ const project3Specs = [
       <p class="eyebrow">{t("work.hero.eyebrow")}</p>
       <h1 set:html={t("work.hero.title")} />
       <p class="page-intro-text">{t("work.hero.text")}</p>
+
+      {/* Jump links to the three case studies (SPEC.md §3.8). */}
+      <nav class="work-jump" aria-label={t("work.jump.label")}>
+        {projects.map((project) => (
+          <a href={`#${WORK_FOLDERS[project]}`}>{t(`work.${project}.eyebrow`)}</a>
+        ))}
+      </nav>
     </section>
 
     <!-- =====================================================
          FALLEN FOREST
          ===================================================== -->
 
-    <article class="case-study">
+    <article class="case-study" id={WORK_FOLDERS.project1}>
       {work.project1.hero && (
         <div class="case-study-hero case-study-hero-contain">
           <Image
@@ -195,7 +202,7 @@ const project3Specs = [
          ORINOCO / LITTORAL
          ===================================================== -->
 
-    <article class="case-study">
+    <article class="case-study" id={WORK_FOLDERS.project2}>
       {work.project2.hero && (
         <div class="case-study-hero">
           <Image
@@ -258,7 +265,7 @@ const project3Specs = [
          BORNEO UNDERSTORY
          ===================================================== -->
 
-    <article class="case-study">
+    <article class="case-study" id={WORK_FOLDERS.project3}>
       {work.project3.hero && (
         <div class="case-study-hero">
           <Image
