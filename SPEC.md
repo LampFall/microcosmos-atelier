@@ -711,7 +711,8 @@ warning (requirement 8).
 
 ### 3.8 Easier navigation on long pages
 
-Status: APPROVED (2026-09-26)
+Status: APPROVED (2026-09-26), implemented 2026-09-26. "Current state" below
+describes the situation before this change.
 
 #### Objectives
 

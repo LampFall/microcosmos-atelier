@@ -47,7 +47,8 @@ Read these before making non-trivial changes:
 └── src/
     ├── assets/              # site-wide SVGs
     ├── components/
-    │   ├── Header.astro / Footer.astro
+    │   ├── Header.astro / Footer.astro   # header: menu button, hide-on-scroll
+    │   ├── BackToTop.astro               # the ↑ link, on every page via Layout
     │   └── pages/           # the actual page implementations (see ARCHITECTURE.md #2)
     ├── content/
     │   ├── journal/<aquarium>/          # aquarium.yml + one folder per entry

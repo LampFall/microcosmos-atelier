@@ -534,7 +534,7 @@ Risks: none identified.
 
 ## Execution plan: easier navigation on long pages
 
-Status: APPROVED (2026-09-26)
+Status: APPROVED (2026-09-26). Phases 1–5 implemented.
 Implements: SPEC.md §3.8
 
 Order: the mobile menu comes first, so that when the header becomes fixed
@@ -658,15 +658,15 @@ Goal: the docs describe the new navigation.
 Files: modify `ARCHITECTURE.md` (§3 header and the scripts, §7 styling),
 `README.md` if needed, `PLAN.md`
 Steps:
-- [ ] `ARCHITECTURE.md`: the header is fixed with a small script (scroll
+- [x] `ARCHITECTURE.md`: the header is fixed with a small script (scroll
       states, mobile menu, the JS class on `<html>`), `--header-height` and
       `scroll-padding-top`, `BackToTop.astro` in `Layout.astro`, the Our Work
       ids, and that the site now has three small scripts (journal filter,
       header, back to top).
-- [ ] `PLAN.md`: this plan's status line.
+- [x] `PLAN.md`: this plan's status line.
 Validation: read the docs against the code; `npx astro check`.
 Acceptance criteria:
-- [ ] No doc says the header scrolls away or that the journal filter is the
+- [x] No doc says the header scrolls away or that the journal filter is the
       only script.
 Commit boundary: `docs: nieuwe navigatie beschreven`
 Risks: none identified.

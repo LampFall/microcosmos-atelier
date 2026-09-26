@@ -12,8 +12,10 @@ code as it exists today. Read `SPEC.md` for *what* the site needs to do, and
 - No UI framework (React/Vue/Svelte) is installed — every component is a
   plain `.astro` component. Don't reach for a framework component without a
   concrete need (e.g. real client-side interactivity beyond a `<script>`
-  tag); the one bit of interactivity so far (the journal tank filter) is
-  plain vanilla JS in a `<script>` block.
+  tag). The site's interactivity is three small plain-JS `<script>` blocks:
+  the journal aquarium filter (`Journal.astro`), the header (`Header.astro`,
+  see §3) and the back-to-top link (`BackToTop.astro`). Everything works
+  without JavaScript; the scripts only enhance it.
 - TypeScript is used for config/schema (`content.config.ts`, `i18n/*.ts`) via
   `@astrojs/check` for type-checking `.astro` files too.
 
@@ -78,6 +80,33 @@ i18n: {
   the current pathname and re-adds the *other* locale via
   `getRelativeLocaleUrl`, so switching language keeps you on the equivalent
   page rather than bouncing to the homepage.
+
+### Header and in-page navigation (`SPEC.md` §3.8)
+
+- `Header.astro` starts with a tiny inline script that adds `has-js` to
+  `<html>` before the header is drawn. Every JavaScript-dependent header
+  style is scoped to `.has-js`, so without JavaScript the header is exactly
+  the old one: `position: absolute` at the top, all links visible.
+- With JavaScript, the header is `position: fixed` and its script toggles
+  two classes while scrolling (passive listener, throttled with
+  `requestAnimationFrame`): `is-hidden` when scrolling down past the header,
+  removed again on a small scroll up; `is-solid` (page background, dark text,
+  thin border) once the header no longer sits over a photo — on the home page
+  when the `.hero` has scrolled out from under it, elsewhere past the
+  header's height. It never hides while it has keyboard focus
+  (`:focus-visible`) or the menu is open.
+- At ≤ 800px a "Menu" button (`aria-expanded`, `aria-controls`) toggles the
+  links into a full-width panel below the header: a disclosure, not a modal.
+  Esc (focus back to the button), a tap outside (`pointerdown`, for iOS), a
+  link, or growing past 800px close it.
+- `--header-height` (80px, 88px at ≤ 800px) sets the header row's height and
+  `html { scroll-padding-top }`, so anchors land below the header.
+- `BackToTop.astro`, rendered once from `Layout.astro` (`<body id="top">`),
+  is a link to `#top` shown after 1.5 screens; it follows `scroll-behavior`.
+- Our Work links to its case studies with `#fallen-forest`, `#orinoco` and
+  `#borneo-understory` (the `WORK_FOLDERS` names).
+- `prefers-reduced-motion: reduce` turns off the header and back-to-top
+  transitions and sets `scroll-behavior: auto`.
 
 ## 4. Translation dictionary (`src/i18n/ui.ts`)
 
@@ -207,8 +236,11 @@ applies rather than mixing them within the same feature.
   doesn't leak into other pages' bundles.
 - No CSS framework/utility system (e.g. Tailwind) is in use; styles are
   hand-written CSS with CSS custom properties (`var(--text)`, `var(--muted)`,
-  `var(--surface)`, `var(--border)`, `var(--accent)`) defined presumably in
-  `global.css` for theming.
+  `var(--surface)`, `var(--border)`, `var(--accent)`, `var(--header-height)`)
+  defined in `:root` in `global.css`.
+- The header, menu panel, back-to-top link and Our Work jump links
+  (`.work-jump`) are styled in `global.css`; header rules that need
+  JavaScript are scoped to `.has-js` (see §3).
 
 ## 8. Working with Claude Code on this repo
 
