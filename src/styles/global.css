@@ -15,6 +15,9 @@
     --page-padding: 40px;
 
     --space-section: 140px;
+
+    /* Height of the header row, also used to keep anchors below it. */
+    --header-height: 80px;
 }
 
 
@@ -28,6 +31,7 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: var(--header-height);
 }
 
 body {
@@ -163,6 +167,53 @@ h3 {
 
 .navigation a:hover {
     opacity: 0.6;
+}
+
+/* With JavaScript the header is fixed: it hides while scrolling down and
+   returns on scroll up, solid once off the photo (SPEC.md §3.8). Without
+   JavaScript it stays at the top of the page as before. */
+.has-js .site-header,
+.has-js .page-header {
+    position: fixed;
+
+    border-bottom: 1px solid transparent;
+
+    transition:
+        transform 0.25s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.has-js .nav {
+    min-height: var(--header-height);
+
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.has-js .site-header.is-hidden,
+.has-js .page-header.is-hidden {
+    transform: translateY(-100%);
+}
+
+.has-js .site-header.is-solid,
+.has-js .page-header.is-solid {
+    border-bottom-color: var(--border);
+
+    background: var(--background);
+    color: var(--text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .has-js .site-header,
+    .has-js .page-header {
+        transition: none;
+    }
 }
 
 /* Menu button: only shown at ≤ 800px when JavaScript runs (SPEC.md §3.8). */
@@ -1291,6 +1342,7 @@ footer {
     :root {
         --page-padding: 22px;
         --space-section: 90px;
+        --header-height: 88px;
     }
 
     .navigation {

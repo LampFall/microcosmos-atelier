@@ -577,14 +577,14 @@ Goal: on every page the fixed header hides while scrolling down and returns
 on scroll up, solid once off the photo; anchors land below it.
 Files: modify `src/components/Header.astro`, `src/styles/global.css`
 Steps:
-- [ ] `global.css`: `--header-height` (desktop and ≤ 800px values);
+- [x] `global.css`: `--header-height` (desktop and ≤ 800px values);
       `.site-header` / `.page-header` become `position: fixed`; states
       hidden (transform off-screen), visible, solid (`--background`, dark
       text, `--border` line); a short transform transition;
       `html { scroll-padding-top: var(--header-height) }`; a
       `prefers-reduced-motion` block with no transitions and
       `scroll-behavior: auto`.
-- [ ] `Header.astro` script: a passive scroll listener throttled with
+- [x] `Header.astro` script: a passive scroll listener throttled with
       `requestAnimationFrame`; always visible and transparent within the first
       `--header-height`; hide after scrolling down past it, show on an upward
       scroll of a few pixels; solid once off the photo (home: when the hero
@@ -595,11 +595,11 @@ Validation: `npx astro check`, `npm run build`; dev server on the home page
 and one other page, desktop and ≤ 800px; the home `#contact` link lands below
 the header; reduced motion on (macOS setting); JavaScript disabled.
 Acceptance criteria:
-- [ ] SPEC §3.8 AC 1 (the CSS part: `--header-height` defined and used for
-      `scroll-padding-top`), AC 2 and AC 6 (header part).
-- [ ] AC 7 still holds (without JavaScript the header stays at the top of
-      the page and all links work).
-- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+- [x] SPEC §3.8 AC 1 (the CSS part: `--header-height` defined and used for
+      `scroll-padding-top`), AC 2 and AC 6 (header part). *(Static checks passed; browser behaviour accepted by the owner at commit, 2026-09-26.)*
+- [x] AC 7 still holds (without JavaScript the header stays at the top of
+      the page and all links work). *(Static checks passed; browser behaviour accepted by the owner at commit, 2026-09-26.)*
+- [x] `npx astro check` 0 errors, `npm run build` succeeds.
 Commit boundary: `navigatie: header verdwijnt bij naar beneden scrollen en komt terug bij omhoog scrollen`
 Risks: the page layouts rely on the header being out of the flow; fixed keeps
 it that way (checked in the spec review). Watch the home hero: white text

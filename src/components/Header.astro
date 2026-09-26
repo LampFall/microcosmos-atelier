@@ -49,6 +49,7 @@ const path = Astro.url.pathname.replace(/^\/en/, "") || "/";
 
 <script>
   // Menu button at ≤ 800px (SPEC.md §3.8, a disclosure, not a modal).
+  const header = document.querySelector<HTMLElement>(".site-header, .page-header");
   const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
   const panel = document.getElementById("site-navigation");
 
@@ -83,5 +84,65 @@ const path = Astro.url.pathname.replace(/^\/en/, "") || "/";
     window.matchMedia("(max-width: 800px)").addEventListener("change", (event) => {
       if (!event.matches) setOpen(false);
     });
+  }
+
+  // Header that hides on scroll down and returns on scroll up (SPEC.md §3.8).
+  if (header) {
+    const hero = document.querySelector<HTMLElement>(".hero");
+    const THRESHOLD = 6; // px of scrolling before the header reacts, against flicker
+    let lastY = window.scrollY;
+    let ticking = false;
+
+    // Only keyboard focus keeps the header in view (a mouse click or tap
+    // also focuses a link or button, but shouldn't pin the header). Older
+    // Safari (before 15.4) doesn't know :focus-visible, so fall back to :focus.
+    const focusSelector = CSS.supports("selector(:focus-visible)") ? ":focus-visible" : ":focus";
+    const keepVisible = () =>
+      header.querySelector(focusSelector) !== null ||
+      toggle?.getAttribute("aria-expanded") === "true";
+
+    const update = () => {
+      ticking = false;
+      // Clamp against iOS rubber-banding past the top or bottom, which would
+      // otherwise read as scrolling up and bring the header back.
+      const maxY = document.documentElement.scrollHeight - window.innerHeight;
+      const y = Math.min(Math.max(window.scrollY, 0), Math.max(maxY, 0));
+      const height = header.offsetHeight;
+
+      // Solid once the header no longer sits over a photo: on the home page
+      // when the hero has scrolled out from under it, elsewhere past its height.
+      const solid = hero ? hero.getBoundingClientRect().bottom <= height : y > height;
+      header.classList.toggle("is-solid", solid);
+
+      if (y <= height) {
+        header.classList.remove("is-hidden");
+        lastY = y;
+        return;
+      }
+      if (Math.abs(y - lastY) < THRESHOLD) return;
+      header.classList.toggle("is-hidden", y > lastY && !keepVisible());
+      lastY = y;
+    };
+
+    const schedule = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    window.addEventListener("scroll", schedule, { passive: true });
+    // Rotating or resizing changes the hero's position: recheck the colour.
+    window.addEventListener("resize", schedule);
+    // A restored scroll position or a jump to a #section isn't a scroll by
+    // the visitor: start counting from there instead of hiding right away.
+    const resetFromHere = () => {
+      lastY = window.scrollY;
+      update();
+    };
+    window.addEventListener("load", resetFromHere);
+    window.addEventListener("pageshow", resetFromHere);
+    header.addEventListener("focusin", () => header.classList.remove("is-hidden"));
+    update();
   }
 </script>
