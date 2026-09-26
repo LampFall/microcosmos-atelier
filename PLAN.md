@@ -280,6 +280,255 @@ Risks: none identified.
 ### Blocking questions
 None.
 
+## Execution plan: Our Work photos from one folder per aquarium
+
+Status: APPROVED (2026-09-26)
+Implements: SPEC.md §3.7
+
+Notes from reading the code, which the phases below depend on:
+- The pre-commit hook checks every staged photo under the root, subfolders
+  included, and rejects any file that doesn't end in `.jpg`. So the 5 spares
+  moved into `extra/` must be renamed from `.jpeg` to `.jpg`, or the migration
+  commit is blocked. Preparation never touches `extra/`, so the spares are
+  neither renamed nor downscaled automatically.
+- The home page uses `A002-01`, `A003-06` and `A004-01` from
+  `public/images/our-work/` (`Index.astro:176-178`). To keep it working
+  between phases, Phase 2 **copies** these three into the work folders and
+  leaves them in `public/`; Phase 4 removes them.
+- The gallery grid already handles any number of photos as "rows of two,
+  first photo wider" (`global.css` `.case-study-gallery`, `1.2fr 0.8fr`;
+  `1fr` on mobile). An odd last photo leaves an empty cell, as Orinoco does
+  today. No CSS change is planned.
+- `<Image>` without `layout` adds no inline styles, so the existing
+  `.case-study-hero img`, `.case-study-hero-contain img` and
+  `.case-study-gallery img` rules keep applying.
+
+### Phase 1: Photo preparation and the hook also cover `src/content/work/`
+Goal: photos dropped directly into `src/content/work/<aquarium>/` are prepared
+like journal photos, journal behaviour unchanged, and the hook blocks
+unprepared work photos.
+Files: modify `src/integrations/prepare-photos.ts`, `.gitignore` / modify
+(local, not committed) `.git/hooks/pre-commit`
+Steps:
+- [ ] `prepare-photos.ts`: replace the single journal root with one list of
+      roots, e.g. `[{ dir: "src/content/journal/", depth: 2, warnExtras: true },
+      { dir: "src/content/work/", depth: 1, warnExtras: false }]` (`depth` =
+      folder levels between the root and a photo folder).
+- [ ] `prepareAll`: walk `depth` levels per root; per photo folder run
+      `recoverInterruptedRun`, `prepareFile` per candidate, and
+      `warnAboutExtraPhotos` only when `warnExtras` is set.
+- [ ] The path check returns the matching root (or null), requiring
+      `depth + 1` segments; the watcher uses it to decide on the warning.
+- [ ] `server.watcher.add`: one pattern per root.
+- [ ] Log labels relative to `src/content/` (`journal/…`, `work/…`); rename
+      the integration to `prepare-photos`; update the header comment. The
+      rest of the pipeline (sharp settings, temp files, backup/restore,
+      queue) stays exactly as it is.
+- [ ] `.gitignore`: the three temp/backup patterns for `src/content/work/**`.
+- [ ] `.git/hooks/pre-commit`: also check `src/content/work/`; wording
+      "photos" instead of "journal photos". Outside the repo, so not part of
+      the commit (mention in the report).
+Validation:
+- `npm run build` before and after the change, `diff -r` the two `dist/`
+  copies: no differences (journal output unchanged); no `prepared` lines for
+  existing journal photos.
+- Throwaway `src/content/work/_qa-tmp/` (deleted afterwards): a PNG, a
+  `.JPG`, 5+ photos and one in `extra/`. Build: PNG and `.JPG` become `.jpg`,
+  no "more than 3" warning, `extra/` untouched. A throwaway journal entry with
+  4 photos still warns.
+- Restart the dev server; drop a photo into the work test folder and the
+  journal test folder; `astro dev logs` shows both prepared.
+- Hook: stage an unprepared `.png` under `src/content/work/_qa-tmp/`, run
+  `sh .git/hooks/pre-commit`: it blocks and names the file. Unstage and
+  delete the test folders.
+- `npx astro check`.
+Acceptance criteria:
+- [ ] `diff -r` of `dist/` before/after shows no differences.
+- [ ] A HEIC or PNG in `src/content/work/<x>/` ends up as `<name>.jpg`,
+      ≤ 2400px, no EXIF/XMP/IPTC; a second build prints no `prepared` line.
+- [ ] `extra/` untouched; a work folder with > 3 photos gives no warning; a
+      journal entry with 4 photos still warns.
+- [ ] The hook blocks a staged unprepared photo under `src/content/work/`.
+- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+Commit boundary: `foto's: voorbereiding ook voor Our Work-mappen in src/content/work`
+Risks: regression in journal preparation (mitigated by the `dist/` diff and
+the throwaway journal test); the watcher must not start matching journal
+subfolders like `extra/` (guarded by the `depth + 1` check; test it).
+
+### Phase 2: Move the photos into folders and switch the Our Work page to `<Image>`
+Goal: Our Work shows the same 10 photos in the same order, now from
+`src/content/work/<aquarium>/`, as WebP with a `srcset`, still with today's
+`ui.ts` alt texts.
+Files: create `src/lib/work.ts`, `src/content/work/{fallen-forest,orinoco,borneo-understory}/…`
+/ modify `src/lib/photo-files.ts`, `src/components/pages/OurWork.astro` /
+move 12 files out of `public/images/our-work/` (10 via `git mv`, 3 copies)
+Steps:
+- [ ] Migration (every file gets a lowercase `.jpg`; "(copy)" = copy, because
+      the home page still uses it until Phase 4; the rest `git mv`):
+
+      | Folder | Shown (hero first) | `extra/` |
+      | --- | --- | --- |
+      | `fallen-forest/` | `01-A002-05.jpg`, `02-A002-02.jpg`, `03-A002-01.jpg` (copy) | `A002-03.jpg`, `A002-04.jpg`, `A002-06.jpg` |
+      | `orinoco/` | `01-A003-06.jpg` (copy), `02-A003-01.jpg`, `03-A003-03.jpg`, `04-A003-04.jpg` | `A003-02.jpg`, `A003-05.jpg` |
+      | `borneo-understory/` | `01-A004-01.jpg` (copy), `02-A004-02.jpg`, `03-A004-03.jpg` | none |
+
+      `public/images/our-work/` then holds `A001-01.jpeg` plus the three
+      home copies.
+- [ ] Run `npm run build` once so preparation re-encodes anything that needs
+      it; commit the prepared versions.
+- [ ] `photo-files.ts`: add `splitWorkPhotos(fileNames)` → `{ hero?, gallery }`,
+      reusing `isShownPhotoFile` and `naturalCompare`, no cap, no `cover` rule.
+- [ ] New `src/lib/work.ts`, modelled on `getEntryPhotos`: eager
+      `import.meta.glob("../content/work/*/*.jpg")` and
+      `getWorkPhotos(folder)` → `{ hero?, gallery }`. The only place that
+      knows the work folder convention.
+- [ ] `work.ts` also exports the case-study → folder mapping (project1 →
+      `fallen-forest`, project2 → `orinoco`, project3 → `borneo-understory`).
+- [ ] `OurWork.astro`: uses that mapping; per project `getWorkPhotos`; a build warning naming an
+      empty folder. Replace the 10 `<img>` tags with `<Image format="webp">`:
+      hero keeps its wrapper and Fallen Forest's contain variant, gallery
+      `widths`/`sizes` per column (confirm in the dev server); only the first
+      rendered hero gets `loading="eager" fetchpriority="high"`; leave out an
+      empty wrapper. Alt text stays `work.projectN.image.alt` /
+      `work.projectN.gallery.alt`.
+Validation:
+- `npx astro check`, `npm run build`; list the `/_astro/…` image names in
+  document order in `dist/our-work/index.html` and `/en/`.
+- Dev server: `05-test.jpg` in `orinoco/` appears as 5th gallery photo; a
+  photo in `orinoco/extra/` doesn't; renaming `03-A002-01.jpg` to
+  `00-A002-01.jpg` makes it the hero; revert all three.
+- Temporarily empty one folder: build warning with the folder name, case
+  study without hero and gallery; restore.
+- Visual check on desktop and ≤ 800px: contain hero, hover zoom, gallery as
+  before.
+Acceptance criteria:
+- [ ] In `dist/our-work/index.html` (and `/en/`) the images per case study
+      start, in order, with `01-A002-05.`, `02-A002-02.`, `03-A002-01.` |
+      `01-A003-06.`, `02-A003-01.`, `03-A003-03.`, `04-A003-04.` |
+      `01-A004-01.`, `02-A004-02.`, `03-A004-03.` (SPEC §3.7 AC 1).
+- [ ] `grep "/images/our-work/" src/components/pages/OurWork.astro` finds
+      nothing (AC 2).
+- [ ] Every Our Work `<img>` has a `.webp` `srcset`, width/height and
+      non-empty alt; exactly one is eager with `fetchpriority="high"` (the
+      Fallen Forest hero), the rest lazy.
+- [ ] The drop, `extra/` and rename tests behave as described (AC 3, 4).
+- [ ] `git ls-files src/content/work` lists 10 shown files and 5 spares, all
+      `.jpg`; the hook passes.
+- [ ] The home page still shows all 4 work photos (unchanged).
+- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+Commit boundary: `our work: foto's uit een map per aquarium, geoptimaliseerd via <Image>`
+Risks: git may record delete+add instead of a rename if preparation rewrites
+a file (acceptable); spares in `extra/` are committed as they are (no
+metadata, hook confirms); a `.jpeg` that isn't really a JPEG would be named by
+the hook.
+
+### Phase 3: Alt text per photo (`alt.yml`) and `/describe-photos work/<aquarium>`
+Goal: each Our Work photo gets its own alt text from the folder's `alt.yml`
+in the page's language, falling back to `ui.ts`, and `/describe-photos` can
+write that file.
+Files: modify `src/content.config.ts`, `src/lib/work.ts`,
+`src/components/pages/OurWork.astro`, `.claude/commands/describe-photos.md` /
+create `src/content/work/{fallen-forest,orinoco,borneo-understory}/alt.yml`
+Steps:
+- [ ] `content.config.ts`: `workAlt` collection (glob `*/alt.yml`, base
+      `./src/content/work`, id = folder name like `aquariums`); schema
+      `record(string, { nl: string, en: string })`.
+- [ ] `work.ts`: `getWorkAltTexts(folder)` → the record, or `{}`.
+- [ ] `OurWork.astro`: alt = `altTexts[fileName]?.[lang]`, else the `ui.ts`
+      fallback.
+- [ ] `describe-photos.md`: a `work/<aquarium>` mode — folder
+      `src/content/work/<aquarium>/`, photos via `splitWorkPhotos` (hero and
+      all gallery photos), context from the project's `work.projectN.*` texts,
+      the descriptive third-person style of Our Work, writes `alt.yml` with the
+      same keep / carry-over / remove rules. Journal mode unchanged.
+- [ ] Run it for the three folders; the owner reviews the texts before the
+      commit.
+Validation:
+- `npx astro check`, `npm run build`; grep the Our Work `alt="…"` values in
+  `dist/our-work/index.html` (NL) and `dist/en/our-work/index.html` (EN).
+- Temporarily remove one key: the `ui.ts` fallback appears; restore.
+- Temporarily break an entry (missing `en`): `astro check`/build fails naming
+  the file; revert.
+Acceptance criteria:
+- [ ] Each folder's `alt.yml` has non-empty `nl` and `en` for every shown
+      photo and no keys for missing files (AC 6).
+- [ ] In `dist/`, each Our Work alt equals the `alt.yml` text in that page's
+      language; a photo without a key shows the `ui.ts` fallback (AC 5).
+- [ ] A malformed `alt.yml` makes `astro check` or the build fail.
+- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+Commit boundary: `our work: alt-tekst per foto via alt.yml en /describe-photos work/<aquarium>`
+Risks: low; re-read the journal steps of `/describe-photos` after editing so
+journal mode doesn't change.
+
+### Phase 4: Home page follows each folder's hero
+Goal: the three project photos in the home page's "Our work" grid are each
+folder's current hero (optimized); `A001-01` stays a fixed file.
+Files: modify `src/components/pages/Index.astro` / delete
+`public/images/our-work/A002-01.jpeg`, `A003-06.jpeg`, `A004-01.jpeg`
+Steps:
+- [ ] Replace the three `<img>` tags with `<Image format="webp">` of each
+      folder's hero (default lazy loading; `widths`/`sizes` for the 2-column
+      `.work-grid`, confirm in the dev server); skip one if a folder has no
+      hero, using the mapping from `work.ts`. Alt text stays
+      `home.work.image1-3.alt`.
+- [ ] Keep the `A001-01.jpeg` line exactly as it is.
+- [ ] `git rm` the three home copies.
+Validation: `npx astro check`, `npm run build`, inspect `dist/index.html` and
+`/en/`; dev server on desktop and ≤ 800px; rename a photo so it sorts first
+in `orinoco/`, the home page follows, revert.
+Acceptance criteria:
+- [ ] In `dist/index.html` (and `/en/`) the work grid's first three images
+      start with `01-A002-05.`, `01-A003-06.`, `01-A004-01.` (WebP `srcset`,
+      lazy); the fourth is `/images/our-work/A001-01.jpeg`.
+- [ ] `public/images/our-work/` holds only `A001-01.jpeg`.
+- [ ] `grep -r "/images/our-work/" src` matches only the `A001-01` line.
+- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+Commit boundary: `home: projectfoto's volgen de hero van elke Our Work-map`
+Risks: Fallen Forest on the home page changes from `A002-01` to `A002-05`
+(intended, decision 4); check the contain-style hero looks right in the grid.
+
+### Phase 5: Docs
+Goal: the docs describe Our Work photos as prepared photos from one folder
+per aquarium.
+Files: modify `ARCHITECTURE.md`, `SPEC.md`, `README.md`, `AGENTS.md`, `PLAN.md`
+Steps:
+- [ ] `ARCHITECTURE.md` §5 (Our Work paragraph, `work.ts`,
+      `splitWorkPhotos`, `workAlt`), §6 (Our Work moves to the prepared
+      system; preparation has two roots), §8 (`/describe-photos work/…`).
+- [ ] `SPEC.md`: §3.3.6 and §3.4 point to §3.7; §4 drops "once §3.7 is
+      implemented"; §3.7's sentence about "no content collection" reworded
+      (blocking question 3).
+- [ ] `README.md`: project tree and the "Our Work case studies" bullet.
+- [ ] `AGENTS.md`: the hook checks journal and Our Work photos; the content
+      commands line mentions `work/<aquarium>`.
+- [ ] `PLAN.md`: close the backlog item about Our Work images (pointing to
+      the decision-log entry); set this plan's status line.
+Validation: read the docs against the code; `npx astro check`;
+`grep -rn "public/images/our-work" *.md` only finds current-state text in
+SPEC §3.7.
+Acceptance criteria:
+- [ ] No doc says Our Work images are unoptimized `<img>` tags from `public/`,
+      except §3.7's "Current state".
+- [ ] The backlog item is ticked, with a reference to the decision.
+Commit boundary: `docs: Our Work-foto's uit een map per aquarium beschreven`
+Risks: none identified.
+
+### Out of scope / follow-ups
+- A whole new case study without code or text (spec non-goal).
+- Filling the empty grid cell next to an odd last gallery photo.
+- A `verifier` check for Our Work photos without an `alt.yml` text.
+- Moving `A001-01` and the hero, inspiration and about photos into the
+  prepared system (spec non-goal).
+- Downscaling the spares in `extra/`.
+
+### Decisions on the blocking questions (2026-09-26)
+1. Home page alt text: keep `home.work.image1-3.alt` (generic project names).
+2. The case-study → folder mapping is one exported constant in
+   `src/lib/work.ts`, used by `OurWork.astro` and `Index.astro`.
+3. Phase 5 rewords §3.7's sentence about "no content collection".
+4. Phase 3 runs `/describe-photos` for the three folders; the owner reviews
+   the `alt.yml` texts before the commit.
+
 ## Backlog
 
 ### Content
