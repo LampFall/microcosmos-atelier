@@ -4,9 +4,23 @@ import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 import { getRelativeLocaleUrl } from "astro:i18n";
+import { Image } from "astro:assets";
+import { WORK_FOLDERS, getWorkPhotos } from "../../lib/work";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+// The three project photos in "Our work" follow each Our Work folder's hero
+// (SPEC.md §3.7); the alt texts stay the generic project names.
+const workHeroes = [
+  { hero: getWorkPhotos(WORK_FOLDERS.project1).hero, alt: t("home.work.image1.alt") },
+  { hero: getWorkPhotos(WORK_FOLDERS.project2).hero, alt: t("home.work.image2.alt") },
+  { hero: getWorkPhotos(WORK_FOLDERS.project3).hero, alt: t("home.work.image3.alt") },
+];
+// .work-grid: 2 columns with a 24px gap inside 1280px minus 2 × 40px padding
+// (~588px each); 1 column below 800px, with 22px padding.
+const workGridSizes =
+  "(max-width: 800px) calc(100vw - 44px), (max-width: 1280px) calc((100vw - 104px) / 2), 588px";
 ---
 
 <Layout title={t("home.meta.title")} description={t("home.meta.description")}>
@@ -173,9 +187,17 @@ const t = useTranslations(lang);
       </div>
 
       <div class="work-grid">
-        <img src="/images/our-work/A002-01.jpeg" alt={t("home.work.image1.alt")} />
-        <img src="/images/our-work/A003-06.jpeg" alt={t("home.work.image2.alt")} />
-        <img src="/images/our-work/A004-01.jpeg" alt={t("home.work.image3.alt")} />
+        {workHeroes.map(({ hero, alt }) =>
+          hero && (
+            <Image
+              src={hero.image}
+              alt={alt}
+              format="webp"
+              widths={[400, 600, 900, 1200]}
+              sizes={workGridSizes}
+            />
+          )
+        )}
         <img src="/images/our-work/A001-01.jpeg" alt={t("home.work.image4.alt")} />
       </div>
 

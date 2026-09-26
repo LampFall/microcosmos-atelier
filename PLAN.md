@@ -469,23 +469,23 @@ folder's current hero (optimized); `A001-01` stays a fixed file.
 Files: modify `src/components/pages/Index.astro` / delete
 `public/images/our-work/A002-01.jpeg`, `A003-06.jpeg`, `A004-01.jpeg`
 Steps:
-- [ ] Replace the three `<img>` tags with `<Image format="webp">` of each
+- [x] Replace the three `<img>` tags with `<Image format="webp">` of each
       folder's hero (default lazy loading; `widths`/`sizes` for the 2-column
       `.work-grid`, confirm in the dev server); skip one if a folder has no
       hero, using the mapping from `work.ts`. Alt text stays
       `home.work.image1-3.alt`.
-- [ ] Keep the `A001-01.jpeg` line exactly as it is.
-- [ ] `git rm` the three home copies.
+- [x] Keep the `A001-01.jpeg` line exactly as it is.
+- [x] `git rm` the three home copies.
 Validation: `npx astro check`, `npm run build`, inspect `dist/index.html` and
 `/en/`; dev server on desktop and ≤ 800px; rename a photo so it sorts first
 in `orinoco/`, the home page follows, revert.
 Acceptance criteria:
-- [ ] In `dist/index.html` (and `/en/`) the work grid's first three images
+- [x] In `dist/index.html` (and `/en/`) the work grid's first three images
       start with `01-A002-05.`, `01-A003-06.`, `01-A004-01.` (WebP `srcset`,
       lazy); the fourth is `/images/our-work/A001-01.jpeg`.
-- [ ] `public/images/our-work/` holds only `A001-01.jpeg`.
-- [ ] `grep -r "/images/our-work/" src` matches only the `A001-01` line.
-- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+- [x] `public/images/our-work/` holds only `A001-01.jpeg`.
+- [x] `grep -r "/images/our-work/" src` matches only the `A001-01` line.
+- [x] `npx astro check` 0 errors, `npm run build` succeeds.
 Commit boundary: `home: projectfoto's volgen de hero van elke Our Work-map`
 Risks: Fallen Forest on the home page changes from `A002-01` to `A002-05`
 (intended, decision 4); check the contain-style hero looks right in the grid.
