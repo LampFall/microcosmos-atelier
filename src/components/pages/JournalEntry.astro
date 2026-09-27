@@ -7,7 +7,7 @@ import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { getEntryPhotos, parseJournalId } from "../../lib/journal";
+import { getEntryPhotos, parseJournalId, hasTranslation } from "../../lib/journal";
 import "../../styles/journal.css";
 
 interface Props {
@@ -46,6 +46,7 @@ const altFallback = () => {
 <Layout
 	title={`${entry.data.title} — Microcosmos Atelier`}
 	description={entry.data.summary ?? entry.data.title}
+	hasTranslation={await hasTranslation(entry.id)}
 >
 	<Header />
 

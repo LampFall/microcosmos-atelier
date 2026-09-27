@@ -958,6 +958,127 @@ Risks: none identified.
 ### Blocking questions
 None.
 
+## Execution plan: SEO basics for a bilingual site
+
+Status: APPROVED (2026-09-27)
+Implements: SPEC.md §3.12
+
+Order: addresses first (canonical and language links, which everything else
+reuses), then the share tags and images, then the sitemap and `robots.txt`,
+then docs and the owner's preview check. No phase changes anything visible;
+each one can go live on its own.
+
+### Phase 1: Canonical and language links
+Goal: every indexable page has one canonical and, when its other-language
+version exists, `hreflang` links for `nl`, `en` and `x-default`; the old
+journal redirects point to addresses with a trailing `/`.
+Files: modify `src/i18n/utils.ts`, `src/components/Header.astro`,
+`src/layouts/Layout.astro`, `src/lib/journal.ts`,
+`src/components/pages/JournalEntry.astro`, `astro.config.mjs`
+Steps:
+- [x] `utils.ts`: a helper for the page path without the `/en` prefix,
+      taken from `Header.astro` line 15; the header uses it (same output).
+- [x] `journal.ts`: a helper that says whether an entry exists in the
+      other language (reusing the collection it already reads).
+- [x] `Layout.astro`: optional prop "other language exists" (default
+      true). Unless `noindex`: canonical via `getAbsoluteLocaleUrl(lang,
+      path)`; if the other language exists, `hreflang` `nl`, `en` and
+      `x-default` (= NL).
+- [x] `JournalEntry.astro`: passes the helper's answer.
+- [x] `astro.config.mjs`: trailing `/` on the eight redirect targets.
+Validation: `npx astro check`, `npm run build`; a one-off script in the
+scratchpad over `dist/` (every sitemap page: one canonical equal to its
+sitemap URL; hreflang targets exist in `dist/`); the header language links
+unchanged on a few pages; a temporary EN-only test entry (not committed)
+gets no hreflang; dev server spot check.
+Acceptance criteria:
+- [x] SPEC §3.12 AC 2, 5 (the canonical/hreflang part), 7 and 9.
+- [x] The language switch in the header gives the same links as before.
+- [x] `npx astro check` 0 errors, `npm run build` succeeds.
+Commit boundary: `seo: canonical en taallinks (hreflang) op elke pagina`
+Risks: the path helper must give the same result as the header did (e.g.
+`/en` → `/`); canonicals must match the sitemap exactly (trailing slash).
+
+### Phase 2: Share tags and share images
+Goal: every indexable page has Open Graph and Twitter tags with a 1200×630
+JPEG share image of its own photo or the default.
+Files: modify `src/layouts/Layout.astro`, `src/components/pages/Index.astro`,
+`src/components/pages/About.astro`, `src/components/pages/OurWork.astro`,
+`src/components/pages/JournalEntry.astro`
+Steps:
+- [ ] `Layout.astro`: optional props share image (photo + alt) and page
+      type. Makes a 1200×630 JPEG with `getImage` (`format: "jpeg"`,
+      `fit: "cover"`, centred); default = `site/hero.jpg` with
+      `home.hero.imageAlt`. Writes `og:title`, `og:description`, `og:url`
+      (= canonical), `og:site_name`, `og:type`, `og:locale`
+      (`nl_BE`/`en_GB`) + `og:locale:alternate`, `og:image` (absolute),
+      `og:image:width`/`height` (the real file size), `og:image:alt`,
+      `twitter:card`. Not on `noindex` pages. No `og:locale:alternate`
+      when the page has no translation (review note, Phase 1).
+- [ ] Pages pass their photo and alt: home (hero), about (about photo),
+      Our Work (first existing hero, its `alt.yml` text), journal entry
+      (cover, else first photo, with the alt text the page uses; type
+      `article`).
+Validation: `npx astro check`, `npm run build`; extend the scratchpad
+script (all tags present, `og:image` files exist in `dist/`, are JPEG
+1200×630, `og:url` = canonical); check which image each page uses; dev
+server spot check (nothing visible changes).
+Acceptance criteria:
+- [ ] SPEC §3.12 AC 3, 4, 5 (the share-tag part) and 10.
+- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+Commit boundary: `seo: deelkaartjes (Open Graph) met een foto per pagina`
+Risks: `og:image:width`/`height` must match the real file (a small source
+isn't enlarged); NL and EN share one image file per photo, check the build
+doesn't make duplicates.
+
+### Phase 3: Sitemap language pairs and `robots.txt`
+Goal: the sitemap links the NL and EN version of each page, and
+`/robots.txt` points to it.
+Files: modify `astro.config.mjs`; create `public/robots.txt`
+Steps:
+- [ ] `sitemap({ filter, i18n: { defaultLocale: 'nl', locales: { nl: 'nl',
+      en: 'en' } } })`.
+- [ ] `public/robots.txt`: `User-agent: *`, `Allow: /`,
+      `Sitemap: https://microcosmos-atelier.com/sitemap-index.xml`.
+Validation: `npx astro check`, `npm run build`; check `dist/sitemap-0.xml`
+and `dist/robots.txt`; the temporary EN-only test entry is not paired.
+Acceptance criteria:
+- [ ] SPEC §3.12 AC 6 and 8 (and the sitemap part of AC 9).
+- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+Commit boundary: `seo: taalparen in de sitemap en robots.txt`
+Risks: none identified.
+
+### Phase 4: Docs and live preview check
+Goal: the docs describe the head tags; the owner confirms real previews.
+Files: modify `SPEC.md` (§4 SEO), `ARCHITECTURE.md`, `PHOTOS.md`,
+`PLAN.md` (queue item 3)
+Steps:
+- [ ] `SPEC.md` §4: what every page carries (canonical, hreflang, share
+      tags), `robots.txt`, the sitemap pairs.
+- [ ] `ARCHITECTURE.md`: where the head tags come from (Layout props, the
+      path helper, the journal translation helper, share images via
+      `getImage`), and that a new page should pass its photo.
+- [ ] `PHOTOS.md`: a page's photo is also its link-preview photo (cropped
+      wide).
+- [ ] After the push: the owner shares the home page and a journal entry in
+      WhatsApp (or checks them in LinkedIn's Post Inspector) and, once, submits
+      the sitemap in Google Search Console if it isn't there.
+- [ ] `PLAN.md`: queue item 3 done.
+Validation: `npx astro check`; reread the changed sections; the owner's
+report.
+Acceptance criteria:
+- [ ] SPEC §3.12 AC 11 and 12.
+Commit boundary: `docs: SEO-basis beschreven`
+Risks: platforms cache previews; a stale preview isn't a site error.
+
+### Out of scope / follow-ups
+- The header's language switch links to a missing page for a journal
+  entry in one language only (SPEC §3.12 non-goal).
+- Structured data (JSON-LD).
+
+### Blocking questions
+None.
+
 ## Improvement queue
 
 From `SPEC.md` §3.9 (high-level, approved 2026-09-26). One item at a time: each gets its
@@ -969,7 +1090,7 @@ Update the status here as items move along.
 | 0 | How the site goes live (hosting, deploy) | done (2026-09-26): Netlify, push to `main` deploys, see `ARCHITECTURE.md` §1 | — |
 | 1 | Contact form: reliable and private | done (2026-09-27), live on Netlify Forms, all checks passed | — |
 | 2 | Home and about page images: fast | done (2026-09-27): photos in `src/content/site/`, home 4.6 MB → 0.4 MB on a phone before scrolling | — |
-| 3 | SEO basics for a bilingual site | spec approved (§3.12, 2026-09-27) | `/plan-phases` |
+| 3 | SEO basics for a bilingual site | plan approved (2026-09-27); phase 1 done, phases 2–4 to do | `/implement-phase 2` |
 | 4 | Review and audit of the untouched code | waiting (after 1–3) | `reviewer` + Lighthouse |
 | 5 | Owner browser checks still open | waiting — owner task | Owner, whenever convenient |
 

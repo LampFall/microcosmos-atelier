@@ -1,17 +1,29 @@
 ---
 import "../styles/global.css";
-import { getLangFromUrl } from "../i18n/utils";
+import { getAbsoluteLocaleUrl } from "astro:i18n";
+import { getLangFromUrl, getPathWithoutLocale } from "../i18n/utils";
 import BackToTop from "../components/BackToTop.astro";
 
 interface Props {
   title: string;
   description: string;
   // Keeps the page out of search engines (e.g. the contact thank-you page).
+  // Such a page gets no canonical or language links either.
   noindex?: boolean;
+  // False when this page has no other-language version (a journal entry in
+  // one language only); it then gets no hreflang links (SPEC.md §3.12).
+  hasTranslation?: boolean;
 }
 
-const { title, description, noindex = false } = Astro.props;
+const { title, description, noindex = false, hasTranslation = true } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
+
+// The official addresses of this page on the live domain, with a trailing
+// slash, the same as in the sitemap (SPEC.md §3.12).
+const path = getPathWithoutLocale(Astro.url);
+const canonical = getAbsoluteLocaleUrl(lang, path);
+const nlUrl = getAbsoluteLocaleUrl("nl", path);
+const enUrl = getAbsoluteLocaleUrl("en", path);
 ---
 
 <!doctype html>
@@ -21,6 +33,14 @@ const lang = getLangFromUrl(Astro.url);
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
+    {!noindex && <link rel="canonical" href={canonical} />}
+    {!noindex && hasTranslation && (
+      <>
+        <link rel="alternate" hreflang="nl" href={nlUrl} />
+        <link rel="alternate" hreflang="en" href={enUrl} />
+        <link rel="alternate" hreflang="x-default" href={nlUrl} />
+      </>
+    )}
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />

@@ -7,7 +7,7 @@
 // Nothing outside this file should parse a journal entry `id` or reach for
 // `import.meta.glob` over the journal folder directly -- go through the
 // helpers below instead, so the convention only has to change in one place.
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 import { splitEntryPhotos } from "./photo-files";
 
 export type JournalLang = "nl" | "en";
@@ -37,6 +37,17 @@ export function parseJournalId(id: string): ParsedJournalId {
 		);
 	}
 	return { aquarium, entry, lang };
+}
+
+/**
+ * Whether the same entry also exists in the other language (e.g. for
+ * "fallen-forest/2023-05-hardscape/nl": is there an `en.md` next to it?).
+ * Used for the hreflang links, which must only point to pages that exist.
+ */
+export async function hasTranslation(id: string): Promise<boolean> {
+	const { aquarium, entry, lang } = parseJournalId(id);
+	const other: JournalLang = lang === "nl" ? "en" : "nl";
+	return (await getEntry("journal", `${aquarium}/${entry}/${other}`)) !== undefined;
 }
 
 export interface JournalListEntry {

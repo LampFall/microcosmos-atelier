@@ -1,6 +1,6 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import { getLangFromUrl, getPathWithoutLocale, useTranslations } from "../i18n/utils";
 
 interface Props {
   variant?: "page" | "site";
@@ -11,8 +11,7 @@ const { variant = "page" } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-// Pad zonder taalprefix, bv. "/en/about" -> "/about", "/about" -> "/about"
-const path = Astro.url.pathname.replace(/^\/en/, "") || "/";
+const path = getPathWithoutLocale(Astro.url);
 ---
 
 <header class={variant === "site" ? "site-header" : "page-header"}>
