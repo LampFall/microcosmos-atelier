@@ -23,9 +23,10 @@ code as it exists today. Read `SPEC.md` for *what* the site needs to do, and
   (`npm run build` → `dist`) live in the Netlify dashboard, not in a
   `netlify.toml`. The live address is `https://microcosmos-atelier.com` (the
   primary domain, HTTPS on); `microcosmos-atelier.netlify.app` points to the
-  same site. Netlify Forms' form detection is on. The Node version isn't
-  pinned in Netlify, so Netlify's default is used (the site needs Node
-  ≥ 22.12, `package.json` `engines`). The build runs on Linux, so it can't
+  same site. Netlify Forms handles the contact form (§3, "Contact form").
+  `.nvmrc` pins the Node version Netlify builds with (24, the same as the
+  owner's Mac; `package.json` `engines` requires ≥ 22.12). The build runs
+  on Linux, so it can't
   convert HEIC photos (`sips` is macOS-only). That's fine, because only
   prepared `.jpg` photos are committed (pre-commit hook).
 
@@ -117,6 +118,30 @@ i18n: {
   `#borneo-understory` (the `WORK_FOLDERS` names).
 - `prefers-reduced-motion: reduce` turns off the header and back-to-top
   transitions and sets `scroll-behavior: auto`.
+
+### Contact form (`SPEC.md` §3.10)
+
+- `Contact.astro` holds one plain HTML form, `name="contact"`, with
+  `data-netlify="true"`. Netlify finds it in the built HTML at deploy time;
+  there is no JavaScript and no server code. Both language pages post to
+  the same form. Hidden fields: `form-name`, `language` (`nl`/`en`) and
+  `subject` (the translated `contact.form.subject`, used as the email
+  subject).
+- Spam: `netlify-honeypot="bot-field"` with a `bot-field` input inside a
+  `<p hidden>` (hidden from sight, screen readers and Tab), plus Netlify's
+  own spam filter.
+- `action` is the thank-you page in the visitor's language
+  (`/contact/thanks/`, `/en/contact/thanks/`, `ContactThanks.astro`). Those
+  pages pass `noindex` to `Layout.astro` (the only pages that do) and are
+  left out of the sitemap by the `filter` in `astro.config.mjs`.
+- The receiving address is not in the code. In the Netlify dashboard:
+  **Forms → contact** lists submissions (and **spam submissions**, worth a
+  look now and then: a real enquiry flagged as spam sends no email);
+  **Form notifications** holds the email notification to the owner's inbox.
+  The owner deletes submissions older than about a year there.
+- Local dev can't deliver the form (no Netlify); only the live site can be
+  tested. Removing or renaming a field, or the form name, changes what
+  Netlify stores; test on the live site after such a change.
 
 ## 4. Translation dictionary (`src/i18n/ui.ts`)
 

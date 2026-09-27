@@ -379,9 +379,10 @@ There are three levels of each photo, each with one job:
 
 ### 3.5 Contact
 
-- A contact form exists (see `Contact.astro`) whose submission handling is
-  out of scope for this document; treat any change to how submissions are
-  processed as a separate decision to confirm with the site owner.
+- One enquiry form (`Contact.astro`) on `/contact` and `/en/contact`,
+  handled by Netlify Forms, with a thank-you page per language. The page
+  shows no email address. Full spec: §3.10. Any change to how submissions
+  are processed is a decision for the site owner.
 
 ### 3.6 Journal index: clearer aquarium and a photo preview
 
@@ -907,6 +908,9 @@ real, and which URL is canonical.
 
 #### 1. Contact form: reliable and private
 
+Done (2026-09-27), see §3.10. The "Why" below describes the situation
+before it.
+
 - **Why:** for a business site this is the most important page. Today the
   form posts to `formsubmit.co` with the owner's Gmail address in the page
   source (easy for spam bots to harvest), FormSubmit's CAPTCHA is turned off
@@ -971,7 +975,9 @@ code, so the order can change on the owner's request, except that 3 needs
 
 ### 3.10 Contact form: reliable and private
 
-Status: APPROVED (2026-09-26)
+Status: APPROVED (2026-09-26), implemented 2026-09-27 (the owner's Reply
+check, AC 5, is still open). "Current state" below describes the situation
+before this change.
 
 Item 1 of the improvement queue (§3.9). Replaces §3.5's "submission
 handling is out of scope".

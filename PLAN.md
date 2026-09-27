@@ -679,7 +679,8 @@ None.
 
 ## Execution plan: contact form via Netlify Forms
 
-Status: APPROVED (2026-09-26)
+Status: APPROVED (2026-09-26). Phases 1–5 implemented; the owner's Reply
+check (Phase 4) is still open.
 Implements: SPEC.md §3.10
 
 Order: the thank-you page goes live first, so the form can point to it the
@@ -765,8 +766,12 @@ JavaScript off). The dev server can't deliver the form; the live test is
 Phase 4.
 Acceptance criteria:
 - [x] SPEC §3.10 AC 2, AC 3 and AC 7.
-- [ ] AC 6 (look unchanged, honeypot not visible or reachable with Tab,
-      works without JavaScript), checked on the dev server.
+- [x] AC 6 (look unchanged, honeypot not visible or reachable with Tab,
+      works without JavaScript). *(2026-09-27, owner on the live site: the
+      look is fine on phone and desktop, Tab order fine, honeypot never
+      reached. "Works without JavaScript" is by construction, a plain form
+      post with no script; a send with JavaScript switched off wasn't
+      tested.)*
 - [x] `npx astro check` 0 errors, `npm run build` succeeds.
 Commit boundary: `contact: formulier via Netlify Forms, zonder e-mailadres, met honeypot`
 Risks: from this push on, the live form depends on Netlify detecting it.
@@ -778,11 +783,11 @@ from then on.
 Goal: enquiries from the live site arrive by email, in both languages.
 Files: none (Netlify dashboard); `PLAN.md` ticks only.
 Steps:
-- [ ] After Phase 3 is pushed and the deploy is green: the owner checks
+- [x] After Phase 3 is pushed and the deploy is green: the owner checks
       that Netlify → Forms lists the form `contact` with its fields.
-- [ ] The owner adds an email notification for `contact` to
+- [x] The owner adds an email notification for `contact` to
       Kasper.Masschaele@gmail.com (Forms → Form notifications).
-- [ ] The owner sends one test from `/contact` and one from `/en/contact`
+- [x] The owner sends one test from `/contact` and one from `/en/contact`
       (with a different email address as sender if possible).
 Validation: the owner reports what arrived; Claude compares it with AC 5.
 Acceptance criteria:
@@ -790,6 +795,9 @@ Acceptance criteria:
       with the translated subject and the right language, and a reply goes
       to the test sender. If the subject or Reply-To isn't as expected, stop
       and report; a fix is a follow-up change, not a redesign here.
+      *(2026-09-27, owner: the form is listed, the notification is set up,
+      and both tests landed on the right thanks page and arrived by email.
+      Still to check: that Reply goes to the sender.)*
 Commit boundary: none (no files), unless ticks in `PLAN.md` are committed
 with Phase 5.
 Risks: a test marked as spam doesn't send an email: check Forms → spam
@@ -801,14 +809,14 @@ Files: modify `SPEC.md` (§3.5), `ARCHITECTURE.md` (§1 hosting and the
 contact page), `README.md` if it mentions the form, `PLAN.md` (queue item 1
 done; backlog: an address on the site's own domain)
 Steps:
-- [ ] `SPEC.md` §3.5 points to §3.10.
-- [ ] `ARCHITECTURE.md`: Netlify Forms, where submissions, spam and the
+- [x] `SPEC.md` §3.5 points to §3.10.
+- [x] `ARCHITECTURE.md`: Netlify Forms, where submissions, spam and the
       notification setting live in the dashboard, the yearly clean-up, the
       thanks pages, the `noindex` prop, `.nvmrc`.
-- [ ] `PLAN.md`: queue item 1 done; a backlog line for a domain address.
+- [x] `PLAN.md`: queue item 1 done; a backlog line for a domain address.
 Validation: `npx astro check`; reread the changed sections.
 Acceptance criteria:
-- [ ] SPEC §3.10 AC 9.
+- [x] SPEC §3.10 AC 9.
 Commit boundary: `docs: contactformulier via Netlify Forms beschreven`
 Risks: none identified.
 
@@ -831,7 +839,7 @@ Update the status here as items move along.
 | # | Item | Status | Next step |
 | --- | --- | --- | --- |
 | 0 | How the site goes live (hosting, deploy) | done (2026-09-26): Netlify, push to `main` deploys, see `ARCHITECTURE.md` §1 | — |
-| 1 | Contact form: reliable and private | plan approved (2026-09-26), phases 1–5 to do | `/implement-phase 1` |
+| 1 | Contact form: reliable and private | done (2026-09-27), live on Netlify Forms; only the owner's Reply check is open | Owner: press Reply on a test email |
 | 2 | Home and about page images: fast | waiting | `/spec` |
 | 3 | SEO basics for a bilingual site | waiting (needs 0) | `/spec` |
 | 4 | Review and audit of the untouched code | waiting (after 1–3) | `reviewer` + Lighthouse |
@@ -856,6 +864,10 @@ Update the status here as items move along.
       change and exists between any two processes (dev + build, or two dev
       servers). Option: one shared lock file per content root. Until then, don't
       run `npm run build` while the dev server is preparing new photos.
+- [ ] Contact: an email address on the site's own domain (e.g.
+      `hallo@microcosmos-atelier.com`), if the owner ever wants to show an
+      address again (`SPEC.md` §3.10, D2). Needs a mail provider for the
+      domain.
 - [ ] Try out `/translate-journal` on a real (non-placeholder) entry to
       validate the translation quality and frontmatter fidelity.
 - [x] ~~Consider adding a `photo-alt-text` helper.~~ Covered by
