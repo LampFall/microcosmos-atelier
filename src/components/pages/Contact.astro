@@ -60,12 +60,12 @@ const t = useTranslations(lang);
           </p>
 
           <div class="contact-form-group">
-            <label for="name">{t("contact.form.name.label")}</label>
+            <label for="name">{t("contact.form.name.label")} <span class="required-mark" aria-hidden="true">*</span></label>
             <input id="name" name="name" type="text" autocomplete="name" required />
           </div>
 
           <div class="contact-form-group">
-            <label for="email">{t("contact.form.email.label")}</label>
+            <label for="email">{t("contact.form.email.label")} <span class="required-mark" aria-hidden="true">*</span></label>
             <input id="email" name="email" type="email" autocomplete="email" required />
           </div>
 
@@ -83,7 +83,7 @@ const t = useTranslations(lang);
           </div>
 
           <div class="contact-form-group">
-            <label for="message">{t("contact.form.message.label")}</label>
+            <label for="message">{t("contact.form.message.label")} <span class="required-mark" aria-hidden="true">*</span></label>
             <textarea
               id="message"
               name="message"
@@ -91,6 +91,9 @@ const t = useTranslations(lang);
               required
             ></textarea>
           </div>
+
+          {/* The * is visual only; screen readers get `required` from the fields. */}
+          <p class="contact-form-privacy" aria-hidden="true">* {t("contact.form.required")}</p>
 
           <p class="contact-form-privacy" id="contact-privacy">{t("contact.form.privacy")}</p>
 

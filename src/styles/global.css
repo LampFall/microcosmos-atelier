@@ -1377,6 +1377,11 @@ footer {
     resize: vertical;
 }
 
+/* The "*" after a required field's label (the fields also have `required`). */
+.required-mark {
+    color: var(--muted);
+}
+
 .contact-form-privacy {
     margin: -8px 0 24px;
 

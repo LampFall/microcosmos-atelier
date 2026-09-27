@@ -1165,7 +1165,7 @@ Update the status here as items move along.
 | 1 | Contact form: reliable and private | done (2026-09-27), live on Netlify Forms, all checks passed | — |
 | 2 | Home and about page images: fast | done (2026-09-27): photos in `src/content/site/`, home 4.6 MB → 0.4 MB on a phone before scrolling | — |
 | 3 | SEO basics for a bilingual site | done (2026-09-27): canonical, hreflang, link previews, sitemap pairs, robots.txt; sitemap submitted in Search Console | — |
-| 4 | Review and audit of the untouched code | done (2026-09-27): see "Audit findings (2026-09-27)"; all fix bundles A–E done | Owner: required-field marker yes/no |
+| 4 | Review and audit of the untouched code | done (2026-09-27): see "Audit findings (2026-09-27)"; all fix bundles A–E done, required-field marker added | — |
 | 5 | Owner browser checks still open | waiting — owner task | Owner, whenever convenient |
 
 ## Audit findings (2026-09-27)
@@ -1344,8 +1344,11 @@ built site. No CRITICAL findings.
 - **Deliberately left:** the unused anchors (`home.intro.anchor`,
   `#contact`) stay for links from outside; the two Orinoco alt texts; the
   status word "Groei" (owner's earlier choice); the Fallen Forest intro
-  (owner's choice). Open question for the owner: a visible marker on the
-  required form fields (a design change).
+  (owner's choice).
+- **Required-field marker** (owner's choice, 2026-09-27): a grey `*` after
+  the labels of name, e-mail and message, and a "* verplicht" / "* required"
+  line above the privacy line; visual only (`aria-hidden`), the fields keep
+  `required`.
 
 #### Suggested fix bundles (for the owner to choose)
 
