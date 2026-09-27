@@ -933,9 +933,8 @@ before it.
   and Our Work (web masters without metadata, WebP `srcset` sized to their
   slot, lazy loading below the fold, the hero loading first with high
   priority), with the same look.
-- **Open question for the detailed spec:** whether they get drop-in folders
-  like Our Work (easy to replace) or simply move to `src/assets/` as fixed
-  imports (simpler).
+- **Detailed spec:** §3.11 (one site photo folder, `src/content/site/`,
+  prepared like Our Work; owner decision 2026-09-27).
 
 #### 3. SEO basics for a bilingual site
 
@@ -1202,6 +1201,201 @@ Owner:
   dashboard shows no form limit. Accepted: a small studio's enquiries are
   expected to stay far below any limit; Netlify's usage page is the place
   to look if submissions ever stop arriving.
+
+### 3.11 Home and about page photos: fast
+
+Status: APPROVED (2026-09-27)
+
+Item 2 of the improvement queue (§3.9).
+
+#### Current state
+
+- Eight photos are plain files in `public/images/`, shown with plain `<img>`
+  tags: no `srcset`, no WebP, no `width`/`height` attributes and no lazy
+  loading (the browser fetches all of them at once).
+  - Home (`Index.astro`): the hero `hero/A002-3.jpeg` (1500×2000, 630 KB),
+    four inspiration cards `microcosmos/*.jpg` (1408×768, 0.86–0.96 MB
+    each), the fourth "Our work" tile `our-work/A001-01.jpeg` (1500×2000,
+    250 KB) and the about photo `about/about.jpeg` (640×640, 71 KB).
+  - About (`About.astro`): `about/about-02.jpeg` (1200×1600, 650 KB), at the
+    top of the page.
+  - The home page alone loads about 4.6 MB of photos.
+- Two files in `public/images/` aren't used anywhere: `MCA-logo.jpeg` and
+  `hero/WhatsApp Image 2026-08-18 at 13.36.11.jpeg`.
+- None of the ten files has EXIF, XMP or IPTC metadata (checked
+  2026-09-27).
+- The three other "Our work" tiles on the home page already use `<Image>`
+  from `astro:assets` (§3.7), as do the journal and Our Work pages. Photo
+  preparation (`prepare-photos.ts`) covers `src/content/journal/` and
+  `src/content/work/`; the local pre-commit hook checks the same two
+  folders.
+
+#### Objectives
+
+1. The home page and the about page load much less image data, so they
+   appear faster, especially on phones.
+2. The hero is the first photo the browser fetches; photos further down
+   only load when the visitor scrolls towards them.
+3. The page doesn't jump while photos load.
+4. The site looks exactly the same.
+5. Replacing one of these photos later is as easy as for Our Work (any
+   format, straight from Google Drive) and can't leak GPS data.
+
+#### Non-goals
+
+- Choosing other photos, new crops or a new layout (e.g. a landscape hero
+  for wide screens).
+- A folder per photo slot, or more than one photo per slot.
+- Alt text changes (the hard-coded "Kasper Masschaele" alt is for the
+  review in §3.9 item 4).
+- Favicons and any Open Graph share image (§3.9 item 3).
+
+#### User workflow
+
+Visitor: opens the home or about page and sees the same page as before,
+sooner; photos lower on the page appear as they scroll.
+
+Owner, replacing one of these photos (D1 c):
+
+1. Deletes the old photo from the site photo folder (e.g. `hero.jpg`).
+2. Copies the new photo from Google Drive into that folder and names it
+   like the old one without the extension (e.g. `hero.HEIC`, `hero.png` or
+   `hero.jpg`). It should have the same orientation and roughly the same
+   proportions as the old one, because the crop stays the same.
+3. The dev server (or the next build) turns it into `hero.jpg`: at most
+   2400px, all metadata (GPS) removed, exactly like Our Work photos.
+4. Checks the page on the dev server and commits.
+
+#### Functional requirements
+
+1. The eight photos move out of `public/images/` into one site photo folder
+   `src/content/site/` (D1, D3), with fixed names, and are rendered with
+   `<Image>` from `astro:assets`, like the journal and Our Work photos.
+2. The site photo folder is a photo root for preparation, like the journal
+   and Our Work folders: a photo dropped into it (JPEG, PNG, WebP, HEIC,
+   any extension case) becomes `<name>.jpg` with all metadata removed.
+   Files in its subfolders are ignored.
+3. The pre-commit hook also checks the site photo folder (must be `.jpg`,
+   no EXIF/XMP/IPTC), and its message fits all three folders.
+4. Each photo is served as WebP in several widths (`srcset`) with a `sizes`
+   that reflects the width it is actually drawn at, after `object-fit:
+   cover` cropping (the portrait hero on a portrait phone is drawn wider
+   than the screen; the 1.83:1 inspiration photos are drawn wider than
+   their 4:3 box), so a phone doesn't download a desktop-sized file and a
+   large screen doesn't get a blurry one.
+5. Each rendered `<img>` has `width` and `height`, so its space is reserved
+   before it loads.
+6. The home hero and the about page photo (the first photo on each page)
+   load eagerly with high priority; all other photos load lazily.
+7. Crops, aspect ratios (inspiration cards 4:3, the home about photo 4:5),
+   hover effects and positions stay as they are on phone, tablet and
+   desktop, in both languages.
+8. No page refers to `/images/...` any more; the eight moved files are
+   removed from `public/images/`, and so are the two unused files (D2).
+9. A missing photo in the site photo folder fails the build with a message
+   naming the missing file, instead of a broken image on the live site.
+10. Docs: `SPEC.md` §4 (the eager-loading exceptions include the home hero
+    and the about photo; the "every such image" rule covers the site photo
+    folder), `ARCHITECTURE.md` §5 (the fixed fourth tile) and §6 (image
+    systems), and `README.md` (folder tree and how to replace a site
+    photo, with the file names).
+
+#### Data / content model
+
+- One site photo folder (D3) with eight fixed names, e.g. `hero.jpg`,
+  `inspiration-jungle.jpg`, `inspiration-amazon.jpg`,
+  `inspiration-blackwater.jpg`, `inspiration-custom.jpg`,
+  `work-extra.jpg`, `about-home.jpg`, `about-page.jpg`. The final names
+  are fixed in the plan and listed in the README. The current `.jpeg` files
+  are renamed to `.jpg` when moved, so preparation leaves them as they are.
+- No content collection, frontmatter, URL or `ui.ts` change.
+- `.gitignore` ignores the folder's preparation temp files, as for the
+  other two photo roots.
+
+#### Architecture
+
+- `prepare-photos.ts`: one more entry in `PHOTO_ROOTS` for the site photo
+  folder (photos directly in the folder, no "more than 3" warning). The
+  existing code already supports a root whose photos sit directly in it.
+  The dev server must be restarted after this change.
+- `Index.astro` (hero, four cards, the fourth work tile, the about photo)
+  and `About.astro` (the page photo) render the photos with `<Image>`,
+  reusing the existing pattern (`widths`, `sizes`, `format="webp"`, and
+  `loading="eager"` + `fetchpriority="high"` as in `OurWork.astro`).
+- `global.css`: `.microcosmos-card img` and `.about-image img` set a
+  width and an `aspect-ratio` but no `height`; once `<Image>` adds `width`
+  and `height` attributes, the browser would use the attribute height and
+  ignore the aspect ratio. They get `height: auto` so the 4:3 and 4:5 boxes
+  stay. (`.hero-image`, `.work-grid img` and `.about-page-image img`
+  already work with the attributes.)
+- The local pre-commit hook (not in the repository) gets the third folder.
+- Astro doesn't upscale: widths above the source are dropped (the hero
+  tops out at its 1500px source, as today). The build writes only the WebP
+  versions to `dist/_astro/`; the WebP files carry no metadata.
+- `ARCHITECTURE.md` §6's "two image systems" becomes one: all photos are
+  prepared and optimised; `public/` keeps only the favicons and the Search
+  Console file (`public/images/` is gone).
+- To verify in the plan: that a folder under `src/content/` without a
+  content collection causes no Astro warning (the work folder already
+  works this way).
+
+#### Security implications
+
+- Photos in git must not carry GPS data. Today's files have none;
+  preparation removes it from replacements automatically, and the hook
+  refuses anything that slips through.
+- No new services, secrets or data.
+
+#### Error handling
+
+- A missing or misnamed photo: the build fails with a message naming the
+  expected file (FR 9).
+- A new photo dropped without deleting the old one gets the name
+  `hero-2.jpg` (preparation never overwrites); the page keeps showing the
+  old photo. The README says to delete the old file first.
+- A photo sharp can't read: preparation logs an error and leaves the file;
+  the hook refuses to commit it (as for Our Work).
+- A replacement with other proportions: the build passes and the crop
+  changes. The README asks for the same orientation and proportions.
+
+#### Acceptance criteria
+
+1. `npx astro check` 0 errors; `npm run build` succeeds.
+2. `grep -rl '/images/' dist --include='*.html'` finds nothing, and none of
+   the eight photos is left in `public/images/`.
+3. In `dist/index.html`, `dist/about/index.html` and the `/en` versions,
+   every photo `<img>` has `srcset`, `sizes`, `width` and `height`, and
+   points to WebP files in `/_astro/`.
+4. Only the home hero and the about page photo have `loading="eager"` and
+   `fetchpriority="high"`; every other photo on those pages has
+   `loading="lazy"`.
+5. Every WebP referenced by `dist/index.html` is at most 400 KB. At a
+   390×844 viewport with device pixel ratio 3 (browser dev tools), the home
+   page downloads at most 400 KB of photos before scrolling (D4). The
+   phase report lists the numbers.
+6. At 1280px and 390px wide, the inspiration cards stay 4:3 and the home
+   about photo 4:5 (compare their size before and after).
+7. Manual (owner): the home and about pages look the same as before on
+   phone and desktop, in NL and EN.
+8. Preparation: a HEIC or PNG test photo dropped into the site photo folder
+   becomes a `.jpg` without EXIF while the dev server runs (test file then
+   deleted, not committed).
+9. Hook: a staged JPEG with EXIF in the site photo folder is refused with a
+   message naming the file (then unstaged and deleted).
+10. Removing one photo from the folder makes `npm run build` fail with a
+    message naming it (then restored).
+11. The docs in FR 10 are updated.
+
+#### Decisions (owner, 2026-09-27)
+
+- **D1. How these photos are kept:** (c) one site photo folder with fixed
+  names, prepared automatically like Our Work.
+- **D2. The two unused files:** both are deleted (`MCA-logo.jpeg` and
+  `hero/WhatsApp Image 2026-08-18 at 13.36.11.jpeg`); they stay in git
+  history, and the photo in Google Drive.
+- **D3. Folder:** `src/content/site/`.
+- **D4. Photo budget:** at most 400 KB of photos before scrolling on a
+  phone.
 
 ## 4. Non-functional requirements
 

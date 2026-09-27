@@ -830,6 +830,112 @@ Risks: none identified.
 ### Blocking questions
 None.
 
+## Execution plan: home and about photos from one prepared folder
+
+Status: DRAFT
+Implements: SPEC.md §3.11
+
+Order: first the machinery (preparation and hook know the new folder, still
+empty), then the move and the page changes in one go, so no page ever
+points to a photo that isn't there, then the docs. Every push goes live;
+each phase leaves the site working.
+
+### Phase 1: Preparation and the hook also cover `src/content/site/`
+Goal: a photo dropped into `src/content/site/` is prepared like an Our Work
+photo, and the hook checks that folder; no page uses it yet.
+Files: modify `src/integrations/prepare-photos.ts`, `.gitignore`; local
+`.git/hooks/pre-commit` (not in the repository)
+Steps:
+- [ ] `PHOTO_ROOTS`: add `src/content/site/` with photos directly in the
+      folder (depth 0) and no "more than 3" warning; update the comment.
+      Check that depth 0 works for start-up, the watcher and the log labels.
+- [ ] `.gitignore`: the three temp-file patterns for `src/content/site/`.
+- [ ] Hook: include `src/content/site/`; make the refusal message fit all
+      three folders.
+- [ ] Restart the dev server (`astro dev stop`, `astro dev --background`).
+Validation: `npx astro check`, `npm run build`; while the dev server runs,
+drop a HEIC or PNG test photo into `src/content/site/` and check it becomes
+`.jpg` without EXIF (then delete it); stage a JPEG with EXIF there and check
+the hook refuses it with its name (then unstage and delete it). Check that
+an empty or new folder under `src/content/` gives no Astro warning.
+Acceptance criteria:
+- [ ] SPEC §3.11 AC 8 and AC 9.
+- [ ] Journal and Our Work preparation unchanged (dev server log at start-up
+      shows no new work for existing photos).
+- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+Commit boundary: `foto's: voorbereiding en hook ook voor src/content/site/`
+Risks: a depth-0 root is new in practice; the watcher must not pick up
+files in subfolders or in the other roots twice.
+
+### Phase 2: Move the eight photos and render them with `<Image>`
+Goal: the home and about pages use the eight photos from
+`src/content/site/` as optimised WebP, with the same look; `public/images/`
+is gone.
+Files: move (`git mv`, renamed to `.jpg`) the eight photos from
+`public/images/` to `src/content/site/`; delete `public/images/MCA-logo.jpeg`
+and `public/images/hero/WhatsApp Image 2026-08-18 at 13.36.11.jpeg`; modify
+`src/components/pages/Index.astro`, `src/components/pages/About.astro`,
+`src/styles/global.css`
+Steps:
+- [ ] Before changing anything: record the current box sizes of the
+      inspiration cards and the home about photo at 1280px and 390px, and
+      the current image bytes of the home page.
+- [ ] Move and rename: `hero.jpg`, `inspiration-jungle.jpg`,
+      `inspiration-amazon.jpg`, `inspiration-blackwater.jpg`,
+      `inspiration-custom.jpg`, `work-extra.jpg`, `about-home.jpg`,
+      `about-page.jpg`. Delete the two unused files; `public/images/` is
+      then empty and removed.
+- [ ] `Index.astro` and `About.astro`: static imports of the photos (a
+      missing file then fails the build with its path, FR 9) and `<Image>`
+      with `format="webp"`, `widths` up to each source width, and `sizes`
+      per slot based on the CSS (drawn width after `object-fit: cover`;
+      hero ≈ `max(100vw, 75vh)` if browsers accept it in `sizes`,
+      otherwise `100vw`; cards ≈ 1.375 × the column width). The hero keeps
+      `class="hero-image"`.
+- [ ] Hero and about page photo: `loading="eager"`, `fetchpriority="high"`;
+      the rest lazy (the `<Image>` default).
+- [ ] `global.css`: `height: auto` on `.microcosmos-card img` and
+      `.about-image img`.
+Validation: `npx astro check`, `npm run build`; check `dist/` (AC 2–5);
+compare box sizes and bytes with the numbers recorded before; remove one
+photo temporarily and check the build fails naming it (AC 10); dev server,
+home and about in NL and EN, phone and desktop.
+Acceptance criteria:
+- [ ] SPEC §3.11 AC 1–6 and AC 10, with the before/after numbers in the
+      report.
+- [ ] AC 7 (owner: looks the same).
+Commit boundary: `foto's: home en about via geoptimaliseerde afbeeldingen uit src/content/site/`
+Risks: the look (crops, card hover, hero cover) is the main risk; compare
+carefully. The static import requires every file to exist before the pages
+build; preparation runs first at start-up.
+
+### Phase 3: Docs
+Goal: the docs describe the site photo folder and how to replace a photo.
+Files: modify `SPEC.md` (§4), `ARCHITECTURE.md` (§5, §6), `README.md`,
+`PLAN.md` (queue item 2)
+Steps:
+- [ ] `SPEC.md` §4: the eager exceptions include the home hero and the
+      about photo; the image rule covers `src/content/site/`.
+- [ ] `ARCHITECTURE.md` §5 (the fourth home tile) and §6 (one image
+      system: three photo roots; `public/` only has favicons and the Search
+      Console file).
+- [ ] `README.md`: folder tree, the eight file names and what each is for,
+      and how to replace one (delete the old file, drop the new one with
+      the same name, same orientation).
+- [ ] `PLAN.md`: queue item 2 done.
+Validation: `npx astro check`; reread the changed sections.
+Acceptance criteria:
+- [ ] SPEC §3.11 AC 11.
+Commit boundary: `docs: sitefoto's in src/content/site/ beschreven`
+Risks: none identified.
+
+### Out of scope / follow-ups
+- Hard-coded "Kasper Masschaele" alt text: §3.9 item 4.
+- A default Open Graph share image: §3.9 item 3.
+
+### Blocking questions
+None.
+
 ## Improvement queue
 
 From `SPEC.md` §3.9 (high-level, approved 2026-09-26). One item at a time: each gets its
@@ -840,7 +946,7 @@ Update the status here as items move along.
 | --- | --- | --- | --- |
 | 0 | How the site goes live (hosting, deploy) | done (2026-09-26): Netlify, push to `main` deploys, see `ARCHITECTURE.md` §1 | — |
 | 1 | Contact form: reliable and private | done (2026-09-27), live on Netlify Forms; only the owner's Reply check is open | Owner: press Reply on a test email |
-| 2 | Home and about page images: fast | waiting | `/spec` |
+| 2 | Home and about page images: fast | spec approved (§3.11, 2026-09-27); plan drafted | Owner approves the plan |
 | 3 | SEO basics for a bilingual site | waiting (needs 0) | `/spec` |
 | 4 | Review and audit of the untouched code | waiting (after 1–3) | `reviewer` + Lighthouse |
 | 5 | Owner browser checks still open | waiting — owner task | Owner, whenever convenient |
@@ -939,6 +1045,15 @@ Update the status here as items move along.
   alias from §3.9. The owner accepts that submissions are stored in the
   Netlify account (deleted after about a year) and that the free tier's
   form limit isn't shown. See `SPEC.md` §3.10.
+- **Home and about photos: one prepared site photo folder — chosen
+  (2026-09-27).** The eight photos from `public/images/` move to
+  `src/content/site/` with fixed names, a third photo root for preparation,
+  rendered with `<Image>`. Not chosen: fixed files in `src/assets/` (the
+  owner would have to strip GPS data by hand) and one folder per photo slot
+  (more folders and code for photos that rarely change). Why: extends the
+  existing system with one entry, and replacing a photo works like Our Work.
+  The two unused files (`MCA-logo.jpeg`, a spare hero photo) are deleted.
+  See `SPEC.md` §3.11.
 
 ## Suggested files/folders for working more efficiently with Claude Code
 
