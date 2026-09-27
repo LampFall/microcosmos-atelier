@@ -12,6 +12,9 @@
     --muted: #606960;
     --accent: #3e5949;
     --border: #d5d1c6;
+    /* Edge of form fields: 3.1:1 on --background, the WCAG 1.4.11 minimum
+       for the outline of a control (audit, PLAN.md). */
+    --field-border: #858a82;
 
     --max-width: 1280px;
     --page-padding: 40px;
@@ -345,6 +348,11 @@ h3 {
     max-width: 1000px;
 }
 
+/* The grey eyebrow colour isn't readable on the photo. */
+.hero .eyebrow {
+    color: rgba(255, 255, 255, 0.86);
+}
+
 .hero-text {
     max-width: 520px;
 
@@ -365,6 +373,10 @@ h3 {
     display: inline-block;
 
     padding: 13px 22px;
+
+    /* Also used on a <button>: no browser grey, same font as the links. */
+    background: transparent;
+    font-family: inherit;
 
     border: 1px solid rgba(255, 255, 255, 0.8);
 
@@ -544,46 +556,6 @@ h3 {
 .ecosystem-intro>p+p {
     margin-top: 22px;
 }
-
-.ecosystem-layers {
-    border-top: 1px solid var(--border);
-}
-
-.ecosystem-layers>div {
-    display: grid;
-
-    grid-template-columns:
-        45px 1fr;
-
-    column-gap: 10px;
-
-    padding: 20px 0;
-
-    border-bottom: 1px solid var(--border);
-}
-
-.ecosystem-layers span {
-    color: var(--muted);
-
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
-}
-
-.ecosystem-layers strong {
-    font-size: 1rem;
-    font-weight: 400;
-}
-
-.ecosystem-layers p {
-    grid-column: 2;
-
-    margin: 5px 0 0;
-
-    color: var(--muted);
-
-    font-size: 0.9rem;
-}
-
 
 /* =========================================================
    INSPIRATION
@@ -1761,15 +1733,6 @@ footer {
         padding-top: 150px;
     }
 
-    .ecosystem-layers>div {
-        grid-template-columns:
-            38px 1fr;
-    }
-
-    .ecosystem-layers p {
-        font-size: 0.88rem;
-    }
-
     .details-grid>div,
     .species-list>div {
         grid-template-columns: 1fr;
@@ -1861,7 +1824,7 @@ footer {
     margin-bottom: 35px;
 }
 
-.about-page-story p {
+.about-page-story p:not(.eyebrow) {
     max-width: 680px;
     margin-bottom: 28px;
     color: var(--muted);
@@ -1925,7 +1888,7 @@ footer {
     font-size: clamp(2rem, 3.5vw, 3.5rem);
 }
 
-.contact-page-info p {
+.contact-page-info p:not(.eyebrow) {
     color: var(--muted);
     font-size: 1rem;
     line-height: 1.7;
@@ -1965,7 +1928,7 @@ footer {
 .contact-form select {
     width: 100%;
 
-    border: 1px solid var(--border);
+    border: 1px solid var(--field-border);
 
     border-radius: 0;
 
@@ -2168,6 +2131,8 @@ footer {
 }
 
 .ecosystem-layers p {
+    grid-column: 2;
+
     margin: 3px 0 0;
 
     color: var(--muted);

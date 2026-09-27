@@ -22,7 +22,7 @@ export const ui = {
     'about.hero.eyebrow': 'Over Microcosmos Atelier',
     'about.hero.title': 'De natuur<br />heeft me altijd gefascineerd.',
     'about.hero.lead':
-      'Al meer dan 35 jaar ben ik gefascineerd door onderwaterwerelden. Wat begon als een hobby in mijn jeugd groeide langzaam uit tot een diepere fascinatie voor ecologie, natuurlijke systemen en de manier waarop levende organismen met elkaar verbonden zijn.',
+      'Sinds mijn vijfde ben ik gefascineerd door onderwaterwerelden. Wat begon als een hobby in mijn jeugd groeide langzaam uit tot een diepere fascinatie voor ecologie, natuurlijke systemen en de manier waarop levende organismen met elkaar verbonden zijn.',
     'about.story.eyebrow': 'Het verhaal',
     'about.story.title': 'Van aquariums<br />naar ecosystemen.',
     'about.story.p1':
@@ -158,9 +158,9 @@ export const ui = {
     'work.project2.spec.volume': '220 L',
     'work.project2.spec.filtration': 'Intern · substraat op basis van puimsteen',
     'work.project2.spec.substrate': 'MA-Gen 1.0',
-    'work.project2.spec.lighting': 'LED 2 lichtperiodes · 6 u + 4 u',
-    'work.project2.spec.co2': '-',
-    'work.project2.spec.fish': 'Nanostomus marginatus · Apistogramma veijeta · Ancistrus brown',
+    'work.project2.spec.lighting': 'LED · 2 lichtperiodes · 6 u + 4 u',
+    'work.project2.spec.co2': 'Geen',
+    'work.project2.spec.fish': 'Nannostomus marginatus · Apistogramma viejita · Ancistrus brown',
     'work.project2.spec.otherInhabitants': 'Slakken · microfauna',
     'work.project2.spec.plants': 'Echinodorus bleheri · Eleocharis acicularis',
     'work.project2.gallery.alt': 'Detail van Orinoco-geïnspireerde Microcosmos',
@@ -185,11 +185,11 @@ export const ui = {
     'work.project3.spec.filtration': 'Intern · spons',
     'work.project3.spec.lighting': '10 uur lichtperiode',
     'work.project3.spec.substrate': 'MA-Gen 2.0',
-    'work.project3.spec.co2': '-',
+    'work.project3.spec.co2': 'Geen',
     'work.project3.spec.fish': 'Chili Rasbora',
     'work.project3.spec.otherInhabitants': 'Neocaridina blue · microfauna',
     'work.project3.spec.plants':
-      'Cryptocoryne wendtii (green, red and brown) · Cryptocoryne undulata · Cryptocoryne beckettii · Cryptocoryne lucens · Cryptocoryne parva · Cryptocoryne petchii · Sagittaria subulata · Bolbitis heudelotii',
+      'Cryptocoryne wendtii (groen, rood en bruin) · Cryptocoryne undulata · Cryptocoryne beckettii · Cryptocoryne lucens · Cryptocoryne parva · Cryptocoryne petchii · Sagittaria subulata · Bolbitis heudelotii',
     'work.project3.gallery.alt': 'Detail van Borneo Understory Microcosmos',
 
     'work.closing.eyebrow': 'Jouw ruimte',
@@ -293,7 +293,7 @@ export const ui = {
       'Het ecosysteem komt tot rust, groeit en verandert. Afhankelijk van de aanpak die je kiest, kan ik betrokken blijven en samen met jou voor het ecosysteem blijven zorgen.',
 
     'home.formulas.eyebrow': 'Hoe we kunnen samenwerken',
-    'home.formulas.title': 'Kies hoe je jouw<br />Microcomos tot leven wil zien komen.',
+    'home.formulas.title': 'Kies hoe je jouw<br />Microcosmos tot leven wil zien komen.',
     'home.formulas.text':
       'Elke Microcosmos is anders. Sommige mensen willen de volledige ervaring en gaan daarna zelf verder. Anderen willen hun ecosysteem ook op lange termijn laten opvolgen.',
 
@@ -429,7 +429,7 @@ export const ui = {
       'I read every enquiry myself and will reply by email as soon as I can.',
     'contact.thanks.back': 'Back to the home page',
 
-    'work.spec.started': 'Established',
+    'work.spec.started': 'Started',
     'work.spec.dimensions': 'Dimensions',
     'work.spec.volume': 'Volume',
     'work.spec.filtration': 'Filtration',
@@ -504,9 +504,9 @@ export const ui = {
     'work.project2.spec.dimensions': '72 × 60 × 60 cm',
     'work.project2.spec.volume': '220 L',
     'work.project2.spec.filtration': 'Internal · pumice-based substrate',
-    'work.project2.spec.substrate': 'mainly sand, MA-Gen 1.0',
+    'work.project2.spec.substrate': 'MA-Gen 1.0',
     'work.project2.spec.lighting': 'LED · 2 light periods · 6 h + 4 h',
-    'work.project2.spec.co2': '-',
+    'work.project2.spec.co2': 'None',
     'work.project2.spec.fish': 'Nannostomus marginatus · Apistogramma viejita · Ancistrus brown',
     'work.project2.spec.otherInhabitants': 'Snails · microfauna',
     'work.project2.spec.plants': 'Echinodorus bleheri · Eleocharis acicularis',
@@ -532,7 +532,7 @@ export const ui = {
     'work.project3.spec.filtration': 'Internal · sponge',
     'work.project3.spec.lighting': '10 hour photoperiod',
     'work.project3.spec.substrate': 'MA-Gen 2.0',
-    'work.project3.spec.co2': '-',
+    'work.project3.spec.co2': 'None',
     'work.project3.spec.fish': 'Chili Rasbora',
     'work.project3.spec.otherInhabitants': 'Neocaridina blue · microfauna',
     'work.project3.spec.plants':
@@ -619,7 +619,7 @@ export const ui = {
 
     'home.inspiration4.imageAlt': 'A fully bespoke Microcosmos',
     'home.inspiration4.eyebrow': 'Inspiration 04',
-    'home.inspiration4.title': 'Your Own',
+    'home.inspiration4.title': 'Your own little world',
     'home.inspiration4.text': 'Start with a place, a memory, an ecosystem — or simply a feeling.',
 
     'home.process.eyebrow': 'From idea to ecosystem',

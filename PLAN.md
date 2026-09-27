@@ -1165,7 +1165,7 @@ Update the status here as items move along.
 | 1 | Contact form: reliable and private | done (2026-09-27), live on Netlify Forms, all checks passed | — |
 | 2 | Home and about page images: fast | done (2026-09-27): photos in `src/content/site/`, home 4.6 MB → 0.4 MB on a phone before scrolling | — |
 | 3 | SEO basics for a bilingual site | done (2026-09-27): canonical, hreflang, link previews, sitemap pairs, robots.txt; sitemap submitted in Search Console | — |
-| 4 | Review and audit of the untouched code | done (2026-09-27): see "Audit findings (2026-09-27)"; contrast and heading fixed | Owner picks fix bundles A–E |
+| 4 | Review and audit of the untouched code | done (2026-09-27): see "Audit findings (2026-09-27)"; contrast, heading, bundles A and B fixed | Bundles C, D, E open |
 | 5 | Owner browser checks still open | waiting — owner task | Owner, whenever convenient |
 
 ## Audit findings (2026-09-27)
@@ -1235,26 +1235,27 @@ built site. No CRITICAL findings.
 
 #### IMPORTANT
 
-1. **Hero label hard to read** — `global.css` `.eyebrow` (≈102): the home
+1. **[Fixed 2026-09-27, bundle B]** **Hero label hard to read** — `global.css` `.eyebrow` (≈102): the home
    hero's eyebrow ("Levende aquatische ecosystemen") is small grey
    `--muted` text on the dark bottom of the photo (measured: 11.5px,
    `#606960`). Lighthouse can't test text on images. Fix: a light colour for
    `.hero .eyebrow`. Small.
-2. **Two labels render large** — `.about-page-story p` (≈1864) and
+2. **[Fixed, B]** **Two labels render large** — `.about-page-story p` (≈1864) and
    `.contact-page-info p` (≈1928) beat `.eyebrow`, so the eyebrows at
    `About.astro:58` and `Contact.astro:27` are 16.8px / 16px instead of
    11.5px like every other eyebrow (measured). Fix: `p:not(.eyebrow)`, as
    elsewhere in the file. Small.
-3. **Form fields barely visible** — `.contact-form input/textarea/select`
+3. **[Fixed, B: `--field-border` `#858a82`, 3.1:1]** **Form fields barely visible** — `.contact-form input/textarea/select`
    border `--border` `#d5d1c6` on `#f4f1e9` ≈ 1.4:1; WCAG 1.4.11 asks 3:1 for
    the edge of a field, and the fields have no background. Fix: a darker
    field border, focus state kept clear. Small.
-4. **Send button has the browser's grey background** — `.button` sets no
+4. **[Fixed, B]** **Send button has the browser's grey background** — `.button` sets no
    `background`, so `<button type="submit">` (`Contact.astro`) shows
    `#efefef` (measured) while link buttons are transparent. Fix:
    `background: transparent` (and `font-family: inherit`) on `.button`;
    check hover. Small.
-5. **`.ecosystem-layers` defined twice** — `global.css` 548–585 and
+5. **[Fixed, B: one block, the look as it was (45px); the phone rule
+   that never applied is removed]** **`.ecosystem-layers` defined twice** — `global.css` 548–585 and
    2137–2178; the second copy comes after the 550px media query, so the
    phone rule (38px column, ≈1764) never applies (measured 45px). Fix: one
    block before the media queries; decide 38px or 45px by eye. Small.
@@ -1265,12 +1266,13 @@ built site. No CRITICAL findings.
    `.species-list`, `.page-cta`, `.about h3` (checked with grep over all
    markup, scripts and content). Fix: delete, then compare pages by eye.
    Small–medium.
-7. **Typo in a home heading** — `ui.ts` `home.formulas.title` (NL):
+7. **[Fixed, A]** **Typo in a home heading** — `ui.ts` `home.formulas.title` (NL):
    "Microcomos" → "Microcosmos". Small.
-8. **Misspelt species (NL)** — `ui.ts` `work.project2.spec.fish` (NL):
+8. **[Fixed, A]** **Misspelt species (NL)** — `ui.ts` `work.project2.spec.fish` (NL):
    "Nanostomus … veijeta"; EN and the NL story have "Nannostomus …
    viejita". Small.
-9. **NL and EN say different things** — `about.hero.lead`: NL "Al meer
+9. **[Fixed, A: owner chose "since I was five" (NL "Sinds mijn vijfde")
+   and "MA-Gen 1.0" in both]** **NL and EN say different things** — `about.hero.lead`: NL "Al meer
    dan 35 jaar", EN "since I was five years old"; `work.project2.spec
    .substrate`: NL "MA-Gen 1.0", EN "mainly sand, MA-Gen 1.0". The owner
    picks the true version. Small.
@@ -1297,8 +1299,10 @@ built site. No CRITICAL findings.
   finding 5 · repeated section header and mis-indent (≈471, 2073–2077) ·
   raw colours/sizes instead of tokens (≈1165, 1791) · the Our Work hero
   hover zoom has no transition and hover zooms ignore reduced motion.
-- **Copy (`ui.ts`):** NL spec "LED 2 lichtperiodes" misses "·"; NL
-  `work.project3.spec.plants` contains English "(green, red and brown)";
+- **Copy (`ui.ts`):** *[fixed, A: the "·" in "LED · 2 lichtperiodes" and
+  NL "(groen, rood en bruin)"; owner's choices 2026-09-27: EN "Your own little
+  world", EN `work.spec.started` "Started", CO₂ "Geen"/"None"; the
+  Fallen Forest intro stays as it is]*
   `work.project1.intro` NL "multifunctionele leefruimte … biotoop" vs EN
   "family space … ecosystem"; status "Groei" (NL) is a noun among
   "Opstart / Rijpt / Stabiel"; EN "Established" used for two things; EN
