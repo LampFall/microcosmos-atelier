@@ -1108,20 +1108,20 @@ Goal: scores and the main lost-point audits for the live site, recorded in
 Files: modify `PLAN.md` (new section "Audit findings (2026-09-27)", scores
 part)
 Steps:
-- [ ] Note the live commit (`git log origin/main -1`) and check the Netlify
+- [x] Note the live commit (`git log origin/main -1`) and check the Netlify
       deploy of it is live (a page's HTML matches the build).
-- [ ] Run `npx lighthouse` (temporary, with the installed Chrome) on the
+- [x] Run `npx lighthouse` (temporary, with the installed Chrome) on the
       live site: home, Our Work, about, contact, journal list and one
       journal entry in NL, and the EN home page; mobile and desktop;
       performance three times per page and profile, median recorded.
       Reports (JSON/HTML) stay in the scratchpad.
-- [ ] Record the scores table and, per page type, the audits that lose
+- [x] Record the scores table and, per page type, the audits that lose
       points (with the element or file where Lighthouse points to one).
 Validation: every page/profile has four scores; `git diff` touches only
 `PLAN.md`; nothing added to `package.json`.
 Acceptance criteria:
-- [ ] SPEC §3.13 AC 1.
-- [ ] `git status` shows no change outside `PLAN.md`.
+- [x] SPEC §3.13 AC 1.
+- [x] `git status` shows no change outside `PLAN.md`.
 Commit boundary: `audit: Lighthouse-scores van de live site`
 Risks: the download or Chrome run fails: fallback is PageSpeed Insights by
 the owner (SPEC §3.13 error handling). Scores vary between runs: medians.
@@ -1165,8 +1165,61 @@ Update the status here as items move along.
 | 1 | Contact form: reliable and private | done (2026-09-27), live on Netlify Forms, all checks passed | — |
 | 2 | Home and about page images: fast | done (2026-09-27): photos in `src/content/site/`, home 4.6 MB → 0.4 MB on a phone before scrolling | — |
 | 3 | SEO basics for a bilingual site | done (2026-09-27): canonical, hreflang, link previews, sitemap pairs, robots.txt; sitemap submitted in Search Console | — |
-| 4 | Review and audit of the untouched code | plan approved (2026-09-27), phases 1–2 to do | `/implement-phase 1` |
+| 4 | Review and audit of the untouched code | phase 1 (Lighthouse) done, see "Audit findings"; phase 2 to do | `/implement-phase 2` |
 | 5 | Owner browser checks still open | waiting — owner task | Owner, whenever convenient |
+
+## Audit findings (2026-09-27)
+
+From `SPEC.md` §3.13. Nothing here is fixed yet: the owner picks which
+findings to fix, and each becomes its own item in the queue.
+
+### Lighthouse scores (live site)
+
+Measured 2026-09-27 on `https://microcosmos-atelier.com`, live commit
+`20bdc9c`, Lighthouse 13.5.0 (temporary `npx`, local Chrome, headless).
+Mobile = Lighthouse's default phone profile (throttled 4G, slow CPU),
+desktop = `--preset=desktop`. Performance is the median of three runs (the
+three runs in brackets); the other categories come from the median run.
+
+| Page | Profile | Performance | Accessibility | Best practices | SEO | LCP |
+| --- | --- | --- | --- | --- | --- | --- |
+| Home (NL) | mobile | 98 (97/98/98) | 95 | 100 | 100 | 2.4 s |
+| Home (NL) | desktop | 100 | 92 | 100 | 100 | 0.4 s |
+| Our Work | mobile | 100 (100/100/99) | 95 | 100 | 100 | 1.0 s |
+| Our Work | desktop | 100 | 95 | 100 | 100 | 0.3 s |
+| About | mobile | 98 (100/98/97) | 95 | 100 | 100 | 2.3 s |
+| About | desktop | 100 | 92 | 100 | 100 | 0.4 s |
+| Contact | mobile | 100 | 95 | 100 | 100 | 0.8 s |
+| Contact | desktop | 100 | 93 | 100 | 100 | 0.4 s |
+| Journal list | mobile | 99 (100/98/99) | 94 | 100 | 100 | 1.0 s |
+| Journal list | desktop | 100 | 92 | 100 | 100 | 0.4 s |
+| Journal entry (`fallen-forest/2026-09-sand`) | mobile | 100 | 95 | 100 | 100 | 1.1 s |
+| Journal entry | desktop | 100 | 92 | 100 | 100 | 0.2 s |
+| Home (EN) | mobile | 97 (95/97/98) | 95 | 100 | 100 | 2.4 s |
+| Home (EN) | desktop | 100 | 92 | 100 | 100 | 0.3 s |
+
+Layout shift (CLS) is 0 and blocking time 0–10 ms on every page.
+
+### Findings from Lighthouse
+
+- **IMPORTANT — Text contrast just below the guideline, site-wide.** The
+  muted text colour `--muted` (`#687168`, `global.css`) on the page
+  background `#f4f1e9` has a contrast of 4.48:1; WCAG AA asks for 4.5:1 for
+  normal text. On the card background `#ebe7dc` (inspiration cards, Our Work
+  "ecosystem principle" box) it's 4.09:1. It's used for eyebrows, intro and
+  body text, dates, the journal filters, the privacy line and the footer:
+  this is the only reason accessibility isn't 100 on most pages. Fix: a
+  slightly darker `--muted` (one token; to be chosen so both backgrounds
+  reach ≥ 4.5:1, and checked by eye). Size: small.
+- **MINOR — Heading order on the journal list.** Entry titles are `<h3>`
+  directly under the page's `<h1>` (`Journal.astro`, `.journal-title`),
+  skipping `<h2>`. Fix: `<h2>` with the same look (CSS). Size: small.
+- Note (no action): the journal list's mobile Speed Index is 3.7 s in one
+  run (score 86 for that metric); overall performance is still 98–100.
+
+### Findings from the code review
+
+To be added in Phase 2.
 
 ## Backlog
 
