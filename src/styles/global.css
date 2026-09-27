@@ -1925,15 +1925,6 @@ footer {
     line-height: 1.7;
 }
 
-.contact-page-email {
-    display: inline-block;
-    margin-top: 25px;
-    border-bottom: 1px solid var(--text);
-    padding-bottom: 4px;
-    font-size: 0.9rem;
-}
-
-
 .contact-thanks-back {
     margin-top: 45px;
 }
@@ -1998,6 +1989,15 @@ footer {
 .contact-form textarea {
     min-height: 180px;
     resize: vertical;
+}
+
+.contact-form-privacy {
+    margin: -8px 0 24px;
+
+    color: var(--muted);
+
+    font-size: 0.85rem;
+    line-height: 1.6;
 }
 
 .contact-form .button {

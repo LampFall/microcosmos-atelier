@@ -70,6 +70,8 @@ export const ui = {
     'contact.form.message.label': 'Vertel me wat meer',
     'contact.form.message.placeholder':
       'Vertel me over je ruimte, je idee of wat je graag zou willen creëren...',
+    'contact.form.privacy': 'Je gegevens gebruik ik alleen om je aanvraag te beantwoorden.',
+    'contact.form.honeypot': 'Laat dit veld leeg',
     'contact.form.submit': 'Verstuur aanvraag',
 
     'contact.thanks.meta.title': 'Bedankt — Microcosmos Atelier',
@@ -415,6 +417,8 @@ export const ui = {
     'contact.form.message.label': 'Tell me a little more',
     'contact.form.message.placeholder':
       "Tell me about your space, your idea or what you'd like to create...",
+    'contact.form.privacy': 'I only use your details to reply to your enquiry.',
+    'contact.form.honeypot': 'Leave this field empty',
     'contact.form.submit': 'Send enquiry',
 
     'contact.thanks.meta.title': 'Thank you — Microcosmos Atelier',

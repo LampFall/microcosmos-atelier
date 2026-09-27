@@ -742,18 +742,21 @@ compare the sitemap URL list before and after.
 ### Phase 3: The form switches to Netlify Forms
 Goal: the form posts to Netlify, without an email address, with a
 honeypot, language and subject fields, and a privacy sentence.
-Files: modify `src/components/pages/Contact.astro`, `src/i18n/ui.ts`
+Files: modify `src/components/pages/Contact.astro`, `src/i18n/ui.ts`,
+`src/styles/global.css` (a small `.contact-form-privacy` rule, since no
+existing text style fitted; `.contact-page-email` removed with the link)
 Steps:
-- [ ] `<form name="contact" method="POST" data-netlify="true"
+- [x] `<form name="contact" method="POST" data-netlify="true"
       netlify-honeypot="bot-field" action={getRelativeLocaleUrl(lang,
       "/contact/thanks")}>`.
-- [ ] Hidden fields: `form-name` = `contact`, `language` = `nl` / `en`,
+- [x] Hidden fields: `form-name` = `contact`, `language` = `nl` / `en`,
       `subject` = `t("contact.form.subject")`.
-- [ ] Honeypot: a wrapper with the `hidden` attribute containing a labelled
+- [x] Honeypot: a wrapper with the `hidden` attribute containing a labelled
       `bot-field` input (no CSS needed).
-- [ ] Remove `_subject`, `_captcha`, `_next`, the `nextUrl` constant and
-      its comment. The `mailto:` link stays (D2).
-- [ ] `ui.ts`: `contact.form.privacy` with the D4 wording in both
+- [x] Remove `_subject`, `_captcha`, `_next`, the `nextUrl` constant and
+      its comment. The `mailto:` link and its CSS are removed too (D2, changed
+      by the owner 2026-09-27).
+- [x] `ui.ts`: `contact.form.privacy` with the D4 wording in both
       languages; show it as a small line near the send button, using
       existing text styles where possible.
 Validation: `npx astro check`, `npm run build`; check `dist/` for AC 2–3
@@ -761,10 +764,10 @@ and 7; look at the form on the dev server (phone and desktop, Tab order,
 JavaScript off). The dev server can't deliver the form; the live test is
 Phase 4.
 Acceptance criteria:
-- [ ] SPEC §3.10 AC 2, AC 3 and AC 7.
+- [x] SPEC §3.10 AC 2, AC 3 and AC 7.
 - [ ] AC 6 (look unchanged, honeypot not visible or reachable with Tab,
       works without JavaScript), checked on the dev server.
-- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+- [x] `npx astro check` 0 errors, `npm run build` succeeds.
 Commit boundary: `contact: formulier via Netlify Forms, zonder e-mailadres, met honeypot`
 Risks: from this push on, the live form depends on Netlify detecting it.
 If detection fails, visitors get a Netlify error page; the fallback is to

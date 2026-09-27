@@ -1057,7 +1057,8 @@ Owner:
    The form keeps working without JavaScript (a plain form post).
 10. The contact page has one short sentence near the send button about how
    the details are used (D4), in both languages.
-11. The visible `mailto:` link above the form follows D2.
+11. The visible `mailto:` link above the form is removed (D2): the page
+    shows no email address at all.
 12. The Node version Netlify builds with is fixed in the repository, so a
     change of Netlify's default can't break a build. (Proposed to the owner
     during §3.9 item 0; small, and the same deploy is tested here anyway.)
@@ -1117,8 +1118,8 @@ Owner:
   They are stored in the Netlify account until deleted. This is a change
   of processor and needs the owner's approval. The privacy sentence (FR 9)
   tells visitors what the data is for.
-- **Address exposure:** the form no longer reveals the address; whether
-  the page still does depends on D2.
+- **Address exposure:** neither the form nor the page reveals the address
+  any more (D2).
 - **Spam:** honeypot plus Netlify's filter. Enquiries flagged as spam
   don't send an email, so a real enquiry could end up only in the
   dashboard's spam list (see Error handling).
@@ -1149,7 +1150,7 @@ Owner:
    `netlify-honeypot="bot-field"` with a hidden `bot-field` input, a
    `form-name` field, `language` = `nl` / `en`, the translated `subject`,
    and `action="/contact/thanks/"` / `action="/en/contact/thanks/"`; there
-   is no email address inside the `<form>`.
+   is no email address anywhere on either contact page.
 3. `grep -ri formsubmit dist/ src/` finds nothing.
 4. `dist/contact/thanks/index.html` and `dist/en/contact/thanks/index.html`
    exist and have `<meta name="robots" content="noindex">`;
@@ -1160,7 +1161,8 @@ Owner:
    language, and arrive as an email in the chosen inbox with the
    translated subject and the right language; a reply to that email is
    addressed to the test sender.
-6. Manual: the form's look is unchanged on phone and desktop; the
+6. Manual: the form's look is unchanged on phone and desktop (the page
+   itself is shorter, because the `mailto:` link is gone, D2); the
    honeypot field isn't visible and isn't reached with Tab; with
    JavaScript switched off the form still submits.
 7. The privacy sentence key exists in both `nl` and `en` in `ui.ts`, and
@@ -1175,8 +1177,10 @@ Owner:
 - **D1. Form service:** Netlify Forms. This changes §3.9 item 1, which
   said "FormSubmit alias" with another form service as a non-goal; §3.9 is
   updated on approval.
-- **D2. Visible email address:** the `mailto:` link above the form stays
-  as it is. An address on the site's own domain is a backlog idea.
+- **D2. Visible email address:** the `mailto:` link above the form is
+  removed; visitors contact the owner through the form. (First decided as
+  "keep"; changed by the owner on 2026-09-27 during Phase 3.) An address on
+  the site's own domain is a backlog idea.
 - **D3. Confirmation page:** `/contact/thanks` and `/en/contact/thanks`.
 - **D4. Privacy sentence:** "Je gegevens gebruik ik alleen om je aanvraag
   te beantwoorden." / "I only use your details to reply to your enquiry."

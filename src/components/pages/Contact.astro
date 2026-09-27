@@ -7,10 +7,6 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-
-// Formsubmit.co moet na verzenden teruggestuurd worden naar de contactpagina
-// in de taal waarin het formulier werd ingevuld (niet altijd naar NL).
-const nextUrl = `https://microcosmos-atelier.com${getRelativeLocaleUrl(lang, "/contact")}`;
 ---
 
 <Layout title={t("contact.meta.title")} description={t("contact.meta.description")}>
@@ -33,20 +29,35 @@ const nextUrl = `https://microcosmos-atelier.com${getRelativeLocaleUrl(lang, "/c
           <h2>{t("contact.info.title")}</h2>
 
           <p>{t("contact.info.text")}</p>
-
-          <a href="mailto:Kasper.Masschaele@gmail.com" class="contact-page-email">
-            Kasper.Masschaele@gmail.com
-          </a>
         </div>
 
+        {/*
+          Handled by Netlify Forms (SPEC.md §3.10): Netlify finds this form in
+          the built HTML at deploy time. The address that receives the
+          notifications is set in the Netlify dashboard, not here. One form
+          ("contact") for both languages; the hidden `language` field says
+          which one was used. After sending, the visitor lands on the thank-you
+          page in their language.
+        */}
         <form
           class="contact-form"
-          action="https://formsubmit.co/Kasper.Masschaele@gmail.com"
+          name="contact"
           method="POST"
+          action={getRelativeLocaleUrl(lang, "/contact/thanks")}
+          data-netlify="true"
+          netlify-honeypot="bot-field"
         >
-          <input type="hidden" name="_subject" value={t("contact.form.subject")} />
-          <input type="hidden" name="_captcha" value="false" />
-          <input type="hidden" name="_next" value={nextUrl} />
+          <input type="hidden" name="form-name" value="contact" />
+          <input type="hidden" name="language" value={lang} />
+          <input type="hidden" name="subject" value={t("contact.form.subject")} />
+
+          {/* Spam trap: hidden from people (sight, screen readers, Tab); bots fill it in. */}
+          <p hidden>
+            <label>
+              {t("contact.form.honeypot")}
+              <input name="bot-field" autocomplete="off" />
+            </label>
+          </p>
 
           <div class="contact-form-group">
             <label for="name">{t("contact.form.name.label")}</label>
@@ -80,6 +91,8 @@ const nextUrl = `https://microcosmos-atelier.com${getRelativeLocaleUrl(lang, "/c
               required
             ></textarea>
           </div>
+
+          <p class="contact-form-privacy">{t("contact.form.privacy")}</p>
 
           <button type="submit" class="button dark-button">
             {t("contact.form.submit")}
