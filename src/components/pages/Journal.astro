@@ -93,9 +93,9 @@ const dateFmt = new Intl.DateTimeFormat(lang === "en" ? "en-GB" : "nl-BE", {
 											{t(`journal.status.${entry.data.status}` as any)}
 										</span>
 									</p>
-									<h3 class="journal-title">
+									<h2 class="journal-title">
 										<a href={entry.url}>{entry.data.title}</a>
-									</h3>
+									</h2>
 									{entry.data.summary && (
 										<p class="journal-summary">{entry.data.summary}</p>
 									)}

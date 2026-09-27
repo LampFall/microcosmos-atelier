@@ -7,7 +7,9 @@
     --background: #f4f1e9;
     --surface: #ebe7dc;
     --text: #1c2921;
-    --muted: #687168;
+    /* Darkened from #687168 (2026-09-27) for WCAG AA contrast: 5.05:1 on
+       --background, 4.61:1 on --surface (audit, PLAN.md). */
+    --muted: #606960;
     --accent: #3e5949;
     --border: #d5d1c6;
 

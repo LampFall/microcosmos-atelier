@@ -153,6 +153,9 @@
     margin: 0 0 10px;
 
     font-size: 1.5rem;
+    /* An <h2> (heading order under the page's <h1>) that keeps the look of
+       the former <h3>: same size, margin and letter spacing. */
+    letter-spacing: -0.02em;
 }
 
 .journal-title a {

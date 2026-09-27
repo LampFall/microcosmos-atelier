@@ -1202,7 +1202,10 @@ Layout shift (CLS) is 0 and blocking time 0–10 ms on every page.
 
 ### Findings from Lighthouse
 
-- **IMPORTANT — Text contrast just below the guideline, site-wide.** The
+- **IMPORTANT — Text contrast just below the guideline, site-wide.**
+  **Fixed 2026-09-27:** `--muted` is now `#606960` (5.05:1 / 4.61:1);
+  Lighthouse accessibility 100 on all 14 page/profile combinations of the
+  new build. The
   muted text colour `--muted` (`#687168`, `global.css`) on the page
   background `#f4f1e9` has a contrast of 4.48:1; WCAG AA asks for 4.5:1 for
   normal text. On the card background `#ebe7dc` (inspiration cards, Our Work
@@ -1211,7 +1214,8 @@ Layout shift (CLS) is 0 and blocking time 0–10 ms on every page.
   this is the only reason accessibility isn't 100 on most pages. Fix: a
   slightly darker `--muted` (one token; to be chosen so both backgrounds
   reach ≥ 4.5:1, and checked by eye). Size: small.
-- **MINOR — Heading order on the journal list.** Entry titles are `<h3>`
+- **MINOR — Heading order on the journal list.** **Fixed 2026-09-27:**
+  `<h2>`, measured identical in size, spacing and margins to the old `<h3>`. Entry titles are `<h3>`
   directly under the page's `<h1>` (`Journal.astro`, `.journal-title`),
   skipping `<h2>`. Fix: `<h2>` with the same look (CSS). Size: small.
 - Note (no action): the journal list's mobile Speed Index is 3.7 s in one
