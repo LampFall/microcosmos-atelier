@@ -149,6 +149,9 @@ i18n: {
   `title`, `description`, and optionally `noindex`, `hasTranslation`,
   `shareImage` (`{ src, alt, position? }`) and `type` (`"article"` for
   journal entries).
+- The header's NL/EN switch takes `hasTranslation` too: on a journal entry
+  in one language only, the other language's link goes to that language's
+  journal list.
 - Addresses: `getPathWithoutLocale()` (`src/i18n/utils.ts`, also used by
   the header's NL/EN switch) gives the page path without `/en`;
   `getAbsoluteLocaleUrl()` from `astro:i18n` turns it into the canonical
@@ -324,6 +327,17 @@ putting photos in `public/`.
 - The header, menu panel, back-to-top link and Our Work jump links
   (`.work-jump`) are styled in `global.css`; header rules that need
   JavaScript are scoped to `.has-js` (see §3).
+- `global.css` order: all base rules first, then one `@media (max-width:
+  800px)` block and one `@media (max-width: 550px)` block at the end (plus
+  the small `prefers-reduced-motion` and `hover` blocks next to the rules
+  they change). Put a new phone rule in those two blocks, not after its base
+  rule elsewhere, or a later base rule can silently win (audit 2026-09-27).
+- Colours meet WCAG AA: `--muted` text ≥ 4.5:1 on `--background` and
+  `--surface`, `--field-border` ≥ 3:1 for form fields.
+- Accessibility basics in the layout: a skip link to `<main id="main">`
+  (every page component gives its `<main>` that id), decorative arrows in
+  links are `aria-hidden`, and English titles on Dutch pages carry
+  `lang="en"`.
 
 ## 8. Working with Claude Code on this repo
 

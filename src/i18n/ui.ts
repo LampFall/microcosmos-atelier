@@ -1,10 +1,5 @@
-// Alle vaste, herbruikbare teksten per taal.
-// Pagina-specifieke content (titels, paragrafen) voegen we later per pagina toe.
-
-export const languages = {
-  nl: 'NL',
-  en: 'EN',
-};
+// Alle teksten van de site per taal (nl en en, met dezelfde sleutels).
+// Journaalteksten staan in src/content/journal/, niet hier.
 
 export const defaultLang = 'nl';
 
@@ -13,12 +8,17 @@ export const ui = {
     'nav.ourWork': 'Onze projecten',
     'nav.about': 'Over mij',
     'nav.contact': 'Contact',
+    'nav.journal': 'Journaal',
+    'nav.menu': 'Menu',
+    'nav.backToTop': 'Naar boven',
+    'nav.skipToContent': 'Naar de inhoud',
 
     'footer.copyright': 'Microcosmos Atelier',
 
     'about.meta.title': 'Over mij — Microcosmos Atelier',
     'about.meta.description':
       'Ontdek het verhaal achter Microcosmos Atelier en de fascinatie van Kasper Masschaele voor aquatische ecosystemen.',
+    'about.image.alt': 'Kasper Masschaele',
     'about.hero.eyebrow': 'Over Microcosmos Atelier',
     'about.hero.title': 'De natuur<br />heeft me altijd gefascineerd.',
     'about.hero.lead':
@@ -309,7 +309,7 @@ export const ui = {
     'home.formula4.title': 'Tailored',
     'home.formula4.text':
       'Een volledig persoonlijke aanpak voor bijzondere ruimtes, ambitieuze installaties of een heel specifiek idee.',
-    'home.formulas.cta': 'Start een gesprek →',
+    'home.formulas.cta': 'Start een gesprek',
 
     'home.work.eyebrow': 'Ons werk',
     'home.work.title': 'Echte ecosystemen.<br />Echt gebouwd.',
@@ -319,7 +319,7 @@ export const ui = {
     'home.work.image2.alt': 'Op de Orinoco geïnspireerde Littoral Zone Microcosmos',
     'home.work.image3.alt': 'Borneo Understory Microcosmos',
     'home.work.image4.alt': 'Ondiepe rivierbedding Microcosmos',
-    'home.work.cta': 'Bekijk de projecten →',
+    'home.work.cta': 'Bekijk de projecten',
 
     'home.about.eyebrow': 'Over mij',
     'home.about.title': 'Meer dan 35 jaar<br />onderwaterwerelden verkennen.',
@@ -328,16 +328,13 @@ export const ui = {
     'home.about.p2':
       'Microcosmos Atelier groeide uit die fascinatie: een manier om mijn interesse in natuurlijke systemen te combineren met mijn liefde voor ontwerpen en bouwen.',
     'home.about.highlight': 'Mooie natuur. Met aandacht naar huis gebracht.',
-    'home.about.link': 'Meer over mij →',
+    'home.about.link': 'Meer over mij',
 
     'home.cta.eyebrow': 'Jouw ruimte. Jouw ecosysteem.',
     'home.cta.title': 'Laten we iets levends creëren.',
     'home.cta.text':
       'Je hoeft nog niet precies te weten wat je wilt. Breng me een ruimte, een idee of gewoon een fascinatie voor de natuur, en we beginnen van daaruit.',
     'home.cta.button': 'Start een gesprek',
-    'nav.journal': 'Journaal',
-    'nav.menu': 'Menu',
-    'nav.backToTop': 'Naar boven',
 
     'journal.meta.title': 'Journaal — Microcosmos Atelier',
     'journal.meta.description':
@@ -360,12 +357,17 @@ export const ui = {
     'nav.ourWork': 'Our Work',
     'nav.about': 'About',
     'nav.contact': 'Contact',
+    'nav.journal': 'Journal',
+    'nav.menu': 'Menu',
+    'nav.backToTop': 'Back to top',
+    'nav.skipToContent': 'Skip to content',
 
     'footer.copyright': 'Microcosmos Atelier',
 
     'about.meta.title': 'About — Microcosmos Atelier',
     'about.meta.description':
       'Learn more about Kasper Masschaele and the story behind Microcosmos Atelier.',
+    'about.image.alt': 'Kasper Masschaele',
     'about.hero.eyebrow': 'About Microcosmos Atelier',
     'about.hero.title': 'Nature has always<br />fascinated me.',
     'about.hero.lead':
@@ -655,7 +657,7 @@ export const ui = {
     'home.formula4.title': 'Tailored',
     'home.formula4.text':
       'A completely bespoke approach for unusual spaces, ambitious installations or a very specific idea.',
-    'home.formulas.cta': 'Start a conversation →',
+    'home.formulas.cta': 'Start a conversation',
 
     'home.work.eyebrow': 'Our work',
     'home.work.title': 'Real ecosystems.<br />Actually built.',
@@ -665,7 +667,7 @@ export const ui = {
     'home.work.image2.alt': 'Orinoco-inspired Littoral Zone Microcosmos',
     'home.work.image3.alt': 'Borneo Understory Microcosmos',
     'home.work.image4.alt': 'Shallow riverbed Microcosmos',
-    'home.work.cta': 'Explore the projects →',
+    'home.work.cta': 'Explore the projects',
 
     'home.about.eyebrow': 'About',
     'home.about.title': 'More than 35 years of exploring<br />underwater worlds.',
@@ -674,16 +676,13 @@ export const ui = {
     'home.about.p2':
       'Microcosmos Atelier grew from that fascination: a way of combining my interest in natural systems with my love for designing and building things.',
     'home.about.highlight': 'Beautiful nature. Thoughtfully brought home.',
-    'home.about.link': 'More about me →',
+    'home.about.link': 'More about me',
 
     'home.cta.eyebrow': 'Your space. Your ecosystem.',
     'home.cta.title': "Let's create something living.",
     'home.cta.text':
       "You don't need to know exactly what you want. Bring me a space, an idea or simply a fascination with nature, and we'll start from there.",
     'home.cta.button': 'Start a conversation',
-    'nav.journal': 'Journal',
-    'nav.menu': 'Menu',
-    'nav.backToTop': 'Back to top',
 
     'journal.meta.title': 'Journal — Microcosmos Atelier',
     'journal.meta.description':

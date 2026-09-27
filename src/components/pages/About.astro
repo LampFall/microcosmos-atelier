@@ -7,6 +7,7 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 import { Image } from "astro:assets";
 // Fixed photo from src/content/site/ (SPEC.md §3.11); replacing it: PHOTOS.md.
 import aboutPagePhoto from "../../content/site/about-page.jpg";
+import { SITE_PHOTO_QUALITY } from "../../lib/site-photos";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -17,18 +18,16 @@ const t = useTranslations(lang);
 // gets 1000 instead of a 1200 file nearly as heavy as the original JPEG.
 // `width` keeps the fallback `src` at 1000px as well.
 const aboutPageSizes = "(max-width: 800px) min(100vw - 44px, 550px), 471px";
-// Same quality as the home photos (see Index.astro): keeps the page light.
-const SITE_PHOTO_QUALITY = 65;
 ---
 
 <Layout
   title={t("about.meta.title")}
   description={t("about.meta.description")}
-  shareImage={{ src: aboutPagePhoto, alt: "Kasper Masschaele", position: "bottom" }}
+  shareImage={{ src: aboutPagePhoto, alt: t("about.image.alt"), position: "bottom" }}
 >
   <Header />
 
-  <main>
+  <main id="main">
     <section class="about-page">
       <div class="about-page-hero">
         <div class="about-page-intro">
@@ -42,7 +41,7 @@ const SITE_PHOTO_QUALITY = 65;
         <div class="about-page-image">
           <Image
             src={aboutPagePhoto}
-            alt="Kasper Masschaele"
+            alt={t("about.image.alt")}
             format="webp"
             quality={SITE_PHOTO_QUALITY}
             width={1000}

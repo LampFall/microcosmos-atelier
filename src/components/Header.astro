@@ -4,14 +4,19 @@ import { getLangFromUrl, getPathWithoutLocale, useTranslations } from "../i18n/u
 
 interface Props {
   variant?: "page" | "site";
+  // False on a journal entry that exists in one language only: the other
+  // language's link then goes to that language's journal list instead of
+  // to a page that doesn't exist.
+  hasTranslation?: boolean;
 }
 
-const { variant = "page" } = Astro.props;
+const { variant = "page", hasTranslation = true } = Astro.props;
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const path = getPathWithoutLocale(Astro.url);
+const pathIn = (target: "nl" | "en") => (target === lang || hasTranslation ? path : "/journal");
 ---
 
 <header class={variant === "site" ? "site-header" : "page-header"}>
@@ -38,9 +43,9 @@ const path = getPathWithoutLocale(Astro.url);
       <a href={getRelativeLocaleUrl(lang, "/journal")}>{t("nav.journal")}</a>
 
       <div class="language-switcher">
-        <a href={getRelativeLocaleUrl("nl", path)} class={lang === "nl" ? "active" : ""}>NL</a>
+        <a href={getRelativeLocaleUrl("nl", pathIn("nl"))} class={lang === "nl" ? "active" : ""}>NL</a>
         <span>·</span>
-        <a href={getRelativeLocaleUrl("en", path)} class={lang === "en" ? "active" : ""}>EN</a>
+        <a href={getRelativeLocaleUrl("en", pathIn("en"))} class={lang === "en" ? "active" : ""}>EN</a>
       </div>
     </div>
   </nav>

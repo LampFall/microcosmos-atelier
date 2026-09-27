@@ -1755,22 +1755,24 @@ Visitor: nothing changes.
 - **Image optimization & performance.** Journal photos and covers must stay
   local files in their entry folder (see 3.3.2), Our Work photos in their
   work folder (§3.7) and the home and about photos in `src/content/site/`
-  (§3.11), so Astro can optimize them at build time. Do not link directly to third-party file hosts
-  (e.g. Google Drive) for these — see the reliability/ToS concerns noted in
-  `PLAN.md`. Every such image must ship a responsive `srcset` sized to its
-  actual display size and a modern format (WebP by default), must reserve
-  its layout space via explicit `width`/`height` to avoid layout shift, and
-  must be lazy-loaded unless it is the first above-the-fold image on the
-  page (a journal `cover`, the first Our Work hero, the home hero or the
-  about page photo), in which case it loads eagerly with
-  `fetchpriority="high"`. See 3.3.5 for the full journal-specific spec.
+  (§3.11), so Astro can optimize them at build time. Do not link directly to
+  third-party file hosts (e.g. Google Drive) for these — see the
+  reliability/ToS concerns noted in `PLAN.md`. Every such image must ship a
+  responsive `srcset` sized to its actual display size and a modern format
+  (WebP by default), must reserve its layout space via explicit
+  `width`/`height` to avoid layout shift, and must be lazy-loaded unless it
+  is the first above-the-fold image on the page (a journal `cover`, the
+  first Our Work hero, the home hero or the about page photo), in which case
+  it loads eagerly with `fetchpriority="high"`. See 3.3.5 for the full
+  journal-specific spec.
 - **SEO** (§3.12). Every indexable page carries a canonical URL on
   `https://microcosmos-atelier.com` (trailing slash), `hreflang` links to
-  its NL and EN version plus `x-default` (only when both exist), and Open Graph tags plus `twitter:card`, with a 1200×630 JPEG share image of its own photo (the
-  home hero by default). `noindex` pages (the contact thank-you pages) get
-  none of these. `@astrojs/sitemap` generates the sitemap from `site`,
-  with the NL/EN pairs linked; `public/robots.txt` points to it. A Google
-  Search Console verification file lives at
+  its NL and EN version plus `x-default` (only when both exist), and Open
+  Graph tags plus `twitter:card`, with a 1200×630 JPEG share image of its
+  own photo (the home hero by default). `noindex` pages (the contact
+  thank-you pages) get none of these. `@astrojs/sitemap` generates the
+  sitemap from `site`, with the NL/EN pairs linked; `public/robots.txt`
+  points to it. A Google Search Console verification file lives at
   `public/google4f41fe6a9b546641.html` — do not delete it.
 - **No hard-coded copy in components where a translation exists.** Any new
   page-level string must be added to both the `nl` and `en` blocks of

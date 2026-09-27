@@ -12,7 +12,7 @@ const t = useTranslations(lang);
 <Layout title={t("contact.meta.title")} description={t("contact.meta.description")}>
   <Header />
 
-  <main>
+  <main id="main">
     <section class="contact-page">
       <div class="contact-page-header">
         <p class="eyebrow">{t("contact.hero.eyebrow")}</p>
@@ -92,9 +92,9 @@ const t = useTranslations(lang);
             ></textarea>
           </div>
 
-          <p class="contact-form-privacy">{t("contact.form.privacy")}</p>
+          <p class="contact-form-privacy" id="contact-privacy">{t("contact.form.privacy")}</p>
 
-          <button type="submit" class="button dark-button">
+          <button type="submit" class="button dark-button" aria-describedby="contact-privacy">
             {t("contact.form.submit")}
           </button>
         </form>

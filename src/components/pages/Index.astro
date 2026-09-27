@@ -15,6 +15,7 @@ import inspirationBlackwater from "../../content/site/inspiration-blackwater.jpg
 import inspirationCustom from "../../content/site/inspiration-custom.jpg";
 import workExtraPhoto from "../../content/site/work-extra.jpg";
 import aboutHomePhoto from "../../content/site/about-home.jpg";
+import { SITE_PHOTO_QUALITY } from "../../lib/site-photos";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -30,10 +31,15 @@ const workHeroes = [
 // (~588px each); 1 column below 800px, with 22px padding.
 const workGridSizes =
   "(max-width: 800px) calc(100vw - 44px), (max-width: 1280px) calc((100vw - 104px) / 2), 588px";
-// The site photos are very detailed, so WebP at the default quality stays
-// heavy; quality 65 keeps a phone under the 400 KB budget before scrolling
-// (SPEC.md §3.11 D4). Journal and Our Work photos keep the default.
-const SITE_PHOTO_QUALITY = 65;
+// The four inspiration cards, in order; their texts are home.inspiration<n>.*.
+// `englishTitle`: the title is English on the Dutch page too (e.g. "Forest"),
+// so it gets lang="en" there for screen readers.
+const inspirationCards = [
+  { n: 1, photo: inspirationJungle, englishTitle: true },
+  { n: 2, photo: inspirationAmazon, englishTitle: true },
+  { n: 3, photo: inspirationBlackwater, englishTitle: true },
+  { n: 4, photo: inspirationCustom, englishTitle: false },
+] as const;
 // `sizes` below is the width each photo is drawn at after `object-fit: cover`
 // cropping, not just its box:
 // - Hero: a 3:4 portrait covering the full width and the height (100vh,
@@ -58,7 +64,7 @@ const aboutSizes = "(max-width: 800px) calc(min(100vw - 44px, 500px) * 1.25), 61
 >
   <Header variant="site" />
 
-  <main>
+  <main id="main">
     <!-- HERO -->
     <section class="hero">
       <Image
@@ -118,11 +124,11 @@ const aboutSizes = "(max-width: 800px) calc(min(100vw - 44px, 500px) * 1.25), 61
         </div>
 
         <div class="ecosystem-layers">
-          {[1, 2, 3, 4, 5, 6].map((n) => (
+          {([1, 2, 3, 4, 5, 6] as const).map((n) => (
             <div>
               <span>0{n}</span>
-              <strong>{t(`home.layer${n}.title` as any)}</strong>
-              <p>{t(`home.layer${n}.text` as any)}</p>
+              <strong>{t(`home.layer${n}.title`)}</strong>
+              <p>{t(`home.layer${n}.text`)}</p>
             </div>
           ))}
         </div>
@@ -138,69 +144,23 @@ const aboutSizes = "(max-width: 800px) calc(min(100vw - 44px, 500px) * 1.25), 61
       </div>
 
       <div class="microcosmos-grid">
-        <article class="microcosmos-card">
-          <Image
-            src={inspirationJungle}
-            alt={t("home.inspiration1.imageAlt")}
-            format="webp"
-            quality={SITE_PHOTO_QUALITY}
-            widths={[400, 600, 820, 1100, 1408]}
-            sizes={inspirationSizes}
-          />
-          <div class="card-content">
-            <p class="eyebrow">{t("home.inspiration1.eyebrow")}</p>
-            <h3>{t("home.inspiration1.title")}</h3>
-            <p>{t("home.inspiration1.text")}</p>
-          </div>
-        </article>
-
-        <article class="microcosmos-card">
-          <Image
-            src={inspirationAmazon}
-            alt={t("home.inspiration2.imageAlt")}
-            format="webp"
-            quality={SITE_PHOTO_QUALITY}
-            widths={[400, 600, 820, 1100, 1408]}
-            sizes={inspirationSizes}
-          />
-          <div class="card-content">
-            <p class="eyebrow">{t("home.inspiration2.eyebrow")}</p>
-            <h3>{t("home.inspiration2.title")}</h3>
-            <p>{t("home.inspiration2.text")}</p>
-          </div>
-        </article>
-
-        <article class="microcosmos-card">
-          <Image
-            src={inspirationBlackwater}
-            alt={t("home.inspiration3.imageAlt")}
-            format="webp"
-            quality={SITE_PHOTO_QUALITY}
-            widths={[400, 600, 820, 1100, 1408]}
-            sizes={inspirationSizes}
-          />
-          <div class="card-content">
-            <p class="eyebrow">{t("home.inspiration3.eyebrow")}</p>
-            <h3>{t("home.inspiration3.title")}</h3>
-            <p>{t("home.inspiration3.text")}</p>
-          </div>
-        </article>
-
-        <article class="microcosmos-card">
-          <Image
-            src={inspirationCustom}
-            alt={t("home.inspiration4.imageAlt")}
-            format="webp"
-            quality={SITE_PHOTO_QUALITY}
-            widths={[400, 600, 820, 1100, 1408]}
-            sizes={inspirationSizes}
-          />
-          <div class="card-content">
-            <p class="eyebrow">{t("home.inspiration4.eyebrow")}</p>
-            <h3>{t("home.inspiration4.title")}</h3>
-            <p>{t("home.inspiration4.text")}</p>
-          </div>
-        </article>
+        {inspirationCards.map(({ n, photo, englishTitle }) => (
+          <article class="microcosmos-card">
+            <Image
+              src={photo}
+              alt={t(`home.inspiration${n}.imageAlt`)}
+              format="webp"
+              quality={SITE_PHOTO_QUALITY}
+              widths={[400, 600, 820, 1100, 1408]}
+              sizes={inspirationSizes}
+            />
+            <div class="card-content">
+              <p class="eyebrow">{t(`home.inspiration${n}.eyebrow`)}</p>
+              <h3 lang={englishTitle && lang === "nl" ? "en" : undefined}>{t(`home.inspiration${n}.title`)}</h3>
+              <p>{t(`home.inspiration${n}.text`)}</p>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
 
@@ -212,12 +172,12 @@ const aboutSizes = "(max-width: 800px) calc(min(100vw - 44px, 500px) * 1.25), 61
       </div>
 
       <div class="process-list">
-        {[1, 2, 3, 4].map((n) => (
+        {([1, 2, 3, 4] as const).map((n) => (
           <article>
             <span> 0{n} </span>
             <div>
-              <h3>{t(`home.process${n}.title` as any)}</h3>
-              <p>{t(`home.process${n}.text` as any)}</p>
+              <h3>{t(`home.process${n}.title`)}</h3>
+              <p>{t(`home.process${n}.text`)}</p>
             </div>
           </article>
         ))}
@@ -233,19 +193,20 @@ const aboutSizes = "(max-width: 800px) calc(min(100vw - 44px, 500px) * 1.25), 61
       </div>
 
       <div class="formula-list">
-        {[1, 2, 3, 4].map((n) => (
+        {([1, 2, 3, 4] as const).map((n) => (
           <article>
             <span> 0{n} </span>
             <div>
-              <h3>{t(`home.formula${n}.title` as any)}</h3>
-              <p>{t(`home.formula${n}.text` as any)}</p>
+              {/* The formula names are English in both languages ("Design", …). */}
+              <h3 lang={lang === "nl" ? "en" : undefined}>{t(`home.formula${n}.title`)}</h3>
+              <p>{t(`home.formula${n}.text`)}</p>
             </div>
           </article>
         ))}
       </div>
 
       <a href={getRelativeLocaleUrl(lang, "/contact")} class="text-link">
-        {t("home.formulas.cta")}
+        {t("home.formulas.cta")} <span aria-hidden="true">→</span>
       </a>
     </section>
 
@@ -280,7 +241,7 @@ const aboutSizes = "(max-width: 800px) calc(min(100vw - 44px, 500px) * 1.25), 61
       </div>
 
       <a href={getRelativeLocaleUrl(lang, "/our-work")} class="text-link">
-        {t("home.work.cta")}
+        {t("home.work.cta")} <span aria-hidden="true">→</span>
       </a>
     </section>
 
@@ -292,13 +253,13 @@ const aboutSizes = "(max-width: 800px) calc(min(100vw - 44px, 500px) * 1.25), 61
         <p>{t("home.about.p1")}</p>
         <p>{t("home.about.p2")}</p>
         <p class="about-highlight">{t("home.about.highlight")}</p>
-        <a href={getRelativeLocaleUrl(lang, "/about")}>{t("home.about.link")}</a>
+        <a href={getRelativeLocaleUrl(lang, "/about")} class="text-link">{t("home.about.link")} <span aria-hidden="true">→</span></a>
       </div>
 
       <div class="about-image">
         <Image
           src={aboutHomePhoto}
-          alt="Kasper Masschaele"
+          alt={t("about.image.alt")}
           format="webp"
           quality={SITE_PHOTO_QUALITY}
           widths={[320, 480, 640]}

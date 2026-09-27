@@ -108,6 +108,9 @@ const otherLang = lang === "nl" ? "en" : "nl";
   </head>
 
   <body id="top">
+    {/* First stop for keyboard users: jumps past the header to the page's
+        <main id="main">. Hidden until it gets focus. */}
+    <a class="skip-link" href="#main">{t("nav.skipToContent")}</a>
     <slot />
     <BackToTop />
   </body>

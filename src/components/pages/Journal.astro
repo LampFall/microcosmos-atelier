@@ -34,7 +34,7 @@ const dateFmt = new Intl.DateTimeFormat(lang === "en" ? "en-GB" : "nl-BE", {
 <Layout title={t("journal.meta.title")} description={t("journal.meta.description")}>
 	<Header />
 
-	<main>
+	<main id="main">
 		<section class="page-intro">
 			<p class="eyebrow">{t("journal.hero.eyebrow")}</p>
 			<h1 set:html={t("journal.hero.title")} />

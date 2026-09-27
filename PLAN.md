@@ -1165,7 +1165,7 @@ Update the status here as items move along.
 | 1 | Contact form: reliable and private | done (2026-09-27), live on Netlify Forms, all checks passed | — |
 | 2 | Home and about page images: fast | done (2026-09-27): photos in `src/content/site/`, home 4.6 MB → 0.4 MB on a phone before scrolling | — |
 | 3 | SEO basics for a bilingual site | done (2026-09-27): canonical, hreflang, link previews, sitemap pairs, robots.txt; sitemap submitted in Search Console | — |
-| 4 | Review and audit of the untouched code | done (2026-09-27): see "Audit findings (2026-09-27)"; contrast, heading, bundles A and B fixed | Bundles C, D, E open |
+| 4 | Review and audit of the untouched code | done (2026-09-27): see "Audit findings (2026-09-27)"; all fix bundles A–E done | Owner: required-field marker yes/no |
 | 5 | Owner browser checks still open | waiting — owner task | Owner, whenever convenient |
 
 ## Audit findings (2026-09-27)
@@ -1259,7 +1259,7 @@ built site. No CRITICAL findings.
    2137–2178; the second copy comes after the 550px media query, so the
    phone rule (38px column, ≈1764) never applies (measured 45px). Fix: one
    block before the media queries; decide 38px or 45px by eye. Small.
-6. **About 300 lines of dead CSS** — no element uses: `.philosophy-grid`
+6. **[Fixed, C: 311 lines removed]** **About 300 lines of dead CSS** — no element uses: `.philosophy-grid`
    (+`.number`), `.ecosystem-section`, `.ecosystem-intro`,
    `.inspiration-note`, `.project`, `.project-reverse`, `.project-image`,
    `.project-content`, `.microcosmos-note`, `.work-project*`,
@@ -1276,7 +1276,8 @@ built site. No CRITICAL findings.
    dan 35 jaar", EN "since I was five years old"; `work.project2.spec
    .substrate`: NL "MA-Gen 1.0", EN "mainly sand, MA-Gen 1.0". The owner
    picks the true version. Small.
-10. **Language switch leads to a missing page** (known) — `Header.astro`
+10. **[Fixed, D: the switch goes to the other language's journal list]**
+    **Language switch leads to a missing page** (known) — `Header.astro`
     always links to the other language; for a journal entry in one language
     only that's a 404. Fix: pass `hasTranslation` to the header and link to
     the other language's journal list instead (or hide the link). Small.
@@ -1314,6 +1315,37 @@ built site. No CRITICAL findings.
   visible marker; no skip link (Layout); the privacy line isn't linked to
   the form.
 - **Docs:** two overlong lines in `SPEC.md` §4 (≈1758, 1769; known).
+
+#### Done in bundles C, D and E (2026-09-27)
+
+- **C. CSS clean-up:** dead CSS removed (`global.css` 2,167 → 1,830 lines);
+  base rules first, then one 800px and one 550px block; `!important`
+  replaced by specificity; redundant rules removed; `.about a` →
+  `.text-link` (now with its hover); raw values → tokens (the Fallen Forest hero's letterbox
+  background moved from `#f4f2ed` to the page colour `#f4f1e9`, a
+  deliberate, practically invisible change); hover zooms get a
+  transition and are off with reduced motion. Checked with full-page
+  screenshots of 9 pages at desktop and phone width before/after: 14 of 18
+  pixel-identical, the other 4 only differ by photo-loading timing or text
+  anti-aliasing (checked by eye).
+- **D. Code tidy:** `z` from `astro/zod`; empty alt texts and aquarium names
+  rejected by the schema (tested); typed template keys instead of `as any`;
+  the four inspiration cards from one list; `SITE_PHOTO_QUALITY` in
+  `src/lib/site-photos.ts`; alt "Kasper Masschaele" in `ui.ts`
+  (`about.image.alt`); unused `languages` export and stale comment removed;
+  `nav.*` keys together; the language-switch fix (finding 10, tested with a
+  one-language entry); overlong lines in `SPEC.md` §4 rewrapped.
+  `astro check`: 0 errors, 0 warnings, 0 hints (was 18 hints).
+- **E. Accessibility extras:** skip link ("Naar de inhoud" / "Skip to
+  content", visible on Tab; tested); arrows in links `aria-hidden`; English
+  titles on Dutch pages `lang="en"`; the privacy line linked to the send
+  button (`aria-describedby`). Lighthouse accessibility 100; screenshots
+  unchanged.
+- **Deliberately left:** the unused anchors (`home.intro.anchor`,
+  `#contact`) stay for links from outside; the two Orinoco alt texts; the
+  status word "Groei" (owner's earlier choice); the Fallen Forest intro
+  (owner's choice). Open question for the owner: a visible marker on the
+  required form fields (a design change).
 
 #### Suggested fix bundles (for the owner to choose)
 

@@ -30,6 +30,10 @@ const dateFmt = new Intl.DateTimeFormat(lang === "en" ? "en-GB" : "nl-BE", {
 	year: "numeric",
 });
 
+// Whether this entry also exists in the other language (hreflang links and
+// the header's language switch).
+const translated = await hasTranslation(entry.id);
+
 // Link-preview photo (SPEC.md §3.12): the cover, else the first gallery photo,
 // with the alt text the page shows for it (that photo is "photo 1" in the
 // fallback numbering either way).
@@ -57,13 +61,13 @@ const altFallback = () => {
 <Layout
 	title={`${entry.data.title} — Microcosmos Atelier`}
 	description={entry.data.summary ?? entry.data.title}
-	hasTranslation={await hasTranslation(entry.id)}
+	hasTranslation={translated}
 	shareImage={shareImage}
 	type="article"
 >
-	<Header />
+	<Header hasTranslation={translated} />
 
-	<main>
+	<main id="main">
 		<article class="case-study journal-post">
 			<a class="journal-back text-link" href={getRelativeLocaleUrl(lang, "/journal")}>
 				{t("journal.back")}

@@ -1,4 +1,5 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
 import { glob } from "astro/loaders";
 
 // Journal content lives one folder per aquarium, one folder per entry:
@@ -39,7 +40,7 @@ const aquariums = defineCollection({
 		generateId: ({ entry }) => entry.split("/")[0],
 	}),
 	schema: z.object({
-		name: z.string(),
+		name: z.string().trim().min(1),
 		liters: z.number().optional(),
 	}),
 });
@@ -56,8 +57,9 @@ const journal = defineCollection({
 		summary: z.string().optional(),
 		// Alt text per photo file name (in this file's language), e.g.
 		// { "drijfhout-boven.jpg": "Het drijfhout van bovenaf gezien" }.
-		photoAlt: z.record(z.string(), z.string()).optional(),
-		coverAlt: z.string().optional(),
+		// Empty alt texts aren't allowed: the page would silently show alt="".
+		photoAlt: z.record(z.string(), z.string().trim().min(1)).optional(),
+		coverAlt: z.string().trim().min(1).optional(),
 	}),
 });
 
