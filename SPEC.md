@@ -962,6 +962,7 @@ before it.
   main pages on phone and desktop. The output is a findings list; fixes
   become their own small specs, not part of this item.
 - **Order:** after items 1–3, so the audit sees the improved site.
+- **Detailed spec:** §3.13 (approved 2026-09-27).
 
 #### 5. Owner checks still open (not a spec)
 
@@ -1612,6 +1613,139 @@ Owner:
 - **D3. Default share image:** the home hero (`site/hero.jpg`).
 - **D4. Redirect targets:** the eight old journal redirects get a trailing
   `/`.
+
+### 3.13 Review and audit of the older code
+
+Status: APPROVED (2026-09-27)
+
+Item 4 of the improvement queue (§3.9).
+
+#### Current state
+
+- Since the journal work (§3.3), every change was reviewed phase by phase
+  by the `reviewer` agent. Code from before that, or only partly touched
+  since, never had a full independent review:
+  - `src/components/pages/Index.astro` (323 lines; only the photos, the
+    work grid and the head props were reviewed),
+  - `src/components/pages/About.astro` (91 lines; only the photo),
+  - `src/components/pages/Contact.astro` (105 lines; only the form
+    handling),
+  - `src/components/Footer.astro` (11 lines),
+  - `src/styles/global.css` (2,200 lines; only the header, menu,
+    back-to-top, contact-form additions and a few photo rules),
+  - `src/i18n/ui.ts` (704 lines of copy; checked per key when added),
+  - `src/content.config.ts` (81 lines).
+- Known items already noted along the way: `z` from `astro:content` is
+  deprecated (`astro check` hints); the about photos' alt text
+  "Kasper Masschaele" is hard-coded instead of in `ui.ts`; the header's
+  language switch links to a missing page for a journal entry in one
+  language only; one overlong line in `SPEC.md` §4.
+- There is no Lighthouse or accessibility measurement of the site yet.
+  There is no test suite or linter (AGENTS.md).
+
+#### Objectives
+
+1. Know what's wrong or fragile in the code that was never reviewed:
+   bugs, accessibility problems, dead or duplicated CSS, copy that differs
+   between languages, and anything that breaks the site's own rules
+   (AGENTS.md, SPEC §4).
+2. Know how the live site scores on performance, accessibility, best
+   practices and SEO, on phone and desktop, and what the main causes of
+   lost points are.
+3. One prioritised list of findings, so the owner can pick what to fix,
+   one small change at a time.
+
+#### Non-goals
+
+- Fixing anything as part of this item. Each fix (or small group of fixes)
+  becomes its own change afterwards: a small change for something trivial,
+  a spec and plan for anything larger (AGENTS.md).
+- A redesign, new features, or copywriting.
+- Re-reviewing code that was already reviewed phase by phase (journal,
+  Our Work, navigation, contact form handling, photos, SEO), except where
+  Lighthouse points at it.
+- Adding a test suite, a linter or a permanent audit tool to the project.
+- Automated HTML validation against an outside service.
+
+#### User workflow
+
+Owner:
+
+1. Approves this spec and the plan.
+2. Reads the findings list (in `PLAN.md`) with the Lighthouse scores.
+3. Picks which findings to fix and in what order; each becomes its own
+   change, through the usual workflow.
+
+Visitor: nothing changes.
+
+#### Functional requirements
+
+1. **Code review:** the `reviewer` agent reviews the files listed under
+   "Current state" as a whole (not a diff), against SPEC, ARCHITECTURE,
+   AGENTS.md and good practice for a static bilingual site. Focus: bugs,
+   accessibility (headings, landmarks, alt text, links and buttons,
+   focus, contrast in CSS), dead or duplicated CSS, CSS rules that no
+   longer match any element, hard-coded copy, NL/EN copy that differs in
+   meaning or is missing, fragile code.
+2. **Lighthouse:** performance, accessibility, best practices and SEO on
+   the live site for six page types (home, Our Work, about, contact,
+   journal list, one journal entry), in Dutch, on a phone profile and a
+   desktop profile; plus the English home page as a spot check. Record
+   the scores and the main audits that lose points.
+3. **Findings list:** a new section in `PLAN.md`, "Audit findings
+   (2026-09-xx)", with every finding from FR 1 and FR 2 plus the known
+   items above, each with: severity (CRITICAL / IMPORTANT / MINOR), file
+   and line or page, what's wrong, the suggested fix and a rough size
+   (small / medium). Duplicates merged.
+4. The Lighthouse scores table is part of that section, with the date and
+   the commit that was live.
+5. The queue (item 4) links to the findings list, and each finding the
+   owner chooses to fix is added to the queue as its own item.
+
+#### Data / content model
+
+- New section in `PLAN.md` (findings and scores). No code, content or URL
+  changes.
+
+#### Architecture
+
+- No code changes.
+- Lighthouse runs once, as a temporary tool (`npx lighthouse`, D1) with
+  the Chrome already installed; it is not added to `package.json`. Its
+  raw reports stay in the scratchpad, not in the repository.
+
+#### Security implications
+
+- Lighthouse only reads the public live site. The temporary tool is
+  downloaded from npm for the run and not installed into the project.
+
+#### Error handling
+
+- If Lighthouse can't run (download blocked, Chrome problem), the owner
+  runs the same pages in PageSpeed Insights (pagespeed.web.dev) and shares
+  the scores; the rest of the audit continues.
+- Lighthouse scores vary a few points between runs: performance is run
+  three times per page and profile and the median is recorded.
+
+#### Acceptance criteria
+
+1. `PLAN.md` has an "Audit findings" section with a scores table (six
+   page types in NL on phone and desktop, plus the EN home page, four
+   categories each), the date and the live commit.
+2. Every file under "Current state" was reviewed; the section says so per
+   file, with its findings or "no findings".
+3. Every finding has severity, location, description, suggested fix and
+   size; the four known items are included.
+4. No code, content or configuration changed (`git diff` touches only
+   `PLAN.md` and, for the status, `SPEC.md`).
+5. The queue links to the findings list.
+
+#### Decisions (owner, 2026-09-27)
+
+- **D1. Lighthouse:** Claude runs it once with `npx lighthouse` on the live
+  site; PageSpeed Insights by the owner is the fallback.
+- **D2. Findings:** a section in `PLAN.md`, next to the queue.
+- **D3. Language scope:** NL for all six page types, plus the EN home page.
 
 ## 4. Non-functional requirements
 

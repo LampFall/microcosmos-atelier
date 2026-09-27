@@ -960,8 +960,7 @@ None.
 
 ## Execution plan: SEO basics for a bilingual site
 
-Status: APPROVED (2026-09-27). Phases 1–4 implemented; the owner's Search
-Console step is open.
+Status: APPROVED (2026-09-27). Phases 1–4 implemented; all steps done.
 Implements: SPEC.md §3.12
 
 Order: addresses first (canonical and language links, which everything else
@@ -1069,13 +1068,14 @@ Steps:
       `getImage`), and that a new page should pass its photo.
 - [x] `PHOTOS.md`: a page's photo is also its link-preview photo (cropped
       wide).
-- [ ] After the push: the owner shares the home page and a journal entry in
+- [x] After the push: the owner shares the home page and a journal entry in
       WhatsApp (or checks them in LinkedIn's Post Inspector) and, once, submits
       the sitemap in Google Search Console if it isn't there.
       *(2026-09-27: WhatsApp preview with photo confirmed by the owner, after
       WhatsApp's cache (`?v=2`), for the home page and a journal entry. Live
       check by Claude: tags and share image served, `robots.txt` as
-      `text/plain`. Search Console still to do.)*
+      `text/plain`. Sitemap submitted in Search Console by the owner,
+      2026-09-27.)*
 - [x] `PLAN.md`: queue item 3 done.
 Validation: `npx astro check`; reread the changed sections; the owner's
 report.
@@ -1095,6 +1095,64 @@ Risks: platforms cache previews; a stale preview isn't a site error.
 ### Blocking questions
 None.
 
+## Execution plan: review and audit of the older code
+
+Status: APPROVED (2026-09-27)
+Implements: SPEC.md §3.13
+
+No code changes in this plan: both phases only add to `PLAN.md`.
+
+### Phase 1: Lighthouse on the live site
+Goal: scores and the main lost-point audits for the live site, recorded in
+`PLAN.md`.
+Files: modify `PLAN.md` (new section "Audit findings (2026-09-27)", scores
+part)
+Steps:
+- [ ] Note the live commit (`git log origin/main -1`) and check the Netlify
+      deploy of it is live (a page's HTML matches the build).
+- [ ] Run `npx lighthouse` (temporary, with the installed Chrome) on the
+      live site: home, Our Work, about, contact, journal list and one
+      journal entry in NL, and the EN home page; mobile and desktop;
+      performance three times per page and profile, median recorded.
+      Reports (JSON/HTML) stay in the scratchpad.
+- [ ] Record the scores table and, per page type, the audits that lose
+      points (with the element or file where Lighthouse points to one).
+Validation: every page/profile has four scores; `git diff` touches only
+`PLAN.md`; nothing added to `package.json`.
+Acceptance criteria:
+- [ ] SPEC §3.13 AC 1.
+- [ ] `git status` shows no change outside `PLAN.md`.
+Commit boundary: `audit: Lighthouse-scores van de live site`
+Risks: the download or Chrome run fails: fallback is PageSpeed Insights by
+the owner (SPEC §3.13 error handling). Scores vary between runs: medians.
+
+### Phase 2: Code review and the findings list
+Goal: every file in SPEC §3.13 "Current state" reviewed as a whole, and one
+prioritised findings list with the Lighthouse findings and known items.
+Files: modify `PLAN.md` (findings part of the same section; queue item 4)
+Steps:
+- [ ] `reviewer` agent, whole-file mode, on the files in SPEC §3.13
+      "Current state", with FR 1's focus list and the Lighthouse findings
+      from Phase 1 as context.
+- [ ] Check the reviewer's findings against the code (drop false
+      positives, merge duplicates) and add the four known items.
+- [ ] Write the findings list: severity, file:line or page, what's wrong,
+      suggested fix, size; per file "reviewed: findings / no findings".
+- [ ] Queue item 4 links to the list and is marked done.
+Validation: every listed file appears in the list; `git diff` touches only
+`PLAN.md`.
+Acceptance criteria:
+- [ ] SPEC §3.13 AC 2–5.
+Commit boundary: `audit: bevindingen van de code-review`
+Risks: a long list of MINOR items; keep them short and grouped by file.
+
+### Out of scope / follow-ups
+- Fixing findings: the owner picks them after Phase 2; each becomes its own
+  change in the queue.
+
+### Blocking questions
+None.
+
 ## Improvement queue
 
 From `SPEC.md` §3.9 (high-level, approved 2026-09-26). One item at a time: each gets its
@@ -1106,8 +1164,8 @@ Update the status here as items move along.
 | 0 | How the site goes live (hosting, deploy) | done (2026-09-26): Netlify, push to `main` deploys, see `ARCHITECTURE.md` §1 | — |
 | 1 | Contact form: reliable and private | done (2026-09-27), live on Netlify Forms, all checks passed | — |
 | 2 | Home and about page images: fast | done (2026-09-27): photos in `src/content/site/`, home 4.6 MB → 0.4 MB on a phone before scrolling | — |
-| 3 | SEO basics for a bilingual site | done (2026-09-27): canonical, hreflang, link previews, sitemap pairs, robots.txt | Owner: submit the sitemap in Google Search Console |
-| 4 | Review and audit of the untouched code | waiting (after 1–3) | `reviewer` + Lighthouse |
+| 3 | SEO basics for a bilingual site | done (2026-09-27): canonical, hreflang, link previews, sitemap pairs, robots.txt; sitemap submitted in Search Console | — |
+| 4 | Review and audit of the untouched code | plan approved (2026-09-27), phases 1–2 to do | `/implement-phase 1` |
 | 5 | Owner browser checks still open | waiting — owner task | Owner, whenever convenient |
 
 ## Backlog
