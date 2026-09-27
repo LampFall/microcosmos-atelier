@@ -43,9 +43,7 @@ Read these before making non-trivial changes:
 ├── astro.config.mjs        # i18n, sitemap, photo preparation, redirects
 ├── public/
 │   ├── favicon.ico / .svg
-│   ├── google...html       # Search Console verification -- don't delete
-│   └── images/             # unoptimized static images: home hero, inspiration,
-│                           # about, and our-work/A001-01.jpeg (4th home "Our work" tile)
+│   └── google...html       # Search Console verification -- don't delete
 └── src/
     ├── assets/              # site-wide SVGs
     ├── components/
@@ -55,7 +53,8 @@ Read these before making non-trivial changes:
     ├── content/
     │   ├── journal/<aquarium>/          # aquarium.yml + one folder per entry
     │   │   └── <entry>/                 # nl.md, en.md and the entry's photos
-    │   └── work/<aquarium>/             # Our Work photos (+ alt.yml, extra/)
+    │   ├── work/<aquarium>/             # Our Work photos (+ alt.yml, extra/)
+    │   └── site/                        # home and about photos, fixed names (PHOTOS.md)
     ├── content.config.ts    # journal, aquariums and workAlt collection schemas
     ├── i18n/
     │   ├── ui.ts             # all translated strings, nl + en
@@ -70,8 +69,8 @@ Read these before making non-trivial changes:
 ```
 
 See `ARCHITECTURE.md` for **why** it's split this way, especially the
-`pages/` vs `components/pages/` pattern and the two different image systems
-in use.
+`pages/` vs `components/pages/` pattern and how photos are prepared and
+optimised.
 
 ## Commands
 
@@ -133,6 +132,12 @@ src/content/journal/
   `/describe-photos work/<aquarium>` to write them. The case-study text
   itself is hand-edited in `src/components/pages/OurWork.astro` and
   `src/i18n/ui.ts`.
+- **Home and about photos** are eight files with fixed names in
+  `src/content/site/` (`hero.jpg`, `inspiration-jungle.jpg`,
+  `inspiration-amazon.jpg`, `inspiration-blackwater.jpg`,
+  `inspiration-custom.jpg`, `work-extra.jpg`, `about-home.jpg`,
+  `about-page.jpg`). To replace one: delete it, drop the new photo in with
+  the same name (any format), same orientation. Details in `PHOTOS.md`.
 
 ## Learn more
 

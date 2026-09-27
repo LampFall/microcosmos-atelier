@@ -115,8 +115,8 @@ is done by the main session itself.
   `git clean -f`, branch deletion and reading `.env` files, and asks before
   commit, push and rebase.
 - A git pre-commit hook (`.git/hooks/pre-commit`, local to this machine,
-  not in the repository) blocks the commit if a staged journal or Our Work
-  photo isn't prepared yet or still has EXIF/XMP/IPTC metadata (possible
+  not in the repository) blocks the commit if a staged journal, Our Work or
+  site photo isn't prepared yet or still has EXIF/XMP/IPTC metadata (possible
   GPS), or if `npx astro check` reports errors. Never bypass it with
   `--no-verify` unless the owner says so.
 

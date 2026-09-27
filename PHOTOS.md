@@ -31,11 +31,6 @@ in front of its name. (The Our Work photos are already named `01-…`,
 
 ### The home and about photos (`src/content/site/`)
 
-> **Status (2026-09-27):** this whole section applies once the eight photos
-> have moved here from `public/images/` (PLAN.md, "home and about photos",
-> Phase 2). Until then they're in `public/images/`, and replacing one or a
-> missing file works differently.
-
 | File | Where it's shown |
 | --- | --- |
 | `hero.jpg` | The big photo at the top of the home page |
@@ -55,6 +50,10 @@ in front of its name. (The Our Work photos are already named `01-…`,
    matter: `hero.HEIC`, `hero.png` and `hero.jpeg` all become `hero.jpg`).
 3. Use the **same orientation and roughly the same proportions** as the
    old photo (e.g. portrait for the hero), because the crop stays the same.
+
+Between deleting the old photo and the new one being ready, the dev
+server shows an error page. That's normal: wait a few seconds and reload
+the page.
 
 If a file is missing, the build stops with a message naming it, so a
 missing photo never reaches the live site.

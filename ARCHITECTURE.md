@@ -221,18 +221,32 @@ come from one folder per aquarium: `src/content/work/<aquarium>/`.
   the per-project texts in `ui.ts`. If no folder has an `alt.yml` at all,
   the build logs a harmless "No files found matching */alt.yml" warning.
 - The home page's "Our work" grid shows the three folders' heroes, plus one
-  fixed photo from `public/images/our-work/` (`A001-01.jpeg`).
+  fixed photo, `work-extra.jpg` from the site photo folder (§6).
 
-## 6. Images: two different systems in play
+## 6. Images: one prepared-photo system
 
-1. **Prepared photos** (journal cover and gallery, Our Work heroes and
-   galleries): local files in an entry folder or a work folder, found with
-   `import.meta.glob` and rendered with `<Image>` from `astro:assets`. They
-   pass through two steps:
+Every photo on the site is a **prepared photo**: a local file in one of
+three photo roots, rendered with `<Image>` from `astro:assets`.
+
+- **Journal** (cover and gallery): `src/content/journal/<aquarium>/<entry>/`,
+  found with `import.meta.glob`.
+- **Our Work** (heroes and galleries): `src/content/work/<aquarium>/`, found
+  with `import.meta.glob`.
+- **Site photos** (home hero, the four inspiration cards, the fourth home
+  "Our work" tile, the home and about page about photos; `SPEC.md` §3.11):
+  `src/content/site/`, eight fixed names (`hero.jpg`,
+  `inspiration-jungle.jpg`, `inspiration-amazon.jpg`,
+  `inspiration-blackwater.jpg`, `inspiration-custom.jpg`, `work-extra.jpg`,
+  `about-home.jpg`, `about-page.jpg`), each a static `import` in
+  `Index.astro` or `About.astro`, so a missing file fails the build with
+  its path. `PHOTOS.md` tells the owner how to replace one.
+
+They pass through two steps:
    - **Preparation** (`src/integrations/prepare-photos.ts`, registered in
      `astro.config.mjs`). It works from one list of photo roots
      (`PHOTO_ROOTS`): the journal (`<aquarium>/<entry>/`, with the "more
-     than 3 photos" warning) and Our Work (`<aquarium>/`, no limit). When
+     than 3 photos" warning), Our Work (`<aquarium>/`, no limit) and the
+     site photos (directly in `site/`). When
      `astro dev` or `astro build` starts, and while the dev server watches
      those folders, every photo dropped directly into a photo folder (JPEG,
      PNG, WebP or HEIC, any extension case) is turned into `<name>.jpg` (or
@@ -247,19 +261,21 @@ come from one folder per aquarium: `src/content/work/<aquarium>/`.
      after restarting the dev server (`astro dev stop`, then
      `astro dev --background`).
    - **Optimization** by Astro at build time: `JournalEntry.astro`,
-     `Journal.astro`, `OurWork.astro` and `Index.astro` set `widths`, `sizes`
-     and `format="webp"` per image, so visitors download WebP files sized to
-     the layout. A journal cover and the first Our Work hero load eagerly
-     with `fetchpriority="high"`; everything else loads lazily.
-2. **Public/static images** (the home page hero and inspiration images, the
-   about photos, and the one fixed photo `A001-01.jpeg` in the home page's
-   "Our work" grid): plain files under `public/images/...`, referenced by
-   absolute URL string (`/images/hero/A002-3.jpeg`) in plain `<img>` tags.
-   No optimization, no `astro:assets` involvement. Simpler to add (just drop a file in
-   `public/`), but no automatic responsive/format handling.
+     `Journal.astro`, `OurWork.astro`, `Index.astro` and `About.astro` set
+     `widths`, `sizes` and `format="webp"` per image, so visitors download
+     WebP files sized to the layout. `sizes` is the width a photo is drawn
+     at after `object-fit: cover` cropping, which can be wider than its box
+     (see the comments in `Index.astro`). A journal cover, the first Our
+     Work hero, the home hero and the about page photo load eagerly with
+     `fetchpriority="high"`; everything else loads lazily.
+   - The site photos use `quality={65}` (default elsewhere) and a capped
+     `width`, to keep the home page under 400 KB of photos before scrolling
+     on a phone (decision log, 2026-09-27).
 
-When adding new image-bearing content, decide deliberately which system
-applies rather than mixing them within the same feature.
+`public/` holds no photos: only the favicons and the Search Console file.
+A new photo on the site goes into one of the three roots; add a root to
+`PHOTO_ROOTS` (and the local pre-commit hook and `.gitignore`) rather than
+putting photos in `public/`.
 
 ## 7. Styling
 
@@ -296,5 +312,5 @@ applies rather than mixing them within the same feature.
   both languages; `/describe-photos work/<aquarium>` does the same for an Our
   Work folder, in its `alt.yml`. The optional `content-writer` agent drafts
   new copy in the site's styles.
-- A local git pre-commit hook blocks unprepared journal and Our Work photos
+- A local git pre-commit hook blocks unprepared journal, Our Work and site photos
   and runs `npx astro check` (see `AGENTS.md`, "Safeguards").

@@ -832,7 +832,7 @@ None.
 
 ## Execution plan: home and about photos from one prepared folder
 
-Status: APPROVED (2026-09-27)
+Status: APPROVED (2026-09-27). Phases 1–3 implemented.
 Implements: SPEC.md §3.11
 
 Order: first the machinery (preparation and hook know the new folder, still
@@ -929,21 +929,25 @@ Goal: the docs describe the site photo folder and how to replace a photo.
 Files: modify `SPEC.md` (§4), `ARCHITECTURE.md` (§5, §6), `README.md`,
 `PHOTOS.md`, `PLAN.md` (queue item 2)
 Steps:
-- [ ] `SPEC.md` §4: the eager exceptions include the home hero and the
+- [x] `SPEC.md` §4: the eager exceptions include the home hero and the
       about photo; the image rule covers `src/content/site/`.
-- [ ] `ARCHITECTURE.md` §5 (the fourth home tile) and §6 (one image
+- [x] `ARCHITECTURE.md` §5 (the fourth home tile) and §6 (one image
       system: three photo roots; `public/` only has favicons and the Search
       Console file).
-- [ ] `README.md`: folder tree, the eight file names and what each is for,
+- [x] `README.md`: folder tree, the eight file names and what each is for,
       and how to replace one (delete the old file, drop the new one with
       the same name, same orientation).
-- [ ] `PHOTOS.md` (the owner's photo manual, added during Phase 1 on the
+- [x] `PHOTOS.md` (the owner's photo manual, added during Phase 1 on the
       owner's request): remove the "Status" note about `public/images/`
-      and check the file names match.
-- [ ] `PLAN.md`: queue item 2 done.
+      and check the file names match. Also a line on the dev server's error
+      page while a photo is being replaced (review note, Phase 2).
+- [x] After review: `SPEC.md` §3.11 status "implemented", §3.9 item 2
+      "Done"; the pre-commit hook sentence in `ARCHITECTURE.md` and
+      `AGENTS.md` now includes site photos (`AGENTS.md` with the owner's OK).
+- [x] `PLAN.md`: queue item 2 done.
 Validation: `npx astro check`; reread the changed sections.
 Acceptance criteria:
-- [ ] SPEC §3.11 AC 11.
+- [x] SPEC §3.11 AC 11.
 Commit boundary: `docs: sitefoto's in src/content/site/ beschreven`
 Risks: none identified.
 
@@ -964,8 +968,8 @@ Update the status here as items move along.
 | --- | --- | --- | --- |
 | 0 | How the site goes live (hosting, deploy) | done (2026-09-26): Netlify, push to `main` deploys, see `ARCHITECTURE.md` §1 | — |
 | 1 | Contact form: reliable and private | done (2026-09-27), live on Netlify Forms; only the owner's Reply check is open | Owner: press Reply on a test email |
-| 2 | Home and about page images: fast | plan approved (2026-09-27), phases 1–3 to do | `/implement-phase 1` |
-| 3 | SEO basics for a bilingual site | waiting (needs 0) | `/spec` |
+| 2 | Home and about page images: fast | done (2026-09-27): photos in `src/content/site/`, home 4.6 MB → 0.4 MB on a phone before scrolling | — |
+| 3 | SEO basics for a bilingual site | waiting (item 0 done: canonical domain known) | `/spec` |
 | 4 | Review and audit of the untouched code | waiting (after 1–3) | `reviewer` + Lighthouse |
 | 5 | Owner browser checks still open | waiting — owner task | Owner, whenever convenient |
 

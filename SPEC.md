@@ -925,6 +925,9 @@ before it.
 
 #### 2. Home and about page images: fast
 
+Done (2026-09-27), see §3.11. The "Why" below describes the situation
+before it.
+
 - **Why:** the hero photo, the four inspiration photos and the about photos
   are still unoptimised files in `public/images/` (about 5 MB; the four
   inspiration photos about 0.9 MB each), plus `A001-01.jpeg` in the home
@@ -1204,7 +1207,8 @@ Owner:
 
 ### 3.11 Home and about page photos: fast
 
-Status: APPROVED (2026-09-27)
+Status: APPROVED (2026-09-27), implemented 2026-09-27. "Current state" below
+describes the situation before this change.
 
 Item 2 of the improvement queue (§3.9).
 
@@ -1403,15 +1407,17 @@ Owner, replacing one of these photos (D1 c):
   intended to be hosted as static files; do not introduce server-only
   runtime dependencies without discussing the hosting implications first.
 - **Image optimization & performance.** Journal photos and covers must stay
-  local files in their entry folder (see 3.3.2) so Astro can
-  optimize it at build time. Do not link directly to third-party file hosts
+  local files in their entry folder (see 3.3.2), Our Work photos in their
+  work folder (§3.7) and the home and about photos in `src/content/site/`
+  (§3.11), so Astro can optimize them at build time. Do not link directly to third-party file hosts
   (e.g. Google Drive) for these — see the reliability/ToS concerns noted in
   `PLAN.md`. Every such image must ship a responsive `srcset` sized to its
   actual display size and a modern format (WebP by default), must reserve
   its layout space via explicit `width`/`height` to avoid layout shift, and
   must be lazy-loaded unless it is the first above-the-fold image on the
-  page (a journal `cover`, or the first Our Work hero), in which case it
-  loads eagerly. See 3.3.5 for the full journal-specific spec.
+  page (a journal `cover`, the first Our Work hero, the home hero or the
+  about page photo), in which case it loads eagerly with
+  `fetchpriority="high"`. See 3.3.5 for the full journal-specific spec.
 - **SEO.** `@astrojs/sitemap` generates a sitemap from `astro.config.mjs`'s
   `site` URL. A Google Search Console verification file lives at
   `public/google4f41fe6a9b546641.html` — do not delete it.
