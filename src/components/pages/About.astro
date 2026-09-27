@@ -4,9 +4,21 @@ import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 import { getRelativeLocaleUrl } from "astro:i18n";
+import { Image } from "astro:assets";
+// Fixed photo from src/content/site/ (SPEC.md §3.11); replacing it: PHOTOS.md.
+import aboutPagePhoto from "../../content/site/about-page.jpg";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+// The 0.75fr column of .about-page-hero (1fr 0.75fr, 100px gap; max 550px wide
+// at ≤ 800px). The 3:4 photo fills its 4:5 box by width, so no crop factor.
+// Widths stop at 1000: enough for a 2× desktop (≈ 940px), and a 3× phone
+// gets 1000 instead of a 1200 file nearly as heavy as the original JPEG.
+// `width` keeps the fallback `src` at 1000px as well.
+const aboutPageSizes = "(max-width: 800px) min(100vw - 44px, 550px), 471px";
+// Same quality as the home photos (see Index.astro): keeps the page light.
+const SITE_PHOTO_QUALITY = 65;
 ---
 
 <Layout title={t("about.meta.title")} description={t("about.meta.description")}>
@@ -24,7 +36,17 @@ const t = useTranslations(lang);
         </div>
 
         <div class="about-page-image">
-          <img src="/images/about/about-02.jpeg" alt="Kasper Masschaele" />
+          <Image
+            src={aboutPagePhoto}
+            alt="Kasper Masschaele"
+            format="webp"
+            quality={SITE_PHOTO_QUALITY}
+            width={1000}
+            widths={[400, 600, 800, 1000]}
+            sizes={aboutPageSizes}
+            loading="eager"
+            fetchpriority="high"
+          />
         </div>
       </div>
 

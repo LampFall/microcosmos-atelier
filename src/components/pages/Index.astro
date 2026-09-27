@@ -6,6 +6,15 @@ import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { Image } from "astro:assets";
 import { WORK_FOLDERS, getWorkPhotos } from "../../lib/work";
+// Fixed home photos from src/content/site/ (SPEC.md §3.11). Static imports, so
+// a missing file fails the build with its path. Replacing one: see PHOTOS.md.
+import heroPhoto from "../../content/site/hero.jpg";
+import inspirationJungle from "../../content/site/inspiration-jungle.jpg";
+import inspirationAmazon from "../../content/site/inspiration-amazon.jpg";
+import inspirationBlackwater from "../../content/site/inspiration-blackwater.jpg";
+import inspirationCustom from "../../content/site/inspiration-custom.jpg";
+import workExtraPhoto from "../../content/site/work-extra.jpg";
+import aboutHomePhoto from "../../content/site/about-home.jpg";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -21,6 +30,25 @@ const workHeroes = [
 // (~588px each); 1 column below 800px, with 22px padding.
 const workGridSizes =
   "(max-width: 800px) calc(100vw - 44px), (max-width: 1280px) calc((100vw - 104px) / 2), 588px";
+// The site photos are very detailed, so WebP at the default quality stays
+// heavy; quality 65 keeps a phone under the 400 KB budget before scrolling
+// (SPEC.md §3.11 D4). Journal and Our Work photos keep the default.
+const SITE_PHOTO_QUALITY = 65;
+// `sizes` below is the width each photo is drawn at after `object-fit: cover`
+// cropping, not just its box:
+// - Hero: a 3:4 portrait covering the full width and the height (100vh,
+//   90vh at ≤ 800px), so on a portrait phone it's drawn wider than the
+//   screen (0.75 × the height). It stops at 1440px (`width` too, so the
+//   fallback `src` isn't the full 1500px file): the largest file stays under
+//   the 400 KB phone budget.
+const heroSizes = "(max-width: 800px) max(100vw, 67.5vh), max(100vw, 75vh)";
+// - Inspiration cards: the same columns as .work-grid, but the 1408×768
+//   (1.83:1) photos are cropped to a 4:3 box, so drawn 1.375 × wider.
+const inspirationSizes =
+  "(max-width: 800px) calc((100vw - 44px) * 1.375), (max-width: 1280px) calc((100vw - 104px) / 2 * 1.375), 808px";
+// - About photo: the 0.8fr column of .about (1fr 0.8fr, 100px gap; max 500px
+//   wide at ≤ 800px); the square photo is cropped to 4:5, so drawn 1.25 × wider.
+const aboutSizes = "(max-width: 800px) calc(min(100vw - 44px, 500px) * 1.25), 611px";
 ---
 
 <Layout title={t("home.meta.title")} description={t("home.meta.description")}>
@@ -29,7 +57,18 @@ const workGridSizes =
   <main>
     <!-- HERO -->
     <section class="hero">
-      <img src="/images/hero/A002-3.jpeg" alt={t("home.hero.imageAlt")} class="hero-image" />
+      <Image
+        src={heroPhoto}
+        alt={t("home.hero.imageAlt")}
+        class="hero-image"
+        format="webp"
+        quality={SITE_PHOTO_QUALITY}
+        width={1440}
+        widths={[640, 960, 1280, 1440]}
+        sizes={heroSizes}
+        loading="eager"
+        fetchpriority="high"
+      />
 
       <div class="hero-overlay">
         <p class="eyebrow">{t("home.hero.eyebrow")}</p>
@@ -96,7 +135,14 @@ const workGridSizes =
 
       <div class="microcosmos-grid">
         <article class="microcosmos-card">
-          <img src="/images/microcosmos/jungle-style.jpg" alt={t("home.inspiration1.imageAlt")} />
+          <Image
+            src={inspirationJungle}
+            alt={t("home.inspiration1.imageAlt")}
+            format="webp"
+            quality={SITE_PHOTO_QUALITY}
+            widths={[400, 600, 820, 1100, 1408]}
+            sizes={inspirationSizes}
+          />
           <div class="card-content">
             <p class="eyebrow">{t("home.inspiration1.eyebrow")}</p>
             <h3>{t("home.inspiration1.title")}</h3>
@@ -105,7 +151,14 @@ const workGridSizes =
         </article>
 
         <article class="microcosmos-card">
-          <img src="/images/microcosmos/amazon.jpg" alt={t("home.inspiration2.imageAlt")} />
+          <Image
+            src={inspirationAmazon}
+            alt={t("home.inspiration2.imageAlt")}
+            format="webp"
+            quality={SITE_PHOTO_QUALITY}
+            widths={[400, 600, 820, 1100, 1408]}
+            sizes={inspirationSizes}
+          />
           <div class="card-content">
             <p class="eyebrow">{t("home.inspiration2.eyebrow")}</p>
             <h3>{t("home.inspiration2.title")}</h3>
@@ -114,7 +167,14 @@ const workGridSizes =
         </article>
 
         <article class="microcosmos-card">
-          <img src="/images/microcosmos/blackwater.jpg" alt={t("home.inspiration3.imageAlt")} />
+          <Image
+            src={inspirationBlackwater}
+            alt={t("home.inspiration3.imageAlt")}
+            format="webp"
+            quality={SITE_PHOTO_QUALITY}
+            widths={[400, 600, 820, 1100, 1408]}
+            sizes={inspirationSizes}
+          />
           <div class="card-content">
             <p class="eyebrow">{t("home.inspiration3.eyebrow")}</p>
             <h3>{t("home.inspiration3.title")}</h3>
@@ -123,7 +183,14 @@ const workGridSizes =
         </article>
 
         <article class="microcosmos-card">
-          <img src="/images/microcosmos/custom.jpg" alt={t("home.inspiration4.imageAlt")} />
+          <Image
+            src={inspirationCustom}
+            alt={t("home.inspiration4.imageAlt")}
+            format="webp"
+            quality={SITE_PHOTO_QUALITY}
+            widths={[400, 600, 820, 1100, 1408]}
+            sizes={inspirationSizes}
+          />
           <div class="card-content">
             <p class="eyebrow">{t("home.inspiration4.eyebrow")}</p>
             <h3>{t("home.inspiration4.title")}</h3>
@@ -198,7 +265,14 @@ const workGridSizes =
             />
           )
         )}
-        <img src="/images/our-work/A001-01.jpeg" alt={t("home.work.image4.alt")} />
+        <Image
+          src={workExtraPhoto}
+          alt={t("home.work.image4.alt")}
+          format="webp"
+          quality={SITE_PHOTO_QUALITY}
+          widths={[400, 600, 900, 1200]}
+          sizes={workGridSizes}
+        />
       </div>
 
       <a href={getRelativeLocaleUrl(lang, "/our-work")} class="text-link">
@@ -218,7 +292,14 @@ const workGridSizes =
       </div>
 
       <div class="about-image">
-        <img src="/images/about/about.jpeg" alt="Kasper Masschaele" />
+        <Image
+          src={aboutHomePhoto}
+          alt="Kasper Masschaele"
+          format="webp"
+          quality={SITE_PHOTO_QUALITY}
+          widths={[320, 480, 640]}
+          sizes={aboutSizes}
+        />
       </div>
     </section>
 

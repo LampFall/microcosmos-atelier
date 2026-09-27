@@ -880,33 +880,45 @@ and `public/images/hero/WhatsApp Image 2026-08-18 at 13.36.11.jpeg`; modify
 `src/components/pages/Index.astro`, `src/components/pages/About.astro`,
 `src/styles/global.css`
 Steps:
-- [ ] Before changing anything: record the current box sizes of the
+- [x] Before changing anything: record the current box sizes of the
       inspiration cards and the home about photo at 1280px and 390px, and
       the current image bytes of the home page.
-- [ ] Move and rename: `hero.jpg`, `inspiration-jungle.jpg`,
+- [x] Move and rename: `hero.jpg`, `inspiration-jungle.jpg`,
       `inspiration-amazon.jpg`, `inspiration-blackwater.jpg`,
       `inspiration-custom.jpg`, `work-extra.jpg`, `about-home.jpg`,
       `about-page.jpg`. Delete the two unused files; `public/images/` is
       then empty and removed.
-- [ ] `Index.astro` and `About.astro`: static imports of the photos (a
+- [x] `Index.astro` and `About.astro`: static imports of the photos (a
       missing file then fails the build with its path, FR 9) and `<Image>`
       with `format="webp"`, `widths` up to each source width, and `sizes`
       per slot based on the CSS (drawn width after `object-fit: cover`;
       hero ≈ `max(100vw, 75vh)` if browsers accept it in `sizes`,
       otherwise `100vw`; cards ≈ 1.375 × the column width). The hero keeps
       `class="hero-image"`.
-- [ ] Hero and about page photo: `loading="eager"`, `fetchpriority="high"`;
+- [x] Hero and about page photo: `loading="eager"`, `fetchpriority="high"`;
       the rest lazy (the `<Image>` default).
-- [ ] `global.css`: `height: auto` on `.microcosmos-card img` and
+- [x] `global.css`: `height: auto` on `.microcosmos-card img` and
       `.about-image img`.
 Validation: `npx astro check`, `npm run build`; check `dist/` (AC 2–5);
 compare box sizes and bytes with the numbers recorded before; remove one
 photo temporarily and check the build fails naming it (AC 10); dev server,
 home and about in NL and EN, phone and desktop.
 Acceptance criteria:
-- [ ] SPEC §3.11 AC 1–6 and AC 10, with the before/after numbers in the
-      report.
-- [ ] AC 7 (owner: looks the same).
+- [x] SPEC §3.11 AC 1–6 and AC 10, with the before/after numbers in the
+      report. *(Measured 2026-09-27 on the built site, headless Chrome, in
+      KB of 1000 bytes. Photos before scrolling, home: desktop 4,615 → 326,
+      phone 390×844 at 3× 4,615 → 385; whole home page on a phone after
+      scrolling 5,051 → 1,375. About page: desktop 653 → 168, phone 653 →
+      433. Largest WebP referenced by the home page: 384,982 bytes (the
+      1440px hero). All photo boxes unchanged to the pixel.)*
+- [x] AC 7 (owner: looks the same). *(2026-09-27, owner on the dev server:
+      the photos look the same at first glance, at quality 65.)*
+Deviation (owner's choice, 2026-09-27): at Astro's default WebP quality
+the phone budget wasn't met (hero 528 KB on a 3× phone), so the eight
+site photos use `quality={65}`; journal and Our Work keep the default.
+After review: the hero stops at 1440px and the about photo at 1000px
+(`widths` and `width`, so the fallback `src` isn't the full-size file), and
+the cards use 820 instead of 800.
 Commit boundary: `foto's: home en about via geoptimaliseerde afbeeldingen uit src/content/site/`
 Risks: the look (crops, card hover, hero cover) is the main risk; compare
 carefully. The static import requires every file to exist before the pages
@@ -1060,6 +1072,11 @@ Update the status here as items move along.
   existing system with one entry, and replacing a photo works like Our Work.
   The two unused files (`MCA-logo.jpeg`, a spare hero photo) are deleted.
   See `SPEC.md` §3.11.
+- **Site photos at WebP quality 65 — chosen (2026-09-27).** At Astro's
+  default quality the home page missed the 400 KB phone budget (the detailed
+  hero was 528 KB on a 3× phone). The eight site photos use `quality={65}`,
+  the hero stops at 1440px and the about photo at 1000px; journal and Our
+  Work keep the default. The owner saw no difference. See `SPEC.md` §3.11.
 
 ## Suggested files/folders for working more efficiently with Claude Code
 

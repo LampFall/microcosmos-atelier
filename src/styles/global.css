@@ -639,6 +639,8 @@ h3 {
 
 .microcosmos-card img {
     width: 100%;
+    /* The width/height attributes from <Image> would otherwise win over aspect-ratio. */
+    height: auto;
 
     aspect-ratio: 4 / 3;
 
@@ -894,6 +896,8 @@ h3 {
 
 .about-image img {
     width: 100%;
+    /* The width/height attributes from <Image> would otherwise win over aspect-ratio. */
+    height: auto;
 
     aspect-ratio: 4 / 5;
 
