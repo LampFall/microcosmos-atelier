@@ -30,6 +30,17 @@ const dateFmt = new Intl.DateTimeFormat(lang === "en" ? "en-GB" : "nl-BE", {
 	year: "numeric",
 });
 
+// Link-preview photo (SPEC.md §3.12): the cover, else the first gallery photo,
+// with the alt text the page shows for it (that photo is "photo 1" in the
+// fallback numbering either way).
+const sharePhoto = cover ?? gallery[0];
+const shareImage = sharePhoto && {
+	src: sharePhoto.image,
+	alt:
+		(sharePhoto === cover ? entry.data.coverAlt : entry.data.photoAlt?.[sharePhoto.fileName]) ??
+		t("journal.photoAltFallback").replace("{title}", entry.data.title).replace("{n}", "1"),
+};
+
 // Fallback alt text ("<title> — photo <n>") when a photo has no explicit
 // alt text of its own; `n` counts the cover (if any) as photo 1 and the
 // gallery photos after it, so every photo on the page gets a distinct
@@ -47,6 +58,8 @@ const altFallback = () => {
 	title={`${entry.data.title} — Microcosmos Atelier`}
 	description={entry.data.summary ?? entry.data.title}
 	hasTranslation={await hasTranslation(entry.id)}
+	shareImage={shareImage}
+	type="article"
 >
 	<Header />
 

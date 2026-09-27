@@ -1561,9 +1561,11 @@ Owner:
 #### Error handling
 
 - A journal entry without photos: uses the default share image.
-- A source photo smaller than 1200×630 isn't enlarged, so its share image
-  comes out smaller; the size tags follow the real file. Today every
-  source is large enough (prepared photos are up to 2400px).
+- A page photo smaller than 1200×630 isn't used for the link preview (it
+  would not be enlarged); the default share image is used instead, so the
+  size tags are always true. Today every source is large enough (prepared
+  photos are up to 2400px). (Changed by the owner on 2026-09-27, during
+  Phase 2.)
 - A page without a description would give an empty `og:description`; all
   pages have one today. The build doesn't fail on this.
 - If a platform shows an old preview after a change, that's its cache

@@ -21,7 +21,11 @@ const aboutPageSizes = "(max-width: 800px) min(100vw - 44px, 550px), 471px";
 const SITE_PHOTO_QUALITY = 65;
 ---
 
-<Layout title={t("about.meta.title")} description={t("about.meta.description")}>
+<Layout
+  title={t("about.meta.title")}
+  description={t("about.meta.description")}
+  shareImage={{ src: aboutPagePhoto, alt: "Kasper Masschaele", position: "bottom" }}
+>
   <Header />
 
   <main>

@@ -1,8 +1,11 @@
 ---
 import "../styles/global.css";
 import { getAbsoluteLocaleUrl } from "astro:i18n";
-import { getLangFromUrl, getPathWithoutLocale } from "../i18n/utils";
+import { getImage } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import { getLangFromUrl, getPathWithoutLocale, useTranslations } from "../i18n/utils";
 import BackToTop from "../components/BackToTop.astro";
+import defaultShareImage from "../content/site/hero.jpg";
 
 interface Props {
   title: string;
@@ -13,10 +16,25 @@ interface Props {
   // False when this page has no other-language version (a journal entry in
   // one language only); it then gets no hreflang links (SPEC.md §3.12).
   hasTranslation?: boolean;
+  // The photo for link previews (WhatsApp, LinkedIn, …) and its alt text;
+  // without one, the home hero is used. `position` picks which part stays
+  // when the photo is cropped to 1200×630 (CSS object-position, e.g.
+  // "bottom"); the default is the centre.
+  shareImage?: { src: ImageMetadata; alt: string; position?: string };
+  // Open Graph type: "article" for journal entries.
+  type?: "website" | "article";
 }
 
-const { title, description, noindex = false, hasTranslation = true } = Astro.props;
+const {
+  title,
+  description,
+  noindex = false,
+  hasTranslation = true,
+  shareImage,
+  type = "website",
+} = Astro.props;
 const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 // The official addresses of this page on the live domain, with a trailing
 // slash, the same as in the sitemap (SPEC.md §3.12).
@@ -24,6 +42,31 @@ const path = getPathWithoutLocale(Astro.url);
 const canonical = getAbsoluteLocaleUrl(lang, path);
 const nlUrl = getAbsoluteLocaleUrl("nl", path);
 const enUrl = getAbsoluteLocaleUrl("en", path);
+
+// Link preview (Open Graph): a 1200×630 JPEG cropped from the page's photo,
+// made at build time (SPEC.md §3.12, D1). A photo smaller than that isn't
+// enlarged, so it isn't used; the home hero is used instead, which keeps the
+// width/height tags true to the file.
+const SHARE_WIDTH = 1200;
+const SHARE_HEIGHT = 630;
+const bigEnough = (img: ImageMetadata) => img.width >= SHARE_WIDTH && img.height >= SHARE_HEIGHT;
+const share: NonNullable<Props["shareImage"]> =
+  shareImage && bigEnough(shareImage.src)
+    ? shareImage
+    : { src: defaultShareImage, alt: t("home.hero.imageAlt") };
+const shareFile = noindex
+  ? undefined
+  : await getImage({
+      src: share.src,
+      width: SHARE_WIDTH,
+      height: SHARE_HEIGHT,
+      fit: "cover",
+      position: share.position,
+      format: "jpeg",
+    });
+const shareUrl = shareFile && new URL(shareFile.src, Astro.site).href;
+const ogLocale = { nl: "nl_BE", en: "en_GB" } as const;
+const otherLang = lang === "nl" ? "en" : "nl";
 ---
 
 <!doctype html>
@@ -39,6 +82,22 @@ const enUrl = getAbsoluteLocaleUrl("en", path);
         <link rel="alternate" hreflang="nl" href={nlUrl} />
         <link rel="alternate" hreflang="en" href={enUrl} />
         <link rel="alternate" hreflang="x-default" href={nlUrl} />
+      </>
+    )}
+    {!noindex && (
+      <>
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={canonical} />
+        <meta property="og:site_name" content="Microcosmos Atelier" />
+        <meta property="og:type" content={type} />
+        <meta property="og:locale" content={ogLocale[lang]} />
+        {hasTranslation && <meta property="og:locale:alternate" content={ogLocale[otherLang]} />}
+        <meta property="og:image" content={shareUrl} />
+        <meta property="og:image:width" content={String(SHARE_WIDTH)} />
+        <meta property="og:image:height" content={String(SHARE_HEIGHT)} />
+        <meta property="og:image:alt" content={share.alt} />
+        <meta name="twitter:card" content="summary_large_image" />
       </>
     )}
 

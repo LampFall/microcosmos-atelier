@@ -48,6 +48,16 @@ const firstHero = projects.find((p) => work[p].hero);
 const heroLoading = (project: Project) =>
   project === firstHero ? ({ loading: "eager", fetchpriority: "high" } as const) : {};
 
+// The same first hero is the page's link-preview photo (SPEC.md §3.12).
+const firstHeroPhoto = firstHero && work[firstHero].hero;
+const shareImage =
+  firstHero && firstHeroPhoto
+    ? {
+        src: firstHeroPhoto.image,
+        alt: altFor(firstHero, firstHeroPhoto.fileName, t(`work.${firstHero}.image.alt`)),
+      }
+    : undefined;
+
 // Content width is 1200px (.case-study: 1280px minus 2 × 40px padding; 22px
 // padding at 800px and below). The gallery is a 1.2fr / 0.8fr grid with a
 // 20px gap, so its columns are 60% / 40% of (content width − 20px):
@@ -107,7 +117,7 @@ const project3Specs = [
 ];
 ---
 
-<Layout title={t("work.meta.title")} description={t("work.meta.description")}>
+<Layout title={t("work.meta.title")} description={t("work.meta.description")} shareImage={shareImage}>
   <Header />
 
   <main>

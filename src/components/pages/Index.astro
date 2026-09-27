@@ -51,7 +51,11 @@ const inspirationSizes =
 const aboutSizes = "(max-width: 800px) calc(min(100vw - 44px, 500px) * 1.25), 611px";
 ---
 
-<Layout title={t("home.meta.title")} description={t("home.meta.description")}>
+<Layout
+  title={t("home.meta.title")}
+  description={t("home.meta.description")}
+  shareImage={{ src: heroPhoto, alt: t("home.hero.imageAlt") }}
+>
   <Header variant="site" />
 
   <main>

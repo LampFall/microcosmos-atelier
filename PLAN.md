@@ -1006,7 +1006,7 @@ Files: modify `src/layouts/Layout.astro`, `src/components/pages/Index.astro`,
 `src/components/pages/About.astro`, `src/components/pages/OurWork.astro`,
 `src/components/pages/JournalEntry.astro`
 Steps:
-- [ ] `Layout.astro`: optional props share image (photo + alt) and page
+- [x] `Layout.astro`: optional props share image (photo + alt) and page
       type. Makes a 1200×630 JPEG with `getImage` (`format: "jpeg"`,
       `fit: "cover"`, centred); default = `site/hero.jpg` with
       `home.hero.imageAlt`. Writes `og:title`, `og:description`, `og:url`
@@ -1015,7 +1015,7 @@ Steps:
       `og:image:width`/`height` (the real file size), `og:image:alt`,
       `twitter:card`. Not on `noindex` pages. No `og:locale:alternate`
       when the page has no translation (review note, Phase 1).
-- [ ] Pages pass their photo and alt: home (hero), about (about photo),
+- [x] Pages pass their photo and alt: home (hero), about (about photo),
       Our Work (first existing hero, its `alt.yml` text), journal entry
       (cover, else first photo, with the alt text the page uses; type
       `article`).
@@ -1024,8 +1024,16 @@ script (all tags present, `og:image` files exist in `dist/`, are JPEG
 1200×630, `og:url` = canonical); check which image each page uses; dev
 server spot check (nothing visible changes).
 Acceptance criteria:
-- [ ] SPEC §3.12 AC 3, 4, 5 (the share-tag part) and 10.
-- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+- [x] SPEC §3.12 AC 3, 4, 5 (the share-tag part) and 10.
+- [x] `npx astro check` 0 errors, `npm run build` succeeds.
+Deviation (owner's OK and SPEC §3.12 updated, 2026-09-27): a page photo
+smaller than 1200×630 isn't used for the preview
+(the home hero is used instead), rather than making a smaller file; this
+keeps the width/height tags true without reading the output file. All
+current photos are large enough.
+Added: an optional crop `position` per share image; the about page uses
+"bottom", because the centred crop cut the owner's face off at the bottom
+edge (checked by looking at the generated files).
 Commit boundary: `seo: deelkaartjes (Open Graph) met een foto per pagina`
 Risks: `og:image:width`/`height` must match the real file (a small source
 isn't enlarged); NL and EN share one image file per photo, check the build
