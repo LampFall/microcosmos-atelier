@@ -949,6 +949,7 @@ before it.
   both language versions of each page; a `robots.txt` pointing at the
   sitemap. The Google Search Console verification file stays.
 - **Depends on:** item 0 (the canonical domain).
+- **Detailed spec:** §3.12 (approved 2026-09-27).
 
 #### 4. Review and audit of the untouched code
 
@@ -977,9 +978,8 @@ code, so the order can change on the owner's request, except that 3 needs
 
 ### 3.10 Contact form: reliable and private
 
-Status: APPROVED (2026-09-26), implemented 2026-09-27 (the owner's Reply
-check, AC 5, is still open). "Current state" below describes the situation
-before this change.
+Status: APPROVED (2026-09-26), implemented 2026-09-27. "Current state" below
+describes the situation before this change.
 
 Item 1 of the improvement queue (§3.9). Replaces §3.5's "submission
 handling is out of scope".
@@ -1400,6 +1400,214 @@ Owner, replacing one of these photos (D1 c):
 - **D3. Folder:** `src/content/site/`.
 - **D4. Photo budget:** at most 400 KB of photos before scrolling on a
   phone.
+
+### 3.12 SEO basics for a bilingual site
+
+Status: APPROVED (2026-09-27)
+
+Item 3 of the improvement queue (§3.9).
+
+#### Current state
+
+- `Layout.astro`'s `<head>` has `<html lang>`, a title, a meta description,
+  the favicons and, on the two contact thank-you pages only, a robots
+  `noindex` (§3.10). There is no canonical URL, no link between the NL and
+  EN version of a page (`hreflang`), and no Open Graph or Twitter tags, so
+  a link shared on WhatsApp or LinkedIn shows no photo and whatever text the
+  platform guesses.
+- Every page sets its own title and description (`ui.ts`; a journal entry
+  uses its title and `summary`).
+- Pages come in pairs: `/x` (NL) and `/en/x` (EN), for home, Our Work,
+  about, contact, the journal list and each journal entry. A journal entry
+  may exist in only one language (§3.3: a missing `nl.md` or `en.md` means
+  no page); today all six entries have both.
+- The sitemap (`@astrojs/sitemap`) lists all 22 real pages, both languages,
+  without linking the language versions; it leaves out the thank-you pages
+  and Astro's redirect pages for the old journal URLs. URLs end in `/`.
+- There is no `robots.txt`. The Search Console verification file is in
+  `public/`.
+- The live address is `https://microcosmos-atelier.com` (`site` in
+  `astro.config.mjs`; Netlify primary domain). `www.` already redirects
+  there (301); `microcosmos-atelier.netlify.app` serves the same site
+  without a redirect. Netlify redirects `/about` to `/about/`.
+- Astro's redirect pages for the old journal URLs are `noindex` and carry a
+  canonical to the new URL, without the trailing slash.
+- The header's language switch works out the page path inline
+  (`Header.astro`); there's no shared helper.
+
+#### Objectives
+
+1. Search engines know which pages are the NL and EN versions of each
+   other and show the right language to the right searcher.
+2. Each page has one official address, so the Netlify address, a missing
+   slash or a tracking parameter don't split a page into duplicates.
+3. A link shared on WhatsApp, LinkedIn, Facebook and similar shows the page
+   title, a short description and a photo.
+4. Search engines find the sitemap on their own, with both languages
+   linked in it.
+
+#### Non-goals
+
+- Structured data (JSON-LD, e.g. a LocalBusiness block).
+- New titles or descriptions, keyword work or copywriting.
+- A 404 page, analytics, or Search Console settings.
+- Redirecting the Netlify address to the main domain (a hosting setting;
+  the canonical covers it). `www` already redirects.
+- Real 301 redirects for the old journal URLs (they stay Astro's
+  `noindex` redirect pages).
+- Fixing the language switch for a journal entry that exists in only one
+  language (it links to a page that doesn't exist); noted as a follow-up.
+
+#### User workflow
+
+Visitor: shares a page link in WhatsApp or LinkedIn and sees a card with
+the page's photo, title and description.
+
+Owner:
+
+1. Nothing changes when adding pages or journal entries: the tags follow
+   automatically from each page's title, description and photos.
+2. Once, after the deploy: in Google Search Console, submit
+   `https://microcosmos-atelier.com/sitemap-index.xml` (if not already
+   there). Optional: check a link in LinkedIn's Post Inspector.
+
+#### Functional requirements
+
+1. **Canonical:** every indexable page has
+   `<link rel="canonical">` with its full address on
+   `https://microcosmos-atelier.com`, with a trailing slash (matching the
+   sitemap), without query string.
+2. **Language links:** every indexable page whose other-language version
+   exists links to both versions with `<link rel="alternate" hreflang="nl">`
+   and `hreflang="en"`, plus `hreflang="x-default"` pointing to the Dutch
+   version. A page without an other-language version (a journal entry in
+   one language only) gets no language links at all, like in the sitemap.
+   Canonical, language links and `og:url` are built from the same page
+   path, so they match the sitemap in both dev and build.
+3. **Share tags (Open Graph):** every indexable page has `og:title`,
+   `og:description`, `og:url` (the canonical), `og:site_name`
+   ("Microcosmos Atelier"), `og:type` (`article` for journal entries,
+   `website` otherwise), `og:locale` for the page's language (D2) and the
+   other language as `og:locale:alternate`, and `og:image` with its width,
+   height and alt text. `og:image:alt` is the alt text the page already
+   uses for that photo (journal: `coverAlt`, else the photo's `photoAlt`,
+   else its fallback; Our Work: its `alt.yml` text; home and the default:
+   `home.hero.imageAlt`; about: its existing alt). `og:image:width` and
+   `height` are the real size of the generated file.
+4. **Twitter/X card:** `twitter:card` = `summary_large_image`; it reuses
+   the Open Graph title, description and image.
+5. **Share image per page** (absolute URL, a JPEG generated at build time
+   from the prepared photos, format and crop per D1):
+   - home: the hero (`site/hero.jpg`);
+   - about: `site/about-page.jpg`;
+   - Our Work: the first case study hero that exists, else the default;
+   - a journal entry: its cover, or else its first photo, or else the
+     default;
+   - every other page (journal list, contact): the default (D3).
+6. **Thank-you pages** keep `noindex` and get no canonical, language links
+   or share tags.
+7. **Sitemap:** each URL whose other-language version exists lists both
+   versions (`@astrojs/sitemap`'s `i18n` option with `nl` and `en`, the
+   same values as the HTML); the thank-you pages stay out. The sitemap has
+   no `x-default` (the plugin doesn't write it; accepted, the HTML has it).
+8. **`robots.txt`** at `/robots.txt`: allows all crawlers and names the
+   sitemap (`https://microcosmos-atelier.com/sitemap-index.xml`).
+9. **Redirect targets** for the old journal URLs end in `/`, so their
+   canonical matches the real page address (D4).
+10. Nothing visible on the pages changes.
+11. Docs: `SPEC.md` §4 (SEO), `ARCHITECTURE.md` (where the head tags come
+    from and how a page passes its share image), and a note in `PHOTOS.md`
+    that a page's photo is also its share image.
+
+#### Data / content model
+
+- No new content fields: the share image comes from photos that already
+  exist; title and description from what pages already pass.
+- `Layout.astro` takes an optional share image and page type from each
+  page component; pages that pass nothing get the default.
+- New file `public/robots.txt`.
+- New `ui.ts` keys only if the default image needs its own alt text (it
+  can reuse `home.hero.imageAlt`).
+
+#### Architecture
+
+- `src/i18n/utils.ts`: one helper for "this page's path without the
+  language prefix", moved out of `Header.astro`; the header and the layout
+  both use it. Absolute addresses via `getAbsoluteLocaleUrl` from
+  `astro:i18n` (adds `site` and the trailing slash).
+- `Layout.astro`: writes the canonical, language links and share tags. It
+  takes optional props: share image (with alt), page type, and whether the
+  other language exists (default: yes).
+- `src/lib/journal.ts`: a helper that says whether an entry exists in the
+  other language (journal.ts is the only place that knows the folder
+  layout); `JournalEntry.astro` passes the answer to the layout.
+- Share images: made with Astro's image tools at build time
+  (`getImage` from `astro:assets`), from the same source photos, as JPEG
+  (D1); written to `dist/_astro/` like the other images. No new
+  dependency.
+- `astro.config.mjs`: the sitemap's `i18n` option (the filter for the
+  thank-you pages stays, and runs before the pairing), and a trailing `/`
+  on the redirect targets.
+- Page components (`Index`, `About`, `OurWork`, `JournalEntry`) pass their
+  share image; the others pass nothing.
+- Redirect pages generated by Astro already carry their own canonical and
+  `noindex`; unchanged.
+
+#### Security implications
+
+- None: public metadata only; no secrets, services or personal data. The
+  share images are the photos already on the pages (prepared, no GPS).
+
+#### Error handling
+
+- A journal entry without photos: uses the default share image.
+- A source photo smaller than 1200×630 isn't enlarged, so its share image
+  comes out smaller; the size tags follow the real file. Today every
+  source is large enough (prepared photos are up to 2400px).
+- A page without a description would give an empty `og:description`; all
+  pages have one today. The build doesn't fail on this.
+- If a platform shows an old preview after a change, that's its cache
+  (e.g. LinkedIn's Post Inspector refreshes it); not a site error.
+
+#### Acceptance criteria
+
+1. `npx astro check` 0 errors; `npm run build` succeeds.
+2. For every page in the sitemap: exactly one canonical, equal to its
+   sitemap URL. For every page whose other-language version exists:
+   `hreflang` links for `nl`, `en` and `x-default` that all point to pages
+   that exist in `dist/`, its own language among them. (Checked with a
+   one-off script over `dist/`, reported in the phase; not committed, as
+   there is no test suite.)
+3. Every page in the sitemap has `og:title`, `og:description`, `og:url`
+   (= canonical), `og:site_name`, `og:type`, `og:locale`, `og:image`
+   (absolute `https://microcosmos-atelier.com/_astro/…` URL of a JPEG that
+   exists in `dist/`, with `og:image:width`/`height`/`alt`) and
+   `twitter:card`.
+4. Home, about, Our Work and one journal entry use their own photo as
+   `og:image`; the journal list and contact use the default.
+5. The thank-you pages have `noindex` and none of the tags above.
+6. `dist/sitemap-0.xml` has `xhtml:link` alternates for `nl` and `en` on
+   each URL (all six journal entries exist in both languages today) and
+   still no `contact/thanks`.
+7. The redirect pages' canonical ends in `/`.
+8. `dist/robots.txt` exists with `Allow: /` and the sitemap line.
+9. A temporary one-language journal entry (test, not committed) gets no
+   language links and isn't paired in the sitemap.
+10. The built pages look the same (no visible change; spot check on the dev
+   server).
+11. Manual, after deploy: sharing the home page and a journal entry link in
+   WhatsApp (or LinkedIn Post Inspector) shows the photo, title and
+   description.
+12. The docs in FR 11 are updated.
+
+#### Decisions (owner, 2026-09-27)
+
+- **D1. Share image format:** JPEG cropped to 1200×630 (centered); the
+  owner checks the home and one journal preview after deploy.
+- **D2. `og:locale`:** `nl_BE` for Dutch, `en_GB` for English.
+- **D3. Default share image:** the home hero (`site/hero.jpg`).
+- **D4. Redirect targets:** the eight old journal redirects get a trailing
+  `/`.
 
 ## 4. Non-functional requirements
 

@@ -679,8 +679,8 @@ None.
 
 ## Execution plan: contact form via Netlify Forms
 
-Status: APPROVED (2026-09-26). Phases 1–5 implemented; the owner's Reply
-check (Phase 4) is still open.
+Status: APPROVED (2026-09-26). Phases 1–5 implemented; all acceptance
+criteria met (Reply check confirmed 2026-09-27).
 Implements: SPEC.md §3.10
 
 Order: the thank-you page goes live first, so the form can point to it the
@@ -791,13 +791,13 @@ Steps:
       (with a different email address as sender if possible).
 Validation: the owner reports what arrived; Claude compares it with AC 5.
 Acceptance criteria:
-- [ ] SPEC §3.10 AC 5: each test lands on the right thanks page, arrives
+- [x] SPEC §3.10 AC 5: each test lands on the right thanks page, arrives
       with the translated subject and the right language, and a reply goes
       to the test sender. If the subject or Reply-To isn't as expected, stop
       and report; a fix is a follow-up change, not a redesign here.
       *(2026-09-27, owner: the form is listed, the notification is set up,
       and both tests landed on the right thanks page and arrived by email.
-      Still to check: that Reply goes to the sender.)*
+      Reply goes to the sender: confirmed by the owner, 2026-09-27.)*
 Commit boundary: none (no files), unless ticks in `PLAN.md` are committed
 with Phase 5.
 Risks: a test marked as spam doesn't send an email: check Forms → spam
@@ -967,9 +967,9 @@ Update the status here as items move along.
 | # | Item | Status | Next step |
 | --- | --- | --- | --- |
 | 0 | How the site goes live (hosting, deploy) | done (2026-09-26): Netlify, push to `main` deploys, see `ARCHITECTURE.md` §1 | — |
-| 1 | Contact form: reliable and private | done (2026-09-27), live on Netlify Forms; only the owner's Reply check is open | Owner: press Reply on a test email |
+| 1 | Contact form: reliable and private | done (2026-09-27), live on Netlify Forms, all checks passed | — |
 | 2 | Home and about page images: fast | done (2026-09-27): photos in `src/content/site/`, home 4.6 MB → 0.4 MB on a phone before scrolling | — |
-| 3 | SEO basics for a bilingual site | waiting (item 0 done: canonical domain known) | `/spec` |
+| 3 | SEO basics for a bilingual site | spec approved (§3.12, 2026-09-27) | `/plan-phases` |
 | 4 | Review and audit of the untouched code | waiting (after 1–3) | `reviewer` + Lighthouse |
 | 5 | Owner browser checks still open | waiting — owner task | Owner, whenever convenient |
 
@@ -1081,6 +1081,12 @@ Update the status here as items move along.
   hero was 528 KB on a 3× phone). The eight site photos use `quality={65}`,
   the hero stops at 1440px and the about photo at 1000px; journal and Our
   Work keep the default. The owner saw no difference. See `SPEC.md` §3.11.
+- **SEO: share images cropped to 1200×630, `nl_BE`/`en_GB` — chosen
+  (2026-09-27).** Link previews use a JPEG made at build time from each
+  page's own photo, cropped to the standard 1200×630 so every platform shows
+  the same card; the home hero is the default. `og:locale` matches the date
+  format the site already uses. The sitemap has no `x-default` (the plugin
+  can't write it); the HTML has it. See `SPEC.md` §3.12.
 
 ## Suggested files/folders for working more efficiently with Claude Code
 
