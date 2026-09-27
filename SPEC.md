@@ -949,7 +949,8 @@ before it.
   both language versions of each page; a `robots.txt` pointing at the
   sitemap. The Google Search Console verification file stays.
 - **Depends on:** item 0 (the canonical domain).
-- **Detailed spec:** §3.12 (approved 2026-09-27).
+- **Detailed spec:** §3.12. Done (2026-09-27); the "Why" above describes
+  the situation before it.
 
 #### 4. Review and audit of the untouched code
 
@@ -1403,7 +1404,8 @@ Owner, replacing one of these photos (D1 c):
 
 ### 3.12 SEO basics for a bilingual site
 
-Status: APPROVED (2026-09-27)
+Status: APPROVED (2026-09-27), implemented 2026-09-27. "Current state" below
+describes the situation before this change.
 
 Item 3 of the improvement queue (§3.9).
 
@@ -1628,8 +1630,13 @@ Owner:
   page (a journal `cover`, the first Our Work hero, the home hero or the
   about page photo), in which case it loads eagerly with
   `fetchpriority="high"`. See 3.3.5 for the full journal-specific spec.
-- **SEO.** `@astrojs/sitemap` generates a sitemap from `astro.config.mjs`'s
-  `site` URL. A Google Search Console verification file lives at
+- **SEO** (§3.12). Every indexable page carries a canonical URL on
+  `https://microcosmos-atelier.com` (trailing slash), `hreflang` links to
+  its NL and EN version plus `x-default` (only when both exist), and Open Graph tags plus `twitter:card`, with a 1200×630 JPEG share image of its own photo (the
+  home hero by default). `noindex` pages (the contact thank-you pages) get
+  none of these. `@astrojs/sitemap` generates the sitemap from `site`,
+  with the NL/EN pairs linked; `public/robots.txt` points to it. A Google
+  Search Console verification file lives at
   `public/google4f41fe6a9b546641.html` — do not delete it.
 - **No hard-coded copy in components where a translation exists.** Any new
   page-level string must be added to both the `nl` and `en` blocks of

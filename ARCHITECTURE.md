@@ -143,6 +143,37 @@ i18n: {
   tested. Removing or renaming a field, or the form name, changes what
   Netlify stores; test on the live site after such a change.
 
+### Page head: canonical, language links, link previews (`SPEC.md` §3.12)
+
+- `Layout.astro` writes the `<head>` for every page from its props:
+  `title`, `description`, and optionally `noindex`, `hasTranslation`,
+  `shareImage` (`{ src, alt, position? }`) and `type` (`"article"` for
+  journal entries).
+- Addresses: `getPathWithoutLocale()` (`src/i18n/utils.ts`, also used by
+  the header's NL/EN switch) gives the page path without `/en`;
+  `getAbsoluteLocaleUrl()` from `astro:i18n` turns it into the canonical
+  and the NL/EN `hreflang` addresses on `site`, with a trailing slash, the
+  same as the sitemap. `x-default` is the NL version.
+- `hasTranslation`: only journal entries can exist in one language;
+  `JournalEntry.astro` asks `hasTranslation()` in `src/lib/journal.ts` and
+  passes the answer. Without a translation: no `hreflang` and no
+  `og:locale:alternate`.
+- Link previews: a 1200×630 JPEG made with `getImage` (`fit: "cover"`,
+  optional `position`, e.g. "bottom" for the about photo) from the photo
+  the page passes; the home hero (`site/hero.jpg`) when a page passes none
+  or its photo is smaller than 1200×630. `og:locale` is `nl_BE` / `en_GB`.
+  Home, about, Our Work (first hero) and journal entries (cover, else first
+  photo) pass their own photo, with the alt text the page shows.
+- `noindex` pages get no canonical, `hreflang` or share tags.
+- The sitemap pairs NL/EN via its `i18n` option (`astro.config.mjs`);
+  `public/robots.txt` names `sitemap-index.xml`.
+- **A new page** should pass a `shareImage` if it has a fitting photo;
+  otherwise the default is used. A page type that can exist in one
+  language only must pass `hasTranslation`.
+- Platforms cache link previews (WhatsApp for days). To see a change, share
+  the address with something like `?v=2` added, or use LinkedIn's Post
+  Inspector.
+
 ## 4. Translation dictionary (`src/i18n/ui.ts`)
 
 All page copy — headings, body text, button labels, image alt text, form
@@ -272,7 +303,8 @@ They pass through two steps:
      `width`, to keep the home page under 400 KB of photos before scrolling
      on a phone (decision log, 2026-09-27).
 
-`public/` holds no photos: only the favicons and the Search Console file.
+`public/` holds no photos: only the favicons, the Search Console file and
+`robots.txt`.
 A new photo on the site goes into one of the three roots; add a root to
 `PHOTO_ROOTS` (and the local pre-commit hook and `.gitignore`) rather than
 putting photos in `public/`.

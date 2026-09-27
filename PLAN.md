@@ -960,7 +960,8 @@ None.
 
 ## Execution plan: SEO basics for a bilingual site
 
-Status: APPROVED (2026-09-27)
+Status: APPROVED (2026-09-27). Phases 1–4 implemented; the owner's Search
+Console step is open.
 Implements: SPEC.md §3.12
 
 Order: addresses first (canonical and language links, which everything else
@@ -1061,21 +1062,28 @@ Goal: the docs describe the head tags; the owner confirms real previews.
 Files: modify `SPEC.md` (§4 SEO), `ARCHITECTURE.md`, `PHOTOS.md`,
 `PLAN.md` (queue item 3)
 Steps:
-- [ ] `SPEC.md` §4: what every page carries (canonical, hreflang, share
+- [x] `SPEC.md` §4: what every page carries (canonical, hreflang, share
       tags), `robots.txt`, the sitemap pairs.
-- [ ] `ARCHITECTURE.md`: where the head tags come from (Layout props, the
+- [x] `ARCHITECTURE.md`: where the head tags come from (Layout props, the
       path helper, the journal translation helper, share images via
       `getImage`), and that a new page should pass its photo.
-- [ ] `PHOTOS.md`: a page's photo is also its link-preview photo (cropped
+- [x] `PHOTOS.md`: a page's photo is also its link-preview photo (cropped
       wide).
 - [ ] After the push: the owner shares the home page and a journal entry in
       WhatsApp (or checks them in LinkedIn's Post Inspector) and, once, submits
       the sitemap in Google Search Console if it isn't there.
-- [ ] `PLAN.md`: queue item 3 done.
+      *(2026-09-27: WhatsApp preview with photo confirmed by the owner, after
+      WhatsApp's cache (`?v=2`), for the home page and a journal entry. Live
+      check by Claude: tags and share image served, `robots.txt` as
+      `text/plain`. Search Console still to do.)*
+- [x] `PLAN.md`: queue item 3 done.
 Validation: `npx astro check`; reread the changed sections; the owner's
 report.
 Acceptance criteria:
-- [ ] SPEC §3.12 AC 11 and 12.
+- [x] SPEC §3.12 AC 11 and 12. *(AC 11: the owner shared the home page and
+      a journal entry in WhatsApp; both show photo, title and description,
+      2026-09-27. AC 12: docs updated. The Search Console submission is a
+      separate owner step, above.)*
 Commit boundary: `docs: SEO-basis beschreven`
 Risks: platforms cache previews; a stale preview isn't a site error.
 
@@ -1098,7 +1106,7 @@ Update the status here as items move along.
 | 0 | How the site goes live (hosting, deploy) | done (2026-09-26): Netlify, push to `main` deploys, see `ARCHITECTURE.md` §1 | — |
 | 1 | Contact form: reliable and private | done (2026-09-27), live on Netlify Forms, all checks passed | — |
 | 2 | Home and about page images: fast | done (2026-09-27): photos in `src/content/site/`, home 4.6 MB → 0.4 MB on a phone before scrolling | — |
-| 3 | SEO basics for a bilingual site | plan approved (2026-09-27); phases 1–3 done, phase 4 to do | `/implement-phase 4` |
+| 3 | SEO basics for a bilingual site | done (2026-09-27): canonical, hreflang, link previews, sitemap pairs, robots.txt | Owner: submit the sitemap in Google Search Console |
 | 4 | Review and audit of the untouched code | waiting (after 1–3) | `reviewer` + Lighthouse |
 | 5 | Owner browser checks still open | waiting — owner task | Owner, whenever convenient |
 

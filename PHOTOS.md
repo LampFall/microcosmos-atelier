@@ -83,6 +83,17 @@ Those only exist in the built site (`dist/`), not in the project folders.
 place to a light `.jpg` without GPS → commit and push → Netlify builds the
 WebP versions → live site.
 
+## Link previews
+
+When someone shares a page in WhatsApp, LinkedIn and the like, the card
+shows that page's photo, cropped wide (1200×630): the home hero for the
+home page, `about-page.jpg` for the about page, the first Our Work hero,
+and a journal entry's cover or first photo. Pages without a photo of
+their own use the home hero, and so does a page whose photo is smaller
+than 1200×630. So a new photo is also the new preview photo after the next
+deploy. WhatsApp remembers old previews for a while; add
+`?v=2` to the address to see the new one.
+
 ## Photo descriptions (alt text)
 
 The short description screen readers and search engines use. Ask Claude:

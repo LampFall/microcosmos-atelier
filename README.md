@@ -43,7 +43,8 @@ Read these before making non-trivial changes:
 ├── astro.config.mjs        # i18n, sitemap, photo preparation, redirects
 ├── public/
 │   ├── favicon.ico / .svg
-│   └── google...html       # Search Console verification -- don't delete
+│   ├── google...html       # Search Console verification -- don't delete
+│   └── robots.txt          # lets search engines in, points to the sitemap
 └── src/
     ├── assets/              # site-wide SVGs
     ├── components/
