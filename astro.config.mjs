@@ -8,7 +8,14 @@ export default defineConfig({
   site: 'https://microcosmos-atelier.com',
   integrations: [
     // The contact thank-you pages are noindex, so they stay out of the sitemap.
-    sitemap({ filter: (page) => !page.includes('/contact/thanks') }),
+    // The i18n option links each page's NL and EN version (same hreflang
+    // values as the pages themselves, SPEC.md §3.12); pages without a
+    // translation stay unpaired. The filter runs first, so the thank-you
+    // pages can't show up as alternates.
+    sitemap({
+      filter: (page) => !page.includes('/contact/thanks'),
+      i18n: { defaultLocale: 'nl', locales: { nl: 'nl', en: 'en' } },
+    }),
     preparePhotos(),
   ],
   i18n: {

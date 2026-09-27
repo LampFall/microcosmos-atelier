@@ -1044,15 +1044,15 @@ Goal: the sitemap links the NL and EN version of each page, and
 `/robots.txt` points to it.
 Files: modify `astro.config.mjs`; create `public/robots.txt`
 Steps:
-- [ ] `sitemap({ filter, i18n: { defaultLocale: 'nl', locales: { nl: 'nl',
+- [x] `sitemap({ filter, i18n: { defaultLocale: 'nl', locales: { nl: 'nl',
       en: 'en' } } })`.
-- [ ] `public/robots.txt`: `User-agent: *`, `Allow: /`,
+- [x] `public/robots.txt`: `User-agent: *`, `Allow: /`,
       `Sitemap: https://microcosmos-atelier.com/sitemap-index.xml`.
 Validation: `npx astro check`, `npm run build`; check `dist/sitemap-0.xml`
 and `dist/robots.txt`; the temporary EN-only test entry is not paired.
 Acceptance criteria:
-- [ ] SPEC §3.12 AC 6 and 8 (and the sitemap part of AC 9).
-- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+- [x] SPEC §3.12 AC 6 and 8 (and the sitemap part of AC 9).
+- [x] `npx astro check` 0 errors, `npm run build` succeeds.
 Commit boundary: `seo: taalparen in de sitemap en robots.txt`
 Risks: none identified.
 
@@ -1098,7 +1098,7 @@ Update the status here as items move along.
 | 0 | How the site goes live (hosting, deploy) | done (2026-09-26): Netlify, push to `main` deploys, see `ARCHITECTURE.md` §1 | — |
 | 1 | Contact form: reliable and private | done (2026-09-27), live on Netlify Forms, all checks passed | — |
 | 2 | Home and about page images: fast | done (2026-09-27): photos in `src/content/site/`, home 4.6 MB → 0.4 MB on a phone before scrolling | — |
-| 3 | SEO basics for a bilingual site | plan approved (2026-09-27); phase 1 done, phases 2–4 to do | `/implement-phase 2` |
+| 3 | SEO basics for a bilingual site | plan approved (2026-09-27); phases 1–3 done, phase 4 to do | `/implement-phase 4` |
 | 4 | Review and audit of the untouched code | waiting (after 1–3) | `reviewer` + Lighthouse |
 | 5 | Owner browser checks still open | waiting — owner task | Owner, whenever convenient |
 
