@@ -261,13 +261,15 @@ async function recoverInterruptedRun(entryDir: string): Promise<void> {
 
 /**
  * Folders whose photos get prepared. `depth` is the number of folder levels
- * between the root and a photo folder; only files directly inside a photo
- * folder are prepared, never files in its subfolders (e.g. `extra/`).
+ * between the root and a photo folder (0: the root itself is the photo
+ * folder); only files directly inside a photo folder are prepared, never
+ * files in its subfolders (e.g. `extra/`).
  * `warnExtras` applies the journal's "more than 3 gallery photos" warning.
  */
 const PHOTO_ROOTS = [
 	{ dir: "src/content/journal/", depth: 2, warnExtras: true }, // <aquarium>/<entry>/
 	{ dir: "src/content/work/", depth: 1, warnExtras: false }, // <aquarium>/
+	{ dir: "src/content/site/", depth: 0, warnExtras: false }, // home and about photos (SPEC.md §3.11)
 ] as const;
 
 type PhotoRoot = { abs: string; depth: number; warnExtras: boolean };
@@ -359,8 +361,8 @@ export default function preparePhotos(): AstroIntegration {
 					if (!changed) return;
 					if (root.warnExtras) await warnAboutExtraPhotos(folder, logger, rel);
 					// A new file matching an eager import.meta.glob (src/lib/journal.ts,
-					// src/lib/work.ts) needs the module graph re-evaluated and the
-					// browser reloaded.
+					// src/lib/work.ts) or a site photo import needs the module graph
+					// re-evaluated and the browser reloaded.
 					server.moduleGraph.invalidateAll();
 					server.ws.send({ type: "full-reload", path: "*" });
 				};

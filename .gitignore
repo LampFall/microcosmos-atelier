@@ -28,6 +28,9 @@ src/content/journal/**/.*.orig-*
 src/content/work/**/.*.tmp-*
 src/content/work/**/.*.heic-conv-*
 src/content/work/**/.*.orig-*
+src/content/site/**/.*.tmp-*
+src/content/site/**/.*.heic-conv-*
+src/content/site/**/.*.orig-*
 
 # jetbrains setting folder
 .idea/

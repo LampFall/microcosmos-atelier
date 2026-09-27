@@ -832,7 +832,7 @@ None.
 
 ## Execution plan: home and about photos from one prepared folder
 
-Status: DRAFT
+Status: APPROVED (2026-09-27)
 Implements: SPEC.md §3.11
 
 Order: first the machinery (preparation and hook know the new folder, still
@@ -846,26 +846,29 @@ photo, and the hook checks that folder; no page uses it yet.
 Files: modify `src/integrations/prepare-photos.ts`, `.gitignore`; local
 `.git/hooks/pre-commit` (not in the repository)
 Steps:
-- [ ] `PHOTO_ROOTS`: add `src/content/site/` with photos directly in the
+- [x] `PHOTO_ROOTS`: add `src/content/site/` with photos directly in the
       folder (depth 0) and no "more than 3" warning; update the comment.
       Check that depth 0 works for start-up, the watcher and the log labels.
-- [ ] `.gitignore`: the three temp-file patterns for `src/content/site/`.
-- [ ] Hook: include `src/content/site/`; make the refusal message fit all
+- [x] `.gitignore`: the three temp-file patterns for `src/content/site/`.
+- [x] Hook: include `src/content/site/`; make the refusal message fit all
       three folders.
-- [ ] Restart the dev server (`astro dev stop`, `astro dev --background`).
+- [x] Restart the dev server (`astro dev stop`, `astro dev --background`).
 Validation: `npx astro check`, `npm run build`; while the dev server runs,
 drop a HEIC or PNG test photo into `src/content/site/` and check it becomes
 `.jpg` without EXIF (then delete it); stage a JPEG with EXIF there and check
 the hook refuses it with its name (then unstage and delete it). Check that
 an empty or new folder under `src/content/` gives no Astro warning.
 Acceptance criteria:
-- [ ] SPEC §3.11 AC 8 and AC 9.
-- [ ] Journal and Our Work preparation unchanged (dev server log at start-up
+- [x] SPEC §3.11 AC 8 and AC 9.
+- [x] Journal and Our Work preparation unchanged (dev server log at start-up
       shows no new work for existing photos).
-- [ ] `npx astro check` 0 errors, `npm run build` succeeds.
+- [x] `npx astro check` 0 errors, `npm run build` succeeds.
 Commit boundary: `foto's: voorbereiding en hook ook voor src/content/site/`
 Risks: a depth-0 root is new in practice; the watcher must not pick up
 files in subfolders or in the other roots twice.
+Added on the owner's request (2026-09-27): `PHOTOS.md`, a manual on where
+to put photos and what happens to them, linked from `README.md`. The hook
+message now also explains that `extra/` photos are never prepared.
 
 ### Phase 2: Move the eight photos and render them with `<Image>`
 Goal: the home and about pages use the eight photos from
@@ -912,7 +915,7 @@ build; preparation runs first at start-up.
 ### Phase 3: Docs
 Goal: the docs describe the site photo folder and how to replace a photo.
 Files: modify `SPEC.md` (§4), `ARCHITECTURE.md` (§5, §6), `README.md`,
-`PLAN.md` (queue item 2)
+`PHOTOS.md`, `PLAN.md` (queue item 2)
 Steps:
 - [ ] `SPEC.md` §4: the eager exceptions include the home hero and the
       about photo; the image rule covers `src/content/site/`.
@@ -922,6 +925,9 @@ Steps:
 - [ ] `README.md`: folder tree, the eight file names and what each is for,
       and how to replace one (delete the old file, drop the new one with
       the same name, same orientation).
+- [ ] `PHOTOS.md` (the owner's photo manual, added during Phase 1 on the
+      owner's request): remove the "Status" note about `public/images/`
+      and check the file names match.
 - [ ] `PLAN.md`: queue item 2 done.
 Validation: `npx astro check`; reread the changed sections.
 Acceptance criteria:
@@ -946,7 +952,7 @@ Update the status here as items move along.
 | --- | --- | --- | --- |
 | 0 | How the site goes live (hosting, deploy) | done (2026-09-26): Netlify, push to `main` deploys, see `ARCHITECTURE.md` §1 | — |
 | 1 | Contact form: reliable and private | done (2026-09-27), live on Netlify Forms; only the owner's Reply check is open | Owner: press Reply on a test email |
-| 2 | Home and about page images: fast | spec approved (§3.11, 2026-09-27); plan drafted | Owner approves the plan |
+| 2 | Home and about page images: fast | plan approved (2026-09-27), phases 1–3 to do | `/implement-phase 1` |
 | 3 | SEO basics for a bilingual site | waiting (needs 0) | `/spec` |
 | 4 | Review and audit of the untouched code | waiting (after 1–3) | `reviewer` + Lighthouse |
 | 5 | Owner browser checks still open | waiting — owner task | Owner, whenever convenient |

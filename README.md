@@ -14,6 +14,8 @@ Read these before making non-trivial changes:
   handling, styling).
 - **[PLAN.md](./PLAN.md)** — current status, backlog, decisions log, and
   suggestions for working with Claude Code on this repo.
+- **[PHOTOS.md](./PHOTOS.md)** — manual: where to put photos, what happens
+  to them, and how to replace one.
 - **[AGENTS.md](./AGENTS.md)** (symlinked as `CLAUDE.md`) — standing
   instructions for AI coding agents working in this repo (dev server usage,
   doc links).
