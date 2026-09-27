@@ -1097,7 +1097,7 @@ None.
 
 ## Execution plan: review and audit of the older code
 
-Status: APPROVED (2026-09-27)
+Status: APPROVED (2026-09-27). Phases 1–2 implemented.
 Implements: SPEC.md §3.13
 
 No code changes in this plan: both phases only add to `PLAN.md`.
@@ -1131,18 +1131,18 @@ Goal: every file in SPEC §3.13 "Current state" reviewed as a whole, and one
 prioritised findings list with the Lighthouse findings and known items.
 Files: modify `PLAN.md` (findings part of the same section; queue item 4)
 Steps:
-- [ ] `reviewer` agent, whole-file mode, on the files in SPEC §3.13
+- [x] `reviewer` agent, whole-file mode, on the files in SPEC §3.13
       "Current state", with FR 1's focus list and the Lighthouse findings
       from Phase 1 as context.
-- [ ] Check the reviewer's findings against the code (drop false
+- [x] Check the reviewer's findings against the code (drop false
       positives, merge duplicates) and add the four known items.
-- [ ] Write the findings list: severity, file:line or page, what's wrong,
+- [x] Write the findings list: severity, file:line or page, what's wrong,
       suggested fix, size; per file "reviewed: findings / no findings".
-- [ ] Queue item 4 links to the list and is marked done.
+- [x] Queue item 4 links to the list and is marked done.
 Validation: every listed file appears in the list; `git diff` touches only
 `PLAN.md`.
 Acceptance criteria:
-- [ ] SPEC §3.13 AC 2–5.
+- [x] SPEC §3.13 AC 2–5.
 Commit boundary: `audit: bevindingen van de code-review`
 Risks: a long list of MINOR items; keep them short and grouped by file.
 
@@ -1165,7 +1165,7 @@ Update the status here as items move along.
 | 1 | Contact form: reliable and private | done (2026-09-27), live on Netlify Forms, all checks passed | — |
 | 2 | Home and about page images: fast | done (2026-09-27): photos in `src/content/site/`, home 4.6 MB → 0.4 MB on a phone before scrolling | — |
 | 3 | SEO basics for a bilingual site | done (2026-09-27): canonical, hreflang, link previews, sitemap pairs, robots.txt; sitemap submitted in Search Console | — |
-| 4 | Review and audit of the untouched code | phase 1 (Lighthouse) done, see "Audit findings"; phase 2 to do | `/implement-phase 2` |
+| 4 | Review and audit of the untouched code | done (2026-09-27): see "Audit findings (2026-09-27)"; contrast and heading fixed | Owner picks fix bundles A–E |
 | 5 | Owner browser checks still open | waiting — owner task | Owner, whenever convenient |
 
 ## Audit findings (2026-09-27)
@@ -1223,7 +1223,104 @@ Layout shift (CLS) is 0 and blocking time 0–10 ms on every page.
 
 ### Findings from the code review
 
-To be added in Phase 2.
+`reviewer` agent, whole files at `ec76a4d`; every IMPORTANT finding and the
+dead-CSS claims were re-checked by the main session against the code and,
+where it's about rendering, with computed styles in headless Chrome on the
+built site. No CRITICAL findings.
+
+**Files reviewed:** `Index.astro` (findings), `About.astro` (findings),
+`Contact.astro` (findings), `Footer.astro` (no findings), `global.css`
+(findings), `ui.ts` (findings; NL and EN have the same 245 keys, all used),
+`content.config.ts` (findings).
+
+#### IMPORTANT
+
+1. **Hero label hard to read** — `global.css` `.eyebrow` (≈102): the home
+   hero's eyebrow ("Levende aquatische ecosystemen") is small grey
+   `--muted` text on the dark bottom of the photo (measured: 11.5px,
+   `#606960`). Lighthouse can't test text on images. Fix: a light colour for
+   `.hero .eyebrow`. Small.
+2. **Two labels render large** — `.about-page-story p` (≈1864) and
+   `.contact-page-info p` (≈1928) beat `.eyebrow`, so the eyebrows at
+   `About.astro:58` and `Contact.astro:27` are 16.8px / 16px instead of
+   11.5px like every other eyebrow (measured). Fix: `p:not(.eyebrow)`, as
+   elsewhere in the file. Small.
+3. **Form fields barely visible** — `.contact-form input/textarea/select`
+   border `--border` `#d5d1c6` on `#f4f1e9` ≈ 1.4:1; WCAG 1.4.11 asks 3:1 for
+   the edge of a field, and the fields have no background. Fix: a darker
+   field border, focus state kept clear. Small.
+4. **Send button has the browser's grey background** — `.button` sets no
+   `background`, so `<button type="submit">` (`Contact.astro`) shows
+   `#efefef` (measured) while link buttons are transparent. Fix:
+   `background: transparent` (and `font-family: inherit`) on `.button`;
+   check hover. Small.
+5. **`.ecosystem-layers` defined twice** — `global.css` 548–585 and
+   2137–2178; the second copy comes after the 550px media query, so the
+   phone rule (38px column, ≈1764) never applies (measured 45px). Fix: one
+   block before the media queries; decide 38px or 45px by eye. Small.
+6. **About 300 lines of dead CSS** — no element uses: `.philosophy-grid`
+   (+`.number`), `.ecosystem-section`, `.ecosystem-intro`,
+   `.inspiration-note`, `.project`, `.project-reverse`, `.project-image`,
+   `.project-content`, `.microcosmos-note`, `.work-project*`,
+   `.species-list`, `.page-cta`, `.about h3` (checked with grep over all
+   markup, scripts and content). Fix: delete, then compare pages by eye.
+   Small–medium.
+7. **Typo in a home heading** — `ui.ts` `home.formulas.title` (NL):
+   "Microcomos" → "Microcosmos". Small.
+8. **Misspelt species (NL)** — `ui.ts` `work.project2.spec.fish` (NL):
+   "Nanostomus … veijeta"; EN and the NL story have "Nannostomus …
+   viejita". Small.
+9. **NL and EN say different things** — `about.hero.lead`: NL "Al meer
+   dan 35 jaar", EN "since I was five years old"; `work.project2.spec
+   .substrate`: NL "MA-Gen 1.0", EN "mainly sand, MA-Gen 1.0". The owner
+   picks the true version. Small.
+10. **Language switch leads to a missing page** (known) — `Header.astro`
+    always links to the other language; for a journal entry in one language
+    only that's a 404. Fix: pass `hasTranslation` to the header and link to
+    the other language's journal list instead (or hide the link). Small.
+
+#### MINOR (grouped)
+
+- **Code:** `z` from `astro:content` deprecated (`content.config.ts:1`,
+  removed in Astro 8; use `astro/zod`) · `coverAlt`, `photoAlt` values and
+  aquarium `name` accept empty strings (use `.trim().min(1)` like
+  `workAlt`) · `as any` on template keys in `Index.astro` (≈124, 219,
+  240) hides missing keys · four copy-pasted inspiration cards
+  (`Index.astro` ≈141–203) · `SITE_PHOTO_QUALITY` defined twice · unused
+  anchors `home.intro.anchor` and `#contact` · hard-coded alt "Kasper
+  Masschaele" in three places (`Index.astro`, `About.astro` ×2; known).
+- **CSS:** redundant rules (`.formulas` max-width, `.inspiration
+  .section-intro`, h3 margins, `.case-study-hero img` max-widths,
+  `object-fit` with `height: auto`) · `!important` workarounds (≈878,
+  2125–2129) · `.about a` duplicates `.text-link` without hover · media
+  queries split in several places (800px ×3, 550px ×2), which caused
+  finding 5 · repeated section header and mis-indent (≈471, 2073–2077) ·
+  raw colours/sizes instead of tokens (≈1165, 1791) · the Our Work hero
+  hover zoom has no transition and hover zooms ignore reduced motion.
+- **Copy (`ui.ts`):** NL spec "LED 2 lichtperiodes" misses "·"; NL
+  `work.project3.spec.plants` contains English "(green, red and brown)";
+  `work.project1.intro` NL "multifunctionele leefruimte … biotoop" vs EN
+  "family space … ecosystem"; status "Groei" (NL) is a noun among
+  "Opstart / Rijpt / Stabiel"; EN "Established" used for two things; EN
+  "Your Own" reads cut off; two different Orinoco alt texts; CO₂ spec "-"
+  is read as "dash"; unused `languages` export and a stale top comment;
+  `nav.*` keys out of place.
+- **Accessibility, optional:** "→" in link texts is read aloud; English
+  titles on Dutch pages have no `lang="en"`; required form fields have no
+  visible marker; no skip link (Layout); the privacy line isn't linked to
+  the form.
+- **Docs:** two overlong lines in `SPEC.md` §4 (≈1758, 1769; known).
+
+#### Suggested fix bundles (for the owner to choose)
+
+- **A. Copy** — findings 7, 8, 9 and the copy minors (needs the owner's
+  answers for 9 and a few wordings). Small.
+- **B. Visible CSS fixes** — findings 1–5. Small; each checked by eye.
+- **C. CSS clean-up** — finding 6 plus the CSS minors (dead CSS, merged
+  media queries, redundant rules). Medium; no visible change intended.
+- **D. Code tidy** — finding 10 and the code minors (`z`, empty strings,
+  `as any`, alt text into `ui.ts`, shared quality constant). Small.
+- **E. Accessibility extras** — the optional minors. Small.
 
 ## Backlog
 
