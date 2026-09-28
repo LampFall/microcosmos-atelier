@@ -18,6 +18,49 @@ export const ui = {
 
     'footer.copyright': 'Microcosmos Atelier',
     'footer.privacy': 'Privacy',
+    'faq.meta.title': 'Veelgestelde vragen — Microcosmos Atelier',
+    'faq.meta.description': 'Antwoorden op vragen over prijs, verloop, duur, regio, onderhoud en meer bij een Microcosmos op maat.',
+    'faq.eyebrow': 'Veelgestelde vragen',
+    'faq.title': 'Goed om te weten.',
+    'faq.lead': 'Enkele vragen die ik vaak krijg. Staat je vraag er niet tussen? Stel ze gerust.',
+    'faq.closing.title': 'Nog een vraag?',
+    'faq.closing.text': 'Elke ruimte en elk idee is anders. Vertel me wat je in gedachten hebt, dan bekijken we het samen.',
+    'faq.closing.button': 'Start een gesprek',
+    'faq.link': 'Veelgestelde vragen',
+    'footer.faq': 'FAQ',
+    'faq.q1': 'Wat kost een Microcosmos?',
+    'faq.a1':
+      'Elke Microcosmos is uniek, dus er is geen vaste prijs. De prijs hangt vooral af van de grootte van het aquarium, het meubel en de techniek (filter, licht, verwarming en eventueel CO₂), het hout en de stenen, de planten en dieren, en of je het onderhoud zelf doet of aan mij overlaat. Na een eerste gesprek maak ik een voorstel op maat.',
+    'faq.q2': 'Hoe verloopt een project?',
+    'faq.a2':
+      'Het begint met een gesprek en een bezoek aan je ruimte. Daarna maak ik een ontwerp met een eerste voorstel, en vervolgens een gedetailleerd voorstel. Dan volgen de bouw, de installatie en de oplevering. Wil je dat ik het daarna blijf verzorgen, dan kan dat ook.',
+    'faq.q3': 'Hoe lang duurt het?',
+    'faq.a3':
+      'Als er aan je interieur niets moet veranderen, reken je op ongeveer 6 tot 10 weken; dat hangt vooral af van de levering van het aquarium. Daarna groeit het ecosysteem rustig verder: over een periode van 2 tot 3 maanden komen de vissen erbij.',
+    'faq.q4': 'In welke regio werk je?',
+    'faq.a4':
+      'Vooral in de provincies Antwerpen, Oost-Vlaanderen en Vlaams-Brabant. Woon je verder weg? Laat het me weten, dan bekijken we samen wat mogelijk is.',
+    'faq.q5': 'Is het eerste gesprek vrijblijvend?',
+    'faq.a5':
+      'Ja. Het eerste gesprek is gratis en helemaal vrijblijvend.',
+    'faq.q6': 'Hoeveel onderhoud vraagt het, en kun jij dat doen?',
+    'faq.a6':
+      'Je kunt al het onderhoud aan mij overlaten met een maandelijks servicecontract; zelf geef je dan enkel de vissen te eten. Doe je het liever zelf, dan kun je me inroepen wanneer je hulp nodig hebt, en werk ik in regie.',
+    'faq.q7': 'Wat als ik op vakantie ga?',
+    'faq.a7':
+      'Ben je langer dan een week weg, dan kan ik een voederautomaat installeren. Het onderhoud kunnen we uitstellen of gewoon laten doorlopen; dat hangt af van de situatie en van het ecosysteem. Een pas opgestart aquarium vraagt meer zorg dan een ecosysteem dat al jaren draait.',
+    'faq.q8': 'Kun je mijn bestaande aquarium opnieuw inrichten?',
+    'faq.a8':
+      'Ja, een bestaand aquarium kan ik opnieuw inrichten. Omdat elk aquarium anders is, bekijk ik dat geval per geval.',
+    'faq.q9': 'Kan het met kinderen of huisdieren in huis?',
+    'faq.a9':
+      'Zeker. Zolang er niets in het aquarium belandt en andere dieren er niet bij kunnen, is een Microcosmos een mooie aanvulling voor het hele huis.',
+    'faq.q10': 'Hoeveel stroom verbruikt het?',
+    'faq.a10':
+      'Dat hangt vooral af van de temperatuur in je ruimte, de watertemperatuur die de bewoners nodig hebben en het volume water dat verwarmd moet worden. Verlichting en pomp verbruiken tegenwoordig vrij weinig.',
+    'faq.q11': 'Kan het ook zonder vissen, of als paludarium?',
+    'faq.a11':
+      'Zeker, dat is bespreekbaar: een aquarium met alleen planten, of een paludarium met water en land, kan evengoed een levend ecosysteem worden.',
     'privacy.meta.title': 'Privacy — Microcosmos Atelier',
     'privacy.meta.description': 'Welke gegevens Microcosmos Atelier verzamelt, waarom en hoe lang.',
     'privacy.eyebrow': 'Privacy',
@@ -390,6 +433,49 @@ export const ui = {
 
     'footer.copyright': 'Microcosmos Atelier',
     'footer.privacy': 'Privacy',
+    'faq.meta.title': 'Frequently asked questions — Microcosmos Atelier',
+    'faq.meta.description': 'Answers about price, process, timing, area, maintenance and more for a tailor-made Microcosmos.',
+    'faq.eyebrow': 'Frequently asked questions',
+    'faq.title': 'Good to know.',
+    'faq.lead': "A few questions I'm often asked. Is yours not here? Feel free to ask.",
+    'faq.closing.title': 'Another question?',
+    'faq.closing.text': "Every space and every idea is different. Tell me what you have in mind and we'll look at it together.",
+    'faq.closing.button': 'Start a conversation',
+    'faq.link': 'Frequently asked questions',
+    'footer.faq': 'FAQ',
+    'faq.q1': 'What does a Microcosmos cost?',
+    'faq.a1':
+      'Every Microcosmos is unique, so there is no fixed price. It mainly depends on the size of the aquarium, the cabinet and technology (filter, lighting, heating and CO₂ if needed), the wood and stone, the plants and animals, and whether you look after it yourself or leave the care to me. After a first conversation, I make a tailored proposal.',
+    'faq.q2': 'How does a project work?',
+    'faq.a2':
+      "It starts with a conversation and a visit to your space. Then I make a design with a first proposal, followed by a detailed proposal. After that come the build, the installation and the handover. If you'd like me to keep looking after it afterwards, that's possible too.",
+    'faq.q3': 'How long does it take?',
+    'faq.a3':
+      'If nothing in your interior needs to change, count on about 6 to 10 weeks; that mainly depends on the delivery of the aquarium. After that the ecosystem keeps growing calmly: the fish are added over a period of 2 to 3 months.',
+    'faq.q4': 'Which area do you work in?',
+    'faq.a4':
+      "Mainly the provinces of Antwerp, East Flanders and Flemish Brabant. Do you live further away? Let me know and we'll see what's possible.",
+    'faq.q5': 'Is the first conversation without obligation?',
+    'faq.a5':
+      'Yes. The first conversation is free and without any obligation.',
+    'faq.q6': 'How much maintenance does it need, and can you do it?',
+    'faq.a6':
+      "You can leave all the maintenance to me with a monthly service contract; you then only feed the fish. If you'd rather do it yourself, you can call on me whenever you need help, and I work on a time-and-materials basis.",
+    'faq.q7': 'What if I go on holiday?',
+    'faq.a7':
+      "If you're away for more than a week, I can install an automatic feeder. We can postpone the maintenance or simply keep it going; that depends on the situation and on the ecosystem. A newly started aquarium needs more care than an ecosystem that has been running for years.",
+    'faq.q8': 'Can you redesign my existing aquarium?',
+    'faq.a8':
+      'Yes, I can redesign an existing aquarium. Because every aquarium is different, I look at it case by case.',
+    'faq.q9': 'Is it suitable with children or pets at home?',
+    'faq.a9':
+      "Certainly. As long as nothing ends up in the aquarium and other animals can't get into it, a Microcosmos is a lovely addition to the whole home.",
+    'faq.q10': 'How much electricity does it use?',
+    'faq.a10':
+      'That mainly depends on the temperature of your room, the water temperature the inhabitants need and the volume of water to be heated. Lighting and pumps use fairly little these days.',
+    'faq.q11': 'Can it be without fish, or a paludarium?',
+    'faq.a11':
+      "Certainly, that's open to discussion: an aquarium with only plants, or a paludarium with water and land, can become a living ecosystem just as well.",
     'privacy.meta.title': 'Privacy — Microcosmos Atelier',
     'privacy.meta.description': 'What data Microcosmos Atelier collects, why and for how long.',
     'privacy.eyebrow': 'Privacy',

@@ -10,6 +10,8 @@ const t = useTranslations(lang);
   <p>
     © {new Date().getFullYear()} {t("footer.copyright")}{" "}
     <span aria-hidden="true">·</span>{" "}
+    <a href={getRelativeLocaleUrl(lang, "/faq")} class="inline-link">{t("footer.faq")}</a>{" "}
+    <span aria-hidden="true">·</span>{" "}
     <a href={getRelativeLocaleUrl(lang, "/privacy")} class="inline-link">{t("footer.privacy")}</a>
   </p>
 </footer>

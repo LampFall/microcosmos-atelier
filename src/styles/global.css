@@ -1193,6 +1193,82 @@ footer {
     transform: translateX(-50%);
 }
 
+/* FAQ page (SPEC.md §3.15): questions that open on click (<details>). */
+.faq-list {
+    max-width: 820px;
+
+    border-top: 1px solid var(--border);
+}
+
+.faq-item {
+    border-bottom: 1px solid var(--border);
+}
+
+.faq-item summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+
+    padding: 22px 0;
+
+    font-size: 1.2rem;
+    letter-spacing: -0.01em;
+
+    cursor: pointer;
+    list-style: none;
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+/* Plus when closed, minus when open. */
+.faq-item summary::after {
+    content: "+";
+
+    flex-shrink: 0;
+
+    color: var(--muted);
+
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.faq-item[open] summary::after {
+    content: "–";
+}
+
+.faq-item p {
+    max-width: 680px;
+
+    margin: -6px 0 24px;
+
+    color: var(--muted);
+
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.faq-closing {
+    max-width: 680px;
+
+    margin-top: 90px;
+}
+
+.faq-closing h2 {
+    margin-bottom: 16px;
+
+    font-size: clamp(2rem, 3.5vw, 3rem);
+}
+
+.faq-closing p {
+    margin-bottom: 30px;
+
+    color: var(--muted);
+    line-height: 1.7;
+}
+
 /* Privacy page: short sections under the page header. */
 .privacy-sections {
     max-width: 720px;

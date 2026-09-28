@@ -1262,6 +1262,57 @@ Risks: Cloudflare can take a few minutes to show the first visits.
 ### Blocking questions
 None.
 
+## Execution plan: FAQ page
+
+Status: APPROVED (2026-09-28)
+Implements: SPEC.md §3.15
+
+### Phase 1: FAQ page, copy and links
+Goal: `/faq` and `/en/faq` with the 11 questions, linked from the contact
+page, the home page and the footer.
+Files: create `src/components/pages/Faq.astro`, `src/pages/faq.astro`,
+`src/pages/en/faq.astro`; modify `src/i18n/ui.ts`,
+`src/components/pages/Contact.astro`, `src/components/pages/Index.astro`,
+`src/components/Footer.astro`, `src/styles/global.css`
+Steps:
+- [x] Copy for the 11 questions and answers plus page intro and closing
+      invitation, NL and EN, first person, in `ui.ts` (`faq.*`); shown to
+      the owner for approval before the commit.
+- [x] `Faq.astro`: page header like the privacy page; the questions from
+      one list as `<details>`/`<summary>`; closing invitation with a link
+      to the contact form.
+- [x] Links: contact page (near the introduction), home page (near the
+      process section), footer (next to "Privacy").
+- [x] CSS for the question list in the site's style (thin borders, a
+      plus/minus marker, focus visible).
+Validation: `npx astro check`, `npm run build`; seo/og check scripts
+(sitemap, canonical, hreflang, share tags); all answers present in the
+built HTML; keyboard and no-JS check of opening/closing (headless Chrome);
+Lighthouse accessibility on both FAQ pages; screenshots of home, contact
+and footer (only the new links change).
+Acceptance criteria:
+- [x] SPEC §3.15 AC 1–5.
+- [x] AC 6: the owner approves the NL and EN copy. *(2026-09-28, including
+      "in regie" / "on a time-and-materials basis")*
+Commit boundary: `faq: pagina met veelgestelde vragen en links ernaartoe`
+Risks: a link on the home page must fit the process section's look; checked
+by eye.
+
+### Phase 2: Docs
+Goal: the docs mention the FAQ.
+Files: modify `ARCHITECTURE.md`, `README.md` (where the FAQ copy lives),
+`SPEC.md` (§3.15 status), `PLAN.md` (queue)
+Steps:
+- [ ] Docs as above.
+Validation: `npx astro check`; reread.
+Acceptance criteria:
+- [ ] The docs say where the FAQ copy is and how to add a question.
+Commit boundary: `docs: FAQ beschreven`
+Risks: none identified.
+
+### Blocking questions
+None.
+
 ## Improvement queue
 
 From `SPEC.md` §3.9 (high-level, approved 2026-09-26). One item at a time: each gets its
@@ -1277,6 +1328,7 @@ Update the status here as items move along.
 | 4 | Review and audit of the untouched code | done (2026-09-27): see "Audit findings (2026-09-27)"; all fix bundles A–E done, required-field marker added | — |
 | 5 | Owner browser checks still open | waiting — owner task | Owner, whenever convenient |
 | 6 | Visitor statistics (Cloudflare) and a privacy page | done (2026-09-28): live; only the owner's check of a visit from another device is open | Owner: check a visit in Cloudflare |
+| 7 | FAQ page | phase 1 built, copy approved; review and phase 2 to do | `/review-phase` |
 
 ## Audit findings (2026-09-27)
 

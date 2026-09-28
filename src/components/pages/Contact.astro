@@ -29,6 +29,10 @@ const t = useTranslations(lang);
           <h2>{t("contact.info.title")}</h2>
 
           <p>{t("contact.info.text")}</p>
+
+          <a href={getRelativeLocaleUrl(lang, "/faq")} class="text-link">
+            {t("faq.link")} <span aria-hidden="true">→</span>
+          </a>
         </div>
 
         {/*

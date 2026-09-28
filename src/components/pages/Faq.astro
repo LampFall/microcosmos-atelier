@@ -1,0 +1,54 @@
+---
+// Frequently asked questions (SPEC.md §3.15). The questions and answers are
+// `faq.q<n>` / `faq.a<n>` in ui.ts; to add one, add both keys in `nl` and
+// `en` and raise FAQ_COUNT. Each question opens with <details>, so all
+// answers are in the HTML, readable without JavaScript.
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const questions = ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] as const).map((n) => ({
+  question: t(`faq.q${n}`),
+  answer: t(`faq.a${n}`),
+}));
+---
+
+<Layout title={t("faq.meta.title")} description={t("faq.meta.description")}>
+  <Header />
+
+  <main id="main">
+    <section class="contact-page">
+      <div class="contact-page-header">
+        <p class="eyebrow">{t("faq.eyebrow")}</p>
+
+        <h1>{t("faq.title")}</h1>
+
+        <p class="contact-page-lead">{t("faq.lead")}</p>
+      </div>
+
+      <div class="faq-list">
+        {questions.map(({ question, answer }) => (
+          <details class="faq-item">
+            <summary>{question}</summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+
+      <div class="faq-closing">
+        <h2>{t("faq.closing.title")}</h2>
+        <p>{t("faq.closing.text")}</p>
+        <a href={getRelativeLocaleUrl(lang, "/contact")} class="button dark-button">
+          {t("faq.closing.button")}
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

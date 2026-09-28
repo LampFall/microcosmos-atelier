@@ -1885,6 +1885,140 @@ page in their language.
 - **D3. Privacy text:** a short privacy page linked from the footer (and
   the contact form), instead of only a sentence under the form.
 
+### 3.15 Frequently asked questions (FAQ)
+
+Status: APPROVED (2026-09-28)
+
+#### Current state
+
+- The home page describes the process in four steps (`home.process*`); the
+  contact page invites a first conversation. Practical questions (cost,
+  duration, region, maintenance, holidays, energy) aren't answered
+  anywhere.
+- No prices are published; the owner doesn't want to state amounts,
+  because they depend strongly on materials and complexity.
+
+#### Objectives
+
+1. Answer the questions potential clients ask before they get in touch,
+   so they know what to expect and contact the owner with more
+   confidence.
+2. Give Google a page that matches what people search for ("wat kost een
+   aquarium op maat", "aquarium onderhoud", region names).
+
+#### Non-goals
+
+- Prices or price ranges.
+- FAQ structured data (`FAQPage`): Google only shows FAQ rich results for a
+  few authoritative sites since 2023, so it adds nothing here.
+- Changing the home page's process section or the contact form.
+
+#### User workflow
+
+Visitor: opens the FAQ from the contact page, the home page or the footer,
+reads the questions and opens the ones that interest them; each answer can
+lead to the contact form.
+
+Owner: edits the questions and answers later in `ui.ts` (both languages).
+
+#### Functional requirements
+
+1. A page `/faq` and `/en/faq` ("Veelgestelde vragen" / "Frequently asked
+   questions") in the site's layout, with the questions under "Content"
+   below, in both languages.
+2. Each question can be opened and closed; all answers are in the HTML
+   and readable without JavaScript and by search engines (native
+   `<details>`/`<summary>`, D3).
+3. Links to the FAQ: from the contact page (near the introduction), from
+   the home page (near the process section) and in the footer (next to
+   "Privacy"). Not in the main menu (D2).
+4. At the end of the page, a short invitation to get in touch with a link
+   to the contact form.
+5. The page is indexable, in the sitemap, with canonical, language links
+   and share tags (§3.12); accessibility 100.
+6. Copy in `ui.ts` in both languages, in the site's voice (first person,
+   as in the contact copy); the owner approves the final wording.
+
+#### Content (draft answers, from the owner's notes of 2026-09-28)
+
+1. **Wat kost een Microcosmos?** No fixed price; it depends on the size of
+   the aquarium, the cabinet and technology (filter, light, heating, CO₂
+   if needed), wood and stone, plants and animals, and whether the client
+   or the owner does the maintenance. A tailored proposal after a first
+   conversation.
+2. **Hoe verloopt een project?** First conversation, visit to the space,
+   design with a high-level proposal, detailed proposal, build and
+   installation, handover; maintenance afterwards if wanted. (Consistent
+   with the home page's process section.)
+3. **Hoe lang duurt het?** About 6 to 10 weeks when nothing in the interior
+   needs to change, mostly set by the delivery of the aquarium; then the
+   fish are added gradually over 2 to 3 months.
+4. **In welke regio werk je?** The provinces of Antwerp, East Flanders and
+   Flemish Brabant; further away on request.
+5. **Is het eerste gesprek vrijblijvend?** Yes, free and without
+   obligation.
+6. **Hoeveel onderhoud vraagt het, en kun jij dat doen?** All maintenance
+   can be done by the owner with a monthly service contract (the client
+   only feeds the fish), or help on call, charged on time and materials
+   ("in regie").
+7. **Wat als ik op vakantie ga?** For more than a week: an automatic
+   feeder, and maintenance postponed or continued depending on the
+   situation and the ecosystem; a young aquarium needs more care than one
+   that has run for years.
+8. **Kun je mijn bestaande aquarium opnieuw inrichten?** Yes, case by
+   case.
+9. **Kan het met kinderen of huisdieren?** Yes, as long as nothing is put
+   into the aquarium and other animals can't get into it.
+10. **Hoeveel stroom verbruikt het?** Mostly depends on the room
+    temperature, the water temperature the inhabitants need and the volume
+    to heat; lighting and pump use little nowadays.
+11. **Kan het ook zonder vissen, of als paludarium?** Yes, open to
+    discussion.
+
+#### Data / content model
+
+- New `ui.ts` keys (`faq.*`) for the page texts and the 11 questions and
+  answers, in NL and EN; new routes `/faq` and `/en/faq`.
+
+#### Architecture
+
+- `Faq.astro` page component with two thin route files (the `pages/` →
+  `components/pages/` pattern), reusing the page header style of the
+  privacy and contact pages; the questions come from one list, like the
+  home page's numbered sections.
+- Links added in `Contact.astro`, `Index.astro` and `Footer.astro`.
+- A few CSS rules for the question list in `global.css`, in the site's
+  existing style.
+
+#### Security implications
+
+none (static copy only).
+
+#### Error handling
+
+none beyond the build: a missing `ui.ts` key fails `astro check`.
+
+#### Acceptance criteria
+
+1. `npx astro check` 0 errors; `npm run build` succeeds.
+2. `/faq` and `/en/faq` exist with all 11 questions; every answer is in
+   the built HTML; the pages are in the sitemap and pass the SEO and
+   share-tag checks of §3.12.
+3. The questions open and close with mouse, keyboard (Enter/Space) and
+   touch, also without JavaScript.
+4. The FAQ is linked from the contact page, the home page and the footer,
+   in both languages.
+5. Lighthouse accessibility 100 on both FAQ pages.
+6. The owner approves the NL and EN copy.
+
+#### Decisions (owner, 2026-09-28)
+
+- **D1. Place:** its own page, `/faq` and `/en/faq`.
+- **D2. Main menu:** not in the menu; linked from the contact page, the
+  home page and the footer.
+- **D3. Form:** questions that open on click (`<details>`).
+- **Voice:** first person ("ik"), like the rest of the site.
+
 ## 4. Non-functional requirements
 
 - **Static output.** The site builds to static HTML (`astro build`) and is
