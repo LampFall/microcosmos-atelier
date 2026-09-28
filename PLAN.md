@@ -1194,14 +1194,14 @@ on the owner's opted-out browsers.
 Files: create `src/components/Analytics.astro`; modify
 `src/layouts/Layout.astro`, `src/i18n/ui.ts`, `src/styles/global.css`
 Steps:
-- [ ] `Analytics.astro`, rendered by `Layout.astro` only in the production
+- [x] `Analytics.astro`, rendered by `Layout.astro` only in the production
       build (`import.meta.env.PROD`): a small inline script that handles
       `?nietmeten` / `?welmeten` (local storage, short confirmation in the
       page language, then removes the parameter from the address), and
-      adds Cloudflare's beacon (`type="module"`, token from the owner's
-      snippet) only when `location.hostname` is `microcosmos-atelier.com`
+      adds Cloudflare's beacon (a classic script with `data-cf-beacon`, like
+      Cloudflare's own snippet; token from the owner's snippet) only when `location.hostname` is `microcosmos-atelier.com`
       and the browser hasn't opted out.
-- [ ] If local storage isn't available, the confirmation says the choice
+- [x] If local storage isn't available, the confirmation says the choice
       can't be remembered.
 Validation: `npx astro check`, `npm run build`; headless Chrome on `astro
 dev` and `astro preview`: no request to `static.cloudflareinsights.com`;
@@ -1211,7 +1211,20 @@ the opt-out flow tested on the preview with the hostname check relaxed
 for the test only (not committed); Lighthouse performance and
 accessibility unchanged.
 Acceptance criteria:
-- [ ] SPEC §3.14 FR 1–3, AC 1–2.
+- [x] SPEC §3.14 FR 1–3, AC 1–2.
+Tested 2026-09-28 in headless Chrome, all Cloudflare requests blocked (no
+test visits reach the statistics): `astro dev` no snippet, no request;
+`astro preview` (localhost) snippet but no request, `?nietmeten` stored;
+the real host name mapped to the built site (static server on `dist/`):
+visit → beacon requested; `?nietmeten` → Dutch confirmation, address
+cleaned, no request, also on /about/ and /journal/; `/en/?welmeten` →
+English confirmation, beacon again. After review: with only the counting
+call blocked, the beacon ran and sent its payload with `"siteToken":
+"56e1996d…"` on each page (so an inserted script works); `?nietmeten` also
+skips the current page view in a private window; the confirmation is filled
+into an existing live region for screen readers. Lighthouse there: accessibility 100;
+best practices only fails on HTTPS (the local test server), performance
+94/100 (uncompressed test server); to re-measure live in Phase 3.
 Commit boundary: `statistieken: Cloudflare Web Analytics met niet-meten-schakelaar`
 Risks: the owner's first visits after the deploy are counted until they
 open `?nietmeten`; that's expected.

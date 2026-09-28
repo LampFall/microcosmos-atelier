@@ -1,0 +1,75 @@
+---
+// Visitor statistics with Cloudflare Web Analytics (SPEC.md §3.14): no
+// cookies, anonymous totals. Only rendered in the production build, and the
+// counter script is only added on the live domain, and not in a browser that
+// opened a page with `?nietmeten` (the owner's own devices; `?welmeten`
+// undoes it). The token is public by design.
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const config = {
+  token: "56e1996d4ddb46c48bbac1574c166164",
+  host: "microcosmos-atelier.com",
+  off: t("analytics.off"),
+  on: t("analytics.on"),
+  noStorage: t("analytics.noStorage"),
+};
+---
+
+{import.meta.env.PROD && (
+  <script is:inline define:vars={{ config }}>
+    (function () {
+      var KEY = "mca-no-analytics";
+      var params = new URLSearchParams(location.search);
+      var store = null;
+      try { store = window.localStorage; store.getItem(KEY); } catch (e) { store = null; }
+
+      var message = null;
+      // `?nietmeten` also skips this page view itself, even when the choice
+      // can't be stored (private window).
+      var skipThisView = params.has("nietmeten");
+      if (params.has("nietmeten") || params.has("welmeten")) {
+        var off = params.has("nietmeten");
+        try {
+          if (!store) throw new Error("no storage");
+          if (off) store.setItem(KEY, "1"); else store.removeItem(KEY);
+          message = off ? config.off : config.on;
+        } catch (e) {
+          message = config.noStorage;
+        }
+        // Clean the address, so the switch isn't bookmarked or shared.
+        params.delete("nietmeten");
+        params.delete("welmeten");
+        var query = params.toString();
+        history.replaceState(null, "", location.pathname + (query ? "?" + query : "") + location.hash);
+      }
+
+      var optedOut = skipThisView;
+      try { optedOut = optedOut || !!(store && store.getItem(KEY)); } catch (e) {}
+
+      if (!optedOut && location.hostname === config.host) {
+        // An inserted script loads asynchronously anyway; it never blocks the page.
+        var beacon = document.createElement("script");
+        beacon.src = "https://static.cloudflareinsights.com/beacon.min.js";
+        beacon.setAttribute("data-cf-beacon", JSON.stringify({ token: config.token }));
+        document.head.appendChild(beacon);
+      }
+
+      if (message) {
+        var show = function () {
+          // Add the (empty) live region first and fill it a moment later, so
+          // screen readers such as VoiceOver announce the text.
+          var note = document.createElement("div");
+          note.className = "analytics-note";
+          note.setAttribute("role", "status");
+          document.body.appendChild(note);
+          setTimeout(function () { note.textContent = message; }, 100);
+          setTimeout(function () { note.remove(); }, 6000);
+        };
+        show(); // rendered at the end of <body>, so the body exists
+      }
+    })();
+  </script>
+)}

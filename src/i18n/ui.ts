@@ -12,6 +12,9 @@ export const ui = {
     'nav.menu': 'Menu',
     'nav.backToTop': 'Naar boven',
     'nav.skipToContent': 'Naar de inhoud',
+    'analytics.off': 'Dit toestel wordt niet meer meegeteld in de statistieken.',
+    'analytics.on': 'Dit toestel wordt weer meegeteld in de statistieken.',
+    'analytics.noStorage': 'Deze keuze kan in deze browser niet onthouden worden (privévenster?).',
 
     'footer.copyright': 'Microcosmos Atelier',
     'footer.privacy': 'Privacy',
@@ -381,6 +384,9 @@ export const ui = {
     'nav.menu': 'Menu',
     'nav.backToTop': 'Back to top',
     'nav.skipToContent': 'Skip to content',
+    'analytics.off': 'This device is no longer counted in the statistics.',
+    'analytics.on': 'This device is counted in the statistics again.',
+    'analytics.noStorage': 'This choice can\'t be remembered in this browser (private window?).',
 
     'footer.copyright': 'Microcosmos Atelier',
     'footer.privacy': 'Privacy',

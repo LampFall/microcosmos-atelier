@@ -5,6 +5,7 @@ import { getImage } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import { getLangFromUrl, getPathWithoutLocale, useTranslations } from "../i18n/utils";
 import BackToTop from "../components/BackToTop.astro";
+import Analytics from "../components/Analytics.astro";
 import defaultShareImage from "../content/site/hero.jpg";
 
 interface Props {
@@ -113,5 +114,6 @@ const otherLang = lang === "nl" ? "en" : "nl";
     <a class="skip-link" href="#main">{t("nav.skipToContent")}</a>
     <slot />
     <BackToTop />
+    <Analytics />
   </body>
 </html>
