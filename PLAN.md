@@ -1222,7 +1222,10 @@ English confirmation, beacon again. After review: with only the counting
 call blocked, the beacon ran and sent its payload with `"siteToken":
 "56e1996d…"` on each page (so an inserted script works); `?nietmeten` also
 skips the current page view in a private window; the confirmation is filled
-into an existing live region for screen readers. Lighthouse there: accessibility 100;
+into an existing live region for screen readers. Phase 3 live check (2026-09-28): on a
+throttled phone the beacon competed with the hero photo (Lighthouse mobile
+90–92 with it vs 93–95 without); it is now added after the page's `load`
+event (owner's OK). Lighthouse there: accessibility 100;
 best practices only fails on HTTPS (the local test server), performance
 94/100 (uncompressed test server); to re-measure live in Phase 3.
 Commit boundary: `statistieken: Cloudflare Web Analytics met niet-meten-schakelaar`

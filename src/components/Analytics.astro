@@ -50,11 +50,17 @@ const config = {
       try { optedOut = optedOut || !!(store && store.getItem(KEY)); } catch (e) {}
 
       if (!optedOut && location.hostname === config.host) {
-        // An inserted script loads asynchronously anyway; it never blocks the page.
-        var beacon = document.createElement("script");
-        beacon.src = "https://static.cloudflareinsights.com/beacon.min.js";
-        beacon.setAttribute("data-cf-beacon", JSON.stringify({ token: config.token }));
-        document.head.appendChild(beacon);
+        // Added only after the page has loaded, so it doesn't compete with
+        // the hero photo on a slow phone connection; Cloudflare still reads
+        // the page's loading times afterwards.
+        var addBeacon = function () {
+          var beacon = document.createElement("script");
+          beacon.src = "https://static.cloudflareinsights.com/beacon.min.js";
+          beacon.setAttribute("data-cf-beacon", JSON.stringify({ token: config.token }));
+          document.head.appendChild(beacon);
+        };
+        if (document.readyState === "complete") addBeacon();
+        else window.addEventListener("load", addBeacon, { once: true });
       }
 
       if (message) {
