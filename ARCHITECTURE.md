@@ -177,6 +177,26 @@ i18n: {
   the address with something like `?v=2` added, or use LinkedIn's Post
   Inspector.
 
+### Visitor statistics and privacy (`SPEC.md` §3.14)
+
+- `src/components/Analytics.astro`, rendered at the end of `<body>` by
+  `Layout.astro`, only in the production build (`import.meta.env.PROD`).
+  Its small inline script adds Cloudflare Web Analytics' beacon (a classic
+  script with `data-cf-beacon` and the public token) after the page's
+  `load` event, and only when `location.hostname` is
+  `microcosmos-atelier.com`, so `astro dev`, `astro preview` and the
+  `*.netlify.app` addresses never count.
+- `?nietmeten` on any page stores `mca-no-analytics` in local storage (the
+  owner's own browsers) and skips that page view; `?welmeten` removes it.
+  Both show a short confirmation (`.analytics-note`, `role="status"`) and
+  are removed from the address. No cookies.
+- The numbers are in the Cloudflare dashboard (Web Analytics); search
+  queries stay in Google Search Console.
+- `/privacy` and `/en/privacy` (`Privacy.astro`) describe the contact form
+  data, the statistics and the absence of cookies; linked from the footer
+  and the contact form. If what the site collects changes, update that
+  page.
+
 ## 4. Translation dictionary (`src/i18n/ui.ts`)
 
 All page copy — headings, body text, button labels, image alt text, form

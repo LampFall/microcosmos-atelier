@@ -1155,7 +1155,8 @@ None.
 
 ## Execution plan: visitor statistics and a privacy page
 
-Status: APPROVED (2026-09-28)
+Status: APPROVED (2026-09-28). Phases 1–3 implemented; the owner's check of
+a visit from another device is open.
 Implements: SPEC.md §3.14
 
 Order: the privacy page first (visible, the owner checks the text), then
@@ -1237,14 +1238,21 @@ Goal: the docs explain the counter; the owner confirms it works live.
 Files: modify `ARCHITECTURE.md`, `SPEC.md` (§4), `README.md` (owner
 note: `?nietmeten`, where to read the numbers), `PLAN.md`
 Steps:
-- [ ] Docs as above.
+- [x] Docs as above.
 - [ ] After the push: Claude checks the live site requests the beacon and
       `microcosmos-atelier.netlify.app` doesn't; the owner opens
       `?nietmeten` on own browsers and checks a visit from another device
       shows up in Cloudflare.
+      *(2026-09-28, Claude: `www.` → 301 to the main address; live pages
+      carry the snippet; with only the counting call blocked, the live site
+      sends the beacon with the token and `*.netlify.app` sends nothing;
+      Lighthouse desktop 100 in all categories, mobile a11y/BP/SEO 100.
+      Owner: `?nietmeten` done on own devices, "all looks good"; the
+      visit from another device is still to be checked.)*
 Validation: `npx astro check`; live checks; the owner's report.
 Acceptance criteria:
-- [ ] SPEC §3.14 AC 3, 4, 6 and FR 8.
+- [ ] SPEC §3.14 AC 3, 4, 6 and FR 8. *(All but AC 6's visit from another
+      device, which the owner checks later.)*
 Commit boundary: `docs: bezoekersstatistieken en privacy beschreven`
 Risks: Cloudflare can take a few minutes to show the first visits.
 
@@ -1268,7 +1276,7 @@ Update the status here as items move along.
 | 3 | SEO basics for a bilingual site | done (2026-09-27): canonical, hreflang, link previews, sitemap pairs, robots.txt; sitemap submitted in Search Console | — |
 | 4 | Review and audit of the untouched code | done (2026-09-27): see "Audit findings (2026-09-27)"; all fix bundles A–E done, required-field marker added | — |
 | 5 | Owner browser checks still open | waiting — owner task | Owner, whenever convenient |
-| 6 | Visitor statistics (Cloudflare) and a privacy page | phase 1 (privacy page) done; phases 2–3 to do | `/implement-phase 2` |
+| 6 | Visitor statistics (Cloudflare) and a privacy page | done (2026-09-28): live; only the owner's check of a visit from another device is open | Owner: check a visit in Cloudflare |
 
 ## Audit findings (2026-09-27)
 

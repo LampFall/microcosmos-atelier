@@ -1749,7 +1749,8 @@ Visitor: nothing changes.
 
 ### 3.14 Visitor statistics and a privacy page
 
-Status: APPROVED (2026-09-28)
+Status: APPROVED (2026-09-28), implemented 2026-09-28. "Current state" below
+describes the situation before this change.
 
 #### Current state
 
@@ -1902,6 +1903,11 @@ page in their language.
   first Our Work hero, the home hero or the about page photo), in which case
   it loads eagerly with `fetchpriority="high"`. See 3.3.5 for the full
   journal-specific spec.
+- **Privacy and statistics** (§3.14). No cookies. Anonymous visitor
+  statistics with Cloudflare Web Analytics, only on the live domain and not
+  on the owner's opted-out browsers (`?nietmeten`); a privacy page at
+  `/privacy` and `/en/privacy`. Any new data collection must be added to
+  that page.
 - **SEO** (§3.12). Every indexable page carries a canonical URL on
   `https://microcosmos-atelier.com` (trailing slash), `hreflang` links to
   its NL and EN version plus `x-default` (only when both exist), and Open

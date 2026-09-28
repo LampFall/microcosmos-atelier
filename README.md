@@ -140,6 +140,18 @@ src/content/journal/
   `about-page.jpg`). To replace one: delete it, drop the new photo in with
   the same name (any format), same orientation. Details in `PHOTOS.md`.
 
+## Visitor statistics
+
+The numbers are in [Cloudflare](https://dash.cloudflare.com) → **Web
+Analytics** → microcosmos-atelier.com: visitors, pages, where they came
+from, country and device (anonymous, no cookies). What people searched for
+on Google is in Google Search Console → **Performance**.
+
+Your own visits don't count while developing (only the live site counts).
+On the live site, open `https://microcosmos-atelier.com/?nietmeten` once in
+every browser you use (phone and computer); a short message confirms it.
+`?welmeten` turns counting back on. Clearing the browser's data undoes it.
+
 ## Learn more
 
 - [Astro documentation](https://docs.astro.build)
