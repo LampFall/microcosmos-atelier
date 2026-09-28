@@ -14,6 +14,25 @@ export const ui = {
     'nav.skipToContent': 'Naar de inhoud',
 
     'footer.copyright': 'Microcosmos Atelier',
+    'footer.privacy': 'Privacy',
+    'privacy.meta.title': 'Privacy — Microcosmos Atelier',
+    'privacy.meta.description': 'Welke gegevens Microcosmos Atelier verzamelt, waarom en hoe lang.',
+    'privacy.eyebrow': 'Privacy',
+    'privacy.title': 'Je gegevens, eenvoudig uitgelegd.',
+    'privacy.lead': 'Deze site verzamelt zo weinig mogelijk. Hier lees je wat, waarom en hoe lang.',
+    'privacy.form.title': 'Het contactformulier',
+    'privacy.form.text':
+      'Als je het contactformulier invult, ontvang ik je naam, je e-mailadres, waar je aan denkt, je bericht en de taal waarin je schreef. Ik gebruik die gegevens alleen om je aanvraag te beantwoorden. Het formulier wordt verwerkt en bewaard door Netlify, waar deze site gehost wordt. Aanvragen verwijder ik na ongeveer een jaar.',
+    'privacy.stats.title': 'Bezoekersstatistieken',
+    'privacy.stats.text':
+      'Om te zien hoeveel mensen de site bezoeken en welke pagina’s ze lezen, gebruik ik Cloudflare Web Analytics. Dat meet anoniem en in totalen: welke pagina, via welke site je kwam, je land en het soort toestel. Er worden geen cookies gebruikt, je wordt niet herkend en niet gevolgd op andere sites.',
+    'privacy.cookies.title': 'Cookies',
+    'privacy.cookies.text': 'Deze site plaatst geen cookies.',
+    'privacy.questions.title': 'Vragen',
+    'privacy.questions.text':
+      'Heb je een vraag over je gegevens, of wil je dat ik ze verwijder?',
+    'privacy.questions.link': 'Laat het me weten via het contactformulier.',
+    'contact.form.privacyLink': 'Meer over privacy',
 
     'about.meta.title': 'Over mij — Microcosmos Atelier',
     'about.meta.description':
@@ -364,6 +383,25 @@ export const ui = {
     'nav.skipToContent': 'Skip to content',
 
     'footer.copyright': 'Microcosmos Atelier',
+    'footer.privacy': 'Privacy',
+    'privacy.meta.title': 'Privacy — Microcosmos Atelier',
+    'privacy.meta.description': 'What data Microcosmos Atelier collects, why and for how long.',
+    'privacy.eyebrow': 'Privacy',
+    'privacy.title': 'Your data, simply explained.',
+    'privacy.lead': 'This site collects as little as possible. Here is what, why and for how long.',
+    'privacy.form.title': 'The contact form',
+    'privacy.form.text':
+      'When you fill in the contact form, I receive your name, your email address, what you have in mind, your message and the language you wrote in. I only use these details to reply to your enquiry. The form is processed and stored by Netlify, which hosts this site. I delete enquiries after about a year.',
+    'privacy.stats.title': 'Visitor statistics',
+    'privacy.stats.text':
+      'To see how many people visit the site and which pages they read, I use Cloudflare Web Analytics. It measures anonymously and in totals: which page, which site you came from, your country and the type of device. No cookies are used, you are not recognised and not followed across other sites.',
+    'privacy.cookies.title': 'Cookies',
+    'privacy.cookies.text': 'This site sets no cookies.',
+    'privacy.questions.title': 'Questions',
+    'privacy.questions.text':
+      'Do you have a question about your data, or would you like me to delete it?',
+    'privacy.questions.link': 'Let me know through the contact form.',
+    'contact.form.privacyLink': 'More about privacy',
 
     'about.meta.title': 'About — Microcosmos Atelier',
     'about.meta.description':

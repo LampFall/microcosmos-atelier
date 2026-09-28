@@ -1747,6 +1747,143 @@ Visitor: nothing changes.
 - **D2. Findings:** a section in `PLAN.md`, next to the queue.
 - **D3. Language scope:** NL for all six page types, plus the EN home page.
 
+### 3.14 Visitor statistics and a privacy page
+
+Status: APPROVED (2026-09-28)
+
+#### Current state
+
+- The site has no visitor statistics. The only data on visits are Google
+  Search Console (search queries, clicks) and, once verified, the Google
+  Business Profile.
+- There are no cookies and no third-party scripts on the pages.
+- The contact form stores enquiries in Netlify (§3.10); the only privacy
+  text is one sentence under the form. There is no privacy page. The
+  footer only shows "© <year> Microcosmos Atelier".
+
+#### Objectives
+
+1. The owner sees how many people visit, which pages they read, where they
+   come from (search, social, other sites), their country and device.
+2. The owner's own visits don't count: not during development on the Mac,
+   not on Netlify preview addresses, and not from the owner's own phone and
+   computer on the live site.
+3. No cookies, no personal data, no cookie banner; visitors can read what
+   is collected on a short privacy page.
+
+#### Non-goals
+
+- Identifying individual visitors, tracking across sites, or cookies.
+- Paid analytics (Plausible, Netlify Analytics) or Google Analytics.
+- A cookie banner (not needed without cookies).
+- Moving the domain's DNS to Cloudflare.
+
+#### User workflow
+
+Owner, once:
+
+1. Creates a free Cloudflare account, adds `microcosmos-atelier.com` under
+   Web Analytics with the JavaScript snippet (no DNS change) and gives
+   Claude the snippet (its token is public by design).
+2. After the deploy, opens `https://microcosmos-atelier.com/?nietmeten` on
+   each own browser (phone, computer); a short message confirms that this
+   device is no longer counted. `?welmeten` turns counting back on.
+
+Owner, later: reads the numbers in the Cloudflare dashboard (Web
+Analytics), and search queries in Search Console.
+
+Visitor: sees no difference; the footer has a "Privacy" link to a short
+page in their language.
+
+#### Functional requirements
+
+1. **Counter:** Cloudflare Web Analytics' script is loaded on every page,
+   deferred, only when all of these hold: it's the production build, the
+   page is served from `microcosmos-atelier.com`, and this browser hasn't
+   opted out (FR 2).
+2. **Own devices:** opening any page with `?nietmeten` stores an opt-out
+   in this browser (local storage) and shows a short confirmation;
+   `?welmeten` removes it and confirms. With the opt-out, the counter
+   script is never requested. Works without cookies.
+3. **No counting elsewhere:** `astro dev`, `npm run preview`, the
+   `*.netlify.app` addresses and deploy previews never load the script.
+4. **Privacy page:** `/privacy` and `/en/privacy`, in the site's layout,
+   with: what the contact form collects, where it's stored (Netlify) and
+   for how long (about a year); what the statistics collect (anonymous,
+   aggregated, no cookies, Cloudflare); no cookies on the site; how to ask
+   a question (via the contact form). Copy in `ui.ts` (or a component) in
+   both languages; the owner checks the wording.
+5. **Footer:** a "Privacy" link to that page, in both languages. The
+   privacy sentence under the contact form links to it too.
+6. The privacy page is indexable and in the sitemap, with the usual
+   canonical, language links and share tags (§3.12).
+7. Nothing else visible changes; performance stays as it is (the script is
+   small and deferred).
+8. Docs: `ARCHITECTURE.md` (where the counter lives and its conditions),
+   `SPEC.md` §4, and a short owner note (in `PHOTOS.md`'s style, or
+   `README.md`) on `?nietmeten` and where to read the numbers.
+
+#### Data / content model
+
+- One Cloudflare Web Analytics token in the code (public; received from the
+  owner 2026-09-28: `56e1996d4ddb46c48bbac1574c166164`).
+- Browser local storage key for the opt-out (per browser, on the owner's
+  devices only).
+- New `ui.ts` keys for the privacy page, the footer link and the opt-out
+  messages; new routes `/privacy` and `/en/privacy`.
+
+#### Architecture
+
+- A small `Analytics.astro` component rendered by `Layout.astro`: in the
+  production build it outputs a tiny inline script that checks the
+  hostname and the opt-out, handles `?nietmeten` / `?welmeten`, and only
+  then adds Cloudflare's beacon script. No dependency.
+- `Privacy.astro` page component with two thin route files (the
+  `pages/` → `components/pages/` pattern); link in `Footer.astro` and in
+  the contact form's privacy sentence.
+
+#### Security implications
+
+- **Data:** Cloudflare receives anonymous page-view data (page, referrer,
+  country, device, performance) without cookies or identifiers. This is a
+  new processor for visitor data; the owner approves it (decision below).
+- The token is public by design; no secrets in the repository.
+- The inline script contains no user input; the opt-out only reads its own
+  query parameters.
+
+#### Error handling
+
+- If Cloudflare's script is blocked (ad blockers) or unreachable, the page
+  works normally; those visits simply aren't counted.
+- If local storage is unavailable (private browsing), `?nietmeten` can't
+  be remembered; the confirmation says so.
+
+#### Acceptance criteria
+
+1. `npx astro check` 0 errors; `npm run build` succeeds.
+2. The built pages contain the analytics snippet with the token; on
+   `astro dev` and `npm run preview` no request goes to
+   `static.cloudflareinsights.com` (checked in a headless browser).
+3. On the live site: a normal visit requests the beacon; after
+   `?nietmeten` it doesn't (also after reloading and on other pages);
+   after `?welmeten` it does again. The confirmation appears in the page's
+   language.
+4. `microcosmos-atelier.netlify.app` doesn't request the beacon.
+5. `/privacy` and `/en/privacy` exist, linked from the footer on every page
+   and from the contact form; in the sitemap; Lighthouse accessibility
+   100.
+6. Manual (owner): a visit from someone else's device shows up in the
+   Cloudflare dashboard within minutes; the owner's own devices, after
+   `?nietmeten`, don't.
+7. Screenshots unchanged apart from the footer link.
+
+#### Decisions (owner, 2026-09-28)
+
+- **D1. Tool:** Cloudflare Web Analytics (free, no cookies).
+- **D2. Own devices:** a `?nietmeten` / `?welmeten` switch per browser.
+- **D3. Privacy text:** a short privacy page linked from the footer (and
+  the contact form), instead of only a sentence under the form.
+
 ## 4. Non-functional requirements
 
 - **Static output.** The site builds to static HTML (`astro build`) and is

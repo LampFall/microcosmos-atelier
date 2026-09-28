@@ -1153,6 +1153,91 @@ Risks: a long list of MINOR items; keep them short and grouped by file.
 ### Blocking questions
 None.
 
+## Execution plan: visitor statistics and a privacy page
+
+Status: APPROVED (2026-09-28)
+Implements: SPEC.md §3.14
+
+Order: the privacy page first (visible, the owner checks the text), then
+the counter, which the privacy page describes, then docs and the live
+check. Every push goes live; the counter only starts counting after Phase
+2 is pushed.
+
+### Phase 1: Privacy page and links
+Goal: `/privacy` and `/en/privacy` exist and are linked from the footer
+and the contact form's privacy sentence.
+Files: create `src/components/pages/Privacy.astro`,
+`src/pages/privacy.astro`, `src/pages/en/privacy.astro`; modify
+`src/components/Footer.astro`, `src/components/pages/Contact.astro`,
+`src/i18n/ui.ts`, `src/styles/global.css` (if needed)
+Steps:
+- [x] Page component in the style of the contact/thanks pages, `<main
+      id="main">`, texts in `ui.ts` (NL and EN): contact form (what, where:
+      Netlify, how long: about a year), statistics (anonymous, no cookies,
+      Cloudflare), no cookies on the site, questions via the contact form.
+- [x] Footer: a "Privacy" link next to the copyright line.
+- [x] Contact form: the privacy sentence links to the page.
+Validation: `npx astro check`, `npm run build`; seo/og check scripts (the
+new pages carry canonical, hreflang, share tags and are in the sitemap);
+Lighthouse accessibility on the new page; screenshots of home/contact
+(only the footer and the privacy sentence change).
+Acceptance criteria:
+- [x] SPEC §3.14 FR 4–6, AC 5 and AC 7.
+- [x] The owner approves the privacy text. *(2026-09-28)*
+Commit boundary: `privacy: privacypagina en link in de footer`
+Risks: the text must stay true to what the site does (Netlify storage,
+Cloudflare); the owner checks it.
+
+### Phase 2: The counter and the opt-out switch
+Goal: Cloudflare Web Analytics counts visits on the live domain only, not
+on the owner's opted-out browsers.
+Files: create `src/components/Analytics.astro`; modify
+`src/layouts/Layout.astro`, `src/i18n/ui.ts`, `src/styles/global.css`
+Steps:
+- [ ] `Analytics.astro`, rendered by `Layout.astro` only in the production
+      build (`import.meta.env.PROD`): a small inline script that handles
+      `?nietmeten` / `?welmeten` (local storage, short confirmation in the
+      page language, then removes the parameter from the address), and
+      adds Cloudflare's beacon (`type="module"`, token from the owner's
+      snippet) only when `location.hostname` is `microcosmos-atelier.com`
+      and the browser hasn't opted out.
+- [ ] If local storage isn't available, the confirmation says the choice
+      can't be remembered.
+Validation: `npx astro check`, `npm run build`; headless Chrome on `astro
+dev` and `astro preview`: no request to `static.cloudflareinsights.com`;
+the built HTML contains the snippet; a simulated `microcosmos-atelier.com`
+hostname check in the script (unit-level, e.g. by reading the script) and
+the opt-out flow tested on the preview with the hostname check relaxed
+for the test only (not committed); Lighthouse performance and
+accessibility unchanged.
+Acceptance criteria:
+- [ ] SPEC §3.14 FR 1–3, AC 1–2.
+Commit boundary: `statistieken: Cloudflare Web Analytics met niet-meten-schakelaar`
+Risks: the owner's first visits after the deploy are counted until they
+open `?nietmeten`; that's expected.
+
+### Phase 3: Docs and live check
+Goal: the docs explain the counter; the owner confirms it works live.
+Files: modify `ARCHITECTURE.md`, `SPEC.md` (§4), `README.md` (owner
+note: `?nietmeten`, where to read the numbers), `PLAN.md`
+Steps:
+- [ ] Docs as above.
+- [ ] After the push: Claude checks the live site requests the beacon and
+      `microcosmos-atelier.netlify.app` doesn't; the owner opens
+      `?nietmeten` on own browsers and checks a visit from another device
+      shows up in Cloudflare.
+Validation: `npx astro check`; live checks; the owner's report.
+Acceptance criteria:
+- [ ] SPEC §3.14 AC 3, 4, 6 and FR 8.
+Commit boundary: `docs: bezoekersstatistieken en privacy beschreven`
+Risks: Cloudflare can take a few minutes to show the first visits.
+
+### Out of scope / follow-ups
+- Search Console and the Business Profile statistics stay where they are.
+
+### Blocking questions
+None.
+
 ## Improvement queue
 
 From `SPEC.md` §3.9 (high-level, approved 2026-09-26). One item at a time: each gets its
@@ -1167,6 +1252,7 @@ Update the status here as items move along.
 | 3 | SEO basics for a bilingual site | done (2026-09-27): canonical, hreflang, link previews, sitemap pairs, robots.txt; sitemap submitted in Search Console | — |
 | 4 | Review and audit of the untouched code | done (2026-09-27): see "Audit findings (2026-09-27)"; all fix bundles A–E done, required-field marker added | — |
 | 5 | Owner browser checks still open | waiting — owner task | Owner, whenever convenient |
+| 6 | Visitor statistics (Cloudflare) and a privacy page | phase 1 (privacy page) done; phases 2–3 to do | `/implement-phase 2` |
 
 ## Audit findings (2026-09-27)
 
@@ -1475,6 +1561,13 @@ built site. No CRITICAL findings.
   the same card; the home hero is the default. `og:locale` matches the date
   format the site already uses. The sitemap has no `x-default` (the plugin
   can't write it); the HTML has it. See `SPEC.md` §3.12.
+- **Visitor statistics: Cloudflare Web Analytics — chosen (2026-09-28).**
+  Free, no cookies and no personal data, so no cookie banner; no DNS move.
+  Cloudflare becomes a processor of anonymous page-view data (owner
+  approved). Own visits are excluded by loading the script only in the
+  production build on the real domain and not in browsers that opened
+  `?nietmeten`. Not chosen: Google Analytics (cookies, consent banner),
+  Plausible / Netlify Analytics (paid). See `SPEC.md` §3.14.
 
 ## Suggested files/folders for working more efficiently with Claude Code
 

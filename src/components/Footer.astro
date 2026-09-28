@@ -1,4 +1,5 @@
 ---
+import { getRelativeLocaleUrl } from "astro:i18n";
 import { getLangFromUrl, useTranslations } from "../i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
@@ -7,6 +8,8 @@ const t = useTranslations(lang);
 
 <footer>
   <p>
-    © {new Date().getFullYear()} {t("footer.copyright")}
+    © {new Date().getFullYear()} {t("footer.copyright")}{" "}
+    <span aria-hidden="true">·</span>{" "}
+    <a href={getRelativeLocaleUrl(lang, "/privacy")} class="inline-link">{t("footer.privacy")}</a>
   </p>
 </footer>

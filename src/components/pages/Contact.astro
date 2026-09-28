@@ -95,7 +95,10 @@ const t = useTranslations(lang);
           {/* The * is visual only; screen readers get `required` from the fields. */}
           <p class="contact-form-privacy" aria-hidden="true">* {t("contact.form.required")}</p>
 
-          <p class="contact-form-privacy" id="contact-privacy">{t("contact.form.privacy")}</p>
+          <p class="contact-form-privacy" id="contact-privacy">
+            {t("contact.form.privacy")}{" "}
+            <a href={getRelativeLocaleUrl(lang, "/privacy")} class="inline-link">{t("contact.form.privacyLink")}</a>
+          </p>
 
           <button type="submit" class="button dark-button" aria-describedby="contact-privacy">
             {t("contact.form.submit")}

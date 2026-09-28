@@ -1163,6 +1163,41 @@ footer {
 }
 
 
+/* A link inside running text (footer, privacy): underlined, so it isn't
+   recognised by colour alone. */
+.inline-link {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.inline-link:hover {
+    opacity: 0.6;
+}
+
+/* Privacy page: short sections under the page header. */
+.privacy-sections {
+    max-width: 720px;
+}
+
+.privacy-sections section + section {
+    margin-top: 45px;
+}
+
+.privacy-sections h2 {
+    margin-bottom: 14px;
+
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+}
+
+.privacy-sections p {
+    color: var(--muted);
+
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+
 /* =========================================================
    CASE STUDY HERO — CONTAIN VARIANT
    ========================================================= */

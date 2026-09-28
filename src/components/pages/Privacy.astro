@@ -1,0 +1,56 @@
+---
+// Short privacy statement (SPEC.md §3.14): what the contact form and the
+// visitor statistics collect, and that the site sets no cookies. Linked from
+// the footer and the contact form.
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const sections = [
+  { title: t("privacy.form.title"), text: t("privacy.form.text") },
+  { title: t("privacy.stats.title"), text: t("privacy.stats.text") },
+  { title: t("privacy.cookies.title"), text: t("privacy.cookies.text") },
+];
+---
+
+<Layout title={t("privacy.meta.title")} description={t("privacy.meta.description")}>
+  <Header />
+
+  <main id="main">
+    <section class="contact-page">
+      <div class="contact-page-header">
+        <p class="eyebrow">{t("privacy.eyebrow")}</p>
+
+        <h1>{t("privacy.title")}</h1>
+
+        <p class="contact-page-lead">{t("privacy.lead")}</p>
+      </div>
+
+      <div class="privacy-sections">
+        {sections.map(({ title, text }) => (
+          <section>
+            <h2>{title}</h2>
+            <p>{text}</p>
+          </section>
+        ))}
+
+        <section>
+          <h2>{t("privacy.questions.title")}</h2>
+          <p>
+            {t("privacy.questions.text")}{" "}
+            <a href={getRelativeLocaleUrl(lang, "/contact")} class="inline-link">
+              {t("privacy.questions.link")}
+            </a>
+          </p>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
