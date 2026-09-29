@@ -1155,8 +1155,8 @@ None.
 
 ## Execution plan: visitor statistics and a privacy page
 
-Status: APPROVED (2026-09-28). Phases 1–3 implemented; the owner's check of
-a visit from another device is open.
+Status: APPROVED (2026-09-28). Phases 1–3 implemented; all checks done
+(2026-09-29).
 Implements: SPEC.md §3.14
 
 Order: the privacy page first (visible, the owner checks the text), then
@@ -1239,7 +1239,7 @@ Files: modify `ARCHITECTURE.md`, `SPEC.md` (§4), `README.md` (owner
 note: `?nietmeten`, where to read the numbers), `PLAN.md`
 Steps:
 - [x] Docs as above.
-- [ ] After the push: Claude checks the live site requests the beacon and
+- [x] After the push: Claude checks the live site requests the beacon and
       `microcosmos-atelier.netlify.app` doesn't; the owner opens
       `?nietmeten` on own browsers and checks a visit from another device
       shows up in Cloudflare.
@@ -1247,12 +1247,12 @@ Steps:
       carry the snippet; with only the counting call blocked, the live site
       sends the beacon with the token and `*.netlify.app` sends nothing;
       Lighthouse desktop 100 in all categories, mobile a11y/BP/SEO 100.
-      Owner: `?nietmeten` done on own devices, "all looks good"; the
-      visit from another device is still to be checked.)*
+      Owner: `?nietmeten` done on own devices, "all looks good"; a visit
+      from another device shows up in Cloudflare, confirmed 2026-09-29.)*
 Validation: `npx astro check`; live checks; the owner's report.
 Acceptance criteria:
-- [ ] SPEC §3.14 AC 3, 4, 6 and FR 8. *(All but AC 6's visit from another
-      device, which the owner checks later.)*
+- [x] SPEC §3.14 AC 3, 4, 6 and FR 8. *(AC 6 confirmed by the owner,
+      2026-09-29.)*
 Commit boundary: `docs: bezoekersstatistieken en privacy beschreven`
 Risks: Cloudflare can take a few minutes to show the first visits.
 
@@ -1329,8 +1329,8 @@ Update the status here as items move along.
 | 2 | Home and about page images: fast | done (2026-09-27): photos in `src/content/site/`, home 4.6 MB → 0.4 MB on a phone before scrolling | — |
 | 3 | SEO basics for a bilingual site | done (2026-09-27): canonical, hreflang, link previews, sitemap pairs, robots.txt; sitemap submitted in Search Console | — |
 | 4 | Review and audit of the untouched code | done (2026-09-27): see "Audit findings (2026-09-27)"; all fix bundles A–E done, required-field marker added | — |
-| 5 | Owner browser checks still open | waiting — owner task | Owner, whenever convenient |
-| 6 | Visitor statistics (Cloudflare) and a privacy page | done (2026-09-28): live; only the owner's check of a visit from another device is open | Owner: check a visit in Cloudflare |
+| 5 | Owner browser checks still open | done (2026-09-29): iPhone checks by the owner OK | — |
+| 6 | Visitor statistics (Cloudflare) and a privacy page | done (2026-09-28): live; visit from another device confirmed in Cloudflare (2026-09-29) | — |
 | 7 | FAQ page | done (2026-09-29): live at `/faq`, 11 questions; in the main menu (owner's change) and linked from home, contact and footer | — |
 
 ## Audit findings (2026-09-27)
