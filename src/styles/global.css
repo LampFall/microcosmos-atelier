@@ -622,6 +622,16 @@ h3 {
    FORMULAS
    ========================================================= */
 
+.formulas-included {
+    margin-top: 28px;
+
+    color: var(--text);
+
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
 .formula-list {
     margin-top: 70px;
 

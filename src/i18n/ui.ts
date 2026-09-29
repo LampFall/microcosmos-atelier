@@ -354,36 +354,43 @@ export const ui = {
     'home.process.eyebrow': 'Van idee naar ecosysteem',
     'home.process.title': 'Ontworpen rond<br />jouw wereld.',
 
-    'home.process1.title': 'We beginnen bij jouw ruimte',
+    'home.process1.title':
+      'Kennismaking',
     'home.process1.text':
-      'Waar komt het te staan? Hoeveel ruimte is er beschikbaar? Hoe valt het licht? En wat wil je voelen wanneer je ernaar kijkt?',
-    'home.process2.title': 'We ontwerpen het ecosysteem',
+      'We beginnen met een gratis, vrijblijvend gesprek en een bezoek aan je ruimte. Waar komt het te staan, hoe valt het licht, en wat wil je voelen als je ernaar kijkt?',
+    'home.process2.title':
+      'Ontwerp en voorstel',
     'home.process2.text':
-      'De indeling, materialen, planten en bewoners worden samen geselecteerd, met zowel esthetiek als ecologie in gedachten.',
-    'home.process3.title': 'Ik bouw het',
+      'Ik maak een ontwerp met een eerste voorstel. Samen verfijnen we het tot een gedetailleerd voorstel: indeling, materialen, planten en bewoners.',
+    'home.process3.title':
+      'Bouw en installatie',
     'home.process3.text':
-      'Van substraat en structuur tot beplanting en het introduceren van leven: alles wordt opgebouwd als één samenhangend systeem.',
-    'home.process4.title': 'Dan begint het te leven',
+      'Ik bouw alles op als één samenhangend systeem, van substraat tot beplanting. Reken op ongeveer 6 tot 10 weken, vooral afhankelijk van de levering van het aquarium.',
+    'home.process4.title':
+      'Het ecosysteem komt tot leven',
     'home.process4.text':
-      'Het ecosysteem komt tot rust, groeit en verandert. Afhankelijk van de aanpak die je kiest, kan ik betrokken blijven en samen met jou voor het ecosysteem blijven zorgen.',
+      'Na de oplevering komt het systeem tot rust en groeit het verder. Over 2 tot 3 maanden komen de vissen erbij.',
 
     'home.formulas.eyebrow': 'Hoe we kunnen samenwerken',
-    'home.formulas.title': 'Kies hoe je jouw<br />Microcosmos tot leven wil zien komen.',
+    'home.formulas.title':
+      'Wat ik doe,<br />en wat jij kiest.',
     'home.formulas.text':
-      'Elke Microcosmos is anders. Sommige mensen willen de volledige ervaring en gaan daarna zelf verder. Anderen willen hun ecosysteem ook op lange termijn laten opvolgen.',
+      'Voor de zorg na de oplevering kies jij hoe betrokken je wilt zijn.',
 
-    'home.formula1.title': 'Design',
+    'home.formula1.title':
+      'Ik zorg ervoor',
     'home.formula1.text':
-      'We beginnen bij jouw ruimte, jouw wensen en de ervaring die je wilt creëren. Samen ontwikkelen we het concept, de structuur en het karakter van jouw Microcosmos.',
-    'home.formula2.title': 'Composition',
+      'Met een maandelijks servicecontract doe ik al het onderhoud. Jij geniet ervan en geeft enkel de vissen te eten.',
+    'home.formula2.title':
+      'Jij zorgt, ik help',
     'home.formula2.text':
-      'Planten, dieren, materialen en structuur worden zorgvuldig geselecteerd om een samenhangend levend systeem te creëren — mooi, functioneel en ontworpen om zich doorheen de tijd te ontwikkelen.',
-    'home.formula3.title': 'Stewardship',
+      'Je onderhoudt het zelf. Heb je vragen of hulp nodig, dan roep je me in wanneer het nodig is, en werk ik in regie.',
+    'home.formula3.title':
+      'Op maat',
     'home.formula3.text':
-      'Eenmaal gevestigd blijft je Microcosmos groeien en veranderen. Ik kan betrokken blijven om het ecosysteem verder te laten ontwikkelen en gezond te houden.',
-    'home.formula4.title': 'Tailored',
-    'home.formula4.text':
-      'Een volledig persoonlijke aanpak voor bijzondere ruimtes, ambitieuze installaties of een heel specifiek idee.',
+      'Voor bijzondere ruimtes, grote installaties, een paludarium of een heel specifiek idee zoeken we samen de juiste aanpak.',
+    'home.formulas.included': 'Altijd inbegrepen: ontwerp · samenstelling · bouw',
+    'home.process.faqLink': 'Meer over het verloop in de veelgestelde vragen',
     'home.formulas.cta': 'Start een gesprek',
 
     'home.work.eyebrow': 'Ons werk',
@@ -781,36 +788,43 @@ export const ui = {
     'home.process.eyebrow': 'From idea to ecosystem',
     'home.process.title': 'Designed around<br />your world.',
 
-    'home.process1.title': 'We start with your space',
+    'home.process1.title':
+      'Getting to know each other',
     'home.process1.text':
-      'Where will it live? How much space is available? What is the light like? What do you want to feel when you look at it?',
-    'home.process2.title': 'We design the ecosystem',
+      'We start with a free, no-obligation conversation and a visit to your space. Where will it live, what is the light like, and what do you want to feel when you look at it?',
+    'home.process2.title':
+      'Design and proposal',
     'home.process2.text':
-      'The layout, materials, plants and inhabitants are selected together, with both appearance and ecology in mind.',
-    'home.process3.title': 'I build it',
+      'I make a design with a first proposal. Together we refine it into a detailed proposal: layout, materials, plants and inhabitants.',
+    'home.process3.title':
+      'Build and installation',
     'home.process3.text':
-      'From substrate and structure to planting and introduction of life, everything is assembled as one coherent system.',
-    'home.process4.title': 'Then it starts living',
+      'I build everything as one coherent system, from substrate to planting. Count on about 6 to 10 weeks, mainly depending on the delivery of the aquarium.',
+    'home.process4.title':
+      'The ecosystem comes to life',
     'home.process4.text':
-      'The ecosystem settles, grows and changes. Depending on the approach you choose, I can continue to follow and care for it with you.',
+      'After the handover, the system settles and keeps growing. Over 2 to 3 months, the fish are added.',
 
     'home.formulas.eyebrow': 'How we can work together',
-    'home.formulas.title': 'Choose how you want your<br />Microcosmos to come to life.',
+    'home.formulas.title':
+      'What I do,<br />and what you choose.',
     'home.formulas.text':
-      'Every Microcosmos is different. Some people want the complete experience and then take it from there. Others want their ecosystem looked after over time.',
+      'For the care after the handover, you choose how involved you want to be.',
 
-    'home.formula1.title': 'Design',
+    'home.formula1.title':
+      'I take care of it',
     'home.formula1.text':
-      'We start with your space, your wishes and the kind of experience you want to create. Together we develop the concept, structure and character of your Microcosmos.',
-    'home.formula2.title': 'Composition',
+      'With a monthly service contract, I do all the maintenance. You simply enjoy it and only feed the fish.',
+    'home.formula2.title':
+      'You care, I help',
     'home.formula2.text':
-      'Plants, animals, materials and structure are carefully selected to create a coherent living system — one that is beautiful, functional and designed to develop over time.',
-    'home.formula3.title': 'Stewardship',
+      'You look after it yourself. If you have questions or need a hand, you call on me whenever needed, on a time-and-materials basis.',
+    'home.formula3.title':
+      'Tailored',
     'home.formula3.text':
-      'Once established, your Microcosmos continues to grow and change. I can stay involved to help the ecosystem develop and keep it healthy over time.',
-    'home.formula4.title': 'Tailored',
-    'home.formula4.text':
-      'A completely bespoke approach for unusual spaces, ambitious installations or a very specific idea.',
+      'For unusual spaces, large installations, a paludarium or a very specific idea, we find the right approach together.',
+    'home.formulas.included': 'Always included: design · composition · build',
+    'home.process.faqLink': 'More about the process in the FAQ',
     'home.formulas.cta': 'Start a conversation',
 
     'home.work.eyebrow': 'Our work',

@@ -206,7 +206,7 @@ const aboutSizes = "(max-width: 800px) calc(min(100vw - 44px, 500px) * 1.25), 61
       </div>
 
       <a href={getRelativeLocaleUrl(lang, "/faq")} class="text-link">
-        {t("faq.link")} <span aria-hidden="true">→</span>
+        {t("home.process.faqLink")} <span aria-hidden="true">→</span>
       </a>
     </section>
 
@@ -216,15 +216,17 @@ const aboutSizes = "(max-width: 800px) calc(min(100vw - 44px, 500px) * 1.25), 61
         <p class="eyebrow">{t("home.formulas.eyebrow")}</p>
         <h2 set:html={t("home.formulas.title")} />
         <p class="section-intro">{t("home.formulas.text")}</p>
+        <p class="formulas-included">{t("home.formulas.included")}</p>
       </div>
 
+      {/* What I always do is in the process above; these are the choices for
+          the care afterwards. */}
       <div class="formula-list">
-        {([1, 2, 3, 4] as const).map((n) => (
+        {([1, 2, 3] as const).map((n) => (
           <article>
             <span> 0{n} </span>
             <div>
-              {/* The formula names are English in both languages ("Design", …). */}
-              <h3 lang={lang === "nl" ? "en" : undefined}>{t(`home.formula${n}.title`)}</h3>
+              <h3>{t(`home.formula${n}.title`)}</h3>
               <p>{t(`home.formula${n}.text`)}</p>
             </div>
           </article>
