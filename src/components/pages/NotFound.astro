@@ -1,0 +1,53 @@
+---
+// The page Netlify shows for an unknown address (SPEC.md §3.16): Dutch, with
+// one English line (D3). Not indexed. The header's language switch goes to
+// the home pages (there is no English 404 page, and the page's own address
+// is whatever was mistyped).
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { useTranslations } from "../../i18n/utils";
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+const t = useTranslations("nl");
+
+const links = [
+  { href: getRelativeLocaleUrl("nl", "/"), label: t("notFound.home") },
+  { href: getRelativeLocaleUrl("nl", "/our-work"), label: t("nav.ourWork") },
+  { href: getRelativeLocaleUrl("nl", "/journal"), label: t("nav.journal") },
+  { href: getRelativeLocaleUrl("nl", "/contact"), label: t("nav.contact") },
+];
+---
+
+<Layout title={t("notFound.meta.title")} description={t("notFound.meta.description")} noindex>
+  <Header switchPath="/" />
+
+  <main id="main">
+    <section class="contact-page">
+      <div class="contact-page-header">
+        <p class="eyebrow">{t("notFound.eyebrow")}</p>
+
+        <h1>{t("notFound.title")}</h1>
+
+        <p class="contact-page-lead">{t("notFound.text")}</p>
+
+        <ul class="not-found-links">
+          {links.map(({ href, label }) => (
+            <li>
+              <a href={href} class="text-link">
+                {label} <span aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <p class="not-found-english" lang="en">
+          {t("notFound.english")}{" "}
+          <a href={getRelativeLocaleUrl("en", "/")} class="inline-link">{t("notFound.englishLink")}</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

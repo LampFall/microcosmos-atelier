@@ -1356,16 +1356,22 @@ Goal: unknown addresses show a page in the site's style.
 Files: create `src/components/pages/NotFound.astro`, `src/pages/404.astro`;
 modify `src/i18n/ui.ts`, `src/styles/global.css` (if needed)
 Steps:
-- [ ] Page in the style of the privacy/thanks pages, `noindex`: Dutch text,
+- [x] Page in the style of the privacy/thanks pages, `noindex`: Dutch text,
       the four links (home, Onze projecten, journaal, contact), and one
       English line with a link to `/en/`.
-- [ ] `ui.ts`: `notFound.*`.
+- [x] `ui.ts`: `notFound.*`.
 Validation: `npx astro check`, `npm run build`; `dist/404.html` exists,
 `noindex`, not in the sitemap; Lighthouse accessibility 100; after the
 push, an unknown live address returns 404 with this page.
 Acceptance criteria:
 - [ ] SPEC §3.16 FR 4–6, AC 3–4 and the 404 part of AC 5.
-- [ ] The owner approves the copy.
+- [x] The owner approves the copy. *(2026-09-29)*
+Done 2026-09-29: `dist/404.html`, `noindex`, not in the sitemap, no
+canonical or share tags; `astro preview` serves it with status 404 for an
+unknown address; Lighthouse accessibility 100 (run on `/404.html`, since
+Lighthouse won't score a 404 response). The header got an optional
+`switchPath` prop; the 404 page passes "/", so NL and EN go to the home
+pages (other pages unchanged). Live check after the push.
 Commit boundary: `404: eigen pagina voor onbekende adressen`
 Risks: the header's language switch on the 404 page points to `/en/404/`,
 which doesn't exist; check it and, if needed, point it to `/en/`.

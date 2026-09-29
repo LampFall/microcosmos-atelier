@@ -8,14 +8,17 @@ interface Props {
   // language's link then goes to that language's journal list instead of
   // to a page that doesn't exist.
   hasTranslation?: boolean;
+  // The page's path for the language switch, when it isn't the page's own
+  // address (the 404 page, shown for any unknown address, passes "/").
+  switchPath?: string;
 }
 
-const { variant = "page", hasTranslation = true } = Astro.props;
+const { variant = "page", hasTranslation = true, switchPath } = Astro.props;
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const path = getPathWithoutLocale(Astro.url);
+const path = switchPath ?? getPathWithoutLocale(Astro.url);
 const pathIn = (target: "nl" | "en") => (target === lang || hasTranslation ? path : "/journal");
 ---
 
