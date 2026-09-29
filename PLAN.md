@@ -1316,6 +1316,75 @@ Risks: none identified.
 ### Blocking questions
 None.
 
+## Execution plan: journal block on the home page, and a 404 page
+
+Status: APPROVED (2026-09-29)
+Implements: SPEC.md §3.16
+
+### Phase 1: "Latest from the journal" on the home page
+Goal: the home page shows the newest 3 journal entries of its language
+after "Our work", with a link to the journal.
+Files: modify `src/components/pages/Index.astro`, `src/i18n/ui.ts`,
+`src/styles/global.css`
+Steps:
+- [x] `Index.astro`: take the first 3 of `getJournalEntries(lang)` with
+      their preview photo (`getEntryPhotos`: first gallery photo, else the
+      cover); a section after "Our work" with eyebrow, heading, 3 cards
+      (photo, aquarium, date, title; each a link to the entry) and a
+      "Naar het journaal →" link; left out when there are no entries.
+- [x] Photos as WebP with `widths`/`sizes` for the card width, lazy.
+- [x] `ui.ts`: `home.journal.*` in NL and EN.
+- [x] `global.css`: a 3-column card grid (1 column at ≤ 800px) in the
+      style of the existing grids.
+Validation: `npx astro check`, `npm run build`; the built home pages (NL,
+EN) list the right 3 entries newest first with working links; Lighthouse
+accessibility 100 and phone performance compared with before; screenshots
+(only the new section changes the home page); dev-server check by eye at
+desktop and phone width.
+Acceptance criteria:
+- [x] SPEC §3.16 FR 1–3, AC 1, 2 and the home part of AC 5.
+- [x] The owner approves the copy and the look. *(2026-09-29; the owner
+      also asked to call the journal "dagboek" in Dutch everywhere — menu,
+      journal page, back link, home block — while English keeps "Journal";
+      the address stays `/journal`.)*
+Commit boundary: `home: blok laatst in het journaal`
+Risks: the home page gets longer; the photos must load lazily so the first
+screen stays as fast as it is.
+
+### Phase 2: 404 page
+Goal: unknown addresses show a page in the site's style.
+Files: create `src/components/pages/NotFound.astro`, `src/pages/404.astro`;
+modify `src/i18n/ui.ts`, `src/styles/global.css` (if needed)
+Steps:
+- [ ] Page in the style of the privacy/thanks pages, `noindex`: Dutch text,
+      the four links (home, Onze projecten, journaal, contact), and one
+      English line with a link to `/en/`.
+- [ ] `ui.ts`: `notFound.*`.
+Validation: `npx astro check`, `npm run build`; `dist/404.html` exists,
+`noindex`, not in the sitemap; Lighthouse accessibility 100; after the
+push, an unknown live address returns 404 with this page.
+Acceptance criteria:
+- [ ] SPEC §3.16 FR 4–6, AC 3–4 and the 404 part of AC 5.
+- [ ] The owner approves the copy.
+Commit boundary: `404: eigen pagina voor onbekende adressen`
+Risks: the header's language switch on the 404 page points to `/en/404/`,
+which doesn't exist; check it and, if needed, point it to `/en/`.
+
+### Phase 3: Docs
+Goal: the docs mention the block and the 404 page.
+Files: modify `ARCHITECTURE.md`, `SPEC.md` (§3.1 pages table, §3.16
+status), `PLAN.md` (queue)
+Steps:
+- [ ] Docs as above.
+Validation: `npx astro check`; reread.
+Acceptance criteria:
+- [ ] The docs describe both parts.
+Commit boundary: `docs: journaalblok en 404-pagina beschreven`
+Risks: none identified.
+
+### Blocking questions
+None.
+
 ## Improvement queue
 
 From `SPEC.md` §3.9 (high-level, approved 2026-09-26). One item at a time: each gets its
@@ -1332,6 +1401,7 @@ Update the status here as items move along.
 | 5 | Owner browser checks still open | done (2026-09-29): iPhone checks by the owner OK | — |
 | 6 | Visitor statistics (Cloudflare) and a privacy page | done (2026-09-28): live; visit from another device confirmed in Cloudflare (2026-09-29) | — |
 | 7 | FAQ page | done (2026-09-29): live at `/faq`, 11 questions; in the main menu (owner's change) and linked from home, contact and footer | — |
+| 8 | "Latest from the journal" on home, and a 404 page | plan approved (2026-09-29), phases 1–3 to do | `/implement-phase 1` |
 
 ## Audit findings (2026-09-27)
 

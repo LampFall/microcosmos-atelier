@@ -2025,6 +2025,111 @@ none beyond the build: a missing `ui.ts` key fails `astro check`.
 - **D3. Form:** questions that open on click (`<details>`).
 - **Voice:** first person ("ik"), like the rest of the site.
 
+### 3.16 "Latest from the journal" on the home page, and a 404 page
+
+Status: APPROVED (2026-09-29)
+
+#### Current state
+
+- The home page has no link to the journal apart from the menu; new
+  entries don't show on the home page.
+- The journal list (`Journal.astro`) already shows, per entry: a preview
+  photo (first gallery photo, else the cover), the aquarium name and
+  liters, date, status, title and summary (§3.6), using `getJournalEntries`
+  and `getEntryPhotos`.
+- An unknown address on the live site shows Netlify's own English "Page
+  not found" page, without the site's look, menu or links.
+
+#### Objectives
+
+1. The home page shows that the site is alive: the newest journal entries,
+   with a way into the journal.
+2. A visitor who follows a broken or old link lands on a page in the
+   site's style that helps them further instead of leaving.
+
+#### Non-goals
+
+- Changing the journal list page or the entry pages.
+- Redirects for specific old addresses (the old journal URLs already
+  redirect, §3.3).
+- Search on the site.
+
+#### User workflow
+
+Visitor on the home page: sees the newest journal entries as small cards
+(photo, aquarium, date, title), clicks one to read it, or "Naar het
+journaal" for the full list.
+
+Visitor on a broken link: sees a short page in the site's style ("Deze
+pagina bestaat niet (meer)"), with links to the home page, Our Work, the
+journal and contact, and the menu and footer as usual.
+
+Owner: nothing to do; the block follows the journal automatically.
+
+#### Functional requirements
+
+1. **Journal block:** on the home page (D1), a section with an eyebrow and
+   heading ("Laatst in het journaal" / "Latest from the journal"), the
+   newest entries in the page's language (D2), each as a card with its
+   preview photo (optional), aquarium name, date and title, linking to the
+   entry; and a link to the journal list.
+2. The cards reuse the journal list's data (same preview photo rule, same
+   order: newest first) and the site's image rules: WebP `srcset`, reserved
+   size, lazy loading.
+3. With no journal entries in that language, the block is left out.
+4. **404 page:** a page in the site's layout (header, footer), shown by
+   Netlify for any unknown address, in the language(s) of D3, with links to
+   the home page, Our Work, the journal and contact.
+5. The 404 page is `noindex` and not in the sitemap.
+6. Copy in `ui.ts` in both languages; accessibility 100 on the home page
+   and the 404 page; nothing else on the home page changes.
+
+#### Data / content model
+
+- New `ui.ts` keys (`home.journal.*`, `notFound.*`).
+- `src/pages/404.astro` (Astro builds it to `dist/404.html`, which Netlify
+  serves for unknown addresses), plus what D3 needs.
+- No content changes.
+
+#### Architecture
+
+- Home: a small section in `Index.astro` that takes the first entries from
+  `getJournalEntries(lang)` and `getEntryPhotos`, like `Journal.astro`;
+  CSS for the cards in `global.css`, in the style of the existing grids.
+- 404: a page component in the `pages/` → `components/pages/` pattern,
+  using `Layout` with `noindex`.
+
+#### Security implications
+
+none.
+
+#### Error handling
+
+- An entry without photos: its card shows without a photo.
+- The 404 page itself can't fail at runtime (static).
+
+#### Acceptance criteria
+
+1. `npx astro check` 0 errors; `npm run build` succeeds.
+2. The home page (NL and EN) shows the newest entries of its language,
+   newest first, linking to the right entries, plus the link to the
+   journal; photos are WebP with `srcset` and lazy.
+3. `dist/404.html` exists with `noindex`, the layout and the four links;
+   not in the sitemap.
+4. After the deploy, an unknown address on the live site returns status
+   404 with this page.
+5. Lighthouse accessibility 100 on the home page (NL, EN) and the 404
+   page; home page performance on a phone not lower than before (the new
+   photos load lazily).
+6. The owner approves the copy and the look.
+
+#### Decisions (owner, 2026-09-29)
+
+- **D1. Place:** after "Our work", before "About".
+- **D2. Number:** the newest 3, in a row on desktop, stacked on a phone.
+- **D3. 404 language:** one Dutch page with a short English line and a link
+  to the English home page.
+
 ## 4. Non-functional requirements
 
 - **Static output.** The site builds to static HTML (`astro build`) and is

@@ -669,6 +669,53 @@ h3 {
     border-top: 1px solid var(--border);
 }
 
+/* Home: "Latest from the journal" (SPEC.md §3.16). */
+.latest-journal {
+    border-top: 1px solid var(--border);
+}
+
+.latest-journal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+
+    margin-top: 70px;
+}
+
+.latest-journal-card img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+
+    margin-bottom: 18px;
+
+    transition: opacity 0.2s ease;
+}
+
+.latest-journal-card:hover img {
+    opacity: 0.85;
+}
+
+.latest-journal-meta {
+    margin-bottom: 8px;
+
+    color: var(--muted);
+
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.latest-journal-card h3 {
+    margin-bottom: 0;
+
+    font-size: 1.25rem;
+    line-height: 1.3;
+}
+
 .work-grid {
     display: grid;
 
@@ -1650,6 +1697,13 @@ footer {
    ========================================================= */
 
 @media (max-width: 800px) {
+    .latest-journal-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+
+        margin-top: 45px;
+    }
+
 
     :root {
         --page-padding: 22px;

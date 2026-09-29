@@ -1,5 +1,5 @@
 // Alle teksten van de site per taal (nl en en, met dezelfde sleutels).
-// Journaalteksten staan in src/content/journal/, niet hier.
+// Dagboekteksten staan in src/content/journal/, niet hier.
 
 export const defaultLang = 'nl';
 
@@ -8,7 +8,7 @@ export const ui = {
     'nav.ourWork': 'Onze projecten',
     'nav.about': 'Over mij',
     'nav.contact': 'Contact',
-    'nav.journal': 'Journaal',
+    'nav.journal': 'Dagboek',
     'nav.faq': 'FAQ',
     'nav.menu': 'Menu',
     'nav.backToTop': 'Naar boven',
@@ -387,6 +387,10 @@ export const ui = {
     'home.work.image3.alt': 'Borneo Understory Microcosmos',
     'home.work.image4.alt': 'Ondiepe rivierbedding Microcosmos',
     'home.work.cta': 'Bekijk de projecten',
+    'home.journal.eyebrow': 'Uit het dagboek',
+    'home.journal.title': 'Laatst in het dagboek.',
+    'home.journal.text': 'Hoe mijn aquaria groeien en veranderen, van opstart tot een stabiel ecosysteem.',
+    'home.journal.cta': 'Naar het dagboek',
 
     'home.about.eyebrow': 'Over mij',
     'home.about.title': 'Meer dan 35 jaar<br />onderwaterwerelden verkennen.',
@@ -403,10 +407,10 @@ export const ui = {
       'Je hoeft nog niet precies te weten wat je wilt. Breng me een ruimte, een idee of gewoon een fascinatie voor de natuur, en we beginnen van daaruit.',
     'home.cta.button': 'Start een gesprek',
 
-    'journal.meta.title': 'Journaal — Microcosmos Atelier',
+    'journal.meta.title': 'Dagboek — Microcosmos Atelier',
     'journal.meta.description':
       'Volg de evolutie van elke Microcosmos, van opstart tot rijp ecosysteem.',
-    'journal.hero.eyebrow': 'Journaal',
+    'journal.hero.eyebrow': 'Dagboek',
     'journal.hero.title': 'Levende systemen,<br />in de tijd gevolgd.',
     'journal.hero.text':
       'Een Microcosmos is nooit af. Hier houd ik bij hoe elke bak zich ontwikkelt — een nieuwe aanplant, een omslag in het water, een systeem dat langzaam zijn evenwicht vindt.',
@@ -415,7 +419,7 @@ export const ui = {
     'journal.status.groeit': 'Groei',
     'journal.status.rijpt': 'Rijpt',
     'journal.status.stabiel': 'Stabiel',
-    'journal.back': 'Terug naar het journaal',
+    'journal.back': 'Terug naar het dagboek',
     'journal.empty': 'Nog geen observaties.',
     'journal.photoAltFallback': '{title} — foto {n}',
 
@@ -802,6 +806,10 @@ export const ui = {
     'home.work.image3.alt': 'Borneo Understory Microcosmos',
     'home.work.image4.alt': 'Shallow riverbed Microcosmos',
     'home.work.cta': 'Explore the projects',
+    'home.journal.eyebrow': 'From the journal',
+    'home.journal.title': 'Latest from the journal.',
+    'home.journal.text': 'How my aquariums grow and change, from start-up to a stable ecosystem.',
+    'home.journal.cta': 'Go to the journal',
 
     'home.about.eyebrow': 'About',
     'home.about.title': 'More than 35 years of exploring<br />underwater worlds.',
