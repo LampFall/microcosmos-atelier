@@ -34,6 +34,9 @@ static HTML for deployment.
 | Contact | `/contact` | `/en/contact` | Enquiry form |
 | Journal | `/journal` | `/en/journal` | Chronological log of observations, filterable by tank |
 | Journal entry | `/journal/<aquarium>/<entry>` | `/en/journal/<aquarium>/<entry>` | One dated observation for one aquarium |
+| FAQ | `/faq` | `/en/faq` | Frequently asked questions (§3.15); in the main menu |
+| Privacy | `/privacy` | `/en/privacy` | What the contact form and the statistics collect (§3.14); linked from the footer |
+| Contact thank-you | `/contact/thanks` | `/en/contact/thanks` | Shown after sending the form (§3.10); `noindex`, not in the sitemap |
 
 ### 3.2 Internationalization
 
@@ -1887,7 +1890,8 @@ page in their language.
 
 ### 3.15 Frequently asked questions (FAQ)
 
-Status: APPROVED (2026-09-28)
+Status: APPROVED (2026-09-28), implemented 2026-09-29. "Current state" below
+describes the situation before this change.
 
 #### Current state
 
@@ -1930,8 +1934,8 @@ Owner: edits the questions and answers later in `ui.ts` (both languages).
    and readable without JavaScript and by search engines (native
    `<details>`/`<summary>`, D3).
 3. Links to the FAQ: from the contact page (near the introduction), from
-   the home page (near the process section) and in the footer (next to
-   "Privacy"). Not in the main menu (D2).
+   the home page (near the process section), in the footer (next to
+   "Privacy") and in the main menu as "FAQ" (D2).
 4. At the end of the page, a short invitation to get in touch with a link
    to the contact form.
 5. The page is indexable, in the sitemap, with canonical, language links
@@ -2014,8 +2018,10 @@ none beyond the build: a missing `ui.ts` key fails `astro check`.
 #### Decisions (owner, 2026-09-28)
 
 - **D1. Place:** its own page, `/faq` and `/en/faq`.
-- **D2. Main menu:** not in the menu; linked from the contact page, the
-  home page and the footer.
+- **D2. Main menu:** first "not in the menu"; changed by the owner on
+  2026-09-29: "FAQ" is the last item of the main menu (after Journal), so
+  visitors find it, and it stays linked from the contact page, the home
+  page and the footer.
 - **D3. Form:** questions that open on click (`<details>`).
 - **Voice:** first person ("ik"), like the rest of the site.
 

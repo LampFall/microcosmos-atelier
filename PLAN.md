@@ -1264,7 +1264,7 @@ None.
 
 ## Execution plan: FAQ page
 
-Status: APPROVED (2026-09-28)
+Status: APPROVED (2026-09-28). Phases 1–2 implemented.
 Implements: SPEC.md §3.15
 
 ### Phase 1: FAQ page, copy and links
@@ -1303,10 +1303,13 @@ Goal: the docs mention the FAQ.
 Files: modify `ARCHITECTURE.md`, `README.md` (where the FAQ copy lives),
 `SPEC.md` (§3.15 status), `PLAN.md` (queue)
 Steps:
-- [ ] Docs as above.
+- [x] Docs as above.
 Validation: `npx astro check`; reread.
 Acceptance criteria:
-- [ ] The docs say where the FAQ copy is and how to add a question.
+- [x] The docs say where the FAQ copy is and how to add a question.
+Owner's change (2026-09-29): "FAQ" added to the main menu after Journal
+(`Header.astro`, `nav.faq`); the menu still fits on one row above 800px
+(measured 801–1440px, NL and EN) and sits in the drop-down panel below.
 Commit boundary: `docs: FAQ beschreven`
 Risks: none identified.
 
@@ -1328,7 +1331,7 @@ Update the status here as items move along.
 | 4 | Review and audit of the untouched code | done (2026-09-27): see "Audit findings (2026-09-27)"; all fix bundles A–E done, required-field marker added | — |
 | 5 | Owner browser checks still open | waiting — owner task | Owner, whenever convenient |
 | 6 | Visitor statistics (Cloudflare) and a privacy page | done (2026-09-28): live; only the owner's check of a visit from another device is open | Owner: check a visit in Cloudflare |
-| 7 | FAQ page | phase 1 built, copy approved; review and phase 2 to do | `/review-phase` |
+| 7 | FAQ page | done (2026-09-29): live at `/faq`, 11 questions; in the main menu (owner's change) and linked from home, contact and footer | — |
 
 ## Audit findings (2026-09-27)
 

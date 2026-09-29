@@ -197,6 +197,21 @@ i18n: {
   and the contact form. If what the site collects changes, update that
   page.
 
+### FAQ page (`SPEC.md` §3.15)
+
+- `Faq.astro` with the routes `/faq` and `/en/faq`; "FAQ" is the last item
+  of the main menu (`nav.faq`, `Header.astro`), and the page is also linked
+  from the home page (end of the process section), the contact page (in the
+  info column, under its introductory text) and the footer.
+- The questions and answers are `faq.q<n>` / `faq.a<n>` in `ui.ts`; the
+  page renders the numbers in its list (`[1, …, 11] as const`), so a new
+  question needs both keys in `nl` and `en` and its number in that list
+  (`astro check` fails if a key is missing).
+- Each question is a native `<details>`/`<summary>`: all answers are in the
+  HTML, it opens with mouse, keyboard and touch without JavaScript, and
+  screen readers announce open/closed. The +/– marker is CSS with empty alt
+  text (`content: "+" / ""`).
+
 ## 4. Translation dictionary (`src/i18n/ui.ts`)
 
 All page copy — headings, body text, button labels, image alt text, form
@@ -206,8 +221,9 @@ exact same set of dotted keys (e.g. `home.hero.title`, `work.project1.spec.fish`
 `t("some.key")`.
 
 Conventions to preserve:
-- Keys are namespaced by page (`home.*`, `work.*`, `about.*`, `contact.*`,
-  `journal.*`) then by section/field.
+- Keys are namespaced by page or part (`nav.*`, `footer.*`, `home.*`,
+  `work.*`, `about.*`, `contact.*`, `journal.*`, `privacy.*`, `faq.*`,
+  `analytics.*`) then by section/field.
 - Enum-like values with a fixed set of internal keys (journal `status`) are
   *not* stored as translatable strings themselves — only their **labels**
   are (`journal.status.opstart` etc.), so the underlying data (frontmatter,

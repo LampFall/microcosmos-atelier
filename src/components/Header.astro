@@ -41,6 +41,7 @@ const pathIn = (target: "nl" | "en") => (target === lang || hasTranslation ? pat
       <a href={getRelativeLocaleUrl(lang, "/about")}>{t("nav.about")}</a>
       <a href={getRelativeLocaleUrl(lang, "/contact")}>{t("nav.contact")}</a>
       <a href={getRelativeLocaleUrl(lang, "/journal")}>{t("nav.journal")}</a>
+      <a href={getRelativeLocaleUrl(lang, "/faq")}>{t("nav.faq")}</a>
 
       <div class="language-switcher">
         <a href={getRelativeLocaleUrl("nl", pathIn("nl"))} class={lang === "nl" ? "active" : ""}>NL</a>

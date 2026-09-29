@@ -140,6 +140,15 @@ src/content/journal/
   `about-page.jpg`). To replace one: delete it, drop the new photo in with
   the same name (any format), same orientation. Details in `PHOTOS.md`.
 
+## FAQ
+
+The questions and answers on `/faq` are in `src/i18n/ui.ts` as
+`faq.q1`/`faq.a1` … `faq.q11`/`faq.a11`, in both the `nl` and `en` blocks.
+To change an answer, edit it in both languages. To add a question, add
+`faq.q12` and `faq.a12` to both blocks and add `12` to the list in
+`src/components/pages/Faq.astro` (or ask Claude). Keep the first person
+("ik"), like the rest of the site.
+
 ## Visitor statistics
 
 The numbers are in [Cloudflare](https://dash.cloudflare.com) → **Web
