@@ -37,6 +37,7 @@ static HTML for deployment.
 | FAQ | `/faq` | `/en/faq` | Frequently asked questions (§3.15); in the main menu |
 | Privacy | `/privacy` | `/en/privacy` | What the contact form and the statistics collect (§3.14); linked from the footer |
 | Contact thank-you | `/contact/thanks` | `/en/contact/thanks` | Shown after sending the form (§3.10); `noindex`, not in the sitemap |
+| Not found (404) | any unknown address | — | Dutch page with an English line (§3.16); `noindex` |
 
 ### 3.2 Internationalization
 
@@ -49,7 +50,9 @@ static HTML for deployment.
   `nl.md` and `en.md`, co-located inside that entry's own folder — see 3.3.2
   for the full content layout.
 - A language switcher in the header must always link to the equivalent page
-  in the other language, not just the homepage.
+  in the other language, not just the homepage. (Exceptions: a journal entry in one
+  language only links to the other language's journal list, and the 404
+  page links to the home pages; §3.12, §3.16.)
 
 ### 3.3 Journal
 
@@ -2027,7 +2030,8 @@ none beyond the build: a missing `ui.ts` key fails `astro check`.
 
 ### 3.16 "Latest from the journal" on the home page, and a 404 page
 
-Status: APPROVED (2026-09-29)
+Status: APPROVED (2026-09-29), implemented 2026-09-29. "Current state" below
+describes the situation before this change.
 
 #### Current state
 
@@ -2058,7 +2062,7 @@ Status: APPROVED (2026-09-29)
 
 Visitor on the home page: sees the newest journal entries as small cards
 (photo, aquarium, date, title), clicks one to read it, or "Naar het
-journaal" for the full list.
+dagboek" for the full list.
 
 Visitor on a broken link: sees a short page in the site's style ("Deze
 pagina bestaat niet (meer)"), with links to the home page, Our Work, the
@@ -2069,7 +2073,7 @@ Owner: nothing to do; the block follows the journal automatically.
 #### Functional requirements
 
 1. **Journal block:** on the home page (D1), a section with an eyebrow and
-   heading ("Laatst in het journaal" / "Latest from the journal"), the
+   heading ("Laatst in het dagboek" / "Latest from the journal"), the
    newest entries in the page's language (D2), each as a card with its
    preview photo (optional), aquarium name, date and title, linking to the
    entry; and a link to the journal list.
@@ -2129,6 +2133,10 @@ none.
 - **D2. Number:** the newest 3, in a row on desktop, stacked on a phone.
 - **D3. 404 language:** one Dutch page with a short English line and a link
   to the English home page.
+- **D4. Name (owner, during Phase 1):** in Dutch the journal is called
+  "Dagboek" in all visible text (menu, headings, links); English keeps
+  "Journal". The address `/journal`, folder names, `ui.ts` keys and code
+  keep the name `journal`.
 
 ## 4. Non-functional requirements
 

@@ -1318,7 +1318,7 @@ None.
 
 ## Execution plan: journal block on the home page, and a 404 page
 
-Status: APPROVED (2026-09-29)
+Status: APPROVED (2026-09-29). Phases 1–3 implemented.
 Implements: SPEC.md §3.16
 
 ### Phase 1: "Latest from the journal" on the home page
@@ -1364,14 +1364,16 @@ Validation: `npx astro check`, `npm run build`; `dist/404.html` exists,
 `noindex`, not in the sitemap; Lighthouse accessibility 100; after the
 push, an unknown live address returns 404 with this page.
 Acceptance criteria:
-- [ ] SPEC §3.16 FR 4–6, AC 3–4 and the 404 part of AC 5.
+- [x] SPEC §3.16 FR 4–6, AC 3–4 and the 404 part of AC 5. *(Live 2026-09-29:
+      an unknown address returns 404 with this page, `noindex`.)*
 - [x] The owner approves the copy. *(2026-09-29)*
 Done 2026-09-29: `dist/404.html`, `noindex`, not in the sitemap, no
 canonical or share tags; `astro preview` serves it with status 404 for an
 unknown address; Lighthouse accessibility 100 (run on `/404.html`, since
 Lighthouse won't score a 404 response). The header got an optional
 `switchPath` prop; the 404 page passes "/", so NL and EN go to the home
-pages (other pages unchanged). Live check after the push.
+pages (other pages unchanged). Live check done after the push (see the
+acceptance criteria).
 Commit boundary: `404: eigen pagina voor onbekende adressen`
 Risks: the header's language switch on the 404 page points to `/en/404/`,
 which doesn't exist; check it and, if needed, point it to `/en/`.
@@ -1379,13 +1381,13 @@ which doesn't exist; check it and, if needed, point it to `/en/`.
 ### Phase 3: Docs
 Goal: the docs mention the block and the 404 page.
 Files: modify `ARCHITECTURE.md`, `SPEC.md` (§3.1 pages table, §3.16
-status), `PLAN.md` (queue)
+status), `README.md` (the "Dagboek" name), `PLAN.md` (queue)
 Steps:
-- [ ] Docs as above.
+- [x] Docs as above.
 Validation: `npx astro check`; reread.
 Acceptance criteria:
-- [ ] The docs describe both parts.
-Commit boundary: `docs: journaalblok en 404-pagina beschreven`
+- [x] The docs describe both parts.
+Commit boundary: `docs: dagboekblok en 404-pagina beschreven`
 Risks: none identified.
 
 ### Blocking questions
@@ -1407,7 +1409,7 @@ Update the status here as items move along.
 | 5 | Owner browser checks still open | done (2026-09-29): iPhone checks by the owner OK | — |
 | 6 | Visitor statistics (Cloudflare) and a privacy page | done (2026-09-28): live; visit from another device confirmed in Cloudflare (2026-09-29) | — |
 | 7 | FAQ page | done (2026-09-29): live at `/faq`, 11 questions; in the main menu (owner's change) and linked from home, contact and footer | — |
-| 8 | "Latest from the journal" on home, and a 404 page | plan approved (2026-09-29), phases 1–3 to do | `/implement-phase 1` |
+| 8 | "Latest from the journal" on home, and a 404 page | done (2026-09-29): live; the journal is called "Dagboek" in Dutch | — |
 
 ## Audit findings (2026-09-27)
 
@@ -1723,6 +1725,10 @@ built site. No CRITICAL findings.
   production build on the real domain and not in browsers that opened
   `?nietmeten`. Not chosen: Google Analytics (cookies, consent banner),
   Plausible / Netlify Analytics (paid). See `SPEC.md` §3.14.
+- **"Dagboek" as the Dutch name of the journal — chosen (2026-09-29).** All
+  visible Dutch text says "Dagboek"; English keeps "Journal". The address
+  stays `/journal` (changing it would break shared and indexed links), and
+  folders, keys and code keep `journal`. See `SPEC.md` §3.16 D4.
 
 ## Suggested files/folders for working more efficiently with Claude Code
 

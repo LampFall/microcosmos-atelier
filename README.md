@@ -102,6 +102,10 @@ src/content/journal/
       any-name.jpg        # up to 3 gallery photos
 ```
 
+- **Name:** in Dutch the journal is called "Dagboek" on the site (menu,
+  headings); in English "Journal". Folders, code and the address `/journal`
+  keep the name `journal`. The home page shows the newest 3 entries
+  automatically.
 - **New entry:** create a folder `YYYY-MM-short-title` in the aquarium's
   folder and write `nl.md` (frontmatter: `title`, `date`, `status`,
   `summary`). Run `/translate-journal <aquarium>/<entry>` to generate

@@ -90,7 +90,8 @@ i18n: {
 - The header's language switcher (`Header.astro`) strips a leading `/en` off
   the current pathname and re-adds the *other* locale via
   `getRelativeLocaleUrl`, so switching language keeps you on the equivalent
-  page rather than bouncing to the homepage.
+  page rather than bouncing to the homepage (exceptions: `hasTranslation`
+  and `switchPath`, see "Page head" below).
 
 ### Header and in-page navigation (`SPEC.md` §3.8)
 
@@ -132,8 +133,9 @@ i18n: {
   own spam filter.
 - `action` is the thank-you page in the visitor's language
   (`/contact/thanks/`, `/en/contact/thanks/`, `ContactThanks.astro`). Those
-  pages pass `noindex` to `Layout.astro` (the only pages that do) and are
-  left out of the sitemap by the `filter` in `astro.config.mjs`.
+  pages pass `noindex` to `Layout.astro` (as does the 404 page, §3.16) and
+  are left out of the sitemap by the `filter` in `astro.config.mjs`; the
+  404 page is left out by the sitemap integration itself.
 - The receiving address is not in the code. In the Netlify dashboard:
   **Forms → contact** lists submissions (and **spam submissions**, worth a
   look now and then: a real enquiry flagged as spam sends no email);
@@ -151,7 +153,9 @@ i18n: {
   journal entries).
 - The header's NL/EN switch takes `hasTranslation` too: on a journal entry
   in one language only, the other language's link goes to that language's
-  journal list.
+  journal list. A page whose own address isn't meaningful for the switch
+  passes `switchPath` (the 404 page passes "/", so NL and EN go to the home
+  pages).
 - Addresses: `getPathWithoutLocale()` (`src/i18n/utils.ts`, also used by
   the header's NL/EN switch) gives the page path without `/en`;
   `getAbsoluteLocaleUrl()` from `astro:i18n` turns it into the canonical
@@ -197,6 +201,21 @@ i18n: {
   and the contact form. If what the site collects changes, update that
   page.
 
+### "Latest from the journal" and the 404 page (`SPEC.md` §3.16)
+
+- The home page (`Index.astro`) shows the newest 3 journal entries of its
+  language after "Our work", from `getJournalEntries(lang)` with the same
+  preview photo rule as the journal list (first gallery photo, else the
+  cover); lazy WebP cards, 3 columns (1 at ≤ 800px); left out when a
+  language has no entries. It updates by itself with every new entry.
+- In Dutch the journal is called "Dagboek" in all visible text (menu,
+  headings, links); English keeps "Journal". The address stays `/journal`,
+  and the code and keys keep the name `journal`.
+- `src/pages/404.astro` (`NotFound.astro`) builds `dist/404.html`, which
+  Netlify serves with status 404 for any unknown address: Dutch, one
+  English line, links to home, Our Work, the journal and contact;
+  `noindex`, not in the sitemap, no share tags.
+
 ### FAQ page (`SPEC.md` §3.15)
 
 - `Faq.astro` with the routes `/faq` and `/en/faq`; "FAQ" is the last item
@@ -223,7 +242,7 @@ exact same set of dotted keys (e.g. `home.hero.title`, `work.project1.spec.fish`
 Conventions to preserve:
 - Keys are namespaced by page or part (`nav.*`, `footer.*`, `home.*`,
   `work.*`, `about.*`, `contact.*`, `journal.*`, `privacy.*`, `faq.*`,
-  `analytics.*`) then by section/field.
+  `notFound.*`, `analytics.*`) then by section/field.
 - Enum-like values with a fixed set of internal keys (journal `status`) are
   *not* stored as translatable strings themselves — only their **labels**
   are (`journal.status.opstart` etc.), so the underlying data (frontmatter,
