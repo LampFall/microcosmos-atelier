@@ -1226,6 +1226,8 @@ footer {
 /* Plus when closed, minus when open. */
 .faq-item summary::after {
     content: "+";
+    /* Empty alt text: screen readers announce open/closed themselves. */
+    content: "+" / "";
 
     flex-shrink: 0;
 
@@ -1237,6 +1239,12 @@ footer {
 
 .faq-item[open] summary::after {
     content: "–";
+    content: "–" / "";
+}
+
+.faq-item summary:focus-visible {
+    outline: 1px solid var(--text);
+    outline-offset: 4px;
 }
 
 .faq-item p {
