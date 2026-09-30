@@ -5,7 +5,8 @@ export const defaultLang = 'nl';
 
 export const ui = {
   nl: {
-    'nav.ourWork': 'Onze projecten',
+    'nav.ourWork':
+      'Projecten',
     'nav.about': 'Over mij',
     'nav.contact': 'Contact',
     'nav.journal': 'Dagboek',
@@ -174,13 +175,16 @@ export const ui = {
     'work.spec.otherInhabitants': 'Andere bewoners',
     'work.spec.plants': 'Planten',
 
-    'work.meta.title': 'Onze projecten — Microcosmos Atelier',
+    'work.meta.title':
+      'Projecten — Microcosmos Atelier',
     'work.meta.description':
-      'Ontdek levende aquatische ecosystemen, ontworpen en gebouwd door Microcosmos Atelier.',
-    'work.hero.eyebrow': 'Onze projecten',
-    'work.hero.title': 'Echte ecosystemen.<br />Echt gebouwd.',
+      'Drie aquaria van Microcosmos Atelier in detail: opbouw, planten, bewoners en techniek.',
+    'work.hero.eyebrow':
+      'Projecten',
+    'work.hero.title':
+      'Drie aquaria,<br />bij mij thuis.',
     'work.hero.text':
-      'Elke Microcosmos is een samenwerking tussen een ruimte, een idee en een levend ecosysteem. Dit zijn enkele werelden die ik tot nu toe heb gecreëerd.',
+      'Hoe ik werk, zie je het best aan mijn eigen bakken: veel planten, bewoners die bij elkaar passen, en een systeem dat jarenlang stabiel blijft.',
 
     'work.jump.label': 'Projecten op deze pagina',
 
@@ -188,9 +192,9 @@ export const ui = {
     'work.project1.eyebrow': '01 — Fallen Forest',
     'work.project1.title': 'Een bosbodem,<br />onder water gebracht.',
     'work.project1.intro':
-      'Voor deze multifunctionele leefruimte ontwierp ik een twee meter lange, 1.000 liter grote levende biotoop, geïnspireerd door omgevallen bomen en de dichte begroeiing die eromheen ontstaat.',
+      'Een aquarium van twee meter lang en 1.000 liter in de woonkamer, geïnspireerd op een omgevallen boom in een tropisch bos en de dichte begroeiing die eromheen ontstaat.',
     'work.project1.story.p1':
-      'In plaats van een specifieke biotoop na te bootsen, haalt deze Microcosmos inspiratie uit de structuur van een omgevallen boom in een tropisch bos — de open ruimtes tussen takken, de verschillende lagen begroeiing en het leven dat zich rond afbrekend organisch materiaal verzamelt.',
+      'De opbouw volgt die omgevallen boom: open ruimtes tussen de takken, verschillende lagen begroeiing, en leven rond hout en bladeren die langzaam afbreken.',
     'work.project1.story.p2':
       "Grote groepen citroentetra's, keizertetra's en bijlzalmen brengen beweging in het open water, waarbij elke soort een andere zone van de waterkolom inneemt.",
     'work.project1.story.p3':
@@ -198,14 +202,14 @@ export const ui = {
     'work.project1.story.p4':
       'Boven het water groeien Monstera en Pothos uit het aquarium en nemen ze rechtstreeks voedingsstoffen uit het water op. Garnalen, slakken en micro-organismen bewonen de minder zichtbare lagen van het ecosysteem, waar ze organisch materiaal verwerken en bijdragen aan de nutriëntenkringloop.',
     'work.project1.story.p5':
-      'Het resultaat is geen statische compositie, maar een levend systeem dat voortdurend verandert terwijl planten groeien, populaties zich ontwikkelen en het ecosysteem verder rijpt.',
+      'De bak draait sinds 2023. Planten groeien, populaties veranderen, en het geheel wordt elk jaar rijper.',
     'work.project1.ecosystemEyebrow': 'Het ecosysteem',
     'work.project1.principle.p1':
-      'Deze Microcosmos is opgebouwd rond de ecologische structuur van een omgevallen boom in een tropisch bos — waar rottend hout, bladafval, vegetatie en water samen een netwerk van onderling verbonden leefgebieden vormen.',
+      'Veel planten, onder en boven water, nemen de voedingsstoffen op die de vissen en de afbraak van bladeren en hout opleveren. Zo blijft het water stabiel.',
     'work.project1.principle.p2':
-      'Verschillende organismen bewonen verschillende lagen van het systeem: van vissen die door het open water bewegen tot Corydoras die het substraat verkennen en garnalen, slakken en micro-organismen die onder het oppervlak organisch materiaal verwerken.',
+      'Elke laag heeft zijn bewoners: vissen in het open water, Corydoras op de bodem, en garnalen, slakken en micro-organismen die organisch materiaal verwerken.',
     'work.project1.principle.p3':
-      'Het systeem krijgt bewust de tijd om te rijpen. Planten groeien, micro-organismen vestigen zich en de relaties tussen de verschillende bewoners ontwikkelen zich geleidelijk tot een stabieler en evenwichtiger ecosysteem.',
+      'CO₂ gebruik ik hier soms als experiment: 2 bpm tijdens de lichtperiode geeft de planten een extra duw. De basis draait ook zonder.',
     'work.project1.spec.started': 'Mei 2023',
     'work.project1.spec.dimensions': '200 × 65 × 75 cm',
     'work.project1.spec.volume': '1.000 L',
@@ -224,15 +228,15 @@ export const ui = {
     'work.project2.eyebrow': '02 — Orinoco-geïnspireerde littorale zone',
     'work.project2.title': 'Waar land<br />en water elkaar ontmoeten.',
     'work.project2.intro':
-      'Een zorgvuldig samengestelde interpretatie van de ondiepe oevers van het Orinoco-bekken, waar land, water en vegetatie samenkomen.',
+      'Een aquarium naar de ondiepe oevers van het Orinoco-bekken, waar land, water en planten in elkaar overgaan.',
     'work.project2.story.p1':
-      'Geïnspireerd op de rustige, tanninerijke wateren van het Orinocobekken brengt deze Microcosmos een stukje van de overgang tussen land en water naar binnen. Langbladige waterplanten, oevervegetatie, bladeren en hout vormen een gelaagd landschap waarin water en land als het ware in elkaar overvloeien.',
+      'Geïnspireerd op de rustige, tanninerijke wateren van het Orinocobekken brengt deze Microcosmos een stukje van de overgang tussen land en water naar binnen. Langbladige waterplanten, oevervegetatie, bladeren en hout vormen een gelaagd landschap waarin water en land in elkaar overvloeien.',
     'work.project2.story.p2':
-      'In het open water bewegen <em>Nannostomus marginatus</em> zich rustig tussen de vegetatie. Hun karakteristieke, bijna gewichtloze houding brengt leven in de bovenste lagen van het aquarium. Dichter bij de bodem leven <em>Apistogramma viejita</em>, die tussen bladeren en hout voortdurend hun omgeving onderzoeken en het fijne substraat afzoeken naar voedsel.',
+      'In het open water bewegen <em>Nannostomus marginatus</em> zich rustig tussen de vegetatie. Ze hangen bijna stil in het water, vlak onder het oppervlak. Dichter bij de bodem leven <em>Apistogramma viejita</em>, die tussen bladeren en hout voortdurend hun omgeving onderzoeken en het fijne substraat afzoeken naar voedsel.',
     'work.project2.story.p3':
-      'Tussen beide lagen bewegen <em>Ancistrus</em> zich langzaam over hout, bladeren en planten. Samen vormen de bewoners geen verzameling afzonderlijke soorten, maar een gemeenschap waarin elk dier zijn eigen plaats en gedrag heeft.',
+      'Tussen beide lagen bewegen <em>Ancistrus</em> zich langzaam over hout, bladeren en planten. Elke soort heeft zo zijn eigen plek en gedrag in de bak.',
     'work.project2.story.p4':
-      'Het resultaat is een aquarium dat niet alleen naar een rivierlandschap verwijst, maar de sfeer ervan probeert te vangen: warm, stil en voortdurend in beweging.',
+      'Het resultaat: een rustig, warm aquarium waarin altijd wel iets beweegt.',
     'work.project2.ecosystemEyebrow': 'Het ecosysteem',
     'work.project2.spec.started': 'Augustus 2025',
     'work.project2.spec.dimensions': '72 × 60 × 60 cm',
@@ -250,15 +254,15 @@ export const ui = {
     'work.project3.eyebrow': '03 — Borneo Understory',
     'work.project3.title': 'Een bos<br />onder water.',
     'work.project3.intro':
-      'Een klein levend ecosysteem, geïnspireerd door de bosbodem en ondiepe wateren van Borneo.',
+      'Een nano-aquarium, geïnspireerd op de bosbodem en de ondiepe beekjes van Borneo.',
     'work.project3.story.p1':
       'Een netwerk van gevallen takken en wortels creëert een dichte driedimensionale structuur, terwijl Cryptocoryne en andere laagblijvende planten uit het zanderige substraat groeien. Zo krijgt het aquarium het karakter van een ondergedoken bosbodem.',
     'work.project3.story.p2':
-      'In plaats van een specifieke locatie na te bootsen, vangt het ontwerp de sfeer en ecologische structuur van de tropische bossen van Borneo: beschaduwd, vochtig en rijk gelaagd.',
+      'Het geheel moet aanvoelen als die tropische bossen: beschaduwd, vochtig en rijk gelaagd.',
     'work.project3.story.p3':
       "Kleine groepen Chili Rasbora's bewegen rustig tussen de takken en vegetatie, terwijl blauwe garnalen het hout, de bladeren en het substraat verkennen en grazen op biofilm en micro-organismen.",
     'work.project3.story.p4':
-      'Na verloop van tijd raken hout, planten en microfauna steeds sterker met elkaar verbonden, waardoor het aquarium zijn eigen kleinschalige ecologie kan ontwikkelen.',
+      'Deze bak is gestart in augustus 2026. In het dagboek volg je hoe hij verder groeit.',
     'work.project3.ecosystemEyebrow': 'Het ecosysteem',
     'work.project3.spec.started': 'Augustus 2026',
     'work.project3.spec.dimensions': '40 × 40 × 40 cm',
@@ -447,7 +451,8 @@ export const ui = {
 
   },
   en: {
-    'nav.ourWork': 'Our Work',
+    'nav.ourWork':
+      'Projects',
     'nav.about': 'About',
     'nav.contact': 'Contact',
     'nav.journal': 'Journal',
@@ -616,13 +621,16 @@ export const ui = {
     'work.spec.otherInhabitants': 'Other inhabitants',
     'work.spec.plants': 'Plants',
 
-    'work.meta.title': 'Our Work — Microcosmos Atelier',
+    'work.meta.title':
+      'Projects — Microcosmos Atelier',
     'work.meta.description':
-      'Explore living aquatic ecosystems designed and built by Microcosmos Atelier.',
-    'work.hero.eyebrow': 'Our Work',
-    'work.hero.title': 'Real ecosystems.<br />Actually built.',
+      'Three Microcosmos Atelier aquariums in detail: layout, plants, inhabitants and technology.',
+    'work.hero.eyebrow':
+      'Projects',
+    'work.hero.title':
+      'Three aquariums,<br />in my own home.',
     'work.hero.text':
-      "Each Microcosmos is a collaboration between a space, an idea and a living ecosystem. These are some of the worlds I've created so far.",
+      'The best way to see how I work is in my own tanks: lots of plants, inhabitants that suit each other, and a system that stays stable for years.',
 
     'work.jump.label': 'Projects on this page',
 
@@ -630,9 +638,9 @@ export const ui = {
     'work.project1.eyebrow': '01 — Fallen Forest',
     'work.project1.title': 'A forest floor,<br />brought underwater.',
     'work.project1.intro':
-      'For this multifunctional family space, I designed a two-metre-long, 1,000-litre living ecosystem inspired by fallen trees and the dense vegetation that develops around them.',
+      'A two-metre, 1,000-litre aquarium in the living room, inspired by a fallen tree in a tropical forest and the dense vegetation that grows around it.',
     'work.project1.story.p1':
-      'Rather than recreating a particular biotope, this Microcosmos takes inspiration from the structure of a fallen tree in a tropical forest — the open spaces between branches, the layers of vegetation, and the life that gathers around decaying organic matter.',
+      'The layout follows that fallen tree: open spaces between the branches, different layers of vegetation, and life around wood and leaves that slowly break down.',
     'work.project1.story.p2':
       'Large groups of lemon tetras, emperor tetras and hatchetfish bring movement to the open water, each occupying a different part of the water column.',
     'work.project1.story.p3':
@@ -640,14 +648,14 @@ export const ui = {
     'work.project1.story.p4':
       "Above the water, Monstera and Pothos grow out of the aquarium, drawing nutrients directly from the water. Shrimp, snails and microorganisms occupy the less visible layers of the ecosystem, processing organic matter and contributing to the system's nutrient cycles.",
     'work.project1.story.p5':
-      'The result is not a static composition, but a living system that continues to change as the plants grow, populations develop and the ecosystem matures.',
+      'The tank has been running since 2023. Plants grow, populations change, and the whole thing matures a little more every year.',
     'work.project1.ecosystemEyebrow': 'The ecosystem',
     'work.project1.principle.p1':
-      'This Microcosmos is designed around the ecological structure of a fallen tree in a tropical forest — where decaying wood, leaf litter, vegetation and water create a network of interconnected habitats.',
+      'Lots of plants, below and above the water, take up the nutrients produced by the fish and by decaying leaves and wood. That keeps the water stable.',
     'work.project1.principle.p2':
-      'Different organisms occupy different layers of the system, from fish moving through the open water to Corydoras exploring the substrate and shrimp, snails and microorganisms processing organic matter below the surface.',
+      'Each layer has its inhabitants: fish in the open water, Corydoras on the bottom, and shrimp, snails and microorganisms processing organic matter.',
     'work.project1.principle.p3':
-      'The system is deliberately given time to mature. Plants grow, microorganisms establish themselves and the relationships between its inhabitants gradually develop into a more stable and balanced ecosystem.',
+      'I sometimes use CO₂ here as an experiment: 2 bpm during the light period gives the plants an extra push. The basis also works without it.',
     'work.project1.spec.started': 'May 2023',
     'work.project1.spec.dimensions': '200 × 65 × 75 cm',
     'work.project1.spec.volume': '1,000 L',
@@ -666,15 +674,15 @@ export const ui = {
     'work.project2.eyebrow': '02 — Orinoco-inspired littoral zone',
     'work.project2.title': 'Where land<br />meets water.',
     'work.project2.intro':
-      'A carefully composed interpretation of the shallow shores of the Orinoco basin, where land, water and vegetation come together.',
+      'An aquarium modelled on the shallow banks of the Orinoco basin, where land, water and plants merge into one another.',
     'work.project2.story.p1':
-      'Inspired by the quiet, tannin-rich waters of the Orinoco basin, this Microcosmos brings a fragment of the transition between land and water indoors. Long-leaved aquatic plants, riparian vegetation, fallen leaves and wood create a layered landscape where water and land seem to flow into one another.',
+      'Inspired by the quiet, tannin-rich waters of the Orinoco basin, this Microcosmos brings a fragment of the transition between land and water indoors. Long-leaved aquatic plants, riparian vegetation, fallen leaves and wood create a layered landscape where water and land flow into one another.',
     'work.project2.story.p2':
-      'In the open water, <em>Nannostomus marginatus</em> move gently among the vegetation. Their characteristic, almost weightless posture brings life to the upper layers of the aquarium. Closer to the substrate, <em>Apistogramma viejita</em> explore the spaces between leaves and wood, constantly investigating their surroundings and sifting through the fine substrate for food.',
+      'In the open water, <em>Nannostomus marginatus</em> move gently among the vegetation. They hang almost motionless in the water, just below the surface. Closer to the substrate, <em>Apistogramma viejita</em> explore the spaces between leaves and wood, constantly investigating their surroundings and sifting through the fine substrate for food.',
     'work.project2.story.p3':
-      'Between these layers, <em>Ancistrus</em> slowly move across wood, leaves and plants. Together, the inhabitants are not simply a collection of individual species, but a community in which each animal occupies its own place and follows its own rhythm.',
+      'Between those layers, <em>Ancistrus</em> move slowly over wood, leaves and plants. Each species has its own place and behaviour in the tank.',
     'work.project2.story.p4':
-      'The result is an aquarium that does more than reference a river landscape. It seeks to capture its atmosphere: warm, quiet and constantly alive.',
+      'The result: a calm, warm aquarium where something is always moving.',
     'work.project2.ecosystemEyebrow': 'The ecosystem',
     'work.project2.spec.started': 'August 2025',
     'work.project2.spec.dimensions': '72 × 60 × 60 cm',
@@ -692,15 +700,15 @@ export const ui = {
     'work.project3.eyebrow': '03 — Borneo Understory',
     'work.project3.title': 'A forest<br />beneath the water.',
     'work.project3.intro':
-      'A small living ecosystem inspired by the forest floor and shallow waters of Borneo.',
+      'A nano aquarium, inspired by the forest floor and the shallow streams of Borneo.',
     'work.project3.story.p1':
       'A network of fallen branches and roots creates a dense three-dimensional structure, while Cryptocoryne and other low-growing plants emerge from the sandy substrate, giving the aquarium the character of a submerged forest understory.',
     'work.project3.story.p2':
-      "Rather than recreating a specific location, the design captures the atmosphere and ecological structure of Borneo's tropical forests: shaded, humid and densely layered.",
+      'The whole should feel like those tropical forests: shaded, humid and richly layered.',
     'work.project3.story.p3':
       'Small groups of Chili Rasboras move quietly between the branches and vegetation, while blue shrimp explore the wood, leaves and substrate, grazing on biofilm and microorganisms.',
     'work.project3.story.p4':
-      'Over time, the wood, plants and microfauna become increasingly interconnected, allowing the aquarium to develop its own small-scale ecology.',
+      'This tank was started in August 2026. You can follow how it grows in the journal.',
     'work.project3.ecosystemEyebrow': 'The ecosystem',
     'work.project3.spec.started': 'August 2026',
     'work.project3.spec.dimensions': '40 × 40 × 40 cm',

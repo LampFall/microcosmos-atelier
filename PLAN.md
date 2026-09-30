@@ -1437,6 +1437,13 @@ Goal: page intro and the three intros concrete; "niet X maar Y" out of the
 stories; the Fallen Forest contradiction and "multifunctionele leefruimte"
 fixed; the species details kept.
 Files: `src/i18n/ui.ts` (`work.*`, `nav.ourWork`).
+Done 2026-09-30 (owner approved the NL text and the facts: Fallen Forest in
+the living room since 2023; Borneo a nano since August 2026; EN written to
+match): "Onze projecten"/"Our Work" → "Projecten"/"Projects" (menu, page,
+404 link), page intro, the three intros, the "niet X maar Y" sentences, the
+biotope contradiction, the ecosystem box (incl. the CO₂ experiment). Our
+Work page: 0× "niet … maar", "in plaats van", "zorgvuldig", "biotoop"; the
+closing call (with "fascinatie") follows in Phase 4.
 Commit boundary: `teksten: projecten concreter`
 
 ### Phase 4: Contact, journal intro, calls to action
@@ -1472,7 +1479,7 @@ Update the status here as items move along.
 | 6 | Visitor statistics (Cloudflare) and a privacy page | done (2026-09-28): live; visit from another device confirmed in Cloudflare (2026-09-29) | — |
 | 7 | FAQ page | done (2026-09-29): live at `/faq`, 11 questions; in the main menu (owner's change) and linked from home, contact and footer | — |
 | 8 | "Latest from the journal" on home, and a 404 page | done (2026-09-29): live; the journal is called "Dagboek" in Dutch | — |
-| 9 | Clearer, more personal site copy | plan approved (2026-09-30); phases 0–2 (about, home) done | Phase 3: Our Work |
+| 9 | Clearer, more personal site copy | plan approved (2026-09-30); phases 0–3 (about, home, projects) done | Phase 4: contact, journal intro, calls to action |
 
 ## Audit findings (2026-09-27)
 
