@@ -129,15 +129,17 @@ export const ui = {
 
     'contact.meta.title': 'Contact — Microcosmos Atelier',
     'contact.meta.description':
-      'Neem contact op met Microcosmos Atelier voor het creëren van een levend aquatisch ecosysteem voor jouw ruimte.',
+      'Neem contact op met Microcosmos Atelier voor een eerste, vrijblijvend gesprek over een aquarium op maat.',
     'contact.hero.eyebrow': 'Neem contact op',
-    'contact.hero.title': 'Laten we iets<br />levends creëren.',
+    'contact.hero.title':
+      'Laten we<br />kennismaken.',
     'contact.hero.lead':
-      'Je hoeft nog niet precies te weten wat je wilt. Vertel me over je ruimte, een idee waar je al langer mee rondloopt, of gewoon wat je fascineert aan levende ecosystemen.',
+      'Vul het formulier in, dan neem ik contact met je op om een eerste gesprek af te spreken. Dat gesprek is gratis en vrijblijvend.',
     'contact.info.eyebrow': 'Een eerste gesprek',
-    'contact.info.title': 'Heb je een idee?',
+    'contact.info.title':
+      'Waar praten we over?',
     'contact.info.text':
-      'Elke Microcosmos begint met een gesprek. We kunnen praten over de ruimte, de mogelijkheden, het soort ecosysteem dat je voor ogen hebt en hoeveel je zelf betrokken wilt zijn.',
+      'Over je ruimte en waar het aquarium kan komen, wat je mooi vindt, hoe groot het mag worden, en hoeveel je zelf wilt doen of liever aan mij overlaat. Je hoeft nog niets precies te weten.',
     'contact.form.subject': 'Nieuwe aanvraag — Microcosmos Atelier',
     'contact.form.name.label': 'Naam',
     'contact.form.email.label': 'E-mail',
@@ -277,10 +279,11 @@ export const ui = {
       'Cryptocoryne wendtii (groen, rood en bruin) · Cryptocoryne undulata · Cryptocoryne beckettii · Cryptocoryne lucens · Cryptocoryne parva · Cryptocoryne petchii · Sagittaria subulata · Bolbitis heudelotii',
     'work.project3.gallery.alt': 'Detail van Borneo Understory Microcosmos',
 
-    'work.closing.eyebrow': 'Jouw ruimte',
+    'work.closing.eyebrow':
+      'Jouw aquarium',
     'work.closing.title': 'Misschien is de volgende<br />wel van jou.',
     'work.closing.text':
-      'Elk project is anders. Heb je een ruimte, een idee of gewoon een fascinatie voor aquatische ecosystemen? Dan beginnen we daar.',
+      'Zie je hier iets wat je ook thuis wilt, of heb je een heel ander idee? Vertel het me.',
     'work.closing.button': 'Start een gesprek',
 
     'home.meta.title': 'Microcosmos Atelier — Levende Aquatische Ecosystemen',
@@ -575,15 +578,17 @@ export const ui = {
 
     'contact.meta.title': 'Contact — Microcosmos Atelier',
     'contact.meta.description':
-      'Get in touch with Microcosmos Atelier about creating a living aquatic ecosystem for your space.',
+      'Get in touch with Microcosmos Atelier for a first, no-obligation conversation about a tailor-made aquarium.',
     'contact.hero.eyebrow': 'Get in touch',
-    'contact.hero.title': "Let's create<br />something living.",
+    'contact.hero.title':
+      "Let's get<br />acquainted.",
     'contact.hero.lead':
-      "You don't need to know exactly what you want. Tell me about your space, an idea you've been thinking about, or simply what fascinates you about living ecosystems.",
+      "Fill in the form and I'll get in touch to arrange a first conversation. That conversation is free and without obligation.",
     'contact.info.eyebrow': 'Start a conversation',
-    'contact.info.title': 'Have an idea?',
+    'contact.info.title':
+      'What do we talk about?',
     'contact.info.text':
-      "Every Microcosmos starts with a conversation. We can talk about the space, the possibilities, the kind of ecosystem you have in mind and how involved you'd like to be.",
+      "Your space and where the aquarium could go, what you find beautiful, how big it can be, and how much you'd like to do yourself or leave to me. You don't need to know anything exactly yet.",
     'contact.form.subject': 'New Microcosmos Atelier enquiry',
     'contact.form.name.label': 'Name',
     'contact.form.email.label': 'Email',
@@ -723,10 +728,11 @@ export const ui = {
       'Cryptocoryne wendtii (green, red and brown) · Cryptocoryne undulata · Cryptocoryne beckettii · Cryptocoryne lucens · Cryptocoryne parva · Cryptocoryne petchii · Sagittaria subulata · Bolbitis heudelotii',
     'work.project3.gallery.alt': 'Borneo Understory Microcosmos detail',
 
-    'work.closing.eyebrow': 'Your space',
+    'work.closing.eyebrow':
+      'Your aquarium',
     'work.closing.title': 'Perhaps the next<br />one is yours.',
     'work.closing.text':
-      "Every project is different. If you have a space, an idea, or simply a fascination with aquatic ecosystems, let's start there.",
+      'See something here you would like at home, or do you have a completely different idea? Tell me about it.',
     'work.closing.button': 'Start a conversation',
 
     'home.meta.title': 'Microcosmos Atelier — Living Aquatic Ecosystems',

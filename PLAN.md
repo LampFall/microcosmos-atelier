@@ -1451,6 +1451,13 @@ Goal: each closing call to action worded for its page, no sentence
 repeated across pages; journal and contact intros tightened.
 Files: `src/i18n/ui.ts` (`contact.*`, `journal.hero.*`, `*.cta.*`,
 `work.closing.*`).
+Done 2026-09-30 (owner approved; EN written to match): contact title,
+intro and info column, the Our Work closing call; journal intro and FAQ
+closing unchanged. Every closing call now differs (home, about, projects,
+FAQ, contact). Scan of all Dutch pages: no slogans, no "niet … maar", no
+"fascin", no "zorgvuldig", no repeated calls; the one "in plaats van" left
+is in the owner's own journal entry (out of scope). Accessibility 100 on
+contact (NL, EN) and projects.
 Commit boundary: `teksten: contact, dagboek en oproepen zonder herhaling`
 
 ### Phase 5: Check and docs
@@ -1479,7 +1486,7 @@ Update the status here as items move along.
 | 6 | Visitor statistics (Cloudflare) and a privacy page | done (2026-09-28): live; visit from another device confirmed in Cloudflare (2026-09-29) | — |
 | 7 | FAQ page | done (2026-09-29): live at `/faq`, 11 questions; in the main menu (owner's change) and linked from home, contact and footer | — |
 | 8 | "Latest from the journal" on home, and a 404 page | done (2026-09-29): live; the journal is called "Dagboek" in Dutch | — |
-| 9 | Clearer, more personal site copy | plan approved (2026-09-30); phases 0–3 (about, home, projects) done | Phase 4: contact, journal intro, calls to action |
+| 9 | Clearer, more personal site copy | plan approved (2026-09-30); phases 0–4 done | Phase 5: close (spec status, queue) |
 
 ## Audit findings (2026-09-27)
 
