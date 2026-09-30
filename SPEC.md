@@ -2140,7 +2140,8 @@ none.
 
 ### 3.17 Clearer, more personal site copy
 
-Status: APPROVED (2026-09-30)
+Status: APPROVED (2026-09-30), implemented 2026-09-30. "Current state" below
+describes the situation before this change.
 
 #### Current state
 

@@ -1395,7 +1395,7 @@ None.
 
 ## Execution plan: clearer, more personal site copy
 
-Status: APPROVED (2026-09-30)
+Status: APPROVED (2026-09-30). Phases 0–5 implemented.
 Implements: SPEC.md §3.17
 
 Every phase: Claude shows old and new NL text side by side → the owner
@@ -1464,6 +1464,11 @@ Commit boundary: `teksten: contact, dagboek en oproepen zonder herhaling`
 Goal: SPEC §3.17 AC 2 search over the NL copy; EN matches NL; queue item
 done.
 Files: `SPEC.md`, `PLAN.md`.
+Done 2026-09-30: the SPEC §3.17 AC 2 scan ran over all built Dutch pages
+at the end of Phase 4 (no slogans, no "niet … maar", no "fascin", no
+repeated calls; one "in plaats van" in the owner's own journal entry, out
+of scope); EN was written from the approved NL in every phase; §3.17 set to
+implemented.
 Commit boundary: `docs: teksten herschreven`
 
 ### Blocking questions
@@ -1486,7 +1491,7 @@ Update the status here as items move along.
 | 6 | Visitor statistics (Cloudflare) and a privacy page | done (2026-09-28): live; visit from another device confirmed in Cloudflare (2026-09-29) | — |
 | 7 | FAQ page | done (2026-09-29): live at `/faq`, 11 questions; in the main menu (owner's change) and linked from home, contact and footer | — |
 | 8 | "Latest from the journal" on home, and a 404 page | done (2026-09-29): live; the journal is called "Dagboek" in Dutch | — |
-| 9 | Clearer, more personal site copy | plan approved (2026-09-30); phases 0–4 done | Phase 5: close (spec status, queue) |
+| 9 | Clearer, more personal site copy | done (2026-09-30): about, home, projects, contact and calls rewritten; menu "Projecten" | — |
 
 ## Audit findings (2026-09-27)
 
