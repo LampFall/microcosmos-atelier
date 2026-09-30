@@ -2138,6 +2138,132 @@ none.
   "Journal". The address `/journal`, folder names, `ui.ts` keys and code
   keep the name `journal`.
 
+### 3.17 Clearer, more personal site copy
+
+Status: APPROVED (2026-09-30)
+
+#### Current state
+
+A screening of all page copy (2026-09-30, agreed by the owner) found:
+
+- **Empty slogans:** "Mooie natuur. Met aandacht naar huis gebracht." (home
+  and /about), "Gebouwd met kennis. Gevormd door de natuur. Met geduld en
+  zorg gekoesterd.", "Echte ecosystemen. Echt gebouwd." (twice), "Jouw
+  ruimte. Jouw ecosysteem.".
+- **Repeated AI-style patterns:** "niet X, maar Y" / "In plaats van X" /
+  "Het doel is niet … Het is …" at least 10 times; the message "grows and
+  changes over time" about 8 times; "fascinatie/gefascineerd" about 9
+  times; "zorgvuldig" 4 times; "Laten we iets levends creëren" and "Breng me
+  een ruimte, een idee of gewoon een fascinatie…" 3 times each.
+- **Vague passages:** the home page's "Het idee" (abstract word pairs,
+  "talloze interacties"), the hero text, the Our Work intro, /about's
+  "complexiteit, sfeer en dynamiek".
+- **Inconsistencies:** Fallen Forest's intro says "biotoop" and its first
+  paragraph says it doesn't imitate a biotope; "multifunctionele
+  leefruimte"; "Onze projecten"/"Ons werk" (we) against the first person
+  everywhere else; "door de jaren heen" for three projects since 2023;
+  "Meer dan 35 jaar" (home) next to "Sinds mijn vijfde" (/about); the
+  unverified "limnologie"; "Een kleine wereld van jezelf".
+- **Works well:** the concrete project details (which fish live where,
+  Monstera and Pothos using the water's nutrients), the journal entries and
+  the FAQ answers: short, concrete, in the owner's voice.
+
+#### Objectives
+
+1. Copy that sounds like the owner: plain, concrete, Flemish Dutch, first
+   person, like the FAQ and the journal.
+2. One message per section; no slogans; the "living system that grows"
+   idea said once or twice, well, instead of everywhere.
+3. Facts that are true and consistent across pages and languages.
+
+#### Non-goals
+
+- Layout or design changes (except removing a now-empty highlight or
+  eyebrow).
+- The journal entries and the FAQ (already in the owner's voice).
+- Species lists and technical specs of the projects.
+- SEO keyword work.
+
+#### User workflow
+
+Per page, Claude shows the old and the new Dutch text side by side; the
+owner approves or edits; then the English follows; then commit. The owner
+supplies facts where Claude can't know them (questions in the plan).
+
+#### Functional requirements
+
+1. Remove the empty slogans (A1, A2, A7 in the screening) or replace them
+   with a concrete sentence the owner approves.
+2. "niet X, maar Y" and "In plaats van" at most twice on the whole site;
+   no sentence pattern or CTA repeated verbatim across pages.
+3. "fascinatie/gefascineerd" at most twice; filler adjectives
+   ("zorgvuldig", "weelderig", "mysterieus", "ongelooflijk") only where they
+   add meaning.
+4. First person throughout, including navigation and headings (D1).
+5. The facts in the "Current state" list are resolved with the owner's
+   answers.
+6. NL and EN say the same thing; EN is written after the NL is approved.
+7. Only `ui.ts` changes, plus markup where a highlight or heading is
+   removed; the build, `astro check` and accessibility stay as they are.
+
+#### Data / content model
+
+- `ui.ts` values (NL and EN); possibly removed keys if a highlight goes.
+  No new pages, routes or content files.
+
+#### Architecture
+
+- Copy only; markup changes limited to removing elements whose text goes.
+
+#### Security implications
+
+none.
+
+#### Error handling
+
+- A removed key still used in markup fails `astro check`.
+
+#### Acceptance criteria
+
+1. `npx astro check` 0 errors; `npm run build` succeeds; Lighthouse
+   accessibility stays 100 on the changed pages.
+2. A search of the NL copy in `ui.ts` shows: the slogans gone; "niet …
+   maar" / "In plaats van" ≤ 2; "fascin" ≤ 2; no identical CTA sentence on
+   more than one page.
+3. The owner approves each page's NL and EN text before it's committed.
+
+#### Facts and decisions (owner, 2026-09-30)
+
+- **Start:** "bitten by the bug" at five, with a bowl of goldfish won at the
+  fair; of course not at today's level. Use this as the one consistent
+  origin story ("since I was five"), not "more than 35 years".
+- **Limnology/ecology:** hobby level; leave "limnologie" out, no claims of
+  formal study.
+- **Background:** the owner is an engineer working in software; not
+  relevant for the copy. A LinkedIn link on /about:
+  `https://www.linkedin.com/in/kasper-masschaele-56752916/`.
+- **CO₂:** possible, but it creates a different balance and can give
+  stronger plant growth; the owner sometimes experiments with it (Fallen
+  Forest: 2 bpm during the light period). The copy says so honestly: the
+  base is a system that doesn't need it.
+- **The atelier:** started this summer (2026), to help other people build a
+  beautiful, healthy ecosystem in their home.
+- **Approach (what makes it different):** a self-regulating, very stable
+  system with many plants that grow well, for years, not forced for a while
+  with CO₂ and lots of fertiliser; the owner's own aquariums, running for
+  years, show this. Clients are fully taken care of: the owner follows up,
+  so there's no learning curve for them; he can read an aquarium and
+  quickly see what's going on.
+- **Projects:** all three are in the owner's own home, which is also the
+  atelier; the first installation at a client's is next week. The copy
+  must not suggest client projects "over the years".
+- **D1. Voice:** first person everywhere, including the menu ("Projecten",
+  "Mijn werk"); the owner works alone and plans to keep it that way.
+- **D2. Slogans:** replaced by one line in the spirit of "stable ecosystems
+  that evolve over time", worded by Claude for the owner's approval.
+- **D3. Inspiration images:** keep for now (they add colour); replacing
+  them with own photos, or removing them, is a later backlog item.
+
 ## 4. Non-functional requirements
 
 - **Static output.** The site builds to static HTML (`astro build`) and is

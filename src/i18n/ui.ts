@@ -91,33 +91,39 @@ export const ui = {
 
     'about.meta.title': 'Over mij — Microcosmos Atelier',
     'about.meta.description':
-      'Ontdek het verhaal achter Microcosmos Atelier en de fascinatie van Kasper Masschaele voor aquatische ecosystemen.',
+      'Wie achter Microcosmos Atelier zit: Kasper Masschaele, gebeten door de microbe sinds zijn vijfde.',
     'about.image.alt': 'Kasper Masschaele',
-    'about.hero.eyebrow': 'Over Microcosmos Atelier',
-    'about.hero.title': 'De natuur<br />heeft me altijd gefascineerd.',
+    'about.hero.eyebrow':
+      'Over mij',
+    'about.hero.title':
+      'Gebeten door de microbe,<br />sinds mijn vijfde.',
     'about.hero.lead':
-      'Sinds mijn vijfde ben ik gefascineerd door onderwaterwerelden. Wat begon als een hobby in mijn jeugd groeide langzaam uit tot een diepere fascinatie voor ecologie, natuurlijke systemen en de manier waarop levende organismen met elkaar verbonden zijn.',
+      'Het begon met een bak goudvissen die ik won op de kermis. Sindsdien heb ik altijd aquaria gehad, en leerde ik stap voor stap hoe je er een klein ecosysteem van maakt dat zichzelf in evenwicht houdt.',
     'about.story.eyebrow': 'Het verhaal',
-    'about.story.title': 'Van aquariums<br />naar ecosystemen.',
+    'about.story.title':
+      'Van goudvissenkom<br />naar ecosysteem.',
     'about.story.p1':
-      'Als kind was ik gefascineerd door de kleine werelden die onder water konden bestaan. Doorheen de jaren werd die fascinatie veel meer dan het houden van aquariums. Ik raakte steeds meer geïnteresseerd in wat er onder het oppervlak gebeurde — de relaties tussen planten, dieren, micro-organismen, water en substraat, en de manier waarop al die onderdelen samen een levend systeem vormen.',
+      'Als kind keek ik vooral naar de vissen. Later ging mijn aandacht naar wat je niet meteen ziet: de planten die het water zuiveren, de bacteriën in de bodem, de garnalen en slakken die opruimen. Pas als die allemaal samenwerken, blijft een aquarium jarenlang gezond.',
     'about.story.p2':
-      'Die nieuwsgierigheid bracht me uiteindelijk bij ecologie en limnologie: het begrijpen van aquatische omgevingen, niet zomaar als verzamelingen van soorten, maar als complexe systemen waarin alles met elkaar verbonden is.',
+      'Zo werk ik vandaag nog altijd. Ik bouw een systeem dat zichzelf regelt: veel planten die goed groeien, jaar na jaar, zonder ze op te jagen met CO₂ of veel extra voeding. Soms experimenteer ik wel met een beetje CO₂. Dat geeft een ander evenwicht en sterkere groei, maar de basis moet zonder kunnen.',
     'about.story.p3':
-      'Microcosmos Atelier is uit diezelfde gedachte ontstaan. Ik wilde aquatische installaties creëren die verder gaan dan een mooie compositie en die iets van de complexiteit, sfeer en dynamiek van natuurlijke ecosystemen in huis brengen.',
-    'about.story.highlight1':
-      'Het doel is niet om de natuur perfect na te bootsen. Het is om een klein, levend stukje van haar complexiteit naar je dagelijkse omgeving te brengen.',
+      'De aquaria op deze site staan allemaal bij mij thuis, in mijn atelier. Sommige draaien al jaren. Ze zijn het beste bewijs dat die aanpak werkt.',
     'about.story.p4':
-      'Daarom wordt elke Microcosmos ontworpen als een levend systeem. De visuele compositie is belangrijk, maar ook de ecologische relaties daaronder. Planten, substraat, micro-organismen, ongewervelden en vissen worden samen bekeken, met als doel iets te creëren dat zich doorheen de tijd kan ontwikkelen en veranderen.',
+      'Deze zomer ben ik Microcosmos Atelier gestart, om hetzelfde voor anderen te doen: een mooi en gezond ecosysteem bij jou thuis, dat blijft.',
     'about.story.p5':
-      'Ik geloof ook dat de mooiste ecosystemen niet volledig statisch zijn. Ze rijpen. Planten groeien nieuwe ruimtes in, populaties veranderen, interacties ontstaan en het karakter van het systeem ontwikkelt zich langzaam.',
-    'about.story.p6':
-      'Net dat maakt levende systemen voor mij zo interessant — en waarom ik een Microcosmos niet zie als een afgewerkt object.',
-    'about.story.highlight2': 'Mooie natuur. Met aandacht naar huis gebracht.',
-    'about.cta.eyebrow': 'Jouw ruimte. Jouw ecosysteem.',
-    'about.cta.title': 'Laten we iets levends creëren.',
+      'En je hoeft er geen expert voor te worden. Ik volg je aquarium mee op, zodat je volledig ontzorgd bent en geen leercurve hebt. Na al die jaren kan ik een aquarium lezen: ik zie snel wat er aan de hand is en wat het nodig heeft.',
+    'about.story.linkedinText':
+      'Meer over mij vind je op',
+    'about.story.linkedinLabel':
+      'LinkedIn',
+    'about.story.highlight2':
+      'Stabiele ecosystemen, die blijven evolueren doorheen de tijd.',
+    'about.cta.eyebrow':
+      'Samen beginnen',
+    'about.cta.title':
+      'Zin in een eigen Microcosmos?',
     'about.cta.text':
-      'Breng me een ruimte, een idee of gewoon een fascinatie voor de natuur. We beginnen van daaruit.',
+      'Vertel me waar je aan denkt. Het eerste gesprek is gratis en vrijblijvend.',
     'about.cta.button': 'Start een gesprek',
 
     'contact.meta.title': 'Contact — Microcosmos Atelier',
@@ -526,33 +532,39 @@ export const ui = {
 
     'about.meta.title': 'About — Microcosmos Atelier',
     'about.meta.description':
-      'Learn more about Kasper Masschaele and the story behind Microcosmos Atelier.',
+      'Who is behind Microcosmos Atelier: Kasper Masschaele, hooked on aquariums since he was five.',
     'about.image.alt': 'Kasper Masschaele',
-    'about.hero.eyebrow': 'About Microcosmos Atelier',
-    'about.hero.title': 'Nature has always<br />fascinated me.',
+    'about.hero.eyebrow':
+      'About me',
+    'about.hero.title':
+      'Hooked since<br />I was five.',
     'about.hero.lead':
-      "I've been fascinated by underwater worlds since I was five years old. What started as a childhood hobby slowly grew into a deeper fascination with ecology, natural systems and the way living things interact.",
+      "It started with a bowl of goldfish I won at the fair. I've kept aquariums ever since, and learned step by step how to turn one into a small ecosystem that keeps itself in balance.",
     'about.story.eyebrow': 'The story',
-    'about.story.title': 'From aquariums<br />to ecosystems.',
+    'about.story.title':
+      'From goldfish bowl<br />to ecosystem.',
     'about.story.p1':
-      'As a child, I was fascinated by the small worlds that could exist underwater. Over the years that fascination became much more than keeping aquariums. I became increasingly interested in what was happening beneath the surface — the relationships between plants, animals, microorganisms, water and substrate, and the way these components come together to form a living system.',
+      "As a child I mostly watched the fish. Later my attention went to what you don't see at first: the plants that clean the water, the bacteria in the substrate, the shrimp and snails that tidy up. Only when all of them work together does an aquarium stay healthy for years.",
     'about.story.p2':
-      'That curiosity eventually led me towards ecology and limnology: understanding aquatic environments not simply as collections of species, but as complex systems in which everything is connected.',
+      "That's still how I work today. I build a system that regulates itself: lots of plants that grow well, year after year, without pushing them with CO₂ or lots of fertiliser. Sometimes I do experiment with a little CO₂. It creates a different balance and stronger growth, but the basis has to work without it.",
     'about.story.p3':
-      'Microcosmos Atelier grew from that same idea. I wanted to create aquatic installations that go beyond a beautiful composition and instead capture something of the complexity, atmosphere and behaviour of natural ecosystems.',
-    'about.story.highlight1':
-      "The goal isn't to recreate nature perfectly. It is to bring a small, living piece of its complexity into your everyday environment.",
+      'The aquariums on this site are all in my own home, in my atelier. Some have been running for years. They are the best proof that this approach works.',
     'about.story.p4':
-      'Every Microcosmos is therefore designed as a living system. The visual composition matters, but so do the ecological relationships underneath it. Plants, substrate, microorganisms, invertebrates and fish are considered together, with the intention of creating something that can develop and change over time.',
+      'This summer I started Microcosmos Atelier to do the same for others: a beautiful, healthy ecosystem in your home, one that lasts.',
     'about.story.p5':
-      'I also believe that the best ecosystems are not completely static. They mature. Plants grow into new spaces, populations change, interactions emerge and the character of the system slowly develops.',
-    'about.story.p6':
-      "That is what makes living systems so interesting to me — and why I don't see a Microcosmos as a finished object.",
-    'about.story.highlight2': 'Beautiful nature. Thoughtfully brought home.',
-    'about.cta.eyebrow': 'Your space. Your ecosystem.',
-    'about.cta.title': "Let's create something living.",
+      "And you don't need to become an expert. I follow up your aquarium with you, so you're fully taken care of, with no learning curve. After all these years I can read an aquarium: I quickly see what's going on and what it needs.",
+    'about.story.linkedinText':
+      'More about me on',
+    'about.story.linkedinLabel':
+      'LinkedIn',
+    'about.story.highlight2':
+      'Stable ecosystems that keep evolving over time.',
+    'about.cta.eyebrow':
+      'Getting started',
+    'about.cta.title':
+      'Would you like a Microcosmos of your own?',
     'about.cta.text':
-      'Bring me a space, an idea or simply a fascination with nature. We can start from there.',
+      'Tell me what you have in mind. The first conversation is free and without obligation.',
     'about.cta.button': 'Start a conversation',
 
     'contact.meta.title': 'Contact — Microcosmos Atelier',

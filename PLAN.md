@@ -1393,6 +1393,62 @@ Risks: none identified.
 ### Blocking questions
 None.
 
+## Execution plan: clearer, more personal site copy
+
+Status: APPROVED (2026-09-30)
+Implements: SPEC.md §3.17
+
+Every phase: Claude shows old and new NL text side by side → the owner
+approves or edits → Claude writes the EN → `astro check`, build, a quick
+look on the dev server → commit on the owner's OK. Only `ui.ts` (and
+markup where an element disappears).
+
+### Phase 0: Facts and voice (owner input, no code)
+Goal: the answers the rewrite needs (questions in the owner's message of
+2026-09-30), recorded in SPEC §3.17 as decisions.
+
+### Phase 1: About page
+Goal: a personal, concrete story: when and how it started, what the owner
+knows and does, why the atelier exists; no slogan, "fascinatie" once.
+Files: `src/i18n/ui.ts` (`about.*`), `src/components/pages/About.astro`
+if a highlight goes.
+Done 2026-09-30 (owner approved NL and EN): new origin story (goldfish won
+at the fair), approach incl. CO₂ nuance, own aquariums at home, started
+this summer, follow-up without learning curve, LinkedIn link; highlight1
+removed, highlight2 replaced; "fascin" 0× on /about; accessibility 100.
+Commit boundary: `teksten: over mij persoonlijker en concreter`
+
+### Phase 2: Home page
+Goal: hero, "Wat is een Microcosmos", "Het idee", the about block and the
+closing call each say one thing, concretely; slogans out; no repeats of
+/about.
+Files: `src/i18n/ui.ts` (`home.*`), `src/components/pages/Index.astro` if
+an element goes.
+Commit boundary: `teksten: home duidelijker, zonder slogans`
+
+### Phase 3: Our Work
+Goal: page intro and the three intros concrete; "niet X maar Y" out of the
+stories; the Fallen Forest contradiction and "multifunctionele leefruimte"
+fixed; the species details kept.
+Files: `src/i18n/ui.ts` (`work.*`, `nav.ourWork`).
+Commit boundary: `teksten: projecten concreter`
+
+### Phase 4: Contact, journal intro, calls to action
+Goal: each closing call to action worded for its page, no sentence
+repeated across pages; journal and contact intros tightened.
+Files: `src/i18n/ui.ts` (`contact.*`, `journal.hero.*`, `*.cta.*`,
+`work.closing.*`).
+Commit boundary: `teksten: contact, dagboek en oproepen zonder herhaling`
+
+### Phase 5: Check and docs
+Goal: SPEC §3.17 AC 2 search over the NL copy; EN matches NL; queue item
+done.
+Files: `SPEC.md`, `PLAN.md`.
+Commit boundary: `docs: teksten herschreven`
+
+### Blocking questions
+Phase 0 (see the owner's answers).
+
 ## Improvement queue
 
 From `SPEC.md` §3.9 (high-level, approved 2026-09-26). One item at a time: each gets its
@@ -1410,6 +1466,7 @@ Update the status here as items move along.
 | 6 | Visitor statistics (Cloudflare) and a privacy page | done (2026-09-28): live; visit from another device confirmed in Cloudflare (2026-09-29) | — |
 | 7 | FAQ page | done (2026-09-29): live at `/faq`, 11 questions; in the main menu (owner's change) and linked from home, contact and footer | — |
 | 8 | "Latest from the journal" on home, and a 404 page | done (2026-09-29): live; the journal is called "Dagboek" in Dutch | — |
+| 9 | Clearer, more personal site copy | plan approved (2026-09-30); phases 0–1 (about) done | Phase 2: home |
 
 ## Audit findings (2026-09-27)
 
@@ -1607,6 +1664,8 @@ built site. No CRITICAL findings.
 ## Backlog
 
 ### Content
+- [ ] Home inspiration images (generated): replace with own photos, or
+      remove the section (owner, 2026-09-30; SPEC §3.17 D3).
 - [ ] Add real photos from Google Drive to the journal entries by copying
       them into each entry folder (`SPEC.md` §3.3.4), then run
       `/describe-photos`. Do this once the execution plan above has landed.

@@ -61,14 +61,19 @@ const aboutPageSizes = "(max-width: 800px) min(100vw - 44px, 550px), 471px";
         <p>{t("about.story.p1")}</p>
         <p>{t("about.story.p2")}</p>
         <p>{t("about.story.p3")}</p>
-
-        <div class="about-page-highlight">
-          <p>{t("about.story.highlight1")}</p>
-        </div>
-
         <p>{t("about.story.p4")}</p>
         <p>{t("about.story.p5")}</p>
-        <p>{t("about.story.p6")}</p>
+        <p>
+          {t("about.story.linkedinText")}{" "}
+          <a
+            href="https://www.linkedin.com/in/kasper-masschaele-56752916/"
+            class="inline-link"
+            rel="me noopener"
+            target="_blank"
+          >
+            {t("about.story.linkedinLabel")}
+          </a>.
+        </p>
 
         <div class="about-page-highlight">
           <p>{t("about.story.highlight2")}</p>
