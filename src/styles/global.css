@@ -803,20 +803,6 @@ h3 {
     color: var(--muted);
 }
 
-/* One class more than `.about p:not(.eyebrow)`, so it wins by specificity
-   (not by order) without !important. */
-.about .about-content p.about-highlight {
-    margin-top: 45px;
-
-    padding-left: 28px;
-
-    border-left: 2px solid var(--accent);
-
-    color: var(--text);
-
-    font-size: 1.15rem;
-}
-
 .about .text-link {
     margin-top: 30px;
 }
@@ -1659,22 +1645,6 @@ footer {
 .philosophy-story p:last-child {
     margin-bottom: 0;
 }
-
-/* Wins over `.philosophy-story p` by specificity, without !important. */
-.philosophy-story p.philosophy-highlight {
-    margin-top: 45px;
-
-    padding-left: 25px;
-
-    border-left: 2px solid var(--accent);
-
-    color: var(--text);
-
-    font-size: 1.05rem;
-
-    line-height: 1.6;
-}
-
 
 /* =========================================================
    ECOSYSTEM LAYERS

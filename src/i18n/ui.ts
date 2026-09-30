@@ -281,39 +281,36 @@ export const ui = {
 
     'home.meta.title': 'Microcosmos Atelier — Levende Aquatische Ecosystemen',
     'home.meta.description':
-      'Microcosmos Atelier creëert levende aquatische ecosystemen, zorgvuldig ontworpen rond jouw ruimte.',
+      'Aquaria die werken als een klein ecosysteem: vol planten, stabiel en gemaakt om jaren mee te gaan. Ontworpen en gebouwd door Kasper Masschaele.',
 
     'home.hero.imageAlt': 'Een levend aquatisch ecosysteem van Microcosmos Atelier',
     'home.hero.eyebrow': 'Levende aquatische ecosystemen',
     'home.hero.title': 'Een stukje<br />natuur, helemaal van jou.',
     'home.hero.text':
-      'Ik creëer levende aquatische ecosystemen, ontworpen rond jouw ruimte, jouw smaak en de manier waarop jij de natuur thuis wilt beleven.',
+      'Ik ontwerp en bouw aquaria die werken als een klein ecosysteem: vol planten, stabiel, en gemaakt om jaren mee te gaan.',
 
     'home.intro.anchor': 'wat-is-een-microcosmos',
     'home.intro.eyebrow': 'Wat is een Microcosmos?',
-    'home.intro.title': 'Niet zomaar een aquarium.<br />Een kleine wereld van jezelf.',
+    'home.intro.title':
+      'Meer dan een aquarium.<br />Een klein ecosysteem in huis.',
     'home.intro.col1':
-      'Een Microcosmos is een levend ecosysteem, zorgvuldig ontworpen en opgebouwd om deel te worden van jouw ruimte.',
+      'Een Microcosmos is een aquarium dat werkt als een klein ecosysteem, ontworpen voor jouw ruimte.',
     'home.intro.col2.p1':
-      'Water, planten, hout, substraat, micro-organismen, ongewervelden en vissen komen samen — niet zomaar als decoratie, maar als onderdelen van één verbonden systeem.',
+      'Planten zuiveren het water, bacteriën in de bodem zetten afval om, garnalen en slakken ruimen op, en de vissen brengen beweging. Elk onderdeel heeft een taak.',
     'home.intro.col2.p2':
-      'Je kijkt er niet alleen naar. Je leeft ermee. Het groeit, verandert en ontwikkelt zich doorheen de tijd, en wordt zo iets dat helemaal van jou is.',
+      "Zo'n systeem vraagt weinig ingrijpen en blijft jarenlang stabiel. Stilstaan doet het niet: planten groeien, er ontstaat nieuw leven, en dat maakt het boeiend om naar te kijken.",
 
     'home.philosophy.eyebrow': 'Het idee',
-    'home.philosophy.title': 'Iets creëren<br />dat zijn eigen evenwicht vindt.',
+    'home.philosophy.title':
+      'Een systeem dat zijn<br />eigen evenwicht vindt.',
     'home.philosophy.lead':
-      'De natuur hoeft niet perfect te zijn. Ze heeft tijd, evenwicht en de juiste omstandigheden nodig om zich te ontvouwen.',
-    'home.philosophy.p1': 'Dat is het idee achter een Microcosmos.',
+      'Een gezond aquarium draait op evenwicht: genoeg planten, de juiste bewoners, en tijd.',
+    'home.philosophy.p1':
+      'Ik zorg dat de basis klopt: een bodem waarin bacteriën zich goed vestigen, veel planten die de voedingsstoffen opnemen, en bewoners die bij elkaar en bij de bak passen.',
     'home.philosophy.p2':
-      'In plaats van een aquarium als een afgewerkte compositie te ontwerpen, creëer ik de omstandigheden waarin een klein levend systeem zich kan ontwikkelen. Elk onderdeel staat in verbinding met talloze interacties die vaak onzichtbaar zijn, maar voortdurend het geheel vormgeven.',
+      'Daarna laat ik het systeem zijn werk doen. De eerste maanden groeit het naar een evenwicht toe. Dat vraagt geduld, maar dan heb je een aquarium dat stabiel blijft zonder dat je voortdurend moet bijsturen.',
     'home.philosophy.p3':
-      'Het doel is niet om elk detail te controleren. Het is om een natuurlijk evenwicht te vinden tussen groei en beperking, overvloed en schaarste, structuur en verandering.',
-    'home.philosophy.p4': 'En daar is geduld voor nodig.',
-    'home.philosophy.p5':
-      'Een pas opgebouwde Microcosmos is nog maar het begin. Planten passen zich aan, micro-organismen vestigen zich, dieren verkennen hun omgeving en relaties ontstaan geleidelijk. Wat er op dag één mooi uitziet, kan een jaar later iets volledig anders zijn — en vaak iets nog mooiers.',
-    'home.philosophy.p6': 'Het is dat proces dat elke Microcosmos uniek maakt.',
-    'home.philosophy.highlight':
-      'Gebouwd met kennis. Gevormd door de natuur. Met geduld en zorg gekoesterd.',
+      'Wat er op dag één mooi uitziet, ziet er een jaar later anders uit, en vaak nog mooier. In het dagboek volg ik hoe mijn eigen bakken evolueren.',
 
     'home.layer1.title': 'Water',
     'home.layer1.text': 'Het medium dat alles met elkaar verbindt.',
@@ -399,10 +396,12 @@ export const ui = {
     'home.process.faqLink': 'Meer over het verloop in de veelgestelde vragen',
     'home.formulas.cta': 'Start een gesprek',
 
-    'home.work.eyebrow': 'Ons werk',
-    'home.work.title': 'Echte ecosystemen.<br />Echt gebouwd.',
+    'home.work.eyebrow':
+      'Mijn werk',
+    'home.work.title':
+      'Mijn eigen aquaria.',
     'home.work.text':
-      'Een aantal voorbeelden van levende systemen die ik door de jaren heen heb ontworpen en gebouwd.',
+      'Deze aquaria staan bij mij thuis, in mijn atelier. Sommige draaien al jaren.',
     'home.work.image1.alt': 'Fallen Forest Microcosmos',
     'home.work.image2.alt': 'Op de Orinoco geïnspireerde Littoral Zone Microcosmos',
     'home.work.image3.alt': 'Borneo Understory Microcosmos',
@@ -414,18 +413,20 @@ export const ui = {
     'home.journal.cta': 'Naar het dagboek',
 
     'home.about.eyebrow': 'Over mij',
-    'home.about.title': 'Meer dan 35 jaar<br />onderwaterwerelden verkennen.',
+    'home.about.title':
+      'Begonnen met<br />een goudvissenkom.',
     'home.about.p1':
-      'Wat begon als een hobby in mijn jeugd groeide langzaam uit tot een fascinatie voor ecologie — en voor de ongelooflijke wisselwerking tussen planten, dieren, micro-organismen, water en bodem.',
+      'Mijn eerste aquarium was een kom met goudvissen, gewonnen op de kermis toen ik vijf was. Ik ben er nooit meer mee gestopt.',
     'home.about.p2':
-      'Microcosmos Atelier groeide uit die fascinatie: een manier om mijn interesse in natuurlijke systemen te combineren met mijn liefde voor ontwerpen en bouwen.',
-    'home.about.highlight': 'Mooie natuur. Met aandacht naar huis gebracht.',
+      'Deze zomer ben ik Microcosmos Atelier gestart, om anderen te helpen aan een aquarium dat jarenlang gezond blijft.',
     'home.about.link': 'Meer over mij',
 
-    'home.cta.eyebrow': 'Jouw ruimte. Jouw ecosysteem.',
-    'home.cta.title': 'Laten we iets levends creëren.',
+    'home.cta.eyebrow':
+      'Contact',
+    'home.cta.title':
+      'Heb je een plek in gedachten?',
     'home.cta.text':
-      'Je hoeft nog niet precies te weten wat je wilt. Breng me een ruimte, een idee of gewoon een fascinatie voor de natuur, en we beginnen van daaruit.',
+      'Je hoeft nog niet precies te weten wat je wilt. Vertel me over je ruimte en je idee, dan bekijken we samen wat mogelijk is.',
     'home.cta.button': 'Start een gesprek',
 
     'journal.meta.title': 'Dagboek — Microcosmos Atelier',
@@ -722,39 +723,36 @@ export const ui = {
 
     'home.meta.title': 'Microcosmos Atelier — Living Aquatic Ecosystems',
     'home.meta.description':
-      'Microcosmos Atelier creates living aquatic ecosystems, thoughtfully designed around your space.',
+      'Aquariums that work as a small ecosystem: full of plants, stable and made to last for years. Designed and built by Kasper Masschaele.',
 
     'home.hero.imageAlt': 'A living aquatic ecosystem by Microcosmos Atelier',
     'home.hero.eyebrow': 'Living aquatic ecosystems',
     'home.hero.title': 'A little piece<br />of nature, made yours.',
     'home.hero.text':
-      'I create living aquatic ecosystems designed around your space, your taste and the way you want to experience nature at home.',
+      'I design and build aquariums that work as a small ecosystem: full of plants, stable, and made to last for years.',
 
     'home.intro.anchor': 'what-is-a-microcosmos',
     'home.intro.eyebrow': 'What is a Microcosmos?',
-    'home.intro.title': 'Not just an aquarium.<br />A little world of your own.',
+    'home.intro.title':
+      'More than an aquarium.<br />A small ecosystem at home.',
     'home.intro.col1':
-      'A Microcosmos is a living ecosystem, thoughtfully designed and built to become part of your space.',
+      'A Microcosmos is an aquarium that works as a small ecosystem, designed for your space.',
     'home.intro.col2.p1':
-      'It brings together water, plants, wood, substrate, microorganisms, invertebrates and fish — not simply as decoration, but as parts of an interconnected system.',
+      'Plants clean the water, bacteria in the substrate break down waste, shrimp and snails tidy up, and the fish bring movement. Every part has a job.',
     'home.intro.col2.p2':
-      "You don't just look at it. You live alongside it. It grows, changes and evolves over time, becoming something that is uniquely yours.",
+      "A system like this needs little intervention and stays stable for years. It doesn't stand still, though: plants grow, new life appears, and that makes it a pleasure to watch.",
 
     'home.philosophy.eyebrow': 'The idea',
-    'home.philosophy.title': 'Creating something<br />that can find its own balance.',
+    'home.philosophy.title':
+      'A system that finds<br />its own balance.',
     'home.philosophy.lead':
-      "Nature doesn't need to be perfected. It needs time, balance and the right conditions to unfold.",
-    'home.philosophy.p1': 'That is the idea behind a Microcosmos.',
+      'A healthy aquarium runs on balance: enough plants, the right inhabitants, and time.',
+    'home.philosophy.p1':
+      'I make sure the basics are right: a substrate where bacteria can settle, lots of plants that take up the nutrients, and inhabitants that suit each other and the tank.',
     'home.philosophy.p2':
-      'Rather than designing an aquarium as a finished composition, I create the conditions for a small living system to develop. Every part is connected through countless interactions that are often invisible, but constantly shaping the whole.',
+      'Then I let the system do its work. In the first months it grows towards a balance. That takes patience, but then you have an aquarium that stays stable without constant adjusting.',
     'home.philosophy.p3':
-      'The aim is not to control every detail. It is to find a natural balance between growth and restraint, abundance and scarcity, structure and change.',
-    'home.philosophy.p4': 'And that takes patience.',
-    'home.philosophy.p5':
-      'A newly built Microcosmos is only the beginning. Plants adapt, microorganisms establish themselves, animals explore their surroundings and relationships gradually emerge. What looks beautiful on day one can become something completely different — and often more beautiful — a year later.',
-    'home.philosophy.p6': 'It is this process that makes each Microcosmos unique.',
-    'home.philosophy.highlight':
-      'Built with knowledge. Shaped by nature. Nurtured with patience and care.',
+      'What looks beautiful on day one looks different a year later, and often even better. In the journal I follow how my own tanks evolve.',
 
     'home.layer1.title': 'Water',
     'home.layer1.text': 'The medium connecting everything.',
@@ -839,10 +837,12 @@ export const ui = {
     'home.process.faqLink': 'More about the process in the FAQ',
     'home.formulas.cta': 'Start a conversation',
 
-    'home.work.eyebrow': 'Our work',
-    'home.work.title': 'Real ecosystems.<br />Actually built.',
+    'home.work.eyebrow':
+      'My work',
+    'home.work.title':
+      'My own aquariums.',
     'home.work.text':
-      "A few examples of living systems I've designed and built over the years.",
+      'These aquariums are in my own home, in my atelier. Some have been running for years.',
     'home.work.image1.alt': 'Fallen Forest Microcosmos',
     'home.work.image2.alt': 'Orinoco-inspired Littoral Zone Microcosmos',
     'home.work.image3.alt': 'Borneo Understory Microcosmos',
@@ -854,18 +854,20 @@ export const ui = {
     'home.journal.cta': 'Go to the journal',
 
     'home.about.eyebrow': 'About',
-    'home.about.title': 'More than 35 years of exploring<br />underwater worlds.',
+    'home.about.title':
+      'It started with<br />a goldfish bowl.',
     'home.about.p1':
-      'What started as a childhood hobby slowly became a fascination with ecology — and with the incredible interactions between plants, animals, microorganisms, water and soil.',
+      "My first aquarium was a bowl of goldfish, won at the fair when I was five. I've never stopped since.",
     'home.about.p2':
-      'Microcosmos Atelier grew from that fascination: a way of combining my interest in natural systems with my love for designing and building things.',
-    'home.about.highlight': 'Beautiful nature. Thoughtfully brought home.',
+      'This summer I started Microcosmos Atelier to help others to an aquarium that stays healthy for years.',
     'home.about.link': 'More about me',
 
-    'home.cta.eyebrow': 'Your space. Your ecosystem.',
-    'home.cta.title': "Let's create something living.",
+    'home.cta.eyebrow':
+      'Contact',
+    'home.cta.title':
+      'Do you have a place in mind?',
     'home.cta.text':
-      "You don't need to know exactly what you want. Bring me a space, an idea or simply a fascination with nature, and we'll start from there.",
+      "You don't need to know exactly what you want yet. Tell me about your space and your idea, and we'll look at what's possible together.",
     'home.cta.button': 'Start a conversation',
 
     'journal.meta.title': 'Journal — Microcosmos Atelier',

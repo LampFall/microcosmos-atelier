@@ -1424,6 +1424,12 @@ closing call each say one thing, concretely; slogans out; no repeats of
 /about.
 Files: `src/i18n/ui.ts` (`home.*`), `src/components/pages/Index.astro` if
 an element goes.
+Done 2026-09-30 (owner approved the NL text; EN written to match): hero
+text, "Wat is een Microcosmos", "Het idee" (7 paragraphs + slogan → lead +
+3), work block ("Mijn werk", own aquariums at home), about block
+(goldfish bowl, started this summer), closing call; both slogans and their
+now-unused CSS removed. Home: 0× slogans, "niet … maar", "in plaats van",
+"fascin", "zorgvuldig", "creëren"; accessibility 100 (NL, EN).
 Commit boundary: `teksten: home duidelijker, zonder slogans`
 
 ### Phase 3: Our Work
@@ -1466,7 +1472,7 @@ Update the status here as items move along.
 | 6 | Visitor statistics (Cloudflare) and a privacy page | done (2026-09-28): live; visit from another device confirmed in Cloudflare (2026-09-29) | — |
 | 7 | FAQ page | done (2026-09-29): live at `/faq`, 11 questions; in the main menu (owner's change) and linked from home, contact and footer | — |
 | 8 | "Latest from the journal" on home, and a 404 page | done (2026-09-29): live; the journal is called "Dagboek" in Dutch | — |
-| 9 | Clearer, more personal site copy | plan approved (2026-09-30); phases 0–1 (about) done | Phase 2: home |
+| 9 | Clearer, more personal site copy | plan approved (2026-09-30); phases 0–2 (about, home) done | Phase 3: Our Work |
 
 ## Audit findings (2026-09-27)
 
