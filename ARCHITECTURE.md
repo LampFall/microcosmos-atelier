@@ -29,6 +29,10 @@ code as it exists today. Read `SPEC.md` for *what* the site needs to do, and
   on Linux, so it can't
   convert HEIC photos (`sips` is macOS-only). That's fine, because only
   prepared `.jpg` photos are committed (pre-commit hook).
+- `public/_headers` sets two security headers on every page
+  (`X-Content-Type-Options: nosniff`,
+  `Referrer-Policy: strict-origin-when-cross-origin`); Netlify reads it from
+  the published folder and already sends HSTS itself.
 
 ## 2. Two-tier page structure: `pages/` vs `components/pages/`
 

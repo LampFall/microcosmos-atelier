@@ -1,0 +1,7 @@
+# Netlify response headers for every page (https://docs.netlify.com/routing/headers/).
+# nosniff: the browser uses the file type the server sends, never guesses.
+# Referrer policy: other sites only see the domain a visitor came from, not
+# the full address; within the site the full address stays available.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
