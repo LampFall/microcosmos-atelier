@@ -23,5 +23,5 @@ it, and before long the leaves showed a shortage of nitrogen and potassium.
 After a month and a half the fish were added: *Apistogramma viejita*,
 *Nannostomus marginatus* and a brown bristlenose (*Ancistrus* sp.).
 
-The photos are from later, in January and August 2026. The large photo shows
+The photos are from later, in January and April 2026. The large photo shows
 the damaged leaves of the Echinodorus.

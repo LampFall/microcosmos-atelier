@@ -23,5 +23,5 @@ bladeren zag ik al gauw een tekort aan stikstof en kalium.
 Na anderhalve maand kwamen de vissen erbij: *Apistogramma viejita*,
 *Nannostomus marginatus* en een bruine antennemeerval (*Ancistrus* sp.).
 
-De foto's zijn van later, in januari en augustus 2026. Op de grote foto zie je
+De foto's zijn van later, in januari en april 2026. Op de grote foto zie je
 de aangetaste bladeren van de Echinodorus.
