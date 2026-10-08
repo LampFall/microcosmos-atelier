@@ -526,7 +526,10 @@ see §3.3.7), served as the same optimized WebP files as on the entry page.
 ### 3.7 Our Work: photos from one folder per aquarium
 
 Status: APPROVED (2026-09-26), implemented 2026-09-26. "Current state" below
-describes the situation before this change.
+describes the situation before this change. Since §3.18 (2026-10-08), the
+hero and the first gallery photos come from the aquarium's newest journal
+entry with photos; the work folder's photos follow in the gallery, and are
+the only photos (first = hero) for an aquarium without journal photos.
 
 #### Objectives
 

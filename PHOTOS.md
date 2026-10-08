@@ -20,9 +20,17 @@ All photo folders are inside the project, under `src/content/`.
 | What | Folder | Rules |
 | --- | --- | --- |
 | Journal entry | `src/content/journal/<aquarium>/<entry>/` e.g. `journal/fallen-forest/2023-05-hardscape/` | Up to **3** photos, plus an optional `cover`. The first one (by name) is shown large and is the preview in the journal list. A photo named `cover` is the banner above the text. |
-| Our Work case study | `src/content/work/<aquarium>/` (`fallen-forest`, `orinoco`, `borneo-understory`) | The first photo (by name) is the large hero; all others form the gallery, no limit. It's also the photo on the home page's "Our work" grid. |
+| Our Work case study | `src/content/work/<aquarium>/` (`fallen-forest`, `orinoco`, `borneo-understory`) | **Usually nothing to do:** a project follows its journal (see below). The photos here are extra: they come after the journal photos in the gallery, no limit. Only for an aquarium without journal photos is the first one (by name) the large hero. |
 | Home and about pages | `src/content/site/` | **Fixed names**, one per spot (see below). |
 | Spare photos | an `extra/` subfolder inside any of these | Never shown, never prepared. Only commit them if they're already a `.jpg` without hidden information (see Safety net). |
+
+**Projects follow the journal.** The large photo of a project (on the
+projects page and in the home page's "Our work" grid) is the large photo
+of that aquarium's newest journal entry with photos. The gallery shows that
+entry's other photos first, then the photos from the work folder. So a new
+journal entry with photos updates the project by itself on the next deploy.
+Write the entry in both languages: until the translation exists, the other
+language keeps showing the previous entry's photos.
 
 "First by name" means natural order: `2.jpg` comes before `10.jpg`, and
 capitals before lowercase. To choose which photo comes first, put `00-`

@@ -1509,6 +1509,13 @@ look of all three projects.
 Goal: `ARCHITECTURE.md`, `PHOTOS.md` and SPEC §3.7 explain that projects
 follow the journal and the work folders are the extra gallery / fallback.
 Files: `ARCHITECTURE.md`, `PHOTOS.md`, `SPEC.md`, `PLAN.md`
+Steps:
+- [x] `ARCHITECTURE.md` §5–6: `getProjectPhotos`, the order (entry, then
+      work folder), the per-language choice of the newest entry, the home
+      grid's alt text.
+- [x] `PHOTOS.md`: projects follow the journal; the work folder is the
+      extra gallery / fallback; write entries in both languages.
+- [x] `SPEC.md` §3.7: a note pointing to §3.18.
 Commit boundary: `docs: projectfoto's volgen het dagboek`
 
 ### Blocking questions
@@ -1532,7 +1539,7 @@ Update the status here as items move along.
 | 7 | FAQ page | done (2026-09-29): live at `/faq`, 11 questions; in the main menu (owner's change) and linked from home, contact and footer | — |
 | 8 | "Latest from the journal" on home, and a 404 page | done (2026-09-29): live; the journal is called "Dagboek" in Dutch | — |
 | 9 | Clearer, more personal site copy | done (2026-09-30): about, home, projects, contact and calls rewritten; menu "Projecten" | — |
-| 10 | Project photos follow the latest journal entry | spec and plan approved (2026-10-08); phase 1 done, phase 2 (docs) to do | — |
+| 10 | Project photos follow the latest journal entry | spec and plan approved (2026-10-08); done (2026-10-08): projects follow the newest journal entry with photos; work folders are the extra gallery / fallback | — |
 
 ## Audit findings (2026-09-27)
 

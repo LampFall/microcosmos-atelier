@@ -303,20 +303,34 @@ of about 240px, cropped at build time. It calls `getEntryPhotos` per entry,
 so the preview is always the photo shown large on the entry page. Entries
 without photos show text only.
 
-The "Our Work" case studies (`SPEC.md` §3.7) keep their text in `ui.ts` and
-hand-written sections in `components/pages/OurWork.astro`, but their photos
-come from one folder per aquarium: `src/content/work/<aquarium>/`.
+The "Our Work" case studies (`SPEC.md` §3.7, §3.18) keep their text in
+`ui.ts` and hand-written sections in `components/pages/OurWork.astro`. Their
+photos follow the journal: the newest entry of the aquarium with the same
+folder name that has photos supplies the hero and the first gallery photos,
+followed by the photos in that aquarium's work folder,
+`src/content/work/<aquarium>/`.
 - `src/lib/work.ts` owns that convention: `WORK_FOLDERS` (which folder
   belongs to which case study, used by Our Work and the home page),
   `getWorkPhotos(folder)` (`import.meta.glob` over `*.jpg` directly in the
-  folder; the first photo in natural order is the hero, the rest the
-  gallery; `extra/` is never shown) and `getWorkAltTexts(folder)`.
+  folder, in natural order; `extra/` is never shown),
+  `getWorkAltTexts(folder)`, and `getProjectPhotos(folder, lang)`, which is
+  what the pages use. It goes through `getJournalEntries`/`getEntryPhotos`:
+  the entry's main photo (first gallery photo, else the cover, the same rule
+  as the journal list) is the hero, then the entry's other photos, then the
+  work folder's photos. Each photo carries its alt text in the page's
+  language (`photoAlt`/`coverAlt`, or `alt.yml`). Without journal photos,
+  the work folder alone is shown, its first photo as the hero.
+- The newest entry is chosen per language, from the entries in that
+  language: an entry that exists only in `nl.md` so far changes the Dutch
+  pages and leaves the English ones on the previous entry until it is
+  translated.
 - The `workAlt` collection reads each folder's optional `alt.yml`: a Dutch
   and an English alt text per file name. A photo without one falls back to
   the per-project texts in `ui.ts`. If no folder has an `alt.yml` at all,
   the build logs a harmless "No files found matching */alt.yml" warning.
-- The home page's "Our work" grid shows the three folders' heroes, plus one
-  fixed photo, `work-extra.jpg` from the site photo folder (§6).
+- The home page's "Our work" grid shows the three projects' heroes, with
+  their alt text, plus one fixed photo, `work-extra.jpg` from the site photo
+  folder (§6).
 
 ## 6. Images: one prepared-photo system
 
@@ -325,7 +339,8 @@ three photo roots, rendered with `<Image>` from `astro:assets`.
 
 - **Journal** (cover and gallery): `src/content/journal/<aquarium>/<entry>/`,
   found with `import.meta.glob`.
-- **Our Work** (heroes and galleries): `src/content/work/<aquarium>/`, found
+- **Our Work** (the curated photos after the journal's, or all of them for
+  an aquarium without journal photos): `src/content/work/<aquarium>/`, found
   with `import.meta.glob`.
 - **Site photos** (home hero, the four inspiration cards, the fourth home
   "Our work" tile, the home and about page about photos; `SPEC.md` §3.11):
