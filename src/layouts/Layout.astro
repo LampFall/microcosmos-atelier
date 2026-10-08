@@ -55,12 +55,18 @@ const share: NonNullable<Props["shareImage"]> =
   shareImage && bigEnough(shareImage.src)
     ? shareImage
     : { src: defaultShareImage, alt: t("home.hero.imageAlt") };
+// The default (the home hero) can itself be smaller than 1200×630; then the
+// preview keeps the 1200:630 shape at the largest size the photo allows, so
+// the width/height tags always match the file (photos are never enlarged).
+const shareScale = Math.min(1, share.src.width / SHARE_WIDTH, share.src.height / SHARE_HEIGHT);
+const shareWidth = Math.floor(SHARE_WIDTH * shareScale);
+const shareHeight = Math.floor(SHARE_HEIGHT * shareScale);
 const shareFile = noindex
   ? undefined
   : await getImage({
       src: share.src,
-      width: SHARE_WIDTH,
-      height: SHARE_HEIGHT,
+      width: shareWidth,
+      height: shareHeight,
       fit: "cover",
       position: share.position,
       format: "jpeg",
@@ -95,8 +101,8 @@ const otherLang = lang === "nl" ? "en" : "nl";
         <meta property="og:locale" content={ogLocale[lang]} />
         {hasTranslation && <meta property="og:locale:alternate" content={ogLocale[otherLang]} />}
         <meta property="og:image" content={shareUrl} />
-        <meta property="og:image:width" content={String(SHARE_WIDTH)} />
-        <meta property="og:image:height" content={String(SHARE_HEIGHT)} />
+        <meta property="og:image:width" content={String(shareWidth)} />
+        <meta property="og:image:height" content={String(shareHeight)} />
         <meta property="og:image:alt" content={share.alt} />
         <meta name="twitter:card" content="summary_large_image" />
       </>

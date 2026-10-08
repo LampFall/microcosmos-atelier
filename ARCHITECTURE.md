@@ -172,7 +172,9 @@ i18n: {
 - Link previews: a 1200×630 JPEG made with `getImage` (`fit: "cover"`,
   optional `position`, e.g. "bottom" for the about photo) from the photo
   the page passes; the home hero (`site/hero.jpg`) when a page passes none
-  or its photo is smaller than 1200×630. `og:locale` is `nl_BE` / `en_GB`.
+  or its photo is smaller than 1200×630. If the hero itself is smaller, the preview
+  keeps the 1200:630 shape at the largest size the hero allows, and the
+  width/height tags follow the real file. `og:locale` is `nl_BE` / `en_GB`.
   Home, about, Our Work (first hero) and journal entries (cover, else first
   photo) pass their own photo, with the alt text the page shows.
 - `noindex` pages get no canonical, `hreflang` or share tags.
