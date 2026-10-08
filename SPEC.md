@@ -2265,6 +2265,92 @@ none.
 - **D3. Inspiration images:** keep for now (they add colour); replacing
   them with own photos, or removing them, is a later backlog item.
 
+### 3.18 Project photos follow the latest journal entry
+
+Status: APPROVED (2026-10-08)
+
+#### Current state
+
+- The Our Work page shows, per project, a hero and a gallery from
+  `src/content/work/<aquarium>/` (§3.7); the home page's "Mijn werk" grid
+  shows those heroes. The owner has to replace these photos by hand.
+- Each project has a journal aquarium with the same folder name
+  (`fallen-forest`, `orinoco`, `borneo-understory`), whose entries have up
+  to 3 prepared photos with alt text in both languages.
+- Example: Borneo Understory's project hero is still its very first photo,
+  while the journal has newer ones (September and October 2026).
+
+#### Objectives
+
+1. Project photos show the current state of each aquarium, automatically
+   after every new journal entry with photos.
+2. No manual photo work for the projects page or the home page.
+
+#### Non-goals
+
+- Changing the project texts or specs (they stay hand-written).
+- Changing the journal itself.
+- Photos for the fourth home tile (`site/work-extra.jpg`).
+
+#### User workflow
+
+Owner: adds a journal entry with photos as usual; on the next deploy the
+project (and the home grid) show its photos. Nothing else to do.
+
+#### Functional requirements
+
+1. For each project, the **newest journal entry of the same aquarium that
+   has photos** (by date) supplies the project's photos (D1).
+2. Its main photo (the entry's first gallery photo, else its cover — the
+   same rule as the journal list) becomes the project's hero, on the Our
+   Work page and in the home grid.
+3. Alt text comes from that entry's `photoAlt`/`coverAlt` in the page's
+   language, with the existing project fallback text.
+4. If an aquarium has no journal photos, the project keeps using its work
+   folder as today.
+5. The "first hero loads first" rule, image sizes and the link preview of
+   the Our Work page keep working (the preview follows the new hero).
+6. Docs: `ARCHITECTURE.md`, `PHOTOS.md` (the work folders become a
+   fallback / extra gallery, D1), SPEC §3.7 note.
+
+#### Data / content model
+
+- No new files or fields; uses the existing journal entries and photos.
+
+#### Architecture
+
+- A helper in `src/lib/` that, per project folder, returns hero and
+  gallery from the newest journal entry with photos (via
+  `getJournalEntries` / `getEntryPhotos`, which already know the journal
+  layout), falling back to `getWorkPhotos`. `OurWork.astro` and
+  `Index.astro` use it instead of `getWorkPhotos` directly.
+
+#### Security implications
+
+none.
+
+#### Error handling
+
+- An entry whose photos lack alt text: the project fallback alt is used.
+- No journal photos: work folder (FR 4).
+
+#### Acceptance criteria
+
+1. `npx astro check` 0 errors; `npm run build` succeeds.
+2. In the built Our Work and home pages, each project's hero is the main
+   photo of that aquarium's newest journal entry with photos (Borneo:
+   `2026-10-evenwicht`, Orinoco: `2026-09-warmer-licht`, Fallen Forest:
+   `2026-09-sand`), with that entry's alt text in NL and EN.
+3. Adding a newer entry with photos changes the hero after a build
+   (tested with a temporary entry, not committed).
+4. Accessibility stays 100; the owner checks the look.
+
+#### Decisions (owner, 2026-10-08)
+
+- **D1. What follows the journal:** (c) the hero is the main photo of the
+  newest entry with photos; the gallery shows that entry's other photos
+  first, followed by the curated work-folder photos.
+
 ## 4. Non-functional requirements
 
 - **Static output.** The site builds to static HTML (`astro build`) and is

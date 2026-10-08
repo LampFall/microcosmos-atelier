@@ -5,7 +5,7 @@ import Footer from "../../components/Footer.astro";
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { Image } from "astro:assets";
-import { WORK_FOLDERS, getWorkPhotos } from "../../lib/work";
+import { WORK_FOLDERS, getProjectPhotos } from "../../lib/work";
 import { getEntryPhotos, getJournalEntries } from "../../lib/journal";
 // Fixed home photos from src/content/site/ (SPEC.md §3.11). Static imports, so
 // a missing file fails the build with its path. Replacing one: see PHOTOS.md.
@@ -42,12 +42,13 @@ const journalCardSizes =
   "(max-width: 800px) calc(100vw - 44px), (max-width: 1280px) calc((100vw - 128px) / 3), 384px";
 const t = useTranslations(lang);
 
-// The three project photos in "Our work" follow each Our Work folder's hero
-// (SPEC.md §3.7); the alt texts stay the generic project names.
+// The three project photos in "Our work" are the projects' heroes, from the
+// newest journal entry with photos (SPEC.md §3.18), with that photo's alt
+// text; without one, the generic project names.
 const workHeroes = [
-  { hero: getWorkPhotos(WORK_FOLDERS.project1).hero, alt: t("home.work.image1.alt") },
-  { hero: getWorkPhotos(WORK_FOLDERS.project2).hero, alt: t("home.work.image2.alt") },
-  { hero: getWorkPhotos(WORK_FOLDERS.project3).hero, alt: t("home.work.image3.alt") },
+  { hero: (await getProjectPhotos(WORK_FOLDERS.project1, lang)).hero, fallbackAlt: t("home.work.image1.alt") },
+  { hero: (await getProjectPhotos(WORK_FOLDERS.project2, lang)).hero, fallbackAlt: t("home.work.image2.alt") },
+  { hero: (await getProjectPhotos(WORK_FOLDERS.project3, lang)).hero, fallbackAlt: t("home.work.image3.alt") },
 ];
 // .work-grid: 2 columns with a 24px gap inside 1280px minus 2 × 40px padding
 // (~588px each); 1 column below 800px, with 22px padding.
@@ -243,11 +244,11 @@ const aboutSizes = "(max-width: 800px) calc(min(100vw - 44px, 500px) * 1.25), 61
       </div>
 
       <div class="work-grid">
-        {workHeroes.map(({ hero, alt }) =>
+        {workHeroes.map(({ hero, fallbackAlt }) =>
           hero && (
             <Image
               src={hero.image}
-              alt={alt}
+              alt={hero.alt || fallbackAlt}
               format="webp"
               widths={[400, 600, 900, 1200]}
               sizes={workGridSizes}

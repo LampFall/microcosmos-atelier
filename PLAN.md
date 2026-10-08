@@ -1474,6 +1474,46 @@ Commit boundary: `docs: teksten herschreven`
 ### Blocking questions
 Phase 0 (see the owner's answers).
 
+## Execution plan: project photos follow the latest journal entry
+
+Status: APPROVED (2026-10-08)
+Implements: SPEC.md §3.18
+
+### Phase 1: Helper, Our Work page and home grid
+Goal: each project's hero and the first gallery photos come from the newest
+journal entry of its aquarium with photos; the work folder follows in the
+gallery and is the fallback.
+Files: modify `src/lib/work.ts` (or a new small helper in `src/lib/`),
+`src/components/pages/OurWork.astro`, `src/components/pages/Index.astro`
+Steps:
+- [x] Helper `getProjectPhotos(folder, lang)`: newest entry with photos via
+      `getJournalEntries(lang)` + `getEntryPhotos`; hero = first gallery
+      photo, else cover (same rule as the journal list); gallery = the
+      entry's other photos, then `getWorkPhotos(folder)` hero and gallery;
+      each photo carries its alt text (entry `photoAlt`/`coverAlt` or the
+      work `alt.yml`); no journal photos → `getWorkPhotos` as today.
+- [x] `OurWork.astro` and `Index.astro` use the helper; alt texts and the
+      link preview follow; the eager-loading rule stays on the first hero.
+Validation: `npx astro check`, `npm run build`; the built pages show the
+expected heroes (SPEC AC 2) with the entry alt text in NL and EN; a
+temporary newer entry with a photo changes the hero (AC 3, not committed);
+Lighthouse accessibility 100; look on the dev server.
+Acceptance criteria:
+- [x] SPEC §3.18 AC 1–3, and AC 4 after the owner's look (owner OK, 2026-10-08).
+Commit boundary: `projecten: foto's volgen het nieuwste dagboekbericht`
+Risks: journal photos have other sizes and proportions than the work
+photos; the hero shows photos in their natural proportions, so check the
+look of all three projects.
+
+### Phase 2: Docs
+Goal: `ARCHITECTURE.md`, `PHOTOS.md` and SPEC §3.7 explain that projects
+follow the journal and the work folders are the extra gallery / fallback.
+Files: `ARCHITECTURE.md`, `PHOTOS.md`, `SPEC.md`, `PLAN.md`
+Commit boundary: `docs: projectfoto's volgen het dagboek`
+
+### Blocking questions
+None.
+
 ## Improvement queue
 
 From `SPEC.md` §3.9 (high-level, approved 2026-09-26). One item at a time: each gets its
@@ -1492,6 +1532,7 @@ Update the status here as items move along.
 | 7 | FAQ page | done (2026-09-29): live at `/faq`, 11 questions; in the main menu (owner's change) and linked from home, contact and footer | — |
 | 8 | "Latest from the journal" on home, and a 404 page | done (2026-09-29): live; the journal is called "Dagboek" in Dutch | — |
 | 9 | Clearer, more personal site copy | done (2026-09-30): about, home, projects, contact and calls rewritten; menu "Projecten" | — |
+| 10 | Project photos follow the latest journal entry | spec and plan approved (2026-10-08); phase 1 done, phase 2 (docs) to do | — |
 
 ## Audit findings (2026-09-27)
 

@@ -7,8 +7,12 @@
 //
 // Photos are prepared by src/integrations/prepare-photos.ts; which files are
 // shown follows the shared rules in src/lib/photo-files.ts.
+//
+// The pages don't show a work folder directly: getProjectPhotos() puts the
+// newest journal photos of the same aquarium first (SPEC.md §3.18).
 import { getEntry } from "astro:content";
 import { splitWorkPhotos } from "./photo-files";
+import { getEntryPhotos, getJournalEntries, type JournalLang } from "./journal";
 
 /** The work folder of each case study, used by Our Work and the home page. */
 export const WORK_FOLDERS = {
@@ -62,4 +66,50 @@ export type WorkAltTexts = Record<string, { nl: string; en: string }>;
 export async function getWorkAltTexts(folder: string): Promise<WorkAltTexts> {
 	const entry = await getEntry("workAlt", folder);
 	return entry?.data ?? {};
+}
+
+/** A photo shown for a project, with its alt text in the page's language. */
+export interface ProjectPhoto {
+	image: ImageMetadata;
+	/** From the journal entry or the work folder's `alt.yml`, if it has one. */
+	alt?: string;
+}
+
+export interface ProjectPhotos {
+	hero?: ProjectPhoto;
+	gallery: ProjectPhoto[];
+}
+
+/**
+ * The photos of one project (SPEC.md §3.18): the newest journal entry of the
+ * aquarium with the same folder name that has photos supplies the hero (its
+ * first gallery photo, else its cover, like the journal list) and the first
+ * gallery photos; the work folder's photos follow. Without journal photos,
+ * the work folder alone, as before.
+ */
+export async function getProjectPhotos(
+	folder: string,
+	lang: JournalLang,
+): Promise<ProjectPhotos> {
+	const work = getWorkPhotos(folder);
+	const workAlt = await getWorkAltTexts(folder);
+	const workPhotos = [work.hero, ...work.gallery]
+		.filter((photo) => photo !== undefined)
+		.map((photo) => ({ image: photo.image, alt: workAlt[photo.fileName]?.[lang] }));
+
+	// Newest first, so the first entry with photos is the one to show.
+	for (const entry of await getJournalEntries(lang)) {
+		if (entry.aquarium !== folder) continue;
+		const { cover, gallery } = getEntryPhotos(entry.aquarium, entry.entrySlug);
+		const entryPhotos = [
+			...gallery.map((photo) => ({ image: photo.image, alt: entry.data.photoAlt?.[photo.fileName] })),
+			...(cover ? [{ image: cover.image, alt: entry.data.coverAlt }] : []),
+		];
+		if (entryPhotos.length === 0) continue;
+		const [hero, ...rest] = entryPhotos;
+		return { hero, gallery: [...rest, ...workPhotos] };
+	}
+
+	const [hero, ...gallery] = workPhotos;
+	return { hero, gallery };
 }

@@ -5,41 +5,27 @@ import Footer from "../../components/Footer.astro";
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { Image } from "astro:assets";
-import {
-  WORK_FOLDERS,
-  getWorkAltTexts,
-  getWorkPhotos,
-  type WorkAltTexts,
-  type WorkPhotos,
-} from "../../lib/work";
+import { WORK_FOLDERS, getProjectPhotos, type ProjectPhotos } from "../../lib/work";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-// Photos come from src/content/work/<aquarium>/ (SPEC.md §3.7): the first
-// photo in natural order is the hero, the rest is the gallery.
+// Photos come from the newest journal entry of each aquarium with photos,
+// followed by src/content/work/<aquarium>/ (SPEC.md §3.18, §3.7). Each photo
+// carries its alt text in the page's language; without one, the per-project
+// texts in ui.ts.
 // `satisfies` makes `astro check` fail if WORK_FOLDERS gets a project that
 // this page doesn't render yet.
 type Project = keyof typeof WORK_FOLDERS;
 const work = {
-  project1: getWorkPhotos(WORK_FOLDERS.project1),
-  project2: getWorkPhotos(WORK_FOLDERS.project2),
-  project3: getWorkPhotos(WORK_FOLDERS.project3),
-} satisfies Record<Project, WorkPhotos>;
+  project1: await getProjectPhotos(WORK_FOLDERS.project1, lang),
+  project2: await getProjectPhotos(WORK_FOLDERS.project2, lang),
+  project3: await getProjectPhotos(WORK_FOLDERS.project3, lang),
+} satisfies Record<Project, ProjectPhotos>;
 const projects = Object.keys(work) as Project[];
-
-// Alt text per photo from each folder's alt.yml, in the page's language;
-// without one, the per-project texts in ui.ts.
-const altTexts = {
-  project1: await getWorkAltTexts(WORK_FOLDERS.project1),
-  project2: await getWorkAltTexts(WORK_FOLDERS.project2),
-  project3: await getWorkAltTexts(WORK_FOLDERS.project3),
-} satisfies Record<Project, WorkAltTexts>;
-const altFor = (project: Project, fileName: string, fallback: string) =>
-  altTexts[project][fileName]?.[lang] || fallback;
 for (const project of projects) {
   if (!work[project].hero) {
-    console.warn(`[our-work] src/content/work/${WORK_FOLDERS[project]}/ has no photos; the ${project} case study shows none.`);
+    console.warn(`[our-work] neither the journal nor src/content/work/${WORK_FOLDERS[project]}/ has photos; the ${project} case study shows none.`);
   }
 }
 
@@ -54,7 +40,7 @@ const shareImage =
   firstHero && firstHeroPhoto
     ? {
         src: firstHeroPhoto.image,
-        alt: altFor(firstHero, firstHeroPhoto.fileName, t(`work.${firstHero}.image.alt`)),
+        alt: firstHeroPhoto.alt || t(`work.${firstHero}.image.alt`),
       }
     : undefined;
 
@@ -147,7 +133,7 @@ const project3Specs = [
         <div class="case-study-hero case-study-hero-contain">
           <Image
             src={work.project1.hero.image}
-            alt={altFor("project1", work.project1.hero.fileName, t("work.project1.image.alt"))}
+            alt={work.project1.hero.alt || t("work.project1.image.alt")}
             format="webp"
             widths={heroWidths}
             sizes={heroSizes}
@@ -199,7 +185,7 @@ const project3Specs = [
           {work.project1.gallery.map((photo, index) => (
             <Image
               src={photo.image}
-              alt={altFor("project1", photo.fileName, t("work.project1.gallery.alt"))}
+              alt={photo.alt || t("work.project1.gallery.alt")}
               format="webp"
               {...galleryProps(index)}
             />
@@ -217,7 +203,7 @@ const project3Specs = [
         <div class="case-study-hero">
           <Image
             src={work.project2.hero.image}
-            alt={altFor("project2", work.project2.hero.fileName, t("work.project2.image.alt"))}
+            alt={work.project2.hero.alt || t("work.project2.image.alt")}
             format="webp"
             widths={heroWidths}
             sizes={heroSizes}
@@ -262,7 +248,7 @@ const project3Specs = [
           {work.project2.gallery.map((photo, index) => (
             <Image
               src={photo.image}
-              alt={altFor("project2", photo.fileName, t("work.project2.gallery.alt"))}
+              alt={photo.alt || t("work.project2.gallery.alt")}
               format="webp"
               {...galleryProps(index)}
             />
@@ -280,7 +266,7 @@ const project3Specs = [
         <div class="case-study-hero">
           <Image
             src={work.project3.hero.image}
-            alt={altFor("project3", work.project3.hero.fileName, t("work.project3.image.alt"))}
+            alt={work.project3.hero.alt || t("work.project3.image.alt")}
             format="webp"
             widths={heroWidths}
             sizes={heroSizes}
@@ -325,7 +311,7 @@ const project3Specs = [
           {work.project3.gallery.map((photo, index) => (
             <Image
               src={photo.image}
-              alt={altFor("project3", photo.fileName, t("work.project3.gallery.alt"))}
+              alt={photo.alt || t("work.project3.gallery.alt")}
               format="webp"
               {...galleryProps(index)}
             />
