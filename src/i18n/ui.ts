@@ -99,7 +99,7 @@ export const ui = {
     'about.hero.title':
       'Gebeten door de microbe,<br />sinds mijn vijfde.',
     'about.hero.lead':
-      'Het begon met een bak goudvissen die ik won op de kermis. Sindsdien heb ik altijd aquaria gehad, en leerde ik stap voor stap hoe je er een klein ecosysteem van maakt dat zichzelf in evenwicht houdt.',
+      'Het begon met een kom goudvissen die ik won op de kermis. Sindsdien heb ik altijd aquaria gehad, en leerde ik stap voor stap hoe je er een klein ecosysteem van maakt dat zichzelf in evenwicht houdt.',
     'about.story.eyebrow': 'Het verhaal',
     'about.story.title':
       'Van goudvissenkom<br />naar ecosysteem.',
@@ -186,7 +186,7 @@ export const ui = {
     'work.hero.title':
       'Drie in mijn atelier,<br />één bij een klant.',
     'work.hero.text':
-      'Hoe ik werk, zie je het best aan deze bakken: veel planten, bewoners die bij elkaar passen, en een systeem dat jarenlang stabiel blijft.',
+      'Hoe ik werk, zie je het best aan deze aquaria: veel planten, bewoners die bij elkaar passen, en een systeem dat jarenlang stabiel blijft.',
 
     'work.jump.label': 'Projecten op deze pagina',
 
@@ -204,7 +204,7 @@ export const ui = {
     'work.project1.story.p4':
       'Boven het water groeien Monstera en Pothos uit het aquarium en nemen ze rechtstreeks voedingsstoffen uit het water op. Garnalen, slakken en micro-organismen bewonen de minder zichtbare lagen van het ecosysteem, waar ze organisch materiaal verwerken en bijdragen aan de nutriëntenkringloop.',
     'work.project1.story.p5':
-      'De bak draait sinds 2023. Planten groeien, populaties veranderen, en het geheel wordt elk jaar rijper.',
+      'Dit aquarium draait sinds 2023. Planten groeien, populaties veranderen, en het geheel wordt elk jaar rijper.',
     'work.project1.ecosystemEyebrow': 'Het ecosysteem',
     'work.project1.principle.p1':
       'Veel planten, onder en boven water, nemen de voedingsstoffen op die de vissen en de afbraak van bladeren en hout opleveren. Zo blijft het water stabiel.',
@@ -236,7 +236,7 @@ export const ui = {
     'work.project2.story.p2':
       'In het open water bewegen <em>Nannostomus marginatus</em> zich rustig tussen de vegetatie. Ze hangen bijna stil in het water, vlak onder het oppervlak. Dichter bij de bodem leven <em>Apistogramma viejita</em>, die tussen bladeren en hout voortdurend hun omgeving onderzoeken en het fijne substraat afzoeken naar voedsel.',
     'work.project2.story.p3':
-      'Tussen beide lagen bewegen <em>Ancistrus</em> zich langzaam over hout, bladeren en planten. Elke soort heeft zo zijn eigen plek en gedrag in de bak.',
+      'Tussen beide lagen bewegen <em>Ancistrus</em> zich langzaam over hout, bladeren en planten. Elke soort heeft zo zijn eigen plek en gedrag in het aquarium.',
     'work.project2.story.p4':
       'Het resultaat: een rustig, warm aquarium waarin altijd wel iets beweegt.',
     'work.project2.ecosystemEyebrow': 'Het ecosysteem',
@@ -264,7 +264,7 @@ export const ui = {
     'work.project3.story.p3':
       "Kleine groepen Chili Rasbora's bewegen rustig tussen de takken en vegetatie, terwijl blauwe garnalen het hout, de bladeren en het substraat verkennen en grazen op biofilm en micro-organismen.",
     'work.project3.story.p4':
-      'Deze bak is gestart in augustus 2026. In het dagboek volg je hoe hij verder groeit.',
+      'Dit aquarium is gestart in augustus 2026. In het dagboek volg je hoe het verder groeit.',
     'work.project3.ecosystemEyebrow': 'Het ecosysteem',
     'work.project3.spec.started': 'Augustus 2026',
     'work.project3.spec.dimensions': '40 × 40 × 40 cm',
@@ -285,13 +285,13 @@ export const ui = {
     'work.project4.intro':
       'Mijn eerste aquarium bij een klant: 420 liter in een kantoor in Leuven, afgestemd op iemand die graag tot diep in de avond doorwerkt.',
     'work.project4.story.p1':
-      'Nox is Latijn voor nacht. Dit aquarium wordt later wakker dan de andere: het licht komt pas om elf uur op en gaat om half twaalf \'s avonds onder. Daarna houdt een zacht nachtlicht de bak tot twee uur gloeiend, zolang er in het kantoor nog gewerkt wordt.',
+      'Nox is Latijn voor nacht. Dit aquarium wordt later wakker dan de andere: het licht komt pas om elf uur op en gaat om half twaalf \'s avonds onder. Daarna houdt een zacht nachtlicht het aquarium tot twee uur gloeiend, zolang er in het kantoor nog gewerkt wordt.',
     'work.project4.story.p2':
       'Donker hout en stenen liggen op een bodem van verschillende zandsoorten. Daartussen groeien javavaren, Anubias en verschillende Cryptocoryne, met Vallisneria en stengelplanten die naar het oppervlak reiken.',
     'work.project4.story.p3':
       'De planten zijn boven water gekweekt en maken nu de overgang naar hun onderwatervorm. Het water moet nog helder worden, en de onrustige eerste maand is begonnen. Voorlopig leven er alleen bacteriën; slakken en vissen volgen later.',
     'work.project4.story.p4':
-      'Deze bak is geïnstalleerd in oktober 2026. In het dagboek volg je hoe hij tot rust komt.',
+      'Dit aquarium is geïnstalleerd in oktober 2026. In het dagboek volg je hoe het tot rust komt.',
     'work.project4.ecosystemEyebrow': 'Het ecosysteem',
     'work.project4.spec.started': 'Oktober 2026',
     'work.project4.spec.dimensions': '110 × 68 × 65 cm',
@@ -340,11 +340,11 @@ export const ui = {
     'home.philosophy.lead':
       'Een gezond aquarium draait op evenwicht: genoeg planten, de juiste bewoners, en tijd.',
     'home.philosophy.p1':
-      'Ik zorg dat de basis klopt: een bodem waarin bacteriën zich goed vestigen, veel planten die de voedingsstoffen opnemen, en bewoners die bij elkaar en bij de bak passen.',
+      'Ik zorg dat de basis klopt: een bodem waarin bacteriën zich goed vestigen, veel planten die de voedingsstoffen opnemen, en bewoners die bij elkaar en bij het aquarium passen.',
     'home.philosophy.p2':
       'Daarna laat ik het systeem zijn werk doen. De eerste maanden groeit het naar een evenwicht toe. Dat vraagt geduld, maar dan heb je een aquarium dat stabiel blijft zonder dat je voortdurend moet bijsturen.',
     'home.philosophy.p3':
-      'Wat er op dag één mooi uitziet, ziet er een jaar later anders uit, en vaak nog mooier. In het dagboek volg ik hoe mijn bakken evolueren.',
+      'Wat er op dag één mooi uitziet, ziet er een jaar later anders uit, en vaak nog mooier. In het dagboek volg ik hoe mijn aquaria evolueren.',
 
     'home.layer1.title': 'Water',
     'home.layer1.text': 'Het medium dat alles met elkaar verbindt.',
@@ -469,8 +469,8 @@ export const ui = {
     'journal.hero.eyebrow': 'Dagboek',
     'journal.hero.title': 'Levende systemen,<br />in de tijd gevolgd.',
     'journal.hero.text':
-      'Een Microcosmos is nooit af. Hier houd ik bij hoe elke bak zich ontwikkelt — een nieuwe aanplant, een omslag in het water, een systeem dat langzaam zijn evenwicht vindt.',
-    'journal.filter.all': 'Alle bakken',
+      'Een Microcosmos is nooit af. Hier houd ik bij hoe elk aquarium zich ontwikkelt — een nieuwe aanplant, een omslag in het water, een systeem dat langzaam zijn evenwicht vindt.',
+    'journal.filter.all': 'Alle aquaria',
     'journal.status.opstart': 'Opstart',
     'journal.status.groeit': 'Groei',
     'journal.status.rijpt': 'Rijpt',

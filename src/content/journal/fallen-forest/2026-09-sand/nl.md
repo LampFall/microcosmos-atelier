@@ -5,7 +5,7 @@ status: "stabiel"
 summary: "Een zandvloed heeft het zand naar voren geduwd tot een zandfront in de voorgrond; de Echinodorus is teruggelopen, de Ambulia juist uitgebreid."
 photoAlt:
   "1-20260925_205503.jpg": "De hele voorgrond is een wit zandfront onder het drijfhout en de beplanting"
-  "20260914_195546.jpg": "De volledige bak met drijfhout, dichte Cryptocoryne en rechts een school kleine vissen"
+  "20260914_195546.jpg": "Het volledige aquarium met drijfhout, dichte Cryptocoryne en rechts een school kleine vissen"
   "20260920_182021.jpg": "Wit zand is rechts naar voren geschoven en vormt een open vlakte voor het drijfhout"
 ---
 
