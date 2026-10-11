@@ -19,8 +19,8 @@ All photo folders are inside the project, under `src/content/`.
 
 | What | Folder | Rules |
 | --- | --- | --- |
-| Journal entry | `src/content/journal/<aquarium>/<entry>/` e.g. `journal/fallen-forest/2023-05-hardscape/` | Up to **3** photos, plus an optional `cover`. The first one (by name) is shown large and is the preview in the journal list. A photo named `cover` is the banner above the text. |
-| Our Work case study | `src/content/work/<aquarium>/` (`fallen-forest`, `orinoco`, `borneo-understory`) | **Usually nothing to do:** a project follows its journal (see below). The photos here are extra: they come after the journal photos in the gallery, no limit. Only for an aquarium without journal photos is the first one (by name) the large hero. |
+| Journal entry | `src/content/journal/<aquarium>/<entry>/` e.g. `journal/fallen-forest/2023-05-hardscape/` | Up to **3** photos, plus an optional `cover`. The first one (by name) is shown large and is the preview in the journal list. A photo named `cover` is the banner above the text. A new aquarium also needs an `aquarium.yml` with its name, liters and `location` (`atelier` or `klant`, shown as "Atelier" / "Bij een klant"); ask Claude. |
+| Our Work case study | `src/content/work/<aquarium>/` (`nox`, `fallen-forest`, `orinoco`, `borneo-understory`; a folder is optional) | **Usually nothing to do:** a project follows its journal (see below). The photos here are extra: they come after the journal photos in the gallery, no limit. Only for an aquarium without journal photos is the first one (by name) the large hero. |
 | Home and about pages | `src/content/site/` | **Fixed names**, one per spot (see below). |
 | Spare photos | an `extra/` subfolder inside any of these | Never shown, never prepared. Only commit them if they're already a `.jpg` without hidden information (see Safety net). |
 
@@ -46,7 +46,6 @@ in front of its name. (The Our Work photos are already named `01-…`,
 | `inspiration-amazon.jpg` | Home, card 2 (Amazon) |
 | `inspiration-blackwater.jpg` | Home, card 3 (blackwater) |
 | `inspiration-custom.jpg` | Home, card 4 (custom) |
-| `work-extra.jpg` | Home, the fourth photo in the "Our work" grid |
 | `about-home.jpg` | Home, the photo next to "about" |
 | `about-page.jpg` | The photo at the top of the about page |
 

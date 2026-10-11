@@ -118,7 +118,11 @@ src/content/journal/
 ```yaml
 name: "Fallen Forest"
 liters: 1000
+location: "atelier"
 ```
+
+`location` (`atelier` or `klant`) was added by §3.19 (2026-10-11): where the
+aquarium stands, shown as a label in the journal and on Our Work.
 
 Rules:
 - **Aquarium folder**: short kebab-case name, e.g. `fallen-forest`.
@@ -241,7 +245,8 @@ what gets published, and git only ever stores the light version.
 **A new entry:** create a folder `YYYY-MM-short-title` in the aquarium's
 folder, write `nl.md` (yourself or with the `content-writer` agent), run
 `/translate-journal` for `en.md`, and drop in the photos.
-**A new aquarium:** create a folder with an `aquarium.yml` (name + liters),
+**A new aquarium:** create a folder with an `aquarium.yml` (name, liters and
+location),
 then add entries to it as above.
 
 #### 3.3.5 Image pipeline — smaller on the wire, full resolution kept

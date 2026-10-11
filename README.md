@@ -94,7 +94,7 @@ The journal is one folder per aquarium, with one folder per entry inside it
 ```text
 src/content/journal/
   fallen-forest/
-    aquarium.yml          # name: "Fallen Forest", liters: 1000
+    aquarium.yml          # name: "Fallen Forest", liters: 1000, location: "atelier"
     2023-05-hardscape/
       nl.md
       en.md
@@ -112,7 +112,8 @@ src/content/journal/
   `en.md`. The folder names become the URL, so settle on them before
   publishing.
 - **New aquarium:** create a folder with an `aquarium.yml` (`name`,
-  optionally `liters`), then add entries to it.
+  optionally `liters`, and `location`: `atelier` or `klant`, shown as the
+  label "Atelier" / "Bij een klant"), then add entries to it.
 - **Photos:** copy up to 3 photos from Google Drive into the entry folder
   (hold Option while dragging from Drive for Desktop, so it copies instead of
   moves). Any name; JPEG, PNG, WebP and iPhone HEIC all work. The dev server
@@ -128,20 +129,20 @@ src/content/journal/
 - **Page copy** (headings, labels, alt text) lives in `src/i18n/ui.ts`. Add
   new strings under the same key in both the `nl` and `en` blocks -- never
   hard-code copy inside a component.
-- **Our Work photos** live in one folder per aquarium:
-  `src/content/work/fallen-forest/`, `orinoco/`, `borneo-understory/`. Copy
-  photos in exactly like journal photos (they're prepared the same way). The
-  first photo in natural order is the large hero, the rest is the gallery,
-  with no limit; spares go in `extra/`. The home page's "Our work" grid
-  follows each folder's hero. Alt texts are in each folder's `alt.yml`; run
+- **Our Work photos** follow the journal: each project's hero is the main
+  photo of its aquarium's newest journal entry with photos, followed in the
+  gallery by that entry's other photos and then the photos in its work
+  folder, `src/content/work/<aquarium>/` (optional; copy photos in exactly
+  like journal photos, no limit, spares in `extra/`). Without journal
+  photos, the work folder's first photo in natural order is the hero. The
+  home page's "Our work" grid shows the four project heroes, Nox first. Alt texts are in each folder's `alt.yml`; run
   `/describe-photos work/<aquarium>` to write them. The case-study text
   itself is hand-edited in `src/components/pages/OurWork.astro` and
   `src/i18n/ui.ts`.
-- **Home and about photos** are eight files with fixed names in
+- **Home and about photos** are seven files with fixed names in
   `src/content/site/` (`hero.jpg`, `inspiration-jungle.jpg`,
   `inspiration-amazon.jpg`, `inspiration-blackwater.jpg`,
-  `inspiration-custom.jpg`, `work-extra.jpg`, `about-home.jpg`,
-  `about-page.jpg`). To replace one: delete it, drop the new photo in with
+  `inspiration-custom.jpg`, `about-home.jpg`, `about-page.jpg`). To replace one: delete it, drop the new photo in with
   the same name (any format), same orientation. Details in `PHOTOS.md`.
 
 ## FAQ

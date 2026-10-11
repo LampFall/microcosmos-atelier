@@ -108,9 +108,9 @@ export const ui = {
     'about.story.p2':
       'Zo werk ik vandaag nog altijd. Ik bouw een systeem dat zichzelf regelt: veel planten die goed groeien, jaar na jaar, zonder ze op te jagen met CO₂ of veel extra voeding. Soms experimenteer ik wel met een beetje CO₂. Dat geeft een ander evenwicht en sterkere groei, maar de basis moet zonder kunnen.',
     'about.story.p3':
-      'De aquaria op deze site staan allemaal bij mij thuis, in mijn atelier. Sommige draaien al jaren. Ze zijn het beste bewijs dat die aanpak werkt.',
+      'Drie van de aquaria op deze site staan in mijn atelier. Sommige draaien al jaren. Ze zijn het beste bewijs dat die aanpak werkt.',
     'about.story.p4':
-      'Deze zomer ben ik Microcosmos Atelier gestart, om hetzelfde voor anderen te doen: een mooi en gezond ecosysteem bij jou thuis, dat blijft.',
+      'Deze zomer ben ik Microcosmos Atelier gestart, om hetzelfde voor anderen te doen: een mooi en gezond ecosysteem bij jou thuis, dat blijft. In oktober 2026 installeerde ik Nox, mijn eerste aquarium bij een klant.',
     'about.story.p5':
       'En je hoeft er geen expert voor te worden. Ik volg je aquarium mee op, zodat je volledig ontzorgd bent en geen leercurve hebt. Na al die jaren kan ik een aquarium lezen: ik zie snel wat er aan de hand is en wat het nodig heeft.',
     'about.story.linkedinText':
@@ -180,18 +180,18 @@ export const ui = {
     'work.meta.title':
       'Projecten — Microcosmos Atelier',
     'work.meta.description':
-      'Drie aquaria van Microcosmos Atelier in detail: opbouw, planten, bewoners en techniek.',
+      'Vier aquaria van Microcosmos Atelier in detail, drie in mijn atelier en één bij een klant: opbouw, planten, bewoners en techniek.',
     'work.hero.eyebrow':
       'Projecten',
     'work.hero.title':
-      'Drie aquaria,<br />bij mij thuis.',
+      'Drie in mijn atelier,<br />één bij een klant.',
     'work.hero.text':
-      'Hoe ik werk, zie je het best aan mijn eigen bakken: veel planten, bewoners die bij elkaar passen, en een systeem dat jarenlang stabiel blijft.',
+      'Hoe ik werk, zie je het best aan deze bakken: veel planten, bewoners die bij elkaar passen, en een systeem dat jarenlang stabiel blijft.',
 
     'work.jump.label': 'Projecten op deze pagina',
 
     'work.project1.image.alt': 'Fallen Forest Microcosmos',
-    'work.project1.eyebrow': '01 — Fallen Forest',
+    'work.project1.eyebrow': '02 — Fallen Forest',
     'work.project1.title': 'Een bosbodem,<br />onder water gebracht.',
     'work.project1.intro':
       'Een aquarium van twee meter lang en 1.000 liter in de woonkamer, geïnspireerd op een omgevallen boom in een tropisch bos en de dichte begroeiing die eromheen ontstaat.',
@@ -227,7 +227,7 @@ export const ui = {
     'work.project1.gallery.alt': 'Detail van Fallen Forest Microcosmos',
 
     'work.project2.image.alt': 'Orinoco-geïnspireerde littorale Microcosmos',
-    'work.project2.eyebrow': '02 — Orinoco-geïnspireerde littorale zone',
+    'work.project2.eyebrow': '03 — Orinoco-geïnspireerde littorale zone',
     'work.project2.title': 'Waar land<br />en water elkaar ontmoeten.',
     'work.project2.intro':
       'Een aquarium naar de ondiepe oevers van het Orinoco-bekken, waar land, water en planten in elkaar overgaan.',
@@ -253,7 +253,7 @@ export const ui = {
     'work.project2.gallery.alt': 'Detail van Orinoco-geïnspireerde Microcosmos',
 
     'work.project3.image.alt': 'Borneo Understory Microcosmos',
-    'work.project3.eyebrow': '03 — Borneo Understory',
+    'work.project3.eyebrow': '04 — Borneo Understory',
     'work.project3.title': 'Een bos<br />onder water.',
     'work.project3.intro':
       'Een nano-aquarium, geïnspireerd op de bosbodem en de ondiepe beekjes van Borneo.',
@@ -278,6 +278,33 @@ export const ui = {
     'work.project3.spec.plants':
       'Cryptocoryne wendtii (groen, rood en bruin) · Cryptocoryne undulata · Cryptocoryne beckettii · Cryptocoryne lucens · Cryptocoryne parva · Cryptocoryne petchii · Sagittaria subulata · Bolbitis heudelotii',
     'work.project3.gallery.alt': 'Detail van Borneo Understory Microcosmos',
+
+    'work.project4.image.alt': 'Nox Microcosmos',
+    'work.project4.eyebrow': '01 — Nox',
+    'work.project4.title': 'Een aquarium<br />dat de nacht opzoekt.',
+    'work.project4.intro':
+      'Mijn eerste aquarium bij een klant: 420 liter in een kantoor in Leuven, afgestemd op iemand die graag tot diep in de avond doorwerkt.',
+    'work.project4.story.p1':
+      'Nox is Latijn voor nacht. Dit aquarium wordt later wakker dan de andere: het licht komt pas om elf uur op en gaat om half twaalf \'s avonds onder. Daarna houdt een zacht nachtlicht de bak tot twee uur gloeiend, zolang er in het kantoor nog gewerkt wordt.',
+    'work.project4.story.p2':
+      'Donker hout en stenen liggen op een bodem van verschillende zandsoorten. Daartussen groeien javavaren, Anubias en verschillende Cryptocoryne, met Vallisneria en stengelplanten die naar het oppervlak reiken.',
+    'work.project4.story.p3':
+      'De planten zijn boven water gekweekt en maken nu de overgang naar hun onderwatervorm. Het water moet nog helder worden, en de onrustige eerste maand is begonnen. Voorlopig leven er alleen bacteriën; slakken en vissen volgen later.',
+    'work.project4.story.p4':
+      'Deze bak is geïnstalleerd in oktober 2026. In het dagboek volg je hoe hij tot rust komt.',
+    'work.project4.ecosystemEyebrow': 'Het ecosysteem',
+    'work.project4.spec.started': 'Oktober 2026',
+    'work.project4.spec.dimensions': '110 × 68 × 65 cm',
+    'work.project4.spec.volume': '420 L',
+    'work.project4.spec.filtration': 'Intern · biologisch filter · mechanische voorfilter',
+    'work.project4.spec.lighting': 'Zonsopgang 11 u · zonsondergang 23.30 u · nachtlicht tot 2 u',
+    'work.project4.spec.substrate': 'MA-Gen 2.1 · bodem van verschillende zandsoorten',
+    'work.project4.spec.co2': 'Geen',
+    'work.project4.spec.fish': 'Volgen later',
+    'work.project4.spec.otherInhabitants': 'Bacteriën · slakken volgen later',
+    'work.project4.spec.plants':
+      'Cryptocoryne wendtii · Cryptocoryne balansae · Microsorum pteropus · Anubias · Hygrophila stricta · Hygrophila polysperma · Vallisneria · Rotala rotundifolia · Ludwigia palustris',
+    'work.project4.gallery.alt': 'Detail van Nox Microcosmos',
 
     'work.closing.eyebrow':
       'Jouw aquarium',
@@ -317,7 +344,7 @@ export const ui = {
     'home.philosophy.p2':
       'Daarna laat ik het systeem zijn werk doen. De eerste maanden groeit het naar een evenwicht toe. Dat vraagt geduld, maar dan heb je een aquarium dat stabiel blijft zonder dat je voortdurend moet bijsturen.',
     'home.philosophy.p3':
-      'Wat er op dag één mooi uitziet, ziet er een jaar later anders uit, en vaak nog mooier. In het dagboek volg ik hoe mijn eigen bakken evolueren.',
+      'Wat er op dag één mooi uitziet, ziet er een jaar later anders uit, en vaak nog mooier. In het dagboek volg ik hoe mijn bakken evolueren.',
 
     'home.layer1.title': 'Water',
     'home.layer1.text': 'Het medium dat alles met elkaar verbindt.',
@@ -406,13 +433,13 @@ export const ui = {
     'home.work.eyebrow':
       'Mijn werk',
     'home.work.title':
-      'Mijn eigen aquaria.',
+      'Mijn aquaria.',
     'home.work.text':
-      'Deze aquaria staan bij mij thuis, in mijn atelier. Sommige draaien al jaren.',
+      'Drie staan in mijn atelier, en sommige draaien al jaren. Nox staat sinds oktober 2026 bij mijn eerste klant.',
     'home.work.image1.alt': 'Fallen Forest Microcosmos',
     'home.work.image2.alt': 'Op de Orinoco geïnspireerde Littoral Zone Microcosmos',
     'home.work.image3.alt': 'Borneo Understory Microcosmos',
-    'home.work.image4.alt': 'Ondiepe rivierbedding Microcosmos',
+    'home.work.image4.alt': 'Nox Microcosmos',
     'home.work.cta': 'Bekijk de projecten',
     'home.journal.eyebrow': 'Uit het dagboek',
     'home.journal.title': 'Laatst in het dagboek.',
@@ -559,9 +586,9 @@ export const ui = {
     'about.story.p2':
       "That's still how I work today. I build a system that regulates itself: lots of plants that grow well, year after year, without pushing them with CO₂ or lots of fertiliser. Sometimes I do experiment with a little CO₂. It creates a different balance and stronger growth, but the basis has to work without it.",
     'about.story.p3':
-      'The aquariums on this site are all in my own home, in my atelier. Some have been running for years. They are the best proof that this approach works.',
+      'Three of the aquariums on this site are in my studio. Some have been running for years. They are the best proof that this approach works.',
     'about.story.p4':
-      'This summer I started Microcosmos Atelier to do the same for others: a beautiful, healthy ecosystem in your home, one that lasts.',
+      'This summer I started Microcosmos Atelier to do the same for others: a beautiful, healthy ecosystem in your home, one that lasts. In October 2026 I installed Nox, my first aquarium for a client.',
     'about.story.p5':
       "And you don't need to become an expert. I follow up your aquarium with you, so you're fully taken care of, with no learning curve. After all these years I can read an aquarium: I quickly see what's going on and what it needs.",
     'about.story.linkedinText':
@@ -631,18 +658,18 @@ export const ui = {
     'work.meta.title':
       'Projects — Microcosmos Atelier',
     'work.meta.description':
-      'Three Microcosmos Atelier aquariums in detail: layout, plants, inhabitants and technology.',
+      'Four Microcosmos Atelier aquariums in detail, three in my studio and one at a client\'s: layout, plants, inhabitants and technology.',
     'work.hero.eyebrow':
       'Projects',
     'work.hero.title':
-      'Three aquariums,<br />in my own home.',
+      'Three in my studio,<br />one at a client\'s.',
     'work.hero.text':
-      'The best way to see how I work is in my own tanks: lots of plants, inhabitants that suit each other, and a system that stays stable for years.',
+      'The best way to see how I work is in these tanks: lots of plants, inhabitants that suit each other, and a system that stays stable for years.',
 
     'work.jump.label': 'Projects on this page',
 
     'work.project1.image.alt': 'Fallen Forest Microcosmos',
-    'work.project1.eyebrow': '01 — Fallen Forest',
+    'work.project1.eyebrow': '02 — Fallen Forest',
     'work.project1.title': 'A forest floor,<br />brought underwater.',
     'work.project1.intro':
       'A two-metre, 1,000-litre aquarium in the living room, inspired by a fallen tree in a tropical forest and the dense vegetation that grows around it.',
@@ -678,7 +705,7 @@ export const ui = {
     'work.project1.gallery.alt': 'Fallen Forest Microcosmos detail',
 
     'work.project2.image.alt': 'Orinoco-inspired littoral Microcosmos',
-    'work.project2.eyebrow': '02 — Orinoco-inspired littoral zone',
+    'work.project2.eyebrow': '03 — Orinoco-inspired littoral zone',
     'work.project2.title': 'Where land<br />meets water.',
     'work.project2.intro':
       'An aquarium modelled on the shallow banks of the Orinoco basin, where land, water and plants merge into one another.',
@@ -704,7 +731,7 @@ export const ui = {
     'work.project2.gallery.alt': 'Detail of Orinoco-inspired Microcosmos',
 
     'work.project3.image.alt': 'Borneo Understory Microcosmos',
-    'work.project3.eyebrow': '03 — Borneo Understory',
+    'work.project3.eyebrow': '04 — Borneo Understory',
     'work.project3.title': 'A forest<br />beneath the water.',
     'work.project3.intro':
       'A nano aquarium, inspired by the forest floor and the shallow streams of Borneo.',
@@ -729,6 +756,33 @@ export const ui = {
     'work.project3.spec.plants':
       'Cryptocoryne wendtii (green, red and brown) · Cryptocoryne undulata · Cryptocoryne beckettii · Cryptocoryne lucens · Cryptocoryne parva · Cryptocoryne petchii · Sagittaria subulata · Bolbitis heudelotii',
     'work.project3.gallery.alt': 'Borneo Understory Microcosmos detail',
+
+    'work.project4.image.alt': 'Nox Microcosmos',
+    'work.project4.eyebrow': '01 — Nox',
+    'work.project4.title': 'An aquarium<br />that keeps late hours.',
+    'work.project4.intro':
+      "My first aquarium for a client: 420 litres in an office in Leuven, tuned to someone who likes to work deep into the evening.",
+    'work.project4.story.p1':
+      'Nox is Latin for night. This aquarium wakes later than the others: its light rises at eleven in the morning and sets at half past eleven at night. After that, a soft night light keeps the tank glowing until two, for as long as someone is still working in the office.',
+    'work.project4.story.p2':
+      'Dark wood and stones rest on a bed of several types of sand. Between them grow Java fern, Anubias and several Cryptocoryne, with Vallisneria and stem plants reaching for the surface.',
+    'work.project4.story.p3':
+      'The plants were grown above water and are now making the switch to their submersed form. The water still has to clear, and the turbulent first month has begun. For now only bacteria live here; snails and fish will follow later.',
+    'work.project4.story.p4':
+      'This tank was installed in October 2026. In the journal you can follow how it settles.',
+    'work.project4.ecosystemEyebrow': 'The ecosystem',
+    'work.project4.spec.started': 'October 2026',
+    'work.project4.spec.dimensions': '110 × 68 × 65 cm',
+    'work.project4.spec.volume': '420 L',
+    'work.project4.spec.filtration': 'Internal · biological filter · mechanical prefilter',
+    'work.project4.spec.lighting': 'Sunrise 11:00 · sunset 23:30 · night light until 02:00',
+    'work.project4.spec.substrate': 'MA-Gen 2.1 · bed of several types of sand',
+    'work.project4.spec.co2': 'None',
+    'work.project4.spec.fish': 'To follow',
+    'work.project4.spec.otherInhabitants': 'Bacteria · snails to follow',
+    'work.project4.spec.plants':
+      'Cryptocoryne wendtii · Cryptocoryne balansae · Microsorum pteropus · Anubias · Hygrophila stricta · Hygrophila polysperma · Vallisneria · Rotala rotundifolia · Ludwigia palustris',
+    'work.project4.gallery.alt': 'Detail of Nox Microcosmos',
 
     'work.closing.eyebrow':
       'Your aquarium',
@@ -768,7 +822,7 @@ export const ui = {
     'home.philosophy.p2':
       'Then I let the system do its work. In the first months it grows towards a balance. That takes patience, but then you have an aquarium that stays stable without constant adjusting.',
     'home.philosophy.p3':
-      'What looks beautiful on day one looks different a year later, and often even better. In the journal I follow how my own tanks evolve.',
+      'What looks beautiful on day one looks different a year later, and often even better. In the journal I follow how my tanks evolve.',
 
     'home.layer1.title': 'Water',
     'home.layer1.text': 'The medium connecting everything.',
@@ -856,13 +910,13 @@ export const ui = {
     'home.work.eyebrow':
       'My work',
     'home.work.title':
-      'My own aquariums.',
+      'My aquariums.',
     'home.work.text':
-      'These aquariums are in my own home, in my atelier. Some have been running for years.',
+      'Three are in my studio, and some have been running for years. Nox has been with my first client since October 2026.',
     'home.work.image1.alt': 'Fallen Forest Microcosmos',
     'home.work.image2.alt': 'Orinoco-inspired Littoral Zone Microcosmos',
     'home.work.image3.alt': 'Borneo Understory Microcosmos',
-    'home.work.image4.alt': 'Shallow riverbed Microcosmos',
+    'home.work.image4.alt': 'Nox Microcosmos',
     'home.work.cta': 'Explore the projects',
     'home.journal.eyebrow': 'From the journal',
     'home.journal.title': 'Latest from the journal.',

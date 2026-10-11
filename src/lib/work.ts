@@ -14,11 +14,16 @@ import { getEntry } from "astro:content";
 import { splitWorkPhotos } from "./photo-files";
 import { getEntryPhotos, getJournalEntries, type JournalLang } from "./journal";
 
-/** The work folder of each case study, used by Our Work and the home page. */
+/**
+ * The work folder of each case study, used by Our Work and the home page.
+ * Each name is also a journal aquarium folder. Nox (`project4`) is shown first
+ * on both pages (SPEC.md §3.19); the keys are not the page order.
+ */
 export const WORK_FOLDERS = {
 	project1: "fallen-forest",
 	project2: "orinoco",
 	project3: "borneo-understory",
+	project4: "nox",
 } as const;
 
 export interface WorkPhoto {
@@ -61,6 +66,16 @@ export function getWorkPhotos(folder: string): WorkPhotos {
 
 /** Dutch and English alt text per photo file name, from the folder's `alt.yml`. */
 export type WorkAltTexts = Record<string, { nl: string; en: string }>;
+
+/**
+ * Where the project's aquarium stands, from its journal `aquarium.yml`
+ * (SPEC.md §3.19), or undefined if the journal has no such aquarium.
+ */
+export async function getProjectLocation(
+	folder: string,
+): Promise<"atelier" | "klant" | undefined> {
+	return (await getEntry("aquariums", folder))?.data.location;
+}
 
 /** The folder's alt texts, or none if it has no `alt.yml`. */
 export async function getWorkAltTexts(folder: string): Promise<WorkAltTexts> {

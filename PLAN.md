@@ -1552,12 +1552,12 @@ Files: `src/lib/work.ts` (`project4: "nox"`), `src/components/pages/OurWork.astr
 delete `src/content/site/work-extra.jpg`; docs `ARCHITECTURE.md`,
 `PHOTOS.md`, `SPEC.md` §3.3 note
 Steps:
-- [ ] Nox section first on Our Work (texts, specs, ecosystem), eyebrows
+- [x] Nox section first on Our Work (texts, specs, ecosystem), eyebrows
       renumbered, location label from `aquarium.yml` after each eyebrow.
-- [ ] Home grid: four project heroes, Nox first; remove `work-extra.jpg`.
-- [ ] Rewrite the "bij mij thuis" copy (Our Work title and meta, home
+- [x] Home grid: four project heroes, Nox first; remove `work-extra.jpg`.
+- [x] Rewrite the "bij mij thuis" copy (Our Work title and meta, home
       block, about), NL + EN.
-- [ ] Docs.
+- [x] Docs.
 Validation: `npx astro check`, `npm run build`; SPEC AC 3–4 in `dist/`;
 Lighthouse accessibility 100 on `/our-work` and `/` (NL/EN); the owner
 checks look and texts.
@@ -1589,7 +1589,7 @@ Update the status here as items move along.
 | 8 | "Latest from the journal" on home, and a 404 page | done (2026-09-29): live; the journal is called "Dagboek" in Dutch | — |
 | 9 | Clearer, more personal site copy | done (2026-09-30): about, home, projects, contact and calls rewritten; menu "Projecten" | — |
 | 10 | Project photos follow the latest journal entry | spec and plan approved (2026-10-08); done (2026-10-08): projects follow the newest journal entry with photos; work folders are the extra gallery / fallback | — |
-| 11 | First client project "Nox", atelier / client label | spec and plan approved (2026-10-11); phase 1 done, phase 2 in progress | — |
+| 11 | First client project "Nox", atelier / client label | done (2026-10-11): Nox first on Our Work and the home grid; atelier / client label in the journal and on Our Work | — |
 
 ## Audit findings (2026-09-27)
 

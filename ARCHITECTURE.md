@@ -119,8 +119,8 @@ i18n: {
   `html { scroll-padding-top }`, so anchors land below the header.
 - `BackToTop.astro`, rendered once from `Layout.astro` (`<body id="top">`),
   is a link to `#top` shown after 1.5 screens; it follows `scroll-behavior`.
-- Our Work links to its case studies with `#fallen-forest`, `#orinoco` and
-  `#borneo-understory` (the `WORK_FOLDERS` names).
+- Our Work links to its case studies with `#nox`, `#fallen-forest`,
+  `#orinoco` and `#borneo-understory` (the `WORK_FOLDERS` names).
 - `prefers-reduced-motion: reduce` turns off the header and back-to-top
   transitions and sets `scroll-behavior: auto`.
 
@@ -267,9 +267,12 @@ src/content/journal/<aquarium>/<entry>/nl.md, en.md, cover.jpg, <photo>.jpg …
 ```
 
 Two collections read it:
-- `aquariums` — every `aquarium.yml` (`name`, `liters?`), keyed by the
-  aquarium folder name. The name is the filter key on the journal index, so
-  it is written once here instead of in every entry.
+- `aquariums` — every `aquarium.yml` (`name`, `liters?`, `location`),
+  keyed by the aquarium folder name. The name is the filter key on the
+  journal index, so it is written once here instead of in every entry.
+  `location` (`atelier` or `klant`, required; `SPEC.md` §3.19) is shown as a
+  translated label (`journal.location.*` in `ui.ts`) in the journal list,
+  above each entry, and after each project's eyebrow on Our Work.
 - `journal` — every `nl.md`/`en.md`, with id `<aquarium>/<entry>/<lang>`.
   Frontmatter: `title`, `date`, `status`, `summary?`, `photoAlt?` (file name
   → alt text), `coverAlt?`. The language, the aquarium and the photos are not
@@ -310,7 +313,10 @@ folder name that has photos supplies the hero and the first gallery photos,
 followed by the photos in that aquarium's work folder,
 `src/content/work/<aquarium>/`.
 - `src/lib/work.ts` owns that convention: `WORK_FOLDERS` (which folder
-  belongs to which case study, used by Our Work and the home page),
+  belongs to which case study, used by Our Work and the home page; Nox,
+  `project4`, is shown first on both, so the keys are not the page order),
+  `getProjectLocation(folder)` (the `location` from the journal's
+  `aquarium.yml`),
   `getWorkPhotos(folder)` (`import.meta.glob` over `*.jpg` directly in the
   folder, in natural order; `extra/` is never shown),
   `getWorkAltTexts(folder)`, and `getProjectPhotos(folder, lang)`, which is
@@ -328,9 +334,8 @@ followed by the photos in that aquarium's work folder,
   and an English alt text per file name. A photo without one falls back to
   the per-project texts in `ui.ts`. If no folder has an `alt.yml` at all,
   the build logs a harmless "No files found matching */alt.yml" warning.
-- The home page's "Our work" grid shows the three projects' heroes, with
-  their alt text, plus one fixed photo, `work-extra.jpg` from the site photo
-  folder (§6).
+- The home page's "Our work" grid shows the four projects' heroes, Nox
+  first, with their alt text.
 
 ## 6. Images: one prepared-photo system
 
@@ -342,14 +347,13 @@ three photo roots, rendered with `<Image>` from `astro:assets`.
 - **Our Work** (the curated photos after the journal's, or all of them for
   an aquarium without journal photos): `src/content/work/<aquarium>/`, found
   with `import.meta.glob`.
-- **Site photos** (home hero, the four inspiration cards, the fourth home
-  "Our work" tile, the home and about page about photos; `SPEC.md` §3.11):
-  `src/content/site/`, eight fixed names (`hero.jpg`,
-  `inspiration-jungle.jpg`, `inspiration-amazon.jpg`,
-  `inspiration-blackwater.jpg`, `inspiration-custom.jpg`, `work-extra.jpg`,
-  `about-home.jpg`, `about-page.jpg`), each a static `import` in
-  `Index.astro` or `About.astro`, so a missing file fails the build with
-  its path. `PHOTOS.md` tells the owner how to replace one.
+- **Site photos** (home hero, the four inspiration cards, the home and
+  about page about photos; `SPEC.md` §3.11): `src/content/site/`, seven
+  fixed names (`hero.jpg`, `inspiration-jungle.jpg`,
+  `inspiration-amazon.jpg`, `inspiration-blackwater.jpg`,
+  `inspiration-custom.jpg`, `about-home.jpg`, `about-page.jpg`), each a
+  static `import` in `Index.astro` or `About.astro`, so a missing file
+  fails the build with its path. `PHOTOS.md` tells the owner how to replace one.
 
 They pass through two steps:
    - **Preparation** (`src/integrations/prepare-photos.ts`, registered in

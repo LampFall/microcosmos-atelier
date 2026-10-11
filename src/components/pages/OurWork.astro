@@ -5,7 +5,7 @@ import Footer from "../../components/Footer.astro";
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { Image } from "astro:assets";
-import { WORK_FOLDERS, getProjectPhotos, type ProjectPhotos } from "../../lib/work";
+import { WORK_FOLDERS, getProjectLocation, getProjectPhotos, type ProjectPhotos } from "../../lib/work";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -15,14 +15,28 @@ const t = useTranslations(lang);
 // carries its alt text in the page's language; without one, the per-project
 // texts in ui.ts.
 // `satisfies` makes `astro check` fail if WORK_FOLDERS gets a project that
-// this page doesn't render yet.
+// this page doesn't render yet. The key order is the page order: Nox
+// (project4), the client project, comes first (SPEC.md §3.19).
 type Project = keyof typeof WORK_FOLDERS;
 const work = {
+  project4: await getProjectPhotos(WORK_FOLDERS.project4, lang),
   project1: await getProjectPhotos(WORK_FOLDERS.project1, lang),
   project2: await getProjectPhotos(WORK_FOLDERS.project2, lang),
   project3: await getProjectPhotos(WORK_FOLDERS.project3, lang),
 } satisfies Record<Project, ProjectPhotos>;
 const projects = Object.keys(work) as Project[];
+
+// "Atelier" / "Bij een klant" after each eyebrow, from the aquarium's
+// journal aquarium.yml, so the journal and this page share one source.
+const locations = Object.fromEntries(
+  await Promise.all(projects.map(async (p) => [p, await getProjectLocation(WORK_FOLDERS[p])] as const)),
+);
+const eyebrowFor = (project: Project) => {
+  const location = locations[project];
+  return location
+    ? `${t(`work.${project}.eyebrow`)} · ${t(`journal.location.${location}`)}`
+    : t(`work.${project}.eyebrow`);
+};
 for (const project of projects) {
   if (!work[project].hero) {
     console.warn(`[our-work] neither the journal nor src/content/work/${WORK_FOLDERS[project]}/ has photos; the ${project} case study shows none.`);
@@ -63,6 +77,19 @@ const galleryProps = (index: number) =>
 
 // Volgorde van de specificatierijen verschilt lichtjes per project
 // (zoals in de originele pagina's), dus die geven we hier expliciet op.
+const project4Specs = [
+  [t("work.spec.started"), t("work.project4.spec.started")],
+  [t("work.spec.dimensions"), t("work.project4.spec.dimensions")],
+  [t("work.spec.volume"), t("work.project4.spec.volume")],
+  [t("work.spec.filtration"), t("work.project4.spec.filtration")],
+  [t("work.spec.lighting"), t("work.project4.spec.lighting")],
+  [t("work.spec.substrate"), t("work.project4.spec.substrate")],
+  [t("work.spec.co2"), t("work.project4.spec.co2")],
+  [t("work.spec.fish"), t("work.project4.spec.fish")],
+  [t("work.spec.otherInhabitants"), t("work.project4.spec.otherInhabitants")],
+  [t("work.spec.plants"), t("work.project4.spec.plants")],
+];
+
 const project1Specs = [
   [t("work.spec.started"), t("work.project1.spec.started")],
   [t("work.spec.dimensions"), t("work.project1.spec.dimensions")],
@@ -116,13 +143,76 @@ const project3Specs = [
       <h1 set:html={t("work.hero.title")} />
       <p class="page-intro-text">{t("work.hero.text")}</p>
 
-      {/* Jump links to the three case studies (SPEC.md §3.8). */}
+      {/* Jump links to the case studies (SPEC.md §3.8). */}
       <nav class="work-jump" aria-label={t("work.jump.label")}>
         {projects.map((project) => (
           <a href={`#${WORK_FOLDERS[project]}`}>{t(`work.${project}.eyebrow`)}</a>
         ))}
       </nav>
     </section>
+
+    <!-- =====================================================
+         NOX (client project, SPEC.md §3.19)
+         ===================================================== -->
+
+    <article class="case-study" id={WORK_FOLDERS.project4}>
+      {work.project4.hero && (
+        <div class="case-study-hero">
+          <Image
+            src={work.project4.hero.image}
+            alt={work.project4.hero.alt || t("work.project4.image.alt")}
+            format="webp"
+            widths={heroWidths}
+            sizes={heroSizes}
+            {...heroLoading("project4")}
+          />
+        </div>
+      )}
+
+      <div class="case-study-header">
+        <div>
+          <p class="eyebrow">{eyebrowFor("project4")}</p>
+          <h2 set:html={t("work.project4.title")} />
+        </div>
+
+        <p class="case-study-intro">{t("work.project4.intro")}</p>
+      </div>
+
+      <div class="case-study-body">
+        <div class="case-study-story">
+          <p>{t("work.project4.story.p1")}</p>
+          <p>{t("work.project4.story.p2")}</p>
+          <p>{t("work.project4.story.p3")}</p>
+          <p>{t("work.project4.story.p4")}</p>
+        </div>
+
+        <aside class="ecosystem-details">
+          <p class="eyebrow">{t("work.project4.ecosystemEyebrow")}</p>
+
+          <div class="details-grid">
+            {project4Specs.map(([label, value]) => (
+              <div>
+                <span>{label}</span>
+                <strong>{value}</strong>
+              </div>
+            ))}
+          </div>
+        </aside>
+      </div>
+
+      {work.project4.gallery.length > 0 && (
+        <div class="case-study-gallery">
+          {work.project4.gallery.map((photo, index) => (
+            <Image
+              src={photo.image}
+              alt={photo.alt || t("work.project4.gallery.alt")}
+              format="webp"
+              {...galleryProps(index)}
+            />
+          ))}
+        </div>
+      )}
+    </article>
 
     <!-- =====================================================
          FALLEN FOREST
@@ -144,7 +234,7 @@ const project3Specs = [
 
       <div class="case-study-header">
         <div>
-          <p class="eyebrow">{t("work.project1.eyebrow")}</p>
+          <p class="eyebrow">{eyebrowFor("project1")}</p>
           <h2 set:html={t("work.project1.title")} />
         </div>
 
@@ -214,7 +304,7 @@ const project3Specs = [
 
       <div class="case-study-header">
         <div>
-          <p class="eyebrow">{t("work.project2.eyebrow")}</p>
+          <p class="eyebrow">{eyebrowFor("project2")}</p>
           <h2 set:html={t("work.project2.title")} />
         </div>
 
@@ -277,7 +367,7 @@ const project3Specs = [
 
       <div class="case-study-header">
         <div>
-          <p class="eyebrow">{t("work.project3.eyebrow")}</p>
+          <p class="eyebrow">{eyebrowFor("project3")}</p>
           <h2 set:html={t("work.project3.title")} />
         </div>
 
