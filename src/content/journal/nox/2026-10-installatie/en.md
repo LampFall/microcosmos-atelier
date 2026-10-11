@@ -4,9 +4,9 @@ date: 2026-10-10
 status: "opstart"
 summary: "My first aquarium at a client's: 420 litres in an office in Leuven. The haze still has to clear, and the turbulent first month has begun."
 photoAlt:
-  "1-Nox.jpg": "Nox in its white cabinet in the corner of the office, the water still hazy, with someone crouching beside it"
-  "WhatsApp Image 2026-10-11 at 15.27.50.jpg": "Front view through the still hazy water: dark wood with Java fern and Anubias, stones on white sand and stem plants reaching the surface"
-  "WhatsApp Image 2026-10-11 at 15.40.09.jpg": "During the installation: someone working at the top of the tank, with the wood, stones and plants already in place"
+  "1-Nox.jpg": "Nox in its white cabinet in the corner of the office, with someone crouching beside it"
+  "Nox003.jpg": "A closer front view: dark wood with Java fern and Anubias, stones on white sand and stem plants reaching the surface"
+  "Nox-002.jpg": "Nox from the front at dusk: the lit aquarium in its white cabinet, with wood, Java fern and stem plants reaching the surface"
 ---
 
 Nox is in. It's my first aquarium at a client's: a tank of 110 by 68 by 65

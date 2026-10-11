@@ -4,9 +4,9 @@ date: 2026-10-10
 status: "opstart"
 summary: "Mijn eerste aquarium bij een klant: 420 liter in een kantoor in Leuven. De mist moet nog optrekken, en de onrustige eerste maand is begonnen."
 photoAlt:
-  "1-Nox.jpg": "Nox in zijn witte meubel in de hoek van het kantoor, het water nog troebel, met iemand die ernaast gehurkt zit"
-  "WhatsApp Image 2026-10-11 at 15.27.50.jpg": "Vooraanzicht door het nog troebele water: donker hout met javavaren en Anubias, stenen op wit zand en stengelplanten tot aan het oppervlak"
-  "WhatsApp Image 2026-10-11 at 15.40.09.jpg": "Tijdens de installatie: iemand werkt aan de bovenkant van de bak, terwijl hout, stenen en planten al op hun plaats staan"
+  "1-Nox.jpg": "Nox in zijn witte meubel in de hoek van het kantoor, met iemand die ernaast gehurkt zit"
+  "Nox003.jpg": "Vooraanzicht van dichtbij: donker hout met javavaren en Anubias, stenen op wit zand en stengelplanten tot aan het oppervlak"
+  "Nox-002.jpg": "Nox van voren in de schemering: het verlichte aquarium in zijn witte meubel, met hout, javavaren en stengelplanten tot aan het oppervlak"
 ---
 
 Nox staat. Het is mijn eerste aquarium bij een klant: een bak van 110 bij
