@@ -17,11 +17,12 @@ export async function getStaticPaths() {
 			entry: byId.get(listEntry.id)!,
 			aquariumName: listEntry.aquariumName,
 			aquariumLiters: listEntry.aquariumLiters,
+			aquariumLocation: listEntry.aquariumLocation,
 		},
 	}));
 }
 
-const { entry, aquariumName, aquariumLiters } = Astro.props;
+const { entry, aquariumName, aquariumLiters, aquariumLocation } = Astro.props;
 ---
 
-<JournalEntry entry={entry} aquariumName={aquariumName} aquariumLiters={aquariumLiters} />
+<JournalEntry entry={entry} aquariumName={aquariumName} aquariumLiters={aquariumLiters} aquariumLocation={aquariumLocation} />

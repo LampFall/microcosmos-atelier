@@ -108,7 +108,8 @@
     text-transform: uppercase;
 }
 
-.journal-liters {
+.journal-liters,
+.journal-location {
     margin-left: 10px;
 
     color: var(--muted);

@@ -6,7 +6,7 @@ import { glob } from "astro/loaders";
 //
 //   src/content/journal/
 //     fallen-forest/                 <- aquarium folder (kebab-case)
-//       aquarium.yml                 <- { name, liters? }, written once
+//       aquarium.yml                 <- { name, liters?, location }, written once
 //       2023-05-hardscape/           <- entry folder (YYYY-MM-short-title)
 //         nl.md
 //         en.md
@@ -42,6 +42,9 @@ const aquariums = defineCollection({
 	schema: z.object({
 		name: z.string().trim().min(1),
 		liters: z.number().optional(),
+		// Where the aquarium stands (SPEC.md §3.19); the visible label is
+		// translated through ui.ts (journal.location.atelier, .klant).
+		location: z.enum(["atelier", "klant"]),
 	}),
 });
 

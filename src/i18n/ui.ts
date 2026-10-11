@@ -449,6 +449,8 @@ export const ui = {
     'journal.status.rijpt': 'Rijpt',
     'journal.status.stabiel': 'Stabiel',
     'journal.back': 'Terug naar het dagboek',
+    'journal.location.atelier': 'Atelier',
+    'journal.location.klant': 'Bij een klant',
     'journal.empty': 'Nog geen observaties.',
     'journal.photoAltFallback': '{title} — foto {n}',
 
@@ -897,6 +899,8 @@ export const ui = {
     'journal.status.rijpt': 'Maturing',
     'journal.status.stabiel': 'Established',
     'journal.back': 'Back to the journal',
+    'journal.location.atelier': 'Studio',
+    'journal.location.klant': 'Client project',
     'journal.empty': 'No observations yet.',
     'journal.photoAltFallback': '{title} — photo {n}',
   },

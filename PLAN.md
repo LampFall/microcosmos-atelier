@@ -1521,6 +1521,55 @@ Commit boundary: `docs: projectfoto's volgen het dagboek`
 ### Blocking questions
 None.
 
+## Execution plan: first client project "Nox", and an atelier / client label
+
+Status: APPROVED (2026-10-11)
+Implements: SPEC.md §3.19
+
+### Phase 1: Location label and the Nox journal series
+Goal: every aquarium has a location, shown in the journal; the Nox series
+and its first entry exist.
+Files: `src/content.config.ts`, the three `aquarium.yml`, new
+`src/content/journal/nox/` (`aquarium.yml`, `2026-10-installatie/nl.md`,
+`en.md`, the owner's photos), `src/lib/journal.ts` (carry `location`),
+`src/components/pages/Journal.astro`, `src/components/pages/JournalEntry.astro`,
+`src/pages/journal/[aquarium]/[entry].astro` and its `en` twin,
+`src/i18n/ui.ts`
+Steps:
+- [x] Schema `location: atelier | klant`; set it in all `aquarium.yml`.
+- [x] Label in the journal list and above each entry (ui.ts texts).
+- [x] Nox series and first entry (NL + EN); alt text with
+      `/describe-photos nox/2026-10-installatie` once the photos are in.
+Validation: `npx astro check`, `npm run build`; labels in `dist/` (NL/EN);
+Lighthouse accessibility `/journal`, the Nox entry; look on the dev server.
+Commit boundary: `dagboek: Nox, de eerste klant, en een label atelier of klant`
+
+### Phase 2: Project Nox, home grid and copy
+Goal: Nox first on Our Work and in the home grid; labels on all projects;
+no "bij mij thuis" left.
+Files: `src/lib/work.ts` (`project4: "nox"`), `src/components/pages/OurWork.astro`,
+`src/components/pages/Index.astro`, `src/i18n/ui.ts` (also the about copy),
+delete `src/content/site/work-extra.jpg`; docs `ARCHITECTURE.md`,
+`PHOTOS.md`, `SPEC.md` §3.3 note
+Steps:
+- [ ] Nox section first on Our Work (texts, specs, ecosystem), eyebrows
+      renumbered, location label from `aquarium.yml` after each eyebrow.
+- [ ] Home grid: four project heroes, Nox first; remove `work-extra.jpg`.
+- [ ] Rewrite the "bij mij thuis" copy (Our Work title and meta, home
+      block, about), NL + EN.
+- [ ] Docs.
+Validation: `npx astro check`, `npm run build`; SPEC AC 3–4 in `dist/`;
+Lighthouse accessibility 100 on `/our-work` and `/` (NL/EN); the owner
+checks look and texts.
+Commit boundary: `projecten: Nox als eerste klantproject, label atelier of klant`
+
+### Risks
+- With no photos yet, Nox has no hero; the page and home grid skip a
+  missing hero, so the photos should be in before phase 2 is shown.
+
+### Blocking questions
+None (D2–D5 answered 2026-10-11).
+
 ## Improvement queue
 
 From `SPEC.md` §3.9 (high-level, approved 2026-09-26). One item at a time: each gets its
@@ -1540,6 +1589,7 @@ Update the status here as items move along.
 | 8 | "Latest from the journal" on home, and a 404 page | done (2026-09-29): live; the journal is called "Dagboek" in Dutch | — |
 | 9 | Clearer, more personal site copy | done (2026-09-30): about, home, projects, contact and calls rewritten; menu "Projecten" | — |
 | 10 | Project photos follow the latest journal entry | spec and plan approved (2026-10-08); done (2026-10-08): projects follow the newest journal entry with photos; work folders are the extra gallery / fallback | — |
+| 11 | First client project "Nox", atelier / client label | spec and plan approved (2026-10-11); phase 1 done, phase 2 in progress | — |
 
 ## Audit findings (2026-09-27)
 

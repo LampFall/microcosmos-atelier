@@ -86,6 +86,9 @@ const dateFmt = new Intl.DateTimeFormat(lang === "en" ? "en-GB" : "nl-BE", {
 										{entry.aquariumLiters && (
 											<span class="journal-liters">{entry.aquariumLiters} L</span>
 										)}
+										<span class="journal-location">
+											{t(`journal.location.${entry.aquariumLocation}`)}
+										</span>
 									</p>
 									<p class="journal-meta">
 										<span class="journal-date">{dateFmt.format(entry.data.date)}</span>

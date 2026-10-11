@@ -2354,6 +2354,114 @@ none.
   newest entry with photos; the gallery shows that entry's other photos
   first, followed by the curated work-folder photos.
 
+### 3.19 First client project "Nox", and an atelier / client label
+
+Status: APPROVED (2026-10-11)
+
+#### Current state
+
+- Our Work shows three projects, all the owner's own aquaria (§3.7,
+  §3.18); the page title says "Drie aquaria, bij mij thuis", the meta
+  description "Drie aquaria…", the home block "Mijn eigen aquaria" ("Deze
+  aquaria staan bij mij thuis…") and the about page "De aquaria op deze site
+  staan allemaal bij mij thuis…".
+- The journal has three aquarium series (`aquarium.yml`: `name`,
+  `liters`). Nothing says where an aquarium stands.
+- The home "Mijn werk" grid shows the three project heroes plus a fixed
+  fourth photo, `site/work-extra.jpg`.
+
+#### Objectives
+
+1. Show the first client installation, "Nox", as a project and as a new
+   journal series, kept up to date by the journal like the others (§3.18).
+2. Make clear for every project and journal series whether it stands in
+   the atelier or at a client's.
+
+#### Non-goals
+
+- Naming the client or showing more than "een kantoor in Leuven".
+- Changing the other projects' texts, beyond their label and number.
+
+#### Functional requirements
+
+1. **Location per aquarium:** `aquarium.yml` gets a required `location`:
+   `atelier` or `klant`. The three existing series are `atelier`, Nox is
+   `klant`. Shown as a translated label ("Atelier" / "Bij een klant",
+   "Studio" / "Client project"):
+   - in the journal list, next to the name and liters;
+   - above each journal entry, next to the name and liters;
+   - on Our Work, after each project's eyebrow (e.g. "01 — Nox · Bij een
+     klant"). Our Work reads it from the same `aquarium.yml` (the work
+     folder names are the journal aquarium names), so there is one source.
+2. **Journal series `nox`:** `name: "Nox"`, `liters: 420`,
+   `location: klant`.
+3. **First entry** `nox/2026-10-installatie` (NL + EN), date 2026-10-10,
+   status `opstart`: installed in an office in Leuven, MA-Gen 2.1; the mist
+   still has to clear; the plants now go from their emersed to their
+   submersed form; the turbulent first month has begun; for now only
+   bacteria, snails and fish follow later. Up to 3 photos from the owner,
+   with alt text via `/describe-photos`.
+4. **Project Nox on Our Work, first on the page (01):** eyebrow, title,
+   intro, story and an ecosystem block in the same structure as the other
+   projects, with the name explained: Latin for night; the aquarium wakes
+   later and keeps its light late into the evening, in the rhythm of an
+   owner who likes to work late. Specs: started October 2026; 110 × 68 ×
+   65 cm; 420 L; biological filter with a mechanical prefilter; lighting
+   sunrise 11:00, sunset 23:30, night LED until 02:00; MA-Gen 2.1; no CO₂;
+   fish: later; other inhabitants: bacteria (snails follow); plants
+   (D4). Filtration: internal, biological, with a mechanical prefilter. The other projects become 02–04. Its photos follow the journal
+   (§3.18); no work folder is needed.
+5. **Home "Mijn werk":** Nox replaces the fixed fourth photo, so the grid
+   stays 2 × 2 (Nox first). `site/work-extra.jpg` and its import are
+   removed.
+6. **Copy that says "bij mij thuis":** the Our Work title and meta
+   description, the home "Mijn werk" title and text, and the about page
+   sentence are rewritten to "three in the atelier, one at a client's", in
+   both languages.
+7. Docs: `ARCHITECTURE.md`, `PHOTOS.md` (seven fixed site photos; the
+   `location` field), SPEC §3.3 note.
+
+#### Data / content model
+
+- `aquarium.yml`: new required `location: atelier | klant` (schema in
+  `src/content.config.ts`; `astro check` fails if one is missing).
+- New `src/content/journal/nox/` with `aquarium.yml` and
+  `2026-10-installatie/{nl,en}.md` plus photos.
+- `ui.ts`: the label texts, the `work.project4.*` texts for Nox (key
+  `project4`, rendered first, so the existing keys don't need renaming),
+  renumbered eyebrows, rewritten copy.
+
+#### Security implications
+
+The client's privacy: no name, address or recognisable details in text or
+photos; photos are stripped of metadata (GPS) as always.
+
+#### Acceptance criteria
+
+1. `npx astro check` 0 errors; `npm run build` succeeds.
+2. Journal list and entry pages show the location label for every series,
+   in both languages; the Nox entry is listed and filterable.
+3. Our Work shows Nox first with its photos from the journal entry and the
+   label on all four projects; the jump links follow the new order.
+4. Home "Mijn werk" shows four project heroes, Nox first; no "bij mij
+   thuis" left in the copy (NL/EN).
+5. Lighthouse accessibility 100 on `/our-work`, `/`, `/journal` (NL/EN);
+   the owner checks the look and the texts.
+
+#### Decisions
+
+- D1 (owner, 2026-10-11): Nox first on Our Work; it replaces the fixed
+  fourth home photo; the client is only "een kantoor in Leuven".
+- D2 (owner, 2026-10-11): label texts "Atelier" / "Bij een klant" (EN
+  "Studio" / "Client project").
+- D3 (owner, 2026-10-11): sunset at 23:30.
+- D4 (owner, 2026-10-11): plants Cryptocoryne wendtii, Javavaren
+  (Microsorum pteropus), Anubias, Hygrophila stricta, Hygrophila
+  polysperma, Cryptocoryne balansae, Vallisneria, Rotala rotundifolia,
+  Ludwigia palustris.
+- D5 (owner, 2026-10-11): filtration "Intern · biologisch filter ·
+  mechanische voorfilter".
+
 ## 4. Non-functional requirements
 
 - **Static output.** The site builds to static HTML (`astro build`) and is

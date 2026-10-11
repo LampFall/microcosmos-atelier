@@ -14,9 +14,10 @@ interface Props {
 	entry: CollectionEntry<"journal">;
 	aquariumName: string;
 	aquariumLiters?: number;
+	aquariumLocation: "atelier" | "klant";
 }
 
-const { entry, aquariumName, aquariumLiters } = Astro.props;
+const { entry, aquariumName, aquariumLiters, aquariumLocation } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const { Content } = await render(entry);
@@ -78,6 +79,7 @@ const altFallback = () => {
 				<span class="journal-tank">
 					{aquariumName}
 					{aquariumLiters && ` · ${aquariumLiters} L`}
+					{` · ${t(`journal.location.${aquariumLocation}`)}`}
 				</span>
 				<span class="journal-status">
 					{t(`journal.status.${entry.data.status}` as any)}

@@ -61,6 +61,8 @@ export interface JournalListEntry {
 	aquariumName: string;
 	/** Volume from that aquarium's aquarium.yml, if given. */
 	aquariumLiters?: number;
+	/** Where the aquarium stands, from its aquarium.yml (SPEC.md §3.19). */
+	aquariumLocation: "atelier" | "klant";
 	data: CollectionEntry<"journal">["data"];
 }
 
@@ -92,6 +94,7 @@ export async function getJournalEntries(
 			entrySlug,
 			aquariumName: aquariumData.name,
 			aquariumLiters: aquariumData.liters,
+			aquariumLocation: aquariumData.location,
 			data: entry.data,
 		} satisfies JournalListEntry;
 	});
